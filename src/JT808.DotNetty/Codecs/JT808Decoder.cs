@@ -17,11 +17,6 @@ namespace JT808.DotNetty.Codecs
     {
         private readonly ILogger<JT808Decoder> logger;
 
-        public JT808Decoder(ILogger<JT808Decoder> logger)
-        {
-            this.logger = logger;
-        }
-
         public JT808Decoder(ILoggerFactory loggerFactory)
         {
             this.logger = loggerFactory.CreateLogger<JT808Decoder>();

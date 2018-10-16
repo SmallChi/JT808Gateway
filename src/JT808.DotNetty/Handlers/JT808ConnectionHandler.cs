@@ -19,12 +19,6 @@ namespace JT808.DotNetty.Handlers
             logger = loggerFactory.CreateLogger<JT808ConnectionHandler>();
         }
 
-        public JT808ConnectionHandler(
-            ILogger<JT808ConnectionHandler>  logger)
-        {
-            this.logger = logger;
-        }
-
         /// <summary>
         /// 通道激活
         /// </summary>

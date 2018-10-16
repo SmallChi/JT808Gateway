@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty
 {
-    public class SessionManager: IDisposable
+    public class JT808SessionManager: IDisposable
     {
-        private readonly ILogger<SessionManager> logger;
+        private readonly ILogger<JT808SessionManager> logger;
         private readonly JT808Configuration configuration;
         private readonly CancellationTokenSource cancellationTokenSource;
-        public SessionManager(
+        public JT808SessionManager(
             IOptions<JT808Configuration> jT808ConfigurationAccessor,
             ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<SessionManager>();
+            logger = loggerFactory.CreateLogger<JT808SessionManager>();
             configuration = jT808ConfigurationAccessor.Value;
             cancellationTokenSource = new CancellationTokenSource();
             Task.Run(() =>

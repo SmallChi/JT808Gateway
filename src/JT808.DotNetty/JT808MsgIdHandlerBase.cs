@@ -14,11 +14,11 @@ namespace JT808.DotNetty
     /// </summary>
     public abstract class JT808MsgIdHandlerBase
     {
-        protected SessionManager sessionManager { get; }
+        protected JT808SessionManager sessionManager { get; }
         /// <summary>
         /// 初始化消息处理业务
         /// </summary>
-        protected JT808MsgIdHandlerBase(SessionManager sessionManager)
+        protected JT808MsgIdHandlerBase(JT808SessionManager sessionManager)
         {
             this.sessionManager = sessionManager;
             HandlerDict = new Dictionary<JT808MsgId, Func<JT808Package, IChannelHandlerContext, JT808Package>>

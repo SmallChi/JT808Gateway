@@ -9,7 +9,7 @@ namespace JT808.DotNetty.Internal
     /// </summary>
     internal class JT808MsgIdDefaultHandler : JT808MsgIdHandlerBase
     {
-        public JT808MsgIdDefaultHandler(SessionManager sessionManager) : base(sessionManager)
+        public JT808MsgIdDefaultHandler(JT808SessionManager sessionManager) : base(sessionManager)
         {
         }
     }
