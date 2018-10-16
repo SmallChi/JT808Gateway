@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty", "JT808.DotNetty\JT808.DotNetty.csproj", "{80C7F67E-6B7C-4178-8726-ADD3695622DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC0FFCEA-E1EF-4C97-A1C5-F89418B6834B}
+	EndGlobalSection
+EndGlobal
