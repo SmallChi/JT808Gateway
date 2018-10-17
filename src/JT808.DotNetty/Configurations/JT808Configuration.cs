@@ -30,5 +30,9 @@ namespace JT808.DotNetty.Configurations
         /// 默认5分钟
         /// </summary>
         public int SessionReportTime { get; set; } = 30000;
+        /// <summary>
+        /// 源包分发器配置
+        /// </summary>
+        public List<JT808ClientConfiguration> SourcePackageDispatcherClientConfigurations { get; set; }
     }
 }

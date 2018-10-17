@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JT808.DotNetty.Configurations
 {
-    public class JT808SourcePackageDispatcherInfo
+    public class JT808ClientConfiguration
     {
         public string Host { get; set; }
 

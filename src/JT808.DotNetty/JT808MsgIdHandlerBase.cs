@@ -11,6 +11,9 @@ namespace JT808.DotNetty
 {
     /// <summary>
     /// 抽象消息处理业务
+    /// 自定义消息处理业务
+    /// ConfigureServices:
+    /// services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHandlerBase),typeof(JT808MsgIdCustomHandlerImpl),ServiceLifetime.Singleton));
     /// </summary>
     public abstract class JT808MsgIdHandlerBase
     {

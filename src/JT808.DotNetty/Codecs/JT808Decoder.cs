@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using JT808.Protocol;
 using JT808.DotNetty.Internal;
+using JT808.DotNetty.Interfaces;
 
 namespace JT808.DotNetty.Codecs
 {
@@ -17,9 +18,14 @@ namespace JT808.DotNetty.Codecs
     {
         private readonly ILogger<JT808Decoder> logger;
 
-        public JT808Decoder(ILoggerFactory loggerFactory)
+        private readonly IJT808SourcePackageDispatcher jT808SourcePackageDispatcher;
+
+        public JT808Decoder(
+            IJT808SourcePackageDispatcher jT808SourcePackageDispatcher,
+            ILoggerFactory loggerFactory)
         {
             this.logger = loggerFactory.CreateLogger<JT808Decoder>();
+            this.jT808SourcePackageDispatcher = jT808SourcePackageDispatcher;
         }
 
         private static readonly AtomicCounter MsgSuccessCounter = new AtomicCounter();
@@ -34,6 +40,7 @@ namespace JT808.DotNetty.Codecs
                 input.ReadBytes(buffer, 1, input.Capacity);
                 buffer[0] = JT808Package.BeginFlag;
                 buffer[input.Capacity + 1] = JT808Package.EndFlag;
+                jT808SourcePackageDispatcher?.SendAsync(buffer);
                 JT808Package jT808Package = JT808Serializer.Deserialize<JT808Package>(buffer);
                 output.Add(jT808Package);
                 MsgSuccessCounter.Increment();
