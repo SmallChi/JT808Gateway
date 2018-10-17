@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using DotNetty.Transport.Channels;
+using JT808.DotNetty.Metadata;
 using JT808.Protocol;
 using Microsoft.Extensions.Logging;
 
@@ -17,10 +18,10 @@ namespace JT808.DotNetty.Hosting
             logger = loggerFactory.CreateLogger<JT808MsgIdCustomHandler>();
         }
 
-        public override JT808Package Msg0x0102(JT808Package reqJT808Package, IChannelHandlerContext ctx)
+        public override JT808Response Msg0x0102(JT808Request request)
         {
             logger.LogDebug("Msg0x0102");
-            return base.Msg0x0102(reqJT808Package, ctx);
+            return base.Msg0x0102(request);
         }
     }
 }

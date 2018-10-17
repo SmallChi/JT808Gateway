@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty
+namespace JT808.DotNetty.Metadata
 {
     public class JT808Session
     {

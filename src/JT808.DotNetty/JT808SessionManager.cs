@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JT808.DotNetty.Metadata;
 
 namespace JT808.DotNetty
 {
@@ -57,19 +58,6 @@ namespace JT808.DotNetty
             get
             {
                 return SessionIdDict.Count;
-            }
-        }
-
-        public void RegisterSession(JT808Session appSession)
-        {
-            if (TerminalPhoneNo_SessionId_Dict.ContainsKey(appSession.TerminalPhoneNo))
-            {
-                return;
-            }
-            if (SessionIdDict.TryAdd(appSession.SessionID, appSession) &&
-                TerminalPhoneNo_SessionId_Dict.TryAdd(appSession.TerminalPhoneNo, appSession.SessionID))
-            {
-                return;
             }
         }
 
@@ -136,31 +124,10 @@ namespace JT808.DotNetty
             }
         }
 
-        /// <summary>
-        /// 通过通道Id和设备终端号进行关联
-        /// </summary>
-        /// <param name="sessionID"></param>
-        /// <param name="terminalPhoneNo"></param>
-        public void UpdateSessionByID(string sessionID, string terminalPhoneNo)
+        public void TryAddOrUpdateSession(JT808Session appSession)
         {
-            try
-            {
-                if (SessionIdDict.TryGetValue(sessionID, out JT808Session oldjT808Session))
-                {
-                    oldjT808Session.TerminalPhoneNo = terminalPhoneNo;
-                    if (SessionIdDict.TryUpdate(sessionID, oldjT808Session, oldjT808Session))
-                    {
-                        TerminalPhoneNo_SessionId_Dict.AddOrUpdate(terminalPhoneNo, sessionID, (tpn, sid) =>
-                        {
-                            return sessionID;
-                        });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"{sessionID},{terminalPhoneNo}");
-            }
+            SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
+            TerminalPhoneNo_SessionId_Dict.AddOrUpdate(appSession.TerminalPhoneNo, appSession.SessionID, (x, y) => appSession.SessionID);
         }
 
         public void RemoveSessionByID(string sessionID)
@@ -181,36 +148,11 @@ namespace JT808.DotNetty
                     {
                         logger.LogInformation($">>>{sessionID} Session Remove.");
                     }
-                    // call GPS.JT808NettyServer.Handlers.JT808ConnectionHandler.CloseAsync
-                    session.Channel.CloseAsync();
                 }
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, $">>>{sessionID} Session Remove Exception");
-            }
-        }
-
-        public void RemoveSessionByTerminalPhoneNo(string terminalPhoneNo)
-        {
-            if (terminalPhoneNo == null) return;
-            try
-            {
-                if (TerminalPhoneNo_SessionId_Dict.TryRemove(terminalPhoneNo, out string sessionid))
-                {
-                    if (SessionIdDict.TryRemove(sessionid, out JT808Session session))
-                    {
-                        logger.LogInformation($">>>{terminalPhoneNo}-{sessionid} TerminalPhoneNo Remove.");
-                    }
-                    else
-                    {
-                        logger.LogInformation($">>>{terminalPhoneNo} TerminalPhoneNo Remove.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $">>>{terminalPhoneNo} TerminalPhoneNo Remove Exception.");
             }
         }
 

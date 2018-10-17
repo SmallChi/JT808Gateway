@@ -13,9 +13,13 @@ namespace JT808.DotNetty.Handlers
     {
         private readonly ILogger<JT808ConnectionHandler> logger;
 
+        private readonly JT808SessionManager jT808SessionManager;
+
         public JT808ConnectionHandler(
+            JT808SessionManager jT808SessionManager,
             ILoggerFactory loggerFactory)
         {
+            this.jT808SessionManager = jT808SessionManager;
             logger = loggerFactory.CreateLogger<JT808ConnectionHandler>();
         }
 
@@ -40,6 +44,7 @@ namespace JT808.DotNetty.Handlers
             string channelId = context.Channel.Id.AsShortText();
             if (logger.IsEnabled(LogLevel.Debug))
                 logger.LogDebug($">>>{ channelId } The client disconnects from the server.");
+            jT808SessionManager.RemoveSessionByID(channelId);
             base.ChannelInactive(context);
         }
 
@@ -53,6 +58,7 @@ namespace JT808.DotNetty.Handlers
             string channelId = context.Channel.Id.AsShortText();
             if (logger.IsEnabled(LogLevel.Debug))
                 logger.LogDebug($"<<<{ channelId } The server disconnects from the client.");
+            jT808SessionManager.RemoveSessionByID(channelId);
             return base.CloseAsync(context);
         }
 
@@ -74,6 +80,7 @@ namespace JT808.DotNetty.Handlers
                 string channelId = context.Channel.Id.AsShortText();
                 logger.LogInformation($"{idleStateEvent.State.ToString()}>>>{channelId}");
                 // 由于808是设备发心跳，如果很久没有上报数据，那么就由服务器主动关闭连接。
+                jT808SessionManager.RemoveSessionByID(channelId);
                 context.CloseAsync();
             }
             base.UserEventTriggered(context, evt);
@@ -83,6 +90,7 @@ namespace JT808.DotNetty.Handlers
         {
             string channelId = context.Channel.Id.AsShortText();
             logger.LogError(exception,$"{channelId} {exception.Message}" );
+            jT808SessionManager.RemoveSessionByID(channelId);
             context.CloseAsync();
         }
     }
