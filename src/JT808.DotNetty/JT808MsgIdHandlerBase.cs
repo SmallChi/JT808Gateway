@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using DotNetty.Transport.Channels;
@@ -36,6 +37,7 @@ namespace JT808.DotNetty
                 {JT808MsgId.定位数据批量上传,Msg0x0704 },
                 {JT808MsgId.数据上行透传,Msg0x0900 }
             };
+
         }
 
         public Dictionary<JT808MsgId, Func<JT808Request, JT808Response>> HandlerDict { get; }

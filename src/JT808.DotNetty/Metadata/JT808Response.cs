@@ -8,14 +8,20 @@ namespace JT808.DotNetty.Metadata
     public class JT808Response
     {
         public JT808Package Package { get; set; }
+        /// <summary>
+        /// 根据实际情况适当调整包的大小
+        /// </summary>
+        public int MinBufferSize { get; set; } 
 
         public JT808Response()
         {
 
         }
-        public JT808Response(JT808Package package)
+
+        public JT808Response(JT808Package package, int minBufferSize = 1024)
         {
             Package = package;
+            MinBufferSize = minBufferSize;
         }
     }
 }

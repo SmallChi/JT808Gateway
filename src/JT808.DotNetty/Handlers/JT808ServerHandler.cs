@@ -31,7 +31,7 @@ namespace JT808.DotNetty.Handlers
                     JT808Response jT808Package = handlerFunc(new JT808Request(msg));
                     if (jT808Package != null)
                     {
-                        ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Package.Package)));
+                        ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Package.Package, jT808Package.MinBufferSize)));
                     }
                 }
             }
