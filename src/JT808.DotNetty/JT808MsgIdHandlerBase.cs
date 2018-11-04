@@ -26,21 +26,20 @@ namespace JT808.DotNetty
         protected JT808MsgIdHandlerBase(JT808SessionManager sessionManager)
         {
             this.sessionManager = sessionManager;
-            HandlerDict = new Dictionary<JT808MsgId, Func<JT808Request, JT808Response>>
+            HandlerDict = new Dictionary<ushort, Func<JT808Request, JT808Response>>
             {
-                {JT808MsgId.终端通用应答, Msg0x0001},
-                {JT808MsgId.终端鉴权, Msg0x0102},
-                {JT808MsgId.终端心跳, Msg0x0002},
-                {JT808MsgId.终端注销, Msg0x0003},
-                {JT808MsgId.终端注册, Msg0x0100},
-                {JT808MsgId.位置信息汇报,Msg0x0200 },
-                {JT808MsgId.定位数据批量上传,Msg0x0704 },
-                {JT808MsgId.数据上行透传,Msg0x0900 }
+                {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
+                {JT808MsgId.终端鉴权.ToUInt16Value(), Msg0x0102},
+                {JT808MsgId.终端心跳.ToUInt16Value(), Msg0x0002},
+                {JT808MsgId.终端注销.ToUInt16Value(), Msg0x0003},
+                {JT808MsgId.终端注册.ToUInt16Value(), Msg0x0100},
+                {JT808MsgId.位置信息汇报.ToUInt16Value(),Msg0x0200 },
+                {JT808MsgId.定位数据批量上传.ToUInt16Value(),Msg0x0704 },
+                {JT808MsgId.数据上行透传.ToUInt16Value(),Msg0x0900 }
             };
-
         }
 
-        public Dictionary<JT808MsgId, Func<JT808Request, JT808Response>> HandlerDict { get; }
+        public Dictionary<ushort, Func<JT808Request, JT808Response>> HandlerDict { get; protected set; }
         /// <summary>
         /// 终端通用应答
         /// </summary>
@@ -51,7 +50,7 @@ namespace JT808.DotNetty
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId = (JT808MsgId)request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
@@ -67,7 +66,7 @@ namespace JT808.DotNetty
             sessionManager.Heartbeat(request.Package.Header.TerminalPhoneNo);
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId = (JT808MsgId)request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
@@ -80,9 +79,10 @@ namespace JT808.DotNetty
         /// <returns></returns>
         public virtual JT808Response Msg0x0003(JT808Request request)
         {
+# warning JT808MsgId 
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId = (JT808MsgId)request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
@@ -112,7 +112,7 @@ namespace JT808.DotNetty
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId = (JT808MsgId)request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
@@ -127,7 +127,7 @@ namespace JT808.DotNetty
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId = (JT808MsgId)request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
@@ -142,7 +142,7 @@ namespace JT808.DotNetty
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId = (JT808MsgId)request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
@@ -157,7 +157,7 @@ namespace JT808.DotNetty
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
-                MsgId = request.Package.Header.MsgId,
+                MsgId =(JT808MsgId) request.Package.Header.MsgId,
                 JT808PlatformResult = JT808PlatformResult.Success,
                 MsgNum = request.Package.Header.MsgNum
             }));
