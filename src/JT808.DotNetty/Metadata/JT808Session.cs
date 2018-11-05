@@ -16,6 +16,14 @@ namespace JT808.DotNetty.Metadata
             SessionID = Channel.Id.AsShortText();
         }
 
+        public JT808Session(IChannel channel)
+        {
+            Channel = channel;
+            StartTime = DateTime.Now;
+            LastActiveTime = DateTime.Now;
+            SessionID = Channel.Id.AsShortText();
+        }
+
         /// <summary>
         /// 终端手机号
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
+using JT808.DotNetty.Metadata;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace JT808.DotNetty.Handlers
             string channelId = context.Channel.Id.AsShortText();
             if (logger.IsEnabled(LogLevel.Debug))
                 logger.LogDebug($"<<<{ channelId } Successful client connection to server.");
+            jT808SessionManager.TryAddSession(new JT808Session(context.Channel));
             base.ChannelActive(context);
         }
 

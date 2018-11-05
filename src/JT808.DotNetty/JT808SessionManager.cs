@@ -29,8 +29,8 @@ namespace JT808.DotNetty
             {
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    logger.LogInformation($"Online Count>>>{SessionCount}");
-                    if (SessionCount > 0)
+                    logger.LogInformation($"Online Count>>>{RealSessionCount}");
+                    if (RealSessionCount > 0)
                     {
                         logger.LogInformation($"SessionIds>>>{string.Join(",", SessionIdDict.Select(s => s.Key))}");
                         logger.LogInformation($"TerminalPhoneNos>>>{string.Join(",", TerminalPhoneNo_SessionId_Dict.Select(s => $"{s.Key}-{s.Value}"))}");
@@ -53,11 +53,25 @@ namespace JT808.DotNetty
         /// </summary>
         private ConcurrentDictionary<string, string> TerminalPhoneNo_SessionId_Dict = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-        public int SessionCount
+        /// <summary>
+        /// 实际连接数
+        /// </summary>
+        public int RealSessionCount
         {
             get
             {
                 return SessionIdDict.Count;
+            }
+        }
+
+        /// <summary>
+        /// 获取设备相关连的连接数
+        /// </summary>
+        public int RelevanceSessionCount
+        {
+            get
+            {
+                return TerminalPhoneNo_SessionId_Dict.Count;
             }
         }
 
@@ -130,9 +144,14 @@ namespace JT808.DotNetty
             TerminalPhoneNo_SessionId_Dict.AddOrUpdate(appSession.TerminalPhoneNo, appSession.SessionID, (x, y) => appSession.SessionID);
         }
 
-        public void RemoveSessionByID(string sessionID)
+        public void TryAddSession(JT808Session appSession)
         {
-            if (sessionID == null) return;
+            SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
+        }
+
+        public JT808Session RemoveSessionByID(string sessionID)
+        {
+            if (sessionID == null) return null;
             try
             {
                 if (SessionIdDict.TryRemove(sessionID, out JT808Session session))
@@ -148,14 +167,52 @@ namespace JT808.DotNetty
                     {
                         logger.LogInformation($">>>{sessionID} Session Remove.");
                     }
+                    return session;
                 }
+                return null;
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, $">>>{sessionID} Session Remove Exception");
             }
+            return null;
         }
 
+        public JT808Session RemoveSessionByTerminalPhoneNo(string terminalPhoneNo)
+        {
+            if (terminalPhoneNo == null) return null;
+            try
+            {
+                if (TerminalPhoneNo_SessionId_Dict.TryRemove(terminalPhoneNo, out string sessionid))
+                {
+                    if (SessionIdDict.TryRemove(sessionid, out JT808Session session))
+                    {
+                        logger.LogInformation($">>>{sessionid}-{session.TerminalPhoneNo} Session Remove.");
+                        return session;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $">>>{terminalPhoneNo} Session Remove Exception");
+            }
+            return null;
+        }
+
+        public IEnumerable<JT808Session> GetRealAll()
+        {
+            return SessionIdDict.Select(s=>s.Value);
+        }
+
+        public List<JT808Session> GetRelevanceAll()
+        {
+            return SessionIdDict.Join(TerminalPhoneNo_SessionId_Dict, m => m.Key, s => s.Value, (m, s) => m.Value).ToList();
+        }
+       
         public void Dispose()
         {
             cancellationTokenSource.Cancel();

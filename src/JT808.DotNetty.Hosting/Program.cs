@@ -36,6 +36,7 @@ namespace JT808.DotNetty.Hosting
                     services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHandlerBase), typeof(JT808MsgIdCustomHandler), ServiceLifetime.Singleton));
                 })
                 .UseJT808Host();
+
             await serverHostBuilder.RunConsoleAsync();
         }
     }
