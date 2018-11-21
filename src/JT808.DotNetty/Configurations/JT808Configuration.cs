@@ -25,6 +25,13 @@ namespace JT808.DotNetty.Configurations
         public int WriterIdleTimeSeconds { get; set; } = 3600;
 
         public int AllIdleTimeSeconds { get; set; } = 3600;
+
+        /// <summary>
+        /// WebAPI服务
+        /// 默认828端口
+        /// </summary>
+        public int WebAPIPort { get; set; } = 828;
+
         /// <summary>
         /// 会话报时
         /// 默认5分钟

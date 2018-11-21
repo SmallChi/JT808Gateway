@@ -1,10 +1,7 @@
-﻿using DotNetty.Buffers;
-using DotNetty.Codecs;
-using DotNetty.Handlers.Timeout;
+﻿using DotNetty.Codecs.Http;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Libuv;
-using JT808.DotNetty.Codecs;
 using JT808.DotNetty.Configurations;
 using JT808.DotNetty.Handlers;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,29 +18,32 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty
 {
-    internal class JT808ServerHost : IHostedService
+    /// <summary>
+    /// 集成一个webapi服务
+    /// </summary>
+    internal class JT808WebAPIServerHost : IHostedService
     {
         private readonly IServiceProvider serviceProvider;
         private readonly JT808Configuration configuration;
-        private readonly ILogger<JT808ServerHost> logger;
+        private readonly ILogger<JT808WebAPIServerHost> logger;
         private DispatcherEventLoopGroup bossGroup;
         private WorkerEventLoopGroup workerGroup;
         private IChannel bootstrapChannel;
 
-        public JT808ServerHost(
+        public JT808WebAPIServerHost(
             IServiceProvider provider,
             ILoggerFactory loggerFactory,
             IOptions<JT808Configuration> jT808ConfigurationAccessor)
         {
             serviceProvider = provider;
             configuration = jT808ConfigurationAccessor.Value;
-            logger=loggerFactory.CreateLogger<JT808ServerHost>();
+            logger = loggerFactory.CreateLogger<JT808WebAPIServerHost>();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             bossGroup = new DispatcherEventLoopGroup();
-            workerGroup = new WorkerEventLoopGroup(bossGroup, configuration.EventLoopCount);
+            workerGroup = new WorkerEventLoopGroup(bossGroup, 1);
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.Group(bossGroup, workerGroup);
             bootstrap.Channel<TcpServerChannel>();
@@ -55,27 +55,19 @@ namespace JT808.DotNetty
                     .ChildOption(ChannelOption.SoReuseaddr, true);
             }
             bootstrap
-               .Option(ChannelOption.SoBacklog, configuration.SoBacklog)
-               .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
-               {
-                   IChannelPipeline pipeline = channel.Pipeline;
-                   using (var scope = serviceProvider.CreateScope())
-                   {
-                       channel.Pipeline.AddLast("systemIdleState", new IdleStateHandler(
-                                                configuration.ReaderIdleTimeSeconds,
-                                                configuration.WriterIdleTimeSeconds,
-                                                configuration.AllIdleTimeSeconds));
-                       channel.Pipeline.AddLast("jt808Connection", scope.ServiceProvider.GetRequiredService<JT808ConnectionHandler>());
-                       channel.Pipeline.AddLast("jt808Buffer", new DelimiterBasedFrameDecoder(int.MaxValue,
-                           Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.BeginFlag }),
-                           Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.EndFlag })));
-                       channel.Pipeline.AddLast("jt808Decode", scope.ServiceProvider.GetRequiredService<JT808Decoder>());
-                       channel.Pipeline.AddLast("jt808Service", scope.ServiceProvider.GetRequiredService<JT808ServerHandler>());
-                   }
-               }));
-            logger.LogInformation($"Server start at {IPAddress.Any}:{configuration.Port}.");
-            return bootstrap.BindAsync(configuration.Port)
-                .ContinueWith(i => bootstrapChannel = i.Result);
+                    .Option(ChannelOption.SoBacklog, 8192)
+                    .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
+                    {
+                        IChannelPipeline pipeline = channel.Pipeline;
+                        using (var scope = serviceProvider.CreateScope())
+                        {
+                            pipeline.AddLast("encoder", new HttpResponseEncoder());
+                            pipeline.AddLast("decoder", new HttpRequestDecoder(4096, 8192, 8192, false));
+                            pipeline.AddLast("jt808webapihandler", scope.ServiceProvider.GetRequiredService<JT808WebAPIServerHandler>());
+                        }
+                    }));
+            logger.LogInformation($"WebAPI Server start at {IPAddress.Any}:{configuration.WebAPIPort}.");
+            return bootstrap.BindAsync(configuration.WebAPIPort).ContinueWith(i => bootstrapChannel = i.Result);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
