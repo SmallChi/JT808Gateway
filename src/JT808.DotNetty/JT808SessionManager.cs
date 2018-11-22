@@ -13,31 +13,18 @@ using JT808.DotNetty.Metadata;
 
 namespace JT808.DotNetty
 {
-    public class JT808SessionManager: IDisposable
+    public class JT808SessionManager
     {
         private readonly ILogger<JT808SessionManager> logger;
+
         private readonly JT808Configuration configuration;
-        private readonly CancellationTokenSource cancellationTokenSource;
+
         public JT808SessionManager(
             IOptions<JT808Configuration> jT808ConfigurationAccessor,
             ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger<JT808SessionManager>();
             configuration = jT808ConfigurationAccessor.Value;
-            cancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() =>
-            {
-                while (!cancellationTokenSource.IsCancellationRequested)
-                {
-                    logger.LogInformation($"Online Count>>>{RealSessionCount}");
-                    if (RealSessionCount > 0)
-                    {
-                        logger.LogInformation($"SessionIds>>>{string.Join(",", SessionIdDict.Select(s => s.Key))}");
-                        logger.LogInformation($"TerminalPhoneNos>>>{string.Join(",", TerminalPhoneNo_SessionId_Dict.Select(s => $"{s.Key}-{s.Value}"))}");
-                    }
-                    Thread.Sleep(configuration.SessionReportTime);
-                }
-            }, cancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -212,12 +199,7 @@ namespace JT808.DotNetty
         {
             return SessionIdDict.Join(TerminalPhoneNo_SessionId_Dict, m => m.Key, s => s.Value, (m, s) => m.Value).ToList();
         }
-       
-        public void Dispose()
-        {
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource.Dispose();
-        }
+      
     }
 }
 

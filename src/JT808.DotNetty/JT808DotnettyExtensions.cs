@@ -24,9 +24,10 @@ namespace JT808.DotNetty
                 services.TryAddScoped<JT808ConnectionHandler>();
                 services.TryAddScoped<JT808Decoder>();
                 services.TryAddScoped<JT808ServerHandler>();
-                services.TryAddScoped<JT808WebAPIServerHandler>();
                 services.TryAddSingleton<IJT808SessionService, JT808SessionServiceDefaultImpl>();
                 services.TryAddSingleton<IJT808UnificationSendService, JT808UnificationSendServiceDefaultImpl>();
+                services.TryAddScoped<JT808WebAPIService>();
+                services.TryAddScoped<JT808WebAPIServerHandler>();
                 services.AddHostedService<JT808ServerHost>();
                 services.AddHostedService<JT808WebAPIServerHost>();
             });

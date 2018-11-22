@@ -9,10 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,9 +59,11 @@ namespace JT808.DotNetty
                         IChannelPipeline pipeline = channel.Pipeline;
                         using (var scope = serviceProvider.CreateScope())
                         {
-                            pipeline.AddLast("encoder", new HttpResponseEncoder());
-                            pipeline.AddLast("decoder", new HttpRequestDecoder(4096, 8192, 8192, false));
-                            pipeline.AddLast("jt808webapihandler", scope.ServiceProvider.GetRequiredService<JT808WebAPIServerHandler>());
+                            pipeline.AddLast("http_encoder", new HttpResponseEncoder());
+                            pipeline.AddLast("http_decoder", new HttpRequestDecoder(4096, 8192, 8192, false));
+                            //将多个消息转换为单一的request或者response对象 =>IFullHttpRequest
+                            pipeline.AddLast("http_aggregator", new HttpObjectAggregator(65536));
+                            pipeline.AddLast("http_jt808webapihandler", scope.ServiceProvider.GetRequiredService<JT808WebAPIServerHandler>());
                         }
                     }));
             logger.LogInformation($"WebAPI Server start at {IPAddress.Any}:{configuration.WebAPIPort}.");

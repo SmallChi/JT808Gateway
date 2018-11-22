@@ -64,10 +64,7 @@ namespace JT808.DotNetty.Handlers
             return base.CloseAsync(context);
         }
 
-        public override void ChannelReadComplete(IChannelHandlerContext context)
-        {
-            context.Flush();
-        }
+        public override void ChannelReadComplete(IChannelHandlerContext context)=> context.Flush();
 
         /// <summary>
         /// 超时策略

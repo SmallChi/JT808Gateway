@@ -1,97 +1,58 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
-using DotNetty.Common;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
-using JT808.DotNetty.Dtos;
-using JT808.DotNetty.Interfaces;
+using JT808.DotNetty.Metadata;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace JT808.DotNetty.Handlers
 {
     /// <summary>
     /// jt808 webapi服务
-    /// 请求量不大，只支持JSON格式
+    /// 请求量不大，只支持JSON格式并且只支持post发数据
     /// ref: dotnetty HttpServer
     /// </summary>
-    internal class JT808WebAPIServerHandler : ChannelHandlerAdapter
+    internal class JT808WebAPIServerHandler : SimpleChannelInboundHandler<IFullHttpRequest>
     {
-        private static readonly ThreadLocalCache Cache = new ThreadLocalCache();
-
-        sealed class ThreadLocalCache : FastThreadLocal<AsciiString>
-        {
-            protected override AsciiString GetInitialValue()
-            {
-                DateTime dateTime = DateTime.UtcNow;
-                return AsciiString.Cached($"{dateTime.DayOfWeek}, {dateTime:dd MMM yyyy HH:mm:ss z}");
-            }
-        }
-
         private static readonly AsciiString TypeJson = AsciiString.Cached("application/json");
         private static readonly AsciiString ServerName = AsciiString.Cached("JT808WebAPINetty");
         private static readonly AsciiString ContentTypeEntity = HttpHeaderNames.ContentType;
         private static readonly AsciiString DateEntity = HttpHeaderNames.Date;
         private static readonly AsciiString ContentLengthEntity = HttpHeaderNames.ContentLength;
         private static readonly AsciiString ServerEntity = HttpHeaderNames.Server;
-
-        volatile ICharSequence date = Cache.Value;
-
+        private readonly JT808WebAPIService jT808WebAPIService;
         private readonly ILogger<JT808WebAPIServerHandler> logger;
 
-        private readonly IJT808SessionService jT808SessionService;
-
-        private readonly IJT808UnificationSendService jT808UnificationSendService;
-
         public JT808WebAPIServerHandler(
-            IJT808SessionService jT808SessionService,
-            IJT808UnificationSendService  jT808UnificationSendService,
+            JT808WebAPIService jT808WebAPIService,
             ILoggerFactory loggerFactory)
         {
-            this.jT808SessionService = jT808SessionService;
-            this.jT808UnificationSendService = jT808UnificationSendService;
+            this.jT808WebAPIService = jT808WebAPIService;
             logger = loggerFactory.CreateLogger<JT808WebAPIServerHandler>();
         }
 
-        public override void ChannelRead(IChannelHandlerContext ctx, object message)
+        protected override void ChannelRead0(IChannelHandlerContext ctx, IFullHttpRequest msg)
         {
-            if (message is IHttpRequest request)
+            if (logger.IsEnabled(LogLevel.Debug))
             {
-                try
-                {
-                    Process(ctx, request);
-                }
-                finally
-                {
-                    ReferenceCountUtil.Release(message);
-                }
+                logger.LogDebug($"Uri:{msg.Uri}");
+                logger.LogDebug($"Content:{msg.Content.ToString(Encoding.UTF8)}");
+            }
+            JT808HttpResponse jT808HttpResponse = null;
+            if (jT808WebAPIService.HandlerDict.TryGetValue(msg.Uri,out var funcHandler))
+            {
+                jT808HttpResponse = funcHandler( new JT808HttpRequest() { Json = msg.Content.ToString(Encoding.UTF8)});
             }
             else
             {
-                ctx.FireChannelRead(message);
+                jT808HttpResponse = jT808WebAPIService.NotFoundHttpResponse();
             }
-        }
-
-        private void Process(IChannelHandlerContext ctx, IHttpRequest request)
-        {
-            string uri = request.Uri;
-            //switch (uri)
-            //{
-            //    //case "/json":
-            //    //    byte[] json = Encoding.UTF8.GetBytes(NewMessage().ToJsonFormat());
-            //    //    this.WriteResponse(ctx, Unpooled.WrappedBuffer(json), TypeJson, JsonClheaderValue);
-            //    //    break;
-            //    default:
-            //        var response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.NotFound, Unpooled.Empty, false);
-            //        ctx.WriteAndFlushAsync(response);
-            //        ctx.CloseAsync();
-            //        break;
-            //}
-            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808DefaultResultDto()));
-            this.WriteResponse(ctx, Unpooled.WrappedBuffer(json), TypeJson, json.Length);
+            if (jT808HttpResponse != null)
+            {
+                WriteResponse(ctx, Unpooled.WrappedBuffer(jT808HttpResponse.Data), TypeJson, jT808HttpResponse.Data.Length);
+            }            
         }
 
         private void WriteResponse(IChannelHandlerContext ctx, IByteBuffer buf, ICharSequence contentType, int contentLength)
@@ -101,16 +62,17 @@ namespace JT808.DotNetty.Handlers
             HttpHeaders headers = response.Headers;
             headers.Set(ContentTypeEntity, contentType);
             headers.Set(ServerEntity, ServerName);
-            headers.Set(DateEntity, this.date);
+            headers.Set(DateEntity, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             headers.Set(ContentLengthEntity, contentLength);
             // Close the non-keep-alive connection after the write operation is done.
-            ctx.WriteAsync(response);
+            ctx.WriteAndFlushAsync(response);
+            ctx.CloseAsync();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            string channelId = context.Channel.Id.AsShortText();
-            logger.LogError(exception, $"{channelId} {exception.Message}");
+            WriteResponse(context, Unpooled.WrappedBuffer(jT808WebAPIService.ErrorHttpResponse(exception).Data), TypeJson, jT808WebAPIService.ErrorHttpResponse(exception).Data.Length);
+            logger.LogError(exception, exception.Message);
             context.CloseAsync();
         }
 

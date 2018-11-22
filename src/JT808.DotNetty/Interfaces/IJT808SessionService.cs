@@ -8,7 +8,7 @@ namespace JT808.DotNetty.Interfaces
     /// <summary>
     /// JT808会话服务
     /// </summary>
-    public interface IJT808SessionService
+    internal interface IJT808SessionService
     {
         /// <summary>
         /// 获取真实连接数
