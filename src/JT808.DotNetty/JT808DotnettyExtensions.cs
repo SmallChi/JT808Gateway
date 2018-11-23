@@ -8,7 +8,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("JT808.DotNetty.Test")]
 namespace JT808.DotNetty
 {
     public static class JT808DotnettyExtensions
@@ -19,6 +21,7 @@ namespace JT808.DotNetty
             {
                 services.Configure<JT808Configuration>(hostContext.Configuration.GetSection("JT808Configuration"));
                 services.TryAddSingleton<JT808SessionManager>();
+                services.TryAddSingleton<JT808AtomicCounterService>();
                 services.TryAddSingleton<JT808MsgIdHandlerBase,JT808MsgIdDefaultHandler>();
                 services.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherDefaultImpl>();
                 services.TryAddScoped<JT808ConnectionHandler>();

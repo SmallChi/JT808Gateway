@@ -1,6 +1,4 @@
-﻿using JT808.DotNetty.Configurations;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
@@ -17,14 +15,10 @@ namespace JT808.DotNetty
     {
         private readonly ILogger<JT808SessionManager> logger;
 
-        private readonly JT808Configuration configuration;
-
         public JT808SessionManager(
-            IOptions<JT808Configuration> jT808ConfigurationAccessor,
             ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger<JT808SessionManager>();
-            configuration = jT808ConfigurationAccessor.Value;
         }
 
         /// <summary>
@@ -127,7 +121,7 @@ namespace JT808.DotNetty
 
         public void TryAddOrUpdateSession(JT808Session appSession)
         {
-            SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
+            //SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
             TerminalPhoneNo_SessionId_Dict.AddOrUpdate(appSession.TerminalPhoneNo, appSession.SessionID, (x, y) => appSession.SessionID);
         }
 
