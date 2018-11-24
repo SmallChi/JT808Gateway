@@ -189,9 +189,9 @@ namespace JT808.DotNetty
             return SessionIdDict.Select(s=>s.Value);
         }
 
-        public List<JT808Session> GetRelevanceAll()
+        public IEnumerable<JT808Session> GetRelevanceAll()
         {
-            return SessionIdDict.Join(TerminalPhoneNo_SessionId_Dict, m => m.Key, s => s.Value, (m, s) => m.Value).ToList();
+            return SessionIdDict.Join(TerminalPhoneNo_SessionId_Dict, m => m.Key, s => s.Value, (m, s) => m.Value);
         }
       
     }
