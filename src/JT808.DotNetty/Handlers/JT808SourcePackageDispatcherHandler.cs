@@ -59,7 +59,7 @@ namespace JT808.DotNetty.Handlers
         {
             if(logger.IsEnabled(LogLevel.Debug))
                 logger.LogError($"服务端返回消息{message.ToString()}");
-            throw new Exception("test");
+            //throw new Exception("test");
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
