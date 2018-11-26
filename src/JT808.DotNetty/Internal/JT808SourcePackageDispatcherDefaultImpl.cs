@@ -28,7 +28,7 @@ namespace JT808.DotNetty.Internal
         internal readonly Bootstrap bootstrap = new Bootstrap();
         internal readonly ConcurrentDictionary<EndPoint, IChannel> channels = new ConcurrentDictionary<EndPoint, IChannel>();
         private readonly ILogger<JT808SourcePackageDispatcherDefaultImpl> logger;
-        IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor;
+        private IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor;
         internal readonly ILoggerFactory loggerFactory;
 
         public JT808SourcePackageDispatcherDefaultImpl(ILoggerFactory loggerFactory,
@@ -160,7 +160,7 @@ namespace JT808.DotNetty.Internal
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError($"变更后链接远程服务端{item},重连异常：{ex}");
+                    logger.LogError(ex,$"重连异常变更后链接远程服务端{item}");
                 }
             }
         }

@@ -22,13 +22,17 @@ namespace JT808.DotNetty
 
         private IChannel clientChannel;
 
+        private IByteBufferAllocator clientBufferAllocator;
+
         public JT808SimpleTcpClient(EndPoint remoteAddress)
         {
+            clientBufferAllocator = new PooledByteBufferAllocator();
             clientGroup = new MultithreadEventLoopGroup(1);
             cb = new Bootstrap()
                 .Group(clientGroup)
                 .Channel<TcpSocketChannel>()
                 .Option(ChannelOption.TcpNodelay, true)
+                .Option(ChannelOption.Allocator, clientBufferAllocator)
                 .Handler(new ActionChannelInitializer<TcpSocketChannel>(channel =>
                 {
                     channel.Pipeline.AddLast("jt808Buffer", new DelimiterBasedFrameDecoder(int.MaxValue,

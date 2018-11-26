@@ -25,8 +25,8 @@ namespace JT808.DotNetty.Hosting
                 })
                 .ConfigureLogging((context, logging) =>
                 {
-                    logging.AddConsole();
-                    logging.SetMinimumLevel(LogLevel.Trace);
+                    logging.AddConsole();  
+                    logging.SetMinimumLevel(LogLevel.Error);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {

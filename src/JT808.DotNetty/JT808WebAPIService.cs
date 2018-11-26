@@ -23,7 +23,7 @@ namespace JT808.DotNetty
         /// <summary>
         /// 初始化消息处理业务
         /// </summary>
-        protected JT808WebAPIService(
+       public JT808WebAPIService(
             IJT808SessionService jT808SessionService,
             IJT808UnificationSendService jT808UnificationSendService)
         {
@@ -66,7 +66,7 @@ namespace JT808.DotNetty
         /// <returns></returns>
         public JT808HttpResponse GetRealLinkCount(JT808HttpRequest request)
         {
-            var result = jT808SessionService.GetRealAll();
+            var result = jT808SessionService.GetRealLinkCount();
             return CreateJT808HttpResponse(result);
         }
 

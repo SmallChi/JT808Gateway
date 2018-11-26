@@ -29,6 +29,7 @@ namespace JT808.DotNetty
         private DispatcherEventLoopGroup bossGroup;
         private WorkerEventLoopGroup workerGroup;
         private IChannel bootstrapChannel;
+        private IByteBufferAllocator serverBufferAllocator;
 
         public JT808ServerHost(
             IServiceProvider provider,
@@ -44,6 +45,7 @@ namespace JT808.DotNetty
         {
             bossGroup = new DispatcherEventLoopGroup();
             workerGroup = new WorkerEventLoopGroup(bossGroup, configuration.EventLoopCount);
+            serverBufferAllocator = new PooledByteBufferAllocator();
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.Group(bossGroup, workerGroup);
             bootstrap.Channel<TcpServerChannel>();
@@ -56,6 +58,7 @@ namespace JT808.DotNetty
             }
             bootstrap
                .Option(ChannelOption.SoBacklog, configuration.SoBacklog)
+               .ChildOption(ChannelOption.Allocator, serverBufferAllocator)
                .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                {
                    IChannelPipeline pipeline = channel.Pipeline;

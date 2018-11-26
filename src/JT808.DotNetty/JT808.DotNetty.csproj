@@ -3,6 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Copyright>Copyright 2018.</Copyright>
+    <Authors>SmallChi</Authors>
+    <PackageId>JT808DotNetty</PackageId>
+    <Product>JT808DotNetty</Product>
+    <Description>基于DotNetty封装的JT808DotNetty专注消息业务处理</Description>
+    <PackageReleaseNotes>基于DotNetty封装的JT808DotNetty专注消息业务处理</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -30,6 +30,7 @@ namespace JT808.DotNetty.Internal
                     LastActiveTime=result.LastActiveTime,
                     StartTime=result.StartTime
                 };
+                resultDto.Code = 200;
                 resultDto.Data = jT808SessionInfoDto;
             }
             catch (Exception ex)
@@ -190,6 +191,7 @@ namespace JT808.DotNetty.Internal
                     LastActiveTime = result.LastActiveTime,
                     StartTime = result.StartTime
                 };
+                resultDto.Code = 200;
                 resultDto.Data = jT808SessionInfoDto;
             }
             catch (Exception ex)

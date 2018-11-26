@@ -22,8 +22,18 @@ namespace JT808.DotNetty.Internal
             try
             {
                 var session = jT808SessionManager.GetSessionByTerminalPhoneNo(terminalPhoneNo);
-                session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
-                resultDto.Data = true;
+                if (session != null)
+                {
+                    session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
+                    resultDto.Code = 200;
+                    resultDto.Data = true;
+                }
+                else
+                {
+                    resultDto.Code = 200;
+                    resultDto.Data = false;
+                    resultDto.Message = "not session";
+                }
             }
             catch (Exception ex)
             {

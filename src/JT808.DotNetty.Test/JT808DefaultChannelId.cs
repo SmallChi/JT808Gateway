@@ -10,18 +10,24 @@ namespace JT808.DotNetty.Test
     {
         private static readonly JT808AtomicCounter jT808AtomicCounter = new JT808AtomicCounter();
 
+        private string Id { get { return jT808AtomicCounter.Increment().ToString(); } }
+
         public string AsLongText()
         {
-            return jT808AtomicCounter.Increment().ToString();
+            return Id;
         }
 
         public string AsShortText()
         {
-            return jT808AtomicCounter.Increment().ToString();
+            return Id;
         }
 
         public int CompareTo(IChannelId other)
         {
+            if(other.AsShortText()== Id)
+            {
+                return 1;
+            }
             return  0;
         }
     }

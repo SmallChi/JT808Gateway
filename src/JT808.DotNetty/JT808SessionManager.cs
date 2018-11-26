@@ -121,13 +121,8 @@ namespace JT808.DotNetty
 
         public void TryAddOrUpdateSession(JT808Session appSession)
         {
-            //SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
-            TerminalPhoneNo_SessionId_Dict.AddOrUpdate(appSession.TerminalPhoneNo, appSession.SessionID, (x, y) => appSession.SessionID);
-        }
-
-        public void TryAddSession(JT808Session appSession)
-        {
             SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
+            TerminalPhoneNo_SessionId_Dict.AddOrUpdate(appSession.TerminalPhoneNo, appSession.SessionID, (x, y) => appSession.SessionID);
         }
 
         public JT808Session RemoveSessionByID(string sessionID)
