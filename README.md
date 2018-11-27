@@ -249,7 +249,7 @@ static async Task Main(string[] args)
 
 请求地址：Session/GetRelevanceAll
 
-请求方式：
+请求方式：GET
 
 返回数据：
 
