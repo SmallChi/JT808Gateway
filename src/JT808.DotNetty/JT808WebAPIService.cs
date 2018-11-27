@@ -60,7 +60,8 @@ namespace JT808.DotNetty
         }
 
         /// <summary>
-        /// 会话服务-获取真实连接数
+        /// 会话服务-获取实际连接数
+        /// 存在其他平台转发过来的数据，这时候通道Id和设备属于一对多的关系
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

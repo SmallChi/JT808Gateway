@@ -26,7 +26,7 @@ namespace JT808.DotNetty.Interfaces
         /// <returns></returns>
         JT808ResultDto<List<JT808SessionInfoDto>> GetRealAll();
         /// <summary>
-        /// 获取设备相关连会话集合
+        /// 获取设备相关联会话集合
         /// </summary>
         /// <returns></returns>
         JT808ResultDto<List<JT808SessionInfoDto>> GetRelevanceAll();

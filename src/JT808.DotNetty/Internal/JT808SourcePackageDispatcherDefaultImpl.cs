@@ -52,12 +52,12 @@ namespace JT808.DotNetty.Internal
                     }
                     else
                     {
-                        logger.LogError($"{item}链接已关闭");
+                        logger.LogInformation($"{item} link closed.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError($"{item}发送数据出现异常：{ex}");
+                    logger.LogError(ex,$"{item} Send Data Error.");
                 }
             }
             await Task.CompletedTask;
@@ -83,7 +83,8 @@ namespace JT808.DotNetty.Internal
                     DelRemoteServsers(chgRemoteServers);
                     AddRemoteServsers(chgRemoteServers);
                 });
-                if (jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations != null && jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations.Count > 0)
+                if (jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations != null && 
+                    jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations.Count > 0)
                 {
                     foreach (var item in jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations)
                     {
@@ -93,12 +94,12 @@ namespace JT808.DotNetty.Internal
                             {
                                 IChannel clientChannel = await bootstrap.ConnectAsync(item.EndPoint);
                                 channels.TryAdd(item.EndPoint, clientChannel);
-                                logger.LogInformation($"初始化链接远程服务端{item.EndPoint.ToString()}");
+                                logger.LogInformation($"init remote link {item.EndPoint.ToString()}.");
                             });
                         }
                         catch (Exception ex)
                         {
-                            logger.LogError($"初始化链接远程服务端{item},链接异常：{ex}");
+                            logger.LogError(ex,$"there is an exception in sending data {item}.");
                         }
                     }
                 }
@@ -156,11 +157,11 @@ namespace JT808.DotNetty.Internal
                 {
                     IChannel clientChannel =await bootstrap.ConnectAsync(item);
                     channels.TryAdd(item, clientChannel);
-                    logger.LogInformation($"变更后链接远程服务端{item}");
+                    logger.LogInformation($"link to the remote server after the change {item}.");
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex,$"重连异常变更后链接远程服务端{item}");
+                    logger.LogError(ex,$"reconnect the remote server after the exception changes {item}.");
                 }
             }
         }
