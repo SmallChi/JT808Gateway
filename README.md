@@ -289,7 +289,9 @@ static async Task Main(string[] args)
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | channelId| string| 通道Id|
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| bool | 是否成功 |
