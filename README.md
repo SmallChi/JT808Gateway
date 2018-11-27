@@ -115,6 +115,7 @@ static async Task Main(string[] args)
 ## 提供WebApi接口服务（默认端口828）
 
 基地址：<a href="#">http://localhost:828/jt808api/</a>
+
 数据格式：只支持Json格式
 
 #### 统一对象返回 JT808ResultDto\<T>
@@ -126,6 +127,7 @@ static async Task Main(string[] args)
 | Data| T（泛型）| 数据|
 
 返回Code[状态码]说明：
+
 |状态码|说明|
 |:------:|:------:|
 | 200 | 返回成功 |
@@ -136,16 +138,22 @@ static async Task Main(string[] args)
 #### <span id="send">统一下发设备消息接口</span>
 
 请求地址：UnificationSend
+
 请求方式：POST
+
 请求参数：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | TerminalPhoneNo| string| 设备终端号|
 | Data| byte[]| JT808 byte[]数组|
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| bool| 是否成功|
+
 返回结果：
 ``` result1
 {
@@ -168,11 +176,15 @@ static async Task Main(string[] args)
 ##### 1.获取实际连接数(存在其他平台转发过来的数据，这时候通道Id和设备属于一对多的关系)
 
 请求地址：Session/GetRealLinkCount
+
 请求方式：GET
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| int| 实际连接数|
+
 返回结果：
 ``` result1
 {
@@ -184,11 +196,15 @@ static async Task Main(string[] args)
 ##### 2.获取设备相关连的连接数
 
 请求地址：Session/GetRelevanceLinkCount
+
 请求方式：GET
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| int | 设备相关连的连接数 |
+
 返回结果：
 ``` result2
 {
@@ -200,11 +216,15 @@ static async Task Main(string[] args)
 ##### 3.获取实际会话集合
 
 请求地址：Session/GetRealAll
+
 请求方式：GET
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| List\<JT808SessionInfoDto> | 实际会话信息集合 |
+
 返回结果：
 ``` result3
 {
@@ -228,11 +248,15 @@ static async Task Main(string[] args)
 ##### 4.获取设备相关联会话集合
 
 请求地址：Session/GetRelevanceAll
-请求方式：GET
+
+请求方式：
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| List\<JT808SessionInfoDto> | 设备相关联会话信息集合 |
+
 返回结果：
 ``` result4
 {
@@ -257,8 +281,11 @@ static async Task Main(string[] args)
 ##### 5.通过通道Id移除对应会话
 
 请求地址：Session/RemoveByChannelId
+
 请求方式：POST
+
 请求参数：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | channelId| string| 通道Id|
@@ -266,6 +293,7 @@ static async Task Main(string[] args)
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| bool | 是否成功 |
+
 返回结果：
 ``` result5
 {
@@ -277,15 +305,21 @@ static async Task Main(string[] args)
 ##### 6.通过设备终端号移除对应会话
 
 请求地址：Session/RemoveByTerminalPhoneNo
+
 请求方式：POST
+
 请求参数：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | terminalPhoneNo| string| 设备终端号|
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| Data| bool | 是否成功 |
+| Data| bool | 是否成功 
+
 返回结果：
 ``` result6
 {
@@ -297,15 +331,21 @@ static async Task Main(string[] args)
 ##### 7.通过通道Id获取会话信息
 
 请求地址：Session/GetByChannelId
+
 请求方式：POST
+
 请求参数：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | channelId| string| 通道Id|
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| JT808SessionInfoDto | 会话信息对象 |
+
 返回结果：
 ``` result7
 {
@@ -323,15 +363,21 @@ static async Task Main(string[] args)
 ##### 8.通过设备终端号获取会话信息
 
 请求地址：Session/GetByTerminalPhoneNo
+
 请求方式：POST
+
 请求参数：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | terminalPhoneNo| string| 设备终端号|
+
 返回数据：
+
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
 | Data| JT808SessionInfoDto | 会话信息对象 |
+
 返回结果：
 ``` result8
 {
