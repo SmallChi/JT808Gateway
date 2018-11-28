@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.Dtos
+namespace JT808.DotNetty.Dashbord.Dtos
 {
     public class JT808SessionInfoDto
     {

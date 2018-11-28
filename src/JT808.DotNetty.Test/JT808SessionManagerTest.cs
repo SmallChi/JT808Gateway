@@ -63,8 +63,7 @@ namespace JT808.DotNetty.Test
         [Fact]
         public void Test8()
         {
-            var realSessionInfos = jT808SessionManager.GetRealAll();
-            var relevanceSessionInfos = jT808SessionManager.GetRelevanceAll();
+            var realSessionInfos = jT808SessionManager.GetAll();
         }
 
         [Fact]

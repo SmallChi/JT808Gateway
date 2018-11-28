@@ -1,4 +1,4 @@
-# JT808DotNetty
+﻿# JT808DotNetty
 
 基于DotNetty封装的JT808DotNetty专注消息业务处理
 
@@ -20,12 +20,6 @@
 ## 设计模型
 
 ![design_model](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/design_model.png)
-
-## NuGet安装
-
-| Package Name          | Version                                            | Downloads                                           |
-| --------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Install-Package JT808DotNetty | ![JT808DotNetty](https://img.shields.io/nuget/v/JT808DotNetty.svg) | ![JT808DotNetty](https://img.shields.io/nuget/dt/JT808DotNetty.svg) |
 
 ## 集成功能实现
 
@@ -53,8 +47,7 @@
 
 #### 1.实现业务消息处理程序JT808MsgIdHandlerBase
 
-```business Impl
-using JT808.DotNetty;
+```business Imp
 public class JT808MsgIdCustomHandler : JT808MsgIdHandlerBase
 {
     private readonly ILogger<JT808MsgIdCustomHandler> logger;
@@ -172,50 +165,13 @@ static async Task Main(string[] args)
 | LastActiveTime| DateTime| 最后上线时间|
 | StartTime| DateTime| 上线时间|
 | TerminalPhoneNo|string| 终端手机号|
+| LoaclAddressIP| string| 本地ip地址|
+| WebApiPort| string| WebApi端口号|
+| RemoteAddressIP| string| 远程ip地址|
 
-##### 1.获取实际连接数(存在其他平台转发过来的数据，这时候通道Id和设备属于一对多的关系)
+##### 1.获取会话集合
 
-请求地址：Session/GetRealLinkCount
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| int| 实际连接数|
-
-返回结果：
-``` result1
-{
-    "Message":"",
-    "Code":200,
-    "Data":10
-}
-```
-##### 2.获取设备相关连的连接数
-
-请求地址：Session/GetRelevanceLinkCount
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| int | 设备相关连的连接数 |
-
-返回结果：
-``` result2
-{
-    "Message":"",
-    "Code":200,
-    "Data":10
-}
-```
-##### 3.获取实际会话集合
-
-请求地址：Session/GetRealAll
+请求地址：Session/GetAll
 
 请求方式：GET
 
@@ -226,7 +182,7 @@ static async Task Main(string[] args)
 | Data| List\<JT808SessionInfoDto> | 实际会话信息集合 |
 
 返回结果：
-``` result3
+``` session1
 {
     "Message":"",
     "Code":200,
@@ -235,50 +191,23 @@ static async Task Main(string[] args)
             "ChannelId":"eadad23",
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
-            "TerminalPhoneNo":"123456789012"
+            "TerminalPhoneNo":"123456789012",
+            "LoaclAddressIP":"127.0.0.1:808",
+            "WebApiPort":828,
+            "RemoteAddressIP":"127.0.0.1:11808"
         },{
             "ChannelId":"eadad23",
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
-            "TerminalPhoneNo":"123456789013"
+            "TerminalPhoneNo":"123456789013",
+            "LoaclAddressIP":"127.0.0.1:808",
+            "WebApiPort":828,
+            "RemoteAddressIP":"127.0.0.1:11808"
         }
     ]
 }
 ```
-##### 4.获取设备相关联会话集合
-
-请求地址：Session/GetRelevanceAll
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| List\<JT808SessionInfoDto> | 设备相关联会话信息集合 |
-
-返回结果：
-``` result4
-{
-    "Message":"",
-    "Code":200,
-    "Data":[
-        {
-            "ChannelId":"eadad23",
-            "LastActiveTime":"2018-11-27 20:00:00",
-            "StartTime":"2018-11-25 20:00:00",
-            "TerminalPhoneNo":"123456789012"
-        }, {
-            "ChannelId":"eadad24",
-            "LastActiveTime":"2018-11-26 20:00:00",
-            "StartTime":"2018-11-22 20:00:00",
-            "TerminalPhoneNo":"123456789013"
-        }
-    ]
-}
-```
-
-##### 5.通过通道Id移除对应会话
+##### 2.通过通道Id移除对应会话
 
 请求地址：Session/RemoveByChannelId
 
@@ -297,14 +226,14 @@ static async Task Main(string[] args)
 | Data| bool | 是否成功 |
 
 返回结果：
-``` result5
+``` session2
 {
     "Message":"",
     "Code":200,
     "Data":true
 }
 ```
-##### 6.通过设备终端号移除对应会话
+##### 3.通过设备终端号移除对应会话
 
 请求地址：Session/RemoveByTerminalPhoneNo
 
@@ -323,73 +252,10 @@ static async Task Main(string[] args)
 | Data| bool | 是否成功 
 
 返回结果：
-``` result6
+``` session3
 {
     "Message":"",
     "Code":200,
     "Data":true
-}
-```
-##### 7.通过通道Id获取会话信息
-
-请求地址：Session/GetByChannelId
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| channelId| string| 通道Id|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| JT808SessionInfoDto | 会话信息对象 |
-
-返回结果：
-``` result7
-{
-    "Message":"",
-    "Code":200,
-    "Data":{
-        "ChannelId":"eadad24",
-        "LastActiveTime":"2018-11-26 20:00:00",
-        "StartTime":"2018-11-22 20:00:00",
-        "TerminalPhoneNo":"123456789013"
-    }
-}
-```
-
-##### 8.通过设备终端号获取会话信息
-
-请求地址：Session/GetByTerminalPhoneNo
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| JT808SessionInfoDto | 会话信息对象 |
-
-返回结果：
-``` result8
-{
-    "Message":"",
-    "Code":200,
-    "Data":{
-        "ChannelId":"eadad24",
-        "LastActiveTime":"2018-11-26 20:00:00",
-        "StartTime":"2018-11-22 20:00:00",
-        "TerminalPhoneNo":"123456789013"
-    }
 }
 ```

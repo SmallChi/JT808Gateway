@@ -32,14 +32,9 @@ namespace JT808.DotNetty
             HandlerDict = new Dictionary<string, Func<JT808HttpRequest, JT808HttpResponse>>
             {
                 {$"{RouteTablePrefix}/UnificationSend", UnificationSend},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetRealLinkCount", GetRealLinkCount},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetRelevanceLinkCount", GetRelevanceLinkCount},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetRealAll", GetRealAll},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetRelevanceAll", GetRelevanceAll},
+                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetAll", GetAll},
                 {$"{RouteTablePrefix}/{sessionRoutePrefix}/RemoveByChannelId", RemoveByChannelId},
                 {$"{RouteTablePrefix}/{sessionRoutePrefix}/RemoveByTerminalPhoneNo", RemoveByTerminalPhoneNo},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetByChannelId", GetByChannelId},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetByTerminalPhoneNo", GetByTerminalPhoneNo},
             };
         }
 
@@ -60,47 +55,13 @@ namespace JT808.DotNetty
         }
 
         /// <summary>
-        /// 会话服务-获取实际连接数
-        /// 存在其他平台转发过来的数据，这时候通道Id和设备属于一对多的关系
+        /// 会话服务集合
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public JT808HttpResponse GetRealLinkCount(JT808HttpRequest request)
+        public JT808HttpResponse GetAll(JT808HttpRequest request)
         {
-            var result = jT808SessionService.GetRealLinkCount();
-            return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 会话服务-获取设备相关连的连接数
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse GetRelevanceLinkCount(JT808HttpRequest request)
-        {
-            var result = jT808SessionService.GetRelevanceLinkCount();
-            return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 会话服务-获取实际会话集合
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse GetRealAll(JT808HttpRequest request)
-        {
-            var result = jT808SessionService.GetRealAll();
-            return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 会话服务-获取设备相关连会话集合
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse GetRelevanceAll(JT808HttpRequest request)
-        {
-            var result = jT808SessionService.GetRelevanceAll();
+            var result = jT808SessionService.GetAll();
             return CreateJT808HttpResponse(result);
         }
 
@@ -131,36 +92,6 @@ namespace JT808.DotNetty
                 return EmptyHttpResponse();
             }
             var result = jT808SessionService.RemoveByTerminalPhoneNo(request.Json);
-            return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 会话服务-通过通道Id获取会话信息
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse GetByChannelId(JT808HttpRequest request)
-        {
-            if (string.IsNullOrEmpty(request.Json))
-            {
-                return EmptyHttpResponse();
-            }
-            var result = jT808SessionService.GetByChannelId(request.Json);
-            return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 会话服务-通过设备终端号获取会话信息
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse GetByTerminalPhoneNo(JT808HttpRequest request)
-        {
-            if (string.IsNullOrEmpty(request.Json))
-            {
-                return EmptyHttpResponse();
-            }
-            var result = jT808SessionService.GetByTerminalPhoneNo(request.Json);
             return CreateJT808HttpResponse(result);
         }
 

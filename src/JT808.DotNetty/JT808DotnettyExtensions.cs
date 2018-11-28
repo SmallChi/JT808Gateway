@@ -6,6 +6,7 @@ using JT808.DotNetty.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,20 @@ namespace JT808.DotNetty
 {
     public static class JT808DotnettyExtensions
     {
+        static JT808DotnettyExtensions()
+        {
+            JsonSerializerSettings setting = new JsonSerializerSettings();
+            JsonConvert.DefaultSettings = new Func<JsonSerializerSettings>(() =>
+            {
+                //日期类型默认格式化处理
+                setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                setting.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
+                setting.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                setting.NullValueHandling = NullValueHandling.Include;
+                return setting;
+            });
+        }
+
         public static IHostBuilder UseJT808Host(this IHostBuilder builder)
         {
             return builder.ConfigureServices((hostContext, services) =>

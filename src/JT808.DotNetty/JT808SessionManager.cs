@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using JT808.DotNetty.Metadata;
 
 namespace JT808.DotNetty
@@ -35,7 +31,7 @@ namespace JT808.DotNetty
         private ConcurrentDictionary<string, string> TerminalPhoneNo_SessionId_Dict = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// 实际连接数
+        /// 获取实际连接数
         /// </summary>
         public int RealSessionCount
         {
@@ -121,8 +117,8 @@ namespace JT808.DotNetty
 
         public void TryAddOrUpdateSession(JT808Session appSession)
         {
-            SessionIdDict.AddOrUpdate(appSession.SessionID, appSession, (x, y) => appSession);
-            TerminalPhoneNo_SessionId_Dict.AddOrUpdate(appSession.TerminalPhoneNo, appSession.SessionID, (x, y) => appSession.SessionID);
+            SessionIdDict.TryAdd(appSession.SessionID, appSession);
+            TerminalPhoneNo_SessionId_Dict.TryAdd(appSession.TerminalPhoneNo, appSession.SessionID);
         }
 
         public JT808Session RemoveSessionByID(string sessionID)
@@ -132,17 +128,13 @@ namespace JT808.DotNetty
             {
                 if (SessionIdDict.TryRemove(sessionID, out JT808Session session))
                 {
-                    if (session.TerminalPhoneNo != null)
+                    // 处理转发过来的是数据 这时候通道对设备是1对多关系
+                    var removeKeys = TerminalPhoneNo_SessionId_Dict.Where(s => s.Value == sessionID).Select(s => s.Key).ToList();
+                    foreach(var key in removeKeys)
                     {
-                        if (TerminalPhoneNo_SessionId_Dict.TryRemove(session.TerminalPhoneNo, out string sessionid))
-                        {
-                            logger.LogInformation($">>>{sessionID}-{session.TerminalPhoneNo} Session Remove.");
-                        }
+                        TerminalPhoneNo_SessionId_Dict.TryRemove(key, out string sessionid);
                     }
-                    else
-                    {
-                        logger.LogInformation($">>>{sessionID} Session Remove.");
-                    }
+                    logger.LogInformation($">>>{sessionID}-{string.Join(",",removeKeys)} Session Remove.");
                     return session;
                 }
                 return null;
@@ -161,9 +153,19 @@ namespace JT808.DotNetty
             {
                 if (TerminalPhoneNo_SessionId_Dict.TryRemove(terminalPhoneNo, out string sessionid))
                 {
+                    // 处理转发过来的是数据 这时候通道对设备是1对多关系
+                    var removeKeys = TerminalPhoneNo_SessionId_Dict.Where(w => w.Value == sessionid).Select(s=>s.Key).ToList();
+                    if (removeKeys.Count > 0)
+                    {
+                        foreach (var key in removeKeys)
+                        {
+                            TerminalPhoneNo_SessionId_Dict.TryRemove(key, out string sessionid1);
+                        }
+                        logger.LogInformation($">>>{sessionid}-{string.Join(",", removeKeys)} 1-n Session Remove.");
+                    }
                     if (SessionIdDict.TryRemove(sessionid, out JT808Session session))
                     {
-                        logger.LogInformation($">>>{sessionid}-{session.TerminalPhoneNo} Session Remove.");
+                        logger.LogInformation($">>>{sessionid}-{session.TerminalPhoneNo} 1-1 Session Remove.");
                         return session;
                     }
                     else
@@ -179,16 +181,17 @@ namespace JT808.DotNetty
             return null;
         }
 
-        public IEnumerable<JT808Session> GetRealAll()
+        public IEnumerable<JT808Session> GetAll()
         {
-            return SessionIdDict.Select(s=>s.Value);
+            return TerminalPhoneNo_SessionId_Dict.Join(SessionIdDict, m => m.Value, s => s.Key, (m, s) => new JT808Session
+            {
+                Channel= s.Value.Channel,
+                LastActiveTime= s.Value.LastActiveTime,
+                SessionID= s.Value.SessionID,
+                StartTime= s.Value.StartTime,
+                TerminalPhoneNo= m.Key
+            }).ToList();
         }
-
-        public IEnumerable<JT808Session> GetRelevanceAll()
-        {
-            return SessionIdDict.Join(TerminalPhoneNo_SessionId_Dict, m => m.Key, s => s.Value, (m, s) => m.Value);
-        }
-      
     }
 }
 
