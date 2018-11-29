@@ -66,8 +66,8 @@ namespace JT808.DotNetty
                             pipeline.AddLast("http_jt808webapihandler", scope.ServiceProvider.GetRequiredService<JT808WebAPIServerHandler>());
                         }
                     }));
-            logger.LogInformation($"WebAPI Server start at {IPAddress.Any}:{configuration.WebAPIPort}.");
-            return bootstrap.BindAsync(configuration.WebAPIPort).ContinueWith(i => bootstrapChannel = i.Result);
+            logger.LogInformation($"WebAPI Server start at {IPAddress.Any}:{configuration.WebApiPort}.");
+            return bootstrap.BindAsync(configuration.WebApiPort).ContinueWith(i => bootstrapChannel = i.Result);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

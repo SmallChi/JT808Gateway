@@ -38,6 +38,7 @@ namespace JT808.DotNetty
                 services.TryAddSingleton<JT808SessionManager>();
                 services.TryAddSingleton<JT808AtomicCounterService>();
                 services.TryAddSingleton<JT808MsgIdHandlerBase,JT808MsgIdDefaultHandler>();
+                services.TryAddSingleton<JT808SourcePackageChannelService>();
                 services.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherDefaultImpl>();
                 services.TryAddScoped<JT808ConnectionHandler>();
                 services.TryAddScoped<JT808Decoder>();

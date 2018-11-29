@@ -25,12 +25,12 @@ namespace JT808.DotNetty.Internal
                 if (session != null)
                 {
                     session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
-                    resultDto.Code = 200;
+                    resultDto.Code = JT808ResultCode.Ok;
                     resultDto.Data = true;
                 }
                 else
                 {
-                    resultDto.Code = 200;
+                    resultDto.Code = JT808ResultCode.Ok;
                     resultDto.Data = false;
                     resultDto.Message = "not session";
                 }
@@ -38,7 +38,7 @@ namespace JT808.DotNetty.Internal
             catch (Exception ex)
             {
                 resultDto.Data = false;
-                resultDto.Code = 500;
+                resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
             }
             return resultDto;

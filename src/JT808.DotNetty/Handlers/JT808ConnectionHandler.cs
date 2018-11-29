@@ -75,11 +75,19 @@ namespace JT808.DotNetty.Handlers
             IdleStateEvent idleStateEvent = evt as IdleStateEvent;
             if (idleStateEvent != null)
             {
-                string channelId = context.Channel.Id.AsShortText();
-                logger.LogInformation($"{idleStateEvent.State.ToString()}>>>{channelId}");
-                // 由于808是设备发心跳，如果很久没有上报数据，那么就由服务器主动关闭连接。
-                jT808SessionManager.RemoveSessionByID(channelId);
-                context.CloseAsync();
+                if(idleStateEvent.State== IdleState.ReaderIdle)
+                {
+                    string channelId = context.Channel.Id.AsShortText();
+                    logger.LogInformation($"{idleStateEvent.State.ToString()}>>>{channelId}");
+                    // 由于808是设备发心跳，如果很久没有上报数据，那么就由服务器主动关闭连接。
+                    jT808SessionManager.RemoveSessionByID(channelId);
+                    context.CloseAsync();
+                }
+                // 按照808的消息，有些请求必须要应答，但是转发可以不需要有应答可以节省部分资源包括：
+                // 1.消息的序列化
+                // 2.消息的下发
+                // 都有一定的性能损耗，那么不需要判断写超时 IdleState.WriterIdle 
+                // 就跟神兽貔貅一样。。。
             }
             base.UserEventTriggered(context, evt);
         }

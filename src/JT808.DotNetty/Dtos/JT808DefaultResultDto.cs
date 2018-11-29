@@ -9,7 +9,7 @@ namespace JT808.DotNetty.Dtos
         public JT808DefaultResultDto()
         {
             Data = "Hello,JT808 WebAPI";
-            Code = 200;
+            Code = JT808ResultCode.Ok;
         }
     }
 }

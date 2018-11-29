@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using JT808.DotNetty.Metadata;
+using JT808.DotNetty.Internal;
 
 namespace JT808.DotNetty.Handlers
 {
@@ -14,11 +15,18 @@ namespace JT808.DotNetty.Handlers
         
         private readonly JT808SessionManager jT808SessionManager;
 
-        public JT808ServerHandler(JT808MsgIdHandlerBase handler, JT808SessionManager jT808SessionManager)
+        private readonly JT808RemoteAddressTransmitConfigurationService jT808RemoteAddressTransmitConfigurationService;
+
+        public JT808ServerHandler(
+            JT808RemoteAddressTransmitConfigurationService jT808RemoteAddressTransmitConfigurationService,
+            JT808MsgIdHandlerBase handler, 
+            JT808SessionManager jT808SessionManager)
         {
+            this.jT808RemoteAddressTransmitConfigurationService = jT808RemoteAddressTransmitConfigurationService;
             this.handler = handler;
             this.jT808SessionManager = jT808SessionManager;
         }
+
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, JT808Package msg)
         {
@@ -31,7 +39,10 @@ namespace JT808.DotNetty.Handlers
                     JT808Response jT808Package = handlerFunc(new JT808Request(msg));
                     if (jT808Package != null)
                     {
-                        ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Package.Package, jT808Package.MinBufferSize)));
+                        if (!jT808RemoteAddressTransmitConfigurationService.Contains(ctx.Channel.RemoteAddress))
+                        {
+                            ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Package.Package, jT808Package.MinBufferSize)));
+                        }
                     }
                 }
             }

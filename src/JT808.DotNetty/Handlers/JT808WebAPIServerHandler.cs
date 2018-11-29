@@ -2,6 +2,7 @@
 using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
+using JT808.DotNetty.Internal;
 using JT808.DotNetty.Metadata;
 using Microsoft.Extensions.Logging;
 using System;

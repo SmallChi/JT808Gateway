@@ -1,6 +1,6 @@
 ﻿# JT808DotNetty
 
-基于DotNetty封装的JT808DotNetty专注消息业务处理
+基于DotNetty封装的JT808DotNetty通用消息业务处理
 
 [了解JT808协议进这边](https://github.com/SmallChi/JT808)
 

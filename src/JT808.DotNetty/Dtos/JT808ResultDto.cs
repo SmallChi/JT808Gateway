@@ -12,4 +12,12 @@ namespace JT808.DotNetty.Dtos
 
         public T Data { get; set; }
     }
+
+    internal class JT808ResultCode
+    {
+        public const int Ok = 200;
+        public const int Empty = 201;
+        public const int NotFound = 404;
+        public const int Error = 500;
+    }
 }

@@ -35,16 +35,16 @@ namespace JT808.DotNetty.Internal
                     LastActiveTime = s.LastActiveTime,
                     StartTime = s.StartTime,
                     TerminalPhoneNo = s.TerminalPhoneNo,
-                    WebApiPort = jT808Configuration.WebAPIPort,
+                    WebApiPort = jT808Configuration.WebApiPort,
                     LoaclAddressIP = s.Channel.LocalAddress.ToString(),
                     RemoteAddressIP = s.Channel.RemoteAddress.ToString(),
                 }).ToList();
-                resultDto.Code = 200;
+                resultDto.Code = JT808ResultCode.Ok;
             }
             catch (Exception ex)
             {
                 resultDto.Data = null;
-                resultDto.Code = 500;
+                resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
             }
             return resultDto;
@@ -60,19 +60,19 @@ namespace JT808.DotNetty.Internal
                 {
                     session.Channel.CloseAsync();
                 }
-                resultDto.Code = 200;
+                resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
             catch (AggregateException ex)
             {
                 resultDto.Data = false;
-                resultDto.Code = 500;
+                resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
             }
             catch (Exception ex)
             {
                 resultDto.Data = false;
-                resultDto.Code = 500;
+                resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
             }
             return resultDto;
@@ -88,7 +88,7 @@ namespace JT808.DotNetty.Internal
                 {
                     session.Channel.CloseAsync();
                 }
-                resultDto.Code = 200;
+                resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
             catch (AggregateException ex)
@@ -100,7 +100,7 @@ namespace JT808.DotNetty.Internal
             catch (Exception ex)
             {
                 resultDto.Data = false;
-                resultDto.Code = 500;
+                resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
             }
             return resultDto;
