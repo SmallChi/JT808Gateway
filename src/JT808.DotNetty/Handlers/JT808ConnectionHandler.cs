@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Handlers
 {
+    /// <summary>
+    /// JT808服务通道处理程序
+    /// </summary>
    internal class JT808ConnectionHandler : ChannelHandlerAdapter
     {
         private readonly ILogger<JT808ConnectionHandler> logger;

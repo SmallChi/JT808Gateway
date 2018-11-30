@@ -8,6 +8,7 @@ using System.Text;
 using JT808.Protocol;
 using JT808.DotNetty.Internal;
 using JT808.DotNetty.Interfaces;
+using JT808.DotNetty.Metadata;
 
 namespace JT808.DotNetty.Codecs
 {
@@ -18,8 +19,10 @@ namespace JT808.DotNetty.Codecs
     {
         private static readonly ILogger<JT808ClientDecoder> logger=new LoggerFactory().CreateLogger<JT808ClientDecoder>();
 
-        private static readonly JT808AtomicCounterService jT808AtomicCounterService=new JT808AtomicCounterService ();
-        
+        private static readonly JT808AtomicCounter MsgSuccessCounter = new JT808AtomicCounter();
+
+        private static readonly JT808AtomicCounter MsgFailCounter = new JT808AtomicCounter();
+
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
         {
             byte[] buffer = new byte[input.Capacity + 2];
@@ -29,28 +32,28 @@ namespace JT808.DotNetty.Codecs
                 buffer[0] = JT808Package.BeginFlag;
                 buffer[input.Capacity + 1] = JT808Package.EndFlag;
                 JT808Package jT808Package = JT808Serializer.Deserialize<JT808Package>(buffer);
+                MsgSuccessCounter.Increment();
                 output.Add(jT808Package);
-                jT808AtomicCounterService.MsgSuccessIncrement();
                 if (logger.IsEnabled(LogLevel.Debug))
                 {
-                    logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
+                    logger.LogDebug("accept package success count<<<" + MsgSuccessCounter.Count.ToString());
                 } 
             }
             catch (JT808.Protocol.Exceptions.JT808Exception ex)
             {
-                jT808AtomicCounterService.MsgFailIncrement();
+                MsgFailCounter.Increment();
                 if (logger.IsEnabled(LogLevel.Error))
                 {
-                    logger.LogError("accept package fail count<<<" + jT808AtomicCounterService.MsgFailCount.ToString());
+                    logger.LogError("accept package fail count<<<" + MsgFailCounter.Count.ToString());
                     logger.LogError(ex, "accept msg<<<" + buffer);
                 }
             }
             catch (Exception ex)
             {
-                jT808AtomicCounterService.MsgFailIncrement();
+                MsgFailCounter.Increment();
                 if (logger.IsEnabled(LogLevel.Error))
                 {
-                    logger.LogError("accept package fail count<<<" + jT808AtomicCounterService.MsgFailCount.ToString());
+                    logger.LogError("accept package fail count<<<" + MsgFailCounter.Count.ToString());
                     logger.LogError(ex, "accept msg<<<" + buffer);
                 }
             }

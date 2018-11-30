@@ -9,6 +9,9 @@ using JT808.DotNetty.Internal;
 
 namespace JT808.DotNetty.Handlers
 {
+    /// <summary>
+    /// JT808服务端处理程序
+    /// </summary>
     internal class JT808ServerHandler : SimpleChannelInboundHandler<JT808.Protocol.JT808Package>
     {
         private readonly JT808MsgIdHandlerBase handler;
@@ -39,7 +42,7 @@ namespace JT808.DotNetty.Handlers
                     JT808Response jT808Package = handlerFunc(new JT808Request(msg));
                     if (jT808Package != null)
                     {
-                        if (!jT808RemoteAddressTransmitConfigurationService.Contains(ctx.Channel.RemoteAddress))
+                        if (!jT808RemoteAddressTransmitConfigurationService.ContainsKey(ctx.Channel.RemoteAddress))
                         {
                             ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Package.Package, jT808Package.MinBufferSize)));
                         }

@@ -14,6 +14,11 @@ namespace JT808.DotNetty.Internal
 
         private static readonly JT808AtomicCounter MsgFailCounter = new JT808AtomicCounter();
 
+        public JT808AtomicCounterService()
+        {
+
+        }
+
         public long MsgSuccessIncrement()
         {
             return MsgSuccessCounter.Increment();

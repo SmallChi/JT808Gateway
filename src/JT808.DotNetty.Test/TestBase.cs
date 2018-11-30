@@ -16,6 +16,8 @@ namespace JT808.DotNetty.Test
 {
     public class TestBase:IDisposable
     {
+        public static IServiceProvider ServiceProvider;
+
         static TestBase()
         {
             var serverHostBuilder = new HostBuilder()
@@ -30,7 +32,10 @@ namespace JT808.DotNetty.Test
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                 })
                 .UseJT808Host();
-            serverHostBuilder.RunConsoleAsync();
+            var build=serverHostBuilder.Build();
+            build.Start();
+            ServiceProvider = build.Services;
+
         }
 
         public virtual void Dispose()

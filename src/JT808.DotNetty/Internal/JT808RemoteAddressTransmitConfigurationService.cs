@@ -22,7 +22,7 @@ namespace JT808.DotNetty.Internal
     {
         private readonly IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor;
 
-        private ConcurrentBag<string> ForwardingRemoteAddresss;
+        private ConcurrentDictionary<string,int> ForwardingRemoteAddresssDict;
 
         private IDisposable jT808ConfigurationOptionsMonitorDisposable;
 
@@ -30,7 +30,7 @@ namespace JT808.DotNetty.Internal
             IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor)
         {
             this.jT808ConfigurationOptionsMonitor = jT808ConfigurationOptionsMonitor;
-            ForwardingRemoteAddresss = new ConcurrentBag<string>();
+            ForwardingRemoteAddresssDict = new ConcurrentDictionary<string, int>();
             InitForwardingRemoteAddress(jT808ConfigurationOptionsMonitor.CurrentValue.ForwardingRemoteAddress);
             //OnChange 源码多播委托
             jT808ConfigurationOptionsMonitorDisposable = this.jT808ConfigurationOptionsMonitor.OnChange(options =>
@@ -46,46 +46,39 @@ namespace JT808.DotNetty.Internal
                 foreach (var item in jT808ClientConfigurations)
                 {
                     string host = item.EndPoint.ToString();
-                    if (!ForwardingRemoteAddresss.Contains(host))
-                    {
-                        ForwardingRemoteAddresss.Add(host);
-                    }
+                    ForwardingRemoteAddresssDict.TryAdd(host, 0);
                 }
             }
         }
 
-        public bool Contains(EndPoint endPoint)
+        public bool ContainsKey(EndPoint endPoint)
         {
-            return ForwardingRemoteAddresss.Contains(endPoint.ToString());
+            return ForwardingRemoteAddresssDict.ContainsKey(endPoint.ToString());
         }
 
         public JT808ResultDto<bool> Add(JT808IPAddressDto jT808IPAddressDto)
         {
             string host = jT808IPAddressDto.EndPoint.ToString();
-            if (!ForwardingRemoteAddresss.Contains(host))
-            {
-                ForwardingRemoteAddresss.Add(host);
-            }
-            return new JT808ResultDto<bool>() { Code = JT808ResultCode.Ok, Data = true };
+            return new JT808ResultDto<bool>() { Code = JT808ResultCode.Ok, Data = ForwardingRemoteAddresssDict.TryAdd(host,0) };
         }
 
         public JT808ResultDto<bool> Remove(JT808IPAddressDto jT808IPAddressDto)
         {
             string host = jT808IPAddressDto.EndPoint.ToString();
             if(jT808ConfigurationOptionsMonitor.CurrentValue.ForwardingRemoteAddress!=null &&
-                jT808ConfigurationOptionsMonitor.CurrentValue.ForwardingRemoteAddress.Any(w=>w.EndPoint.ToString()== jT808IPAddressDto.ToString()))
+                jT808ConfigurationOptionsMonitor.CurrentValue.ForwardingRemoteAddress.Any(w=>w.EndPoint.ToString()== host))
             {
                 return new JT808ResultDto<bool>() { Code = JT808ResultCode.Ok, Data = false,Message="不能删除服务器配置的地址" };
             }
             else
             {
-                return new JT808ResultDto<bool>() { Code = JT808ResultCode.Ok, Data = ForwardingRemoteAddresss.TryTake(out var temp) };
+                return new JT808ResultDto<bool>() { Code = JT808ResultCode.Ok, Data = ForwardingRemoteAddresssDict.TryRemove(host,out var temp) };
             }
         }
 
         public JT808ResultDto<List<string>> GetAll()
         {
-            return new JT808ResultDto<List<string>>(){ Code = JT808ResultCode.Ok, Data = ForwardingRemoteAddresss.ToList() };
+            return new JT808ResultDto<List<string>>(){ Code = JT808ResultCode.Ok, Data = ForwardingRemoteAddresssDict.Select(s=>s.Key).ToList() };
         }
 
         public void Dispose()

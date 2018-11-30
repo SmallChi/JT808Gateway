@@ -42,8 +42,8 @@ namespace JT808.DotNetty.Codecs
                 buffer[input.Capacity + 1] = JT808Package.EndFlag;
                 jT808SourcePackageDispatcher?.SendAsync(buffer);
                 JT808Package jT808Package = JT808Serializer.Deserialize<JT808Package>(buffer);
-                output.Add(jT808Package);
                 jT808AtomicCounterService.MsgSuccessIncrement();
+                output.Add(jT808Package);
                 if (logger.IsEnabled(LogLevel.Debug))
                 {
                     logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());

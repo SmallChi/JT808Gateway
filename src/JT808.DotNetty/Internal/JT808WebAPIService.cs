@@ -8,6 +8,9 @@ using System.Text;
 
 namespace JT808.DotNetty.Internal
 {
+    /// <summary>
+    /// JT808 WebApi 业务服务
+    /// </summary>
     internal class JT808WebAPIService
     {
         public Dictionary<string, Func<JT808HttpRequest, JT808HttpResponse>> HandlerDict { get; protected set; }
@@ -116,10 +119,14 @@ namespace JT808.DotNetty.Internal
         /// <returns></returns>
         public JT808HttpResponse GetAtomicCounter(JT808HttpRequest request)
         {
-                JT808AtomicCounterDto jT808AtomicCounterDto = new JT808AtomicCounterDto();
-                jT808AtomicCounterDto.MsgFailCount = jT808AtomicCounterService.MsgFailCount;
-                jT808AtomicCounterDto.MsgSuccessCount = jT808AtomicCounterService.MsgSuccessCount;
-                return CreateJT808HttpResponse(jT808AtomicCounterDto);
+            JT808AtomicCounterDto jT808AtomicCounterDto = new JT808AtomicCounterDto();
+            jT808AtomicCounterDto.MsgFailCount = jT808AtomicCounterService.MsgFailCount;
+            jT808AtomicCounterDto.MsgSuccessCount = jT808AtomicCounterService.MsgSuccessCount;
+            return CreateJT808HttpResponse(new JT808ResultDto<JT808AtomicCounterDto>
+            {
+                 Code=JT808ResultCode.Ok,
+                 Data= jT808AtomicCounterDto
+            });
         }
 
         /// <summary>

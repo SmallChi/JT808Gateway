@@ -14,15 +14,21 @@
             JT808解码
             </summary>
         </member>
-        <member name="P:JT808.DotNetty.Configurations.JT808Configuration.WebAPIPort">
+        <member name="P:JT808.DotNetty.Configurations.JT808Configuration.WebApiPort">
             <summary>
-            WebAPI服务
+            WebApi服务
             默认828端口
             </summary>
         </member>
         <member name="P:JT808.DotNetty.Configurations.JT808Configuration.SourcePackageDispatcherClientConfigurations">
             <summary>
             源包分发器配置
+            </summary>
+        </member>
+        <!-- 对于成员“P:JT808.DotNetty.Configurations.JT808Configuration.ForwardingRemoteAddress”忽略有格式错误的 XML 注释 -->
+        <member name="T:JT808.DotNetty.Dtos.JT808AtomicCounterDto">
+            <summary>
+            包计数器服务
             </summary>
         </member>
         <member name="P:JT808.DotNetty.Dtos.JT808SessionInfoDto.ChannelId">
@@ -58,6 +64,36 @@
         <member name="P:JT808.DotNetty.Dtos.JT808SessionInfoDto.RemoteAddressIP">
             <summary>
             远程ip地址
+            </summary>
+        </member>
+        <member name="T:JT808.DotNetty.Dtos.JT808SourcePackageChannelInfoDto">
+            <summary>
+            原包通道信息
+            </summary>
+        </member>
+        <member name="P:JT808.DotNetty.Dtos.JT808SourcePackageChannelInfoDto.RemoteAddress">
+            <summary>
+            远程地址
+            </summary>
+        </member>
+        <member name="P:JT808.DotNetty.Dtos.JT808SourcePackageChannelInfoDto.LocalAddress">
+            <summary>
+            本地地址
+            </summary>
+        </member>
+        <member name="P:JT808.DotNetty.Dtos.JT808SourcePackageChannelInfoDto.Registered">
+            <summary>
+            是否注册
+            </summary>
+        </member>
+        <member name="P:JT808.DotNetty.Dtos.JT808SourcePackageChannelInfoDto.Active">
+            <summary>
+            是否活动
+            </summary>
+        </member>
+        <member name="P:JT808.DotNetty.Dtos.JT808SourcePackageChannelInfoDto.Open">
+            <summary>
+            是否打开
             </summary>
         </member>
         <member name="T:JT808.DotNetty.Dtos.JT808UnificationSendRequestDto">
@@ -146,23 +182,115 @@
             默认消息处理业务实现
             </summary>
         </member>
-        <member name="T:JT808.DotNetty.Internal.JT808SourcePackageDispatcherDefaultImpl">
+        <!-- 对于成员“T:JT808.DotNetty.Internal.JT808RemoteAddressTransmitConfigurationService”忽略有格式错误的 XML 注释 -->
+        <member name="T:JT808.DotNetty.Internal.JT808SourcePackageChannelService">
             <summary>
-            源包分发器默认实现
+            原包分发器通道服务
             </summary>
         </member>
-        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageDispatcherDefaultImpl.DelRemoteServsers(System.Collections.Generic.List{JT808.DotNetty.Configurations.JT808ClientConfiguration})">
+        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageChannelService.SendAsync(System.Byte[])">
+            <summary>
+            下发数据
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageChannelService.GetAll">
+            <summary>
+            获取通道信息集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageChannelService.Add(JT808.DotNetty.Dtos.JT808IPAddressDto)">
+            <summary>
+            添加地址
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageChannelService.Remove(JT808.DotNetty.Dtos.JT808IPAddressDto)">
+            <summary>
+            删除地址
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageChannelService.DelRemoteServsers(System.Collections.Generic.List{JT808.DotNetty.Configurations.JT808ClientConfiguration})">
             <summary>
             动态删除远程服务器
             </summary>
             <param name="chgRemoteServers"></param>
         </member>
-        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageDispatcherDefaultImpl.AddRemoteServsers(System.Collections.Generic.List{JT808.DotNetty.Configurations.JT808ClientConfiguration})">
+        <member name="M:JT808.DotNetty.Internal.JT808SourcePackageChannelService.AddRemoteServsers(System.Collections.Generic.List{JT808.DotNetty.Configurations.JT808ClientConfiguration})">
             <summary>
             动态添加远程服务器
             </summary>
             <param name="bootstrap"></param>
             <param name="chgRemoteServers"></param>
+        </member>
+        <member name="T:JT808.DotNetty.Internal.JT808SourcePackageDispatcherDefaultImpl">
+            <summary>
+            原包分发器默认实现
+            </summary>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.#ctor(JT808.DotNetty.Internal.JT808AtomicCounterService,JT808.DotNetty.Internal.JT808SourcePackageChannelService,JT808.DotNetty.Interfaces.IJT808SessionService,JT808.DotNetty.Interfaces.IJT808UnificationSendService)">
+            <summary>
+            初始化消息处理业务
+            </summary>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.UnificationSend(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            统一下发信息
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.GetSessionAll(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            会话服务集合
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.RemoveByChannelId(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            会话服务-通过通道Id移除对应会话
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.RemoveByTerminalPhoneNo(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.GetAtomicCounter(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            获取包计数器
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.AddSourcePackageAddress(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            添加原包转发地址
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.RemoveSourcePackageAddress(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            删除原包转发地址（不能删除在网关服务器配置文件配的地址）
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.Internal.JT808WebAPIService.GetSourcePackageAll(JT808.DotNetty.Metadata.JT808HttpRequest)">
+            <summary>
+            获取原包信息集合
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
         </member>
         <member name="T:JT808.DotNetty.JT808MsgIdHandlerBase">
             <summary>
@@ -269,39 +397,6 @@
             <summary>
             集成一个webapi服务
             </summary>
-        </member>
-        <member name="M:JT808.DotNetty.JT808WebAPIService.#ctor(JT808.DotNetty.Interfaces.IJT808SessionService,JT808.DotNetty.Interfaces.IJT808UnificationSendService)">
-            <summary>
-            初始化消息处理业务
-            </summary>
-        </member>
-        <member name="M:JT808.DotNetty.JT808WebAPIService.UnificationSend(JT808.DotNetty.Metadata.JT808HttpRequest)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.DotNetty.JT808WebAPIService.GetAll(JT808.DotNetty.Metadata.JT808HttpRequest)">
-            <summary>
-            会话服务集合
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.DotNetty.JT808WebAPIService.RemoveByChannelId(JT808.DotNetty.Metadata.JT808HttpRequest)">
-            <summary>
-            会话服务-通过通道Id移除对应会话
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.DotNetty.JT808WebAPIService.RemoveByTerminalPhoneNo(JT808.DotNetty.Metadata.JT808HttpRequest)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
         </member>
         <member name="T:JT808.DotNetty.Metadata.JT808AtomicCounter">
             <summary>

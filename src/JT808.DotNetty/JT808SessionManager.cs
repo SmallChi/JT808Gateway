@@ -7,6 +7,9 @@ using JT808.DotNetty.Metadata;
 
 namespace JT808.DotNetty
 {
+    /// <summary>
+    /// JT808会话管理
+    /// </summary>
     public class JT808SessionManager
     {
         private readonly ILogger<JT808SessionManager> logger;

@@ -21,6 +21,9 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty
 {
+    /// <summary>
+    /// JT808 网关服务
+    /// </summary>
     internal class JT808ServerHost : IHostedService
     {
         private readonly IServiceProvider serviceProvider;

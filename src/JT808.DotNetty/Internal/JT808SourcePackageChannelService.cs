@@ -198,16 +198,6 @@ namespace JT808.DotNetty.Internal
                 {
                     channel.Pipeline.AddLast(new JT808SourcePackageDispatcherHandler(this));
                 }));
-            jT808ConfigurationOptionsMonitor.OnChange(options =>
-            {
-                List<JT808ClientConfiguration> chgRemoteServers = new List<JT808ClientConfiguration>();
-                if (jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations != null && jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations.Count > 0)
-                {
-                    chgRemoteServers = options.SourcePackageDispatcherClientConfigurations;
-                }
-                DelRemoteServsers(chgRemoteServers);
-                AddRemoteServsers(chgRemoteServers);
-            });
             if (jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations != null &&
                 jT808ConfigurationOptionsMonitor.CurrentValue.SourcePackageDispatcherClientConfigurations.Count > 0)
             {
