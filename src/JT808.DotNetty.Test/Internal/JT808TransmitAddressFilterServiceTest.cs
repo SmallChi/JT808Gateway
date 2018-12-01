@@ -12,11 +12,11 @@ using Xunit;
 
 namespace JT808.DotNetty.Test.Internal
 {
-    public class JT808RemoteAddressTransmitConfigurationServiceTest
+    public class JT808TransmitAddressFilterServiceTest
     {
-        private JT808RemoteAddressTransmitConfigurationService jT808RemoteAddressTransmitConfigurationService;
+        private JT808TransmitAddressFilterService jT808TransmitAddressFilterService;
 
-        public JT808RemoteAddressTransmitConfigurationServiceTest()
+        public JT808TransmitAddressFilterServiceTest()
         {
             var serverHostBuilder = new HostBuilder()
             .ConfigureAppConfiguration((hostingContext, config) =>
@@ -29,26 +29,26 @@ namespace JT808.DotNetty.Test.Internal
                 services.AddSingleton<ILoggerFactory, LoggerFactory>();
                 services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                 services.Configure<JT808Configuration>(hostContext.Configuration.GetSection("JT808Configuration"));
-                services.AddSingleton<JT808RemoteAddressTransmitConfigurationService>();
+                services.AddSingleton<JT808TransmitAddressFilterService>();
             });
             var serviceProvider = serverHostBuilder.Build().Services;
-            jT808RemoteAddressTransmitConfigurationService = serviceProvider.GetService<JT808RemoteAddressTransmitConfigurationService>();
-            jT808RemoteAddressTransmitConfigurationService.Add(new Dtos.JT808IPAddressDto
+            jT808TransmitAddressFilterService = serviceProvider.GetService<JT808TransmitAddressFilterService>();
+            jT808TransmitAddressFilterService.Add(new Dtos.JT808IPAddressDto
             {
                 Host = "127.0.0.1",
                 Port = 12345
             });
-            jT808RemoteAddressTransmitConfigurationService.Add(new Dtos.JT808IPAddressDto
+            jT808TransmitAddressFilterService.Add(new Dtos.JT808IPAddressDto
             {
                 Host = "127.0.0.1",
                 Port = 12346
             });
-            jT808RemoteAddressTransmitConfigurationService.Add(new Dtos.JT808IPAddressDto
+            jT808TransmitAddressFilterService.Add(new Dtos.JT808IPAddressDto
             {
                 Host = "127.0.0.1",
                 Port = 12347
             });
-            jT808RemoteAddressTransmitConfigurationService.Add(new Dtos.JT808IPAddressDto
+            jT808TransmitAddressFilterService.Add(new Dtos.JT808IPAddressDto
             {
                 Host = "127.0.0.1",
                 Port = 12348
@@ -58,7 +58,7 @@ namespace JT808.DotNetty.Test.Internal
         [Fact]
         public void Test1()
         {
-            Assert.True(jT808RemoteAddressTransmitConfigurationService.ContainsKey(new Dtos.JT808IPAddressDto
+            Assert.True(jT808TransmitAddressFilterService.ContainsKey(new Dtos.JT808IPAddressDto
             {
                 Host = "127.0.0.1",
                 Port = 12348
@@ -68,7 +68,7 @@ namespace JT808.DotNetty.Test.Internal
         [Fact]
         public void Test2()
         {
-            var result = jT808RemoteAddressTransmitConfigurationService.GetAll();
+            var result = jT808TransmitAddressFilterService.GetAll();
         }
 
         [Fact]
@@ -79,10 +79,10 @@ namespace JT808.DotNetty.Test.Internal
                 Host = "127.0.0.1",
                 Port = 12349
             };
-            var result1= jT808RemoteAddressTransmitConfigurationService.Add(ip1);
+            var result1= jT808TransmitAddressFilterService.Add(ip1);
             Assert.Equal(JT808ResultCode.Ok, result1.Code);
             Assert.True(result1.Data);
-            var result2 = jT808RemoteAddressTransmitConfigurationService.Remove(ip1);
+            var result2 = jT808TransmitAddressFilterService.Remove(ip1);
             Assert.Equal(JT808ResultCode.Ok, result2.Code);
             Assert.True(result2.Data);
         }
@@ -95,7 +95,7 @@ namespace JT808.DotNetty.Test.Internal
                 Host = "127.0.0.1",
                 Port = 6561
             };
-            var result2 = jT808RemoteAddressTransmitConfigurationService.Remove(configIp);
+            var result2 = jT808TransmitAddressFilterService.Remove(configIp);
             Assert.Equal(JT808ResultCode.Ok, result2.Code);
             Assert.False(result2.Data);
             Assert.Equal("不能删除服务器配置的地址", result2.Message);  

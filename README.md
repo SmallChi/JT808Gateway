@@ -31,11 +31,7 @@
 
 ### 2.集成WebApi服务器
 
-#### [2.1.统一下发设备消息服务 IJT808UnificationSendService](#send)
-
-#### [2.2.管理会话服务 IJT808SessionService](#session)
-
-#### [2.3.消息包计数服务 JT808AtomicCounterService 接口尚未实现](#counter)
+[WebApi接口服务](https://github.com/SmallChi/JT808DotNetty/blob/master/api/README.md)
 
 ### 3.集成业务消息处理程序
 
@@ -45,7 +41,7 @@
 
 ### 举个栗子1
 
-#### 1.实现业务消息处理程序JT808MsgIdHandlerBase
+#### 3.1.实现业务消息处理程序JT808MsgIdHandlerBase
 
 ```business Imp
 public class JT808MsgIdCustomHandler : JT808MsgIdHandlerBase
@@ -66,18 +62,21 @@ public class JT808MsgIdCustomHandler : JT808MsgIdHandlerBase
 }
 
 ```
-#### 2.自定义业务消息处理程序替换默认实现
 
-```
+#### 3.2.自定义业务消息处理程序替换默认实现
+
+``` handler
 services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHandlerBase), typeof(JT808MsgIdCustomHandler), ServiceLifetime.Singleton));
 ```
-#### 3.使用JT808 Host
+
+#### 3.3.使用JT808 Host
 
 ``` host
   UseJT808Host()
 ```
 
-#### 4.完整示例
+#### 3.4.完整示例
+
 ``` demo
 // 默认网关端口：808
 // 默认webapi端口：828
@@ -102,160 +101,5 @@ static async Task Main(string[] args)
         })
         .UseJT808Host();
     await serverHostBuilder.RunConsoleAsync();
-}
-```
-
-## 提供WebApi接口服务（默认端口828）
-
-基地址：<a href="#">http://localhost:828/jt808api/</a>
-
-数据格式：只支持Json格式
-
-#### 统一对象返回 JT808ResultDto\<T>
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Message| string| 消息描述|
-| Code| int| 状态码|
-| Data| T（泛型）| 数据|
-
-返回Code[状态码]说明：
-
-|状态码|说明|
-|:------:|:------:|
-| 200 | 返回成功 |
-| 201 | 内容为空 |
-| 404 | 没有该服务 |
-| 500 | 服务内部错误 |
-
-#### <span id="send">统一下发设备消息接口</span>
-
-请求地址：UnificationSend
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| TerminalPhoneNo| string| 设备终端号|
-| Data| byte[]| JT808 byte[]数组|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| bool| 是否成功|
-
-返回结果：
-``` result1
-{
-    "Message":"",
-    "Code":200,
-    "Data":true
-}
-```
-#### <span id="session">会话服务接口</span>
-
-##### 统一会话信息对象返回 JT808SessionInfoDto
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| ChannelId| string| 通道Id|
-| LastActiveTime| DateTime| 最后上线时间|
-| StartTime| DateTime| 上线时间|
-| TerminalPhoneNo|string| 终端手机号|
-| LoaclAddressIP| string| 本地ip地址|
-| WebApiPort| string| WebApi端口号|
-| RemoteAddressIP| string| 远程ip地址|
-
-##### 1.获取会话集合
-
-请求地址：Session/GetAll
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| List\<JT808SessionInfoDto> | 实际会话信息集合 |
-
-返回结果：
-``` session1
-{
-    "Message":"",
-    "Code":200,
-    "Data":[
-        {
-            "ChannelId":"eadad23",
-            "LastActiveTime":"2018-11-27 20:00:00",
-            "StartTime":"2018-11-25 20:00:00",
-            "TerminalPhoneNo":"123456789012",
-            "LoaclAddressIP":"127.0.0.1:808",
-            "WebApiPort":828,
-            "RemoteAddressIP":"127.0.0.1:11808"
-        },{
-            "ChannelId":"eadad23",
-            "LastActiveTime":"2018-11-27 20:00:00",
-            "StartTime":"2018-11-25 20:00:00",
-            "TerminalPhoneNo":"123456789013",
-            "LoaclAddressIP":"127.0.0.1:808",
-            "WebApiPort":828,
-            "RemoteAddressIP":"127.0.0.1:11808"
-        }
-    ]
-}
-```
-##### 2.通过通道Id移除对应会话
-
-请求地址：Session/RemoveByChannelId
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| channelId| string| 通道Id|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| bool | 是否成功 |
-
-返回结果：
-``` session2
-{
-    "Message":"",
-    "Code":200,
-    "Data":true
-}
-```
-##### 3.通过设备终端号移除对应会话
-
-请求地址：Session/RemoveByTerminalPhoneNo
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| bool | 是否成功 
-
-返回结果：
-``` session3
-{
-    "Message":"",
-    "Code":200,
-    "Data":true
 }
 ```

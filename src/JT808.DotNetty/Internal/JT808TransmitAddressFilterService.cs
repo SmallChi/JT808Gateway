@@ -11,14 +11,14 @@ using System.Text;
 namespace JT808.DotNetty.Internal
 {
     /// <summary>
-    /// JT808远程地址转发配置服务
+    /// JT808转发地址过滤服务
     /// 按照808的消息，有些请求必须要应答，但是转发可以不需要有应答可以节省部分资源包括：
     //  1.消息的序列化
     //  2.消息的下发
     //  都有一定的性能损耗，那么不需要判断写超时 IdleState.WriterIdle 
     //  就跟神兽貔貅一样。。。
     /// </summary>
-    public class JT808RemoteAddressTransmitConfigurationService : IDisposable
+    public class JT808TransmitAddressFilterService : IDisposable
     {
         private readonly IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor;
 
@@ -26,7 +26,7 @@ namespace JT808.DotNetty.Internal
 
         private IDisposable jT808ConfigurationOptionsMonitorDisposable;
 
-        public JT808RemoteAddressTransmitConfigurationService(
+        public JT808TransmitAddressFilterService(
             IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor)
         {
             this.jT808ConfigurationOptionsMonitor = jT808ConfigurationOptionsMonitor;

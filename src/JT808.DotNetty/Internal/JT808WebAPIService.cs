@@ -21,6 +21,8 @@ namespace JT808.DotNetty.Internal
 
         private const string sourcePackagePrefix = "SourcePackage";
 
+        private const string transmitPrefix = "Transmit";
+        
         private readonly IJT808SessionService jT808SessionService;
 
         private readonly IJT808UnificationSendService jT808UnificationSendService;
@@ -29,17 +31,21 @@ namespace JT808.DotNetty.Internal
 
         private readonly JT808SourcePackageChannelService jT808SourcePackageChannelService;
 
+        private readonly JT808TransmitAddressFilterService jT808TransmitAddressFilterService;
+
         /// <summary>
         /// 初始化消息处理业务
         /// </summary>
         public JT808WebAPIService(
             JT808AtomicCounterService jT808AtomicCounterService,
             JT808SourcePackageChannelService jT808SourcePackageChannelService,
+            JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
             IJT808SessionService jT808SessionService,
             IJT808UnificationSendService jT808UnificationSendService)
         {
             this.jT808AtomicCounterService = jT808AtomicCounterService;
             this.jT808SourcePackageChannelService = jT808SourcePackageChannelService;
+            this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
             this.jT808SessionService = jT808SessionService;
             this.jT808UnificationSendService = jT808UnificationSendService;
             HandlerDict = new Dictionary<string, Func<JT808HttpRequest, JT808HttpResponse>>
@@ -51,7 +57,10 @@ namespace JT808.DotNetty.Internal
                 {$"{RouteTablePrefix}/GetAtomicCounter", GetAtomicCounter},
                 {$"{RouteTablePrefix}/{sourcePackagePrefix}/Add", AddSourcePackageAddress},
                 {$"{RouteTablePrefix}/{sourcePackagePrefix}/Remove", RemoveSourcePackageAddress},
-                {$"{RouteTablePrefix}/{sourcePackagePrefix}/GetAll", GetSourcePackageAll}
+                {$"{RouteTablePrefix}/{sourcePackagePrefix}/GetAll", GetSourcePackageAll},
+                {$"{RouteTablePrefix}/{transmitPrefix}/Add", AddTransmitAddress},
+                {$"{RouteTablePrefix}/{transmitPrefix}/Remove", RemoveTransmitAddress},
+                {$"{RouteTablePrefix}/{transmitPrefix}/GetAll", GetTransmitAll},
             };
         }
 
@@ -167,6 +176,46 @@ namespace JT808.DotNetty.Internal
         public JT808HttpResponse GetSourcePackageAll(JT808HttpRequest request)
         {
             return CreateJT808HttpResponse(jT808SourcePackageChannelService.GetAll());
+        }
+
+        /// <summary>
+        /// 添加转发过滤地址
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse AddTransmitAddress(JT808HttpRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Json))
+            {
+                return EmptyHttpResponse();
+            }
+            JT808IPAddressDto jT808IPAddressDto = JsonConvert.DeserializeObject<JT808IPAddressDto>(request.Json);
+            return CreateJT808HttpResponse(jT808TransmitAddressFilterService.Add(jT808IPAddressDto));
+        }
+
+        /// <summary>
+        /// 删除转发过滤地址（不能删除在网关服务器配置文件配的地址）
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse RemoveTransmitAddress(JT808HttpRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Json))
+            {
+                return EmptyHttpResponse();
+            }
+            JT808IPAddressDto jT808IPAddressDto = JsonConvert.DeserializeObject<JT808IPAddressDto>(request.Json);
+            return CreateJT808HttpResponse(jT808TransmitAddressFilterService.Remove(jT808IPAddressDto));
+        }
+
+        /// <summary>
+        /// 获取转发过滤地址信息集合
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse GetTransmitAll(JT808HttpRequest request)
+        {
+            return CreateJT808HttpResponse(jT808TransmitAddressFilterService.GetAll());
         }
 
         private JT808HttpResponse CreateJT808HttpResponse(dynamic dynamicObject)
