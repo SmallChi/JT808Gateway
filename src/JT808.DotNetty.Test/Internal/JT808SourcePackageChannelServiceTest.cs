@@ -117,7 +117,7 @@ namespace JT808.DotNetty.Test.Internal
                 Port = 6522
             }).Result;
 
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result1 = jT808SourcePackageChannelService.GetAll();
 
@@ -131,6 +131,16 @@ namespace JT808.DotNetty.Test.Internal
             var result3 = jT808SourcePackageChannelService.GetAll();
         }
 
+        [Fact]
+        public void Test2()
+        {
+            //[::ffff:127.0.0.1]:13196
+            var str = "[::ffff:127.0.0.1]:13196";
+            IPAddress.TryParse(str, out IPAddress ip);
+            var a = ip.MapToIPv4().ToString();
 
+            var a1 = str.Replace("[::ffff:", "").Replace("]", "");
+
+        }
     }
 }

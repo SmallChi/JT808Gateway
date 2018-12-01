@@ -107,8 +107,8 @@ namespace JT808.DotNetty.Internal
                 jT808SourcePackageChannelInfoDto.Active = item.Value.Active;
                 jT808SourcePackageChannelInfoDto.Open = item.Value.Open;
                 jT808SourcePackageChannelInfoDto.Registered = item.Value.Registered;
-                jT808SourcePackageChannelInfoDto.LocalAddress = item.Value.LocalAddress.ToString();
-                jT808SourcePackageChannelInfoDto.RemoteAddress = item.Value.RemoteAddress.ToString();
+                jT808SourcePackageChannelInfoDto.LocalAddress = item.Value.LocalAddress.ToString().Replace("[::ffff:", "").Replace("]", "");
+                jT808SourcePackageChannelInfoDto.RemoteAddress = item.Value.RemoteAddress.ToString().Replace("[::ffff:", "").Replace("]", "");
                 jT808ResultDto.Data.Add(jT808SourcePackageChannelInfoDto);
             }
             return jT808ResultDto;
