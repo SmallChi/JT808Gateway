@@ -51,14 +51,14 @@ namespace JT808.DotNetty.Test
         }
 
 
-        [Fact]
-        public void Test7()
-        {
-            var channel = new EmbeddedChannel();
-            var sessionInfo = jT808SessionManager.RemoveSessionByTerminalPhoneNo(TerminalPhoneNo);
-            Assert.Equal(TerminalPhoneNo, sessionInfo.TerminalPhoneNo);
-            Assert.Equal("embedded", sessionInfo.SessionID);
-        }
+        //[Fact]
+        //public void Test7()
+        //{
+        //    var channel = new EmbeddedChannel();
+        //    var sessionInfo = jT808SessionManager.RemoveSessionByTerminalPhoneNo(TerminalPhoneNo);
+        //    Assert.Equal(TerminalPhoneNo, sessionInfo.TerminalPhoneNo);
+        //    Assert.Equal("embedded", sessionInfo.SessionID);
+        //}
 
         [Fact]
         public void Test8()

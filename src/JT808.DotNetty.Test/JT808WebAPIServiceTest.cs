@@ -47,7 +47,7 @@ namespace JT808.DotNetty.Test
             string content = result.Content.ReadAsStringAsync().Result;
             JT808ResultDto<IEnumerable<JT808SessionInfoDto>> jt808Result = JsonConvert.DeserializeObject<JT808ResultDto<IEnumerable<JT808SessionInfoDto>>>(content);
             Assert.Equal(200, jt808Result.Code);
-            Assert.Single(jt808Result.Data);
+            Assert.Equal(10,jt808Result.Data.Count());
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace JT808.DotNetty.Test
             JT808Package jT808Package1 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("99");
             SimpleTcpClient.WriteAsync(JT808Serializer.Serialize(jT808Package1));
 
-            var result4 = httpClient.PostAsync($"{Url}/{sessionRoutePrefix}/RemoveByChannelId", new StringContent("")).Result;
+            var result4 = httpClient.PostAsync($"{Url}/{sessionRoutePrefix}/RemoveByChannelId", new StringContent("99")).Result;
             string content4 = result4.Content.ReadAsStringAsync().Result;
             JT808ResultDto<bool> jt808Result4= JsonConvert.DeserializeObject<JT808ResultDto<bool>>(content4);
             Assert.Equal(200, jt808Result4.Code);

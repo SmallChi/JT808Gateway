@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Text;
 using JT808.DotNetty.Metadata;
 using JT808.DotNetty.Internal;
+using JT808.DotNetty.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace JT808.DotNetty.Handlers
 {
     /// <summary>
     /// JT808服务端处理程序
     /// </summary>
-    internal class JT808ServerHandler : SimpleChannelInboundHandler<JT808.Protocol.JT808Package>
+    internal class JT808ServerHandler : SimpleChannelInboundHandler<byte[]>
     {
         private readonly JT808MsgIdHandlerBase handler;
         
@@ -20,38 +22,71 @@ namespace JT808.DotNetty.Handlers
 
         private readonly JT808TransmitAddressFilterService jT808TransmitAddressFilterService;
 
+        private readonly IJT808SourcePackageDispatcher jT808SourcePackageDispatcher;
+
+        private readonly JT808AtomicCounterService jT808AtomicCounterService;
+
+        private readonly ILogger<JT808ServerHandler> logger;
+
         public JT808ServerHandler(
+            ILoggerFactory loggerFactory,
             JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
-            JT808MsgIdHandlerBase handler, 
+            IJT808SourcePackageDispatcher jT808SourcePackageDispatcher,
+            JT808MsgIdHandlerBase handler,
+            JT808AtomicCounterService jT808AtomicCounterService,
             JT808SessionManager jT808SessionManager)
         {
             this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
             this.handler = handler;
             this.jT808SessionManager = jT808SessionManager;
+            this.jT808SourcePackageDispatcher = jT808SourcePackageDispatcher;
+            this.jT808AtomicCounterService = jT808AtomicCounterService;
+            logger = loggerFactory.CreateLogger<JT808ServerHandler>();
         }
 
 
-        protected override void ChannelRead0(IChannelHandlerContext ctx, JT808Package msg)
+        protected override void ChannelRead0(IChannelHandlerContext ctx, byte[] msg)
         {
             try
             {
-                jT808SessionManager.TryAddOrUpdateSession(new JT808Session(ctx.Channel, msg.Header.TerminalPhoneNo));
-                Func<JT808Request, JT808Response> handlerFunc;
-                if (handler.HandlerDict.TryGetValue(msg.Header.MsgId, out handlerFunc))
+                jT808SourcePackageDispatcher?.SendAsync(msg);
+                JT808Package jT808Package = JT808Serializer.Deserialize(msg);
+                jT808AtomicCounterService.MsgSuccessIncrement();
+                if (logger.IsEnabled(LogLevel.Debug))
                 {
-                    JT808Response jT808Package = handlerFunc(new JT808Request(msg));
-                    if (jT808Package != null)
+                    logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
+                }
+                jT808SessionManager.TryAddOrUpdateSession(new JT808Session(ctx.Channel, jT808Package.Header.TerminalPhoneNo));
+                Func<JT808Request, JT808Response> handlerFunc;
+                if (handler.HandlerDict.TryGetValue(jT808Package.Header.MsgId, out handlerFunc))
+                {
+                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808Package));
+                    if (jT808Response != null)
                     {
                         if (!jT808TransmitAddressFilterService.ContainsKey(ctx.Channel.RemoteAddress))
                         {
-                            ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Package.Package, jT808Package.MinBufferSize)));
+                            ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Response.Package, jT808Response.MinBufferSize)));
                         }
                     }
                 }
             }
-            catch
+            catch (JT808.Protocol.Exceptions.JT808Exception ex)
             {
-                
+                jT808AtomicCounterService.MsgFailIncrement();
+                if (logger.IsEnabled(LogLevel.Error))
+                {
+                    logger.LogError("accept package fail count<<<" + jT808AtomicCounterService.MsgFailCount.ToString());
+                    logger.LogError(ex, "accept msg<<<" + ByteBufferUtil.HexDump(msg));
+                }
+            }
+            catch (Exception ex)
+            {
+                jT808AtomicCounterService.MsgFailIncrement();
+                if (logger.IsEnabled(LogLevel.Error))
+                {
+                    logger.LogError("accept package fail count<<<" + jT808AtomicCounterService.MsgFailCount.ToString());
+                    logger.LogError(ex, "accept msg<<<" + ByteBufferUtil.HexDump(msg));
+                }
             }
         }
     }
