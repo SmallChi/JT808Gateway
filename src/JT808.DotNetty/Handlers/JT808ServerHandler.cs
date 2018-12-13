@@ -50,6 +50,9 @@ namespace JT808.DotNetty.Handlers
             try
             {
                 jT808SourcePackageDispatcher?.SendAsync(msg);
+                //在压力大的情况下可以只解析到头部
+                //然后根据具体的消息Id通过队列去进行消费
+                //JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg);
                 JT808Package jT808Package = JT808Serializer.Deserialize(msg);
                 jT808AtomicCounterService.MsgSuccessIncrement();
                 if (logger.IsEnabled(LogLevel.Debug))
@@ -60,7 +63,8 @@ namespace JT808.DotNetty.Handlers
                 Func<JT808Request, JT808Response> handlerFunc;
                 if (handler.HandlerDict.TryGetValue(jT808Package.Header.MsgId, out handlerFunc))
                 {
-                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808Package));
+                    //JT808Response jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg));
+                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808Package, msg));
                     if (jT808Response != null)
                     {
                         if (!jT808TransmitAddressFilterService.ContainsKey(ctx.Channel.RemoteAddress))
