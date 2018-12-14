@@ -72,7 +72,6 @@
 | LastActiveTime| DateTime| 最后上线时间|
 | StartTime| DateTime| 上线时间|
 | TerminalPhoneNo|string| 终端手机号|
-| LoaclAddressIP| string| 本地ip地址|
 | WebApiPort| string| WebApi端口号|
 | RemoteAddressIP| string| 远程ip地址|
 
@@ -100,7 +99,6 @@
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
             "TerminalPhoneNo":"123456789012",
-            "LoaclAddressIP":"127.0.0.1:808",
             "WebApiPort":828,
             "RemoteAddressIP":"127.0.0.1:11808"
         },{
@@ -108,7 +106,6 @@
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
             "TerminalPhoneNo":"123456789013",
-            "LoaclAddressIP":"127.0.0.1:808",
             "WebApiPort":828,
             "RemoteAddressIP":"127.0.0.1:11808"
         }

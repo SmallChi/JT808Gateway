@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.Dashbord.Dtos
+namespace JT808.DotNetty.Dtos
 {
     /// <summary>
     /// 统一下发请求参数

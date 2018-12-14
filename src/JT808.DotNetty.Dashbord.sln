@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Dashbord", "JT808.DotNetty.Dashbord\JT808.DotNetty.Dashbord.csproj", "{3A9698C3-CEBB-4C93-A40C-3F7FE650217C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D20F469-7269-4D64-A3C6-BE08700EEDEB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Protocol", "JT808.Protocol\src\JT808.Protocol\JT808.Protocol.csproj", "{2F2FF360-A037-4C73-AF42-D252F1B86BD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{3A9698C3-CEBB-4C93-A40C-3F7FE650217C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A9698C3-CEBB-4C93-A40C-3F7FE650217C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9698C3-CEBB-4C93-A40C-3F7FE650217C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F2FF360-A037-4C73-AF42-D252F1B86BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F2FF360-A037-4C73-AF42-D252F1B86BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F2FF360-A037-4C73-AF42-D252F1B86BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F2FF360-A037-4C73-AF42-D252F1B86BD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2F2FF360-A037-4C73-AF42-D252F1B86BD6} = {0D20F469-7269-4D64-A3C6-BE08700EEDEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DDBE27F-708F-46DC-837F-BEF34A50A0B1}

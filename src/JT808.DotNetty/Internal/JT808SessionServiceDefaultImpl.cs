@@ -36,7 +36,6 @@ namespace JT808.DotNetty.Internal
                     StartTime = s.StartTime,
                     TerminalPhoneNo = s.TerminalPhoneNo,
                     WebApiPort = jT808Configuration.WebApiPort,
-                    LoaclAddressIP = s.Channel.LocalAddress.ToString(),
                     RemoteAddressIP = s.Channel.RemoteAddress.ToString(),
                 }).ToList();
                 resultDto.Code = JT808ResultCode.Ok;

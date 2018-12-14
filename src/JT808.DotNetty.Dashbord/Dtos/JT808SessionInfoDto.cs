@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.Dashbord.Dtos
+namespace JT808.DotNetty.Dtos
 {
     public class JT808SessionInfoDto
     {
@@ -22,10 +22,6 @@ namespace JT808.DotNetty.Dashbord.Dtos
         /// 终端手机号
         /// </summary>
         public string TerminalPhoneNo { get; set; }
-        /// <summary>
-        /// 本地ip地址
-        /// </summary>
-        public string LoaclAddressIP { get; set; }
         /// <summary>
         /// WebApi端口号
         /// </summary>
