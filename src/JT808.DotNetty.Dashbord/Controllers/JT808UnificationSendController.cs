@@ -20,10 +20,10 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="text">下发文本信息</param>
         /// <returns></returns>
         [HttpGet("{terminalPhoneNo}/{text}")]
-        public ActionResult<string> SendText(string terminalPhoneNo, string text)
+        public ActionResult<bool> SendText(string terminalPhoneNo, string text)
         {
             
-            return "value";
+            return true;
         }
     }
 }

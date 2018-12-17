@@ -20,6 +20,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("Add")]
         public ActionResult<bool> Add([FromBody]JT808IPAddressDto jT808IPAddressDto)
         {
             return true;
@@ -31,17 +32,19 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("Remove")]
         public ActionResult<bool> Remove([FromBody]JT808IPAddressDto jT808IPAddressDto)
         {
             return true;
         }
 
         /// <summary>
-        /// 删除地址
+        /// 获取原包通道信息集合
         /// </summary>
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpGet]
+        [Route("GetAll")]
         public ActionResult<List<JT808SourcePackageChannelInfoDto>> GetAll()
         {
             return new List<JT808SourcePackageChannelInfoDto>() {

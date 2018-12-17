@@ -20,6 +20,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="terminalPhoneNo"></param>
         /// <returns></returns>
         [HttpGet]
+        [Route("RemoveByTerminalPhoneNo")]
         public ActionResult<bool> RemoveByTerminalPhoneNo(string terminalPhoneNo)
         {
             return true;
@@ -31,6 +32,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="channelId"></param>
         /// <returns></returns>
         [HttpGet]
+        [Route("RemoveByChannelId")]
         public ActionResult<bool> RemoveByChannelId(string channelId)
         {
             return true;
@@ -42,6 +44,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpGet]
+        [Route("GetAll")]
         public ActionResult<List<JT808SessionInfoDto>> GetAll()
         {
             return new List<JT808SessionInfoDto>() {

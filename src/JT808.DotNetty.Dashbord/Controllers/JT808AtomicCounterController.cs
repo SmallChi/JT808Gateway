@@ -18,6 +18,8 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// 获取包计算器
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
+        [Route("GetAtomicCounter")]
         public ActionResult<JT808AtomicCounterDto> GetAtomicCounter()
         {
             return new JT808AtomicCounterDto {

@@ -20,6 +20,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("Add")]
         public ActionResult<bool> Add([FromBody]JT808IPAddressDto jT808IPAddressDto)
         {
             return true;
@@ -31,6 +32,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("Remove")]
         public ActionResult<bool> Remove([FromBody]JT808IPAddressDto jT808IPAddressDto)
         {
             return true;
@@ -42,6 +44,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpGet]
+        [Route("GetAll")]
         public ActionResult<List<string>> GetAll()
         {
             return new List<string>() { "127.0.0.1:80", "127.0.0.1:81" };
