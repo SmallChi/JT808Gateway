@@ -24,7 +24,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
         {
             return new JT808AtomicCounterDto {
                  MsgSuccessCount=100000,
-                  MsgFailCount=0
+                 MsgFailCount=0
             };
         }
     }

@@ -14,7 +14,7 @@ export default {
   },
   GetAll () {
     return setData([{
-      'ChannelId': 'eadad23',
+      'ChannelId': 'eadad24',
       'LastActiveTime': '2018-11-27 20:00:00',
       'StartTime': '2018-11-25 20:00:00',
       'TerminalPhoneNo': '123456789012',

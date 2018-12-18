@@ -1,5 +1,4 @@
 import Main from '@/components/main'
-import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -71,8 +70,8 @@ export default [
     ]
   },
   {
-    path: '/session',
-    name: 'session',
+    path: '/_session',
+    name: '_session',
     meta: {
       hideInBread: true
     },
@@ -80,7 +79,7 @@ export default [
     children: [
       {
         path: '/session',
-        name: '会话管理',
+        name: 'session',
         meta: {
           icon: 'ios-hammer',
           title: '会话管理'
@@ -90,8 +89,8 @@ export default [
     ]
   },
   {
-    path: '/sourcepackage',
-    name: 'sourcePackage',
+    path: '/_sourcePackage',
+    name: '_sourcePackage',
     meta: {
       hideInBread: true
     },
@@ -99,7 +98,7 @@ export default [
     children: [
       {
         path: '/sourcepackage',
-        name: '原包管理',
+        name: 'sourcepackage',
         meta: {
           icon: 'ios-hammer',
           title: '原包管理',
@@ -110,8 +109,8 @@ export default [
     ]
   },
   {
-    path: '/transmit',
-    name: 'transmit',
+    path: '/_transmit',
+    name: '_transmit',
     meta: {
       hideInBread: true
     },
@@ -119,7 +118,7 @@ export default [
     children: [
       {
         path: '/transmit',
-        name: '转发管理',
+        name: 'transmit',
         meta: {
           icon: 'ios-hammer',
           title: '转发管理',

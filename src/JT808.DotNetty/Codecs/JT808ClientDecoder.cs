@@ -4,10 +4,7 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using JT808.Protocol;
-using JT808.DotNetty.Internal;
-using JT808.DotNetty.Interfaces;
 using JT808.DotNetty.Metadata;
 
 namespace JT808.DotNetty.Codecs

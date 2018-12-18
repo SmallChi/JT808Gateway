@@ -72,7 +72,6 @@
 | LastActiveTime| DateTime| 最后上线时间|
 | StartTime| DateTime| 上线时间|
 | TerminalPhoneNo|string| 终端手机号|
-| WebApiPort| string| WebApi端口号|
 | RemoteAddressIP| string| 远程ip地址|
 
 #### 1.获取会话集合
@@ -99,14 +98,12 @@
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
             "TerminalPhoneNo":"123456789012",
-            "WebApiPort":828,
             "RemoteAddressIP":"127.0.0.1:11808"
         },{
             "ChannelId":"eadad23",
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
             "TerminalPhoneNo":"123456789013",
-            "WebApiPort":828,
             "RemoteAddressIP":"127.0.0.1:11808"
         }
     ]
@@ -240,7 +237,6 @@
 |属性|数据类型|参数说明|
 |------|:------:|:------|
 | RemoteAddress| string | 远程ip地址|
-| LocalAddress| string | 本地ip地址|
 | Registered| bool | 通道是否注册|
 | Active| bool | 通道是否激活|
 | Open| bool | 通道是否打开|
@@ -254,13 +250,11 @@
     "Data":[
          {
             "RemoteAddress":"127.0.0.1:6665",
-            "LocalAddress":"127.0.0.1:6664",
             "Registered":true,
             "Active":true,
             "Open":true
         },{
             "RemoteAddress":"127.0.0.1:6667",
-            "LocalAddress":"127.0.0.1:6666",
             "Registered":true,
             "Active":true,
             "Open":true

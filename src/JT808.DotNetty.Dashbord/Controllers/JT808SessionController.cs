@@ -53,16 +53,14 @@ namespace JT808.DotNetty.Dashbord.Controllers
                       LastActiveTime=DateTime.Now,
                       RemoteAddressIP="127.0.0.1:559",
                       TerminalPhoneNo="123456789012",
-                       StartTime=DateTime.Now,
-                       WebApiPort=8091
+                      StartTime=DateTime.Now,
                 },
                 new JT808SessionInfoDto {
                       ChannelId="0x00x1",
                       LastActiveTime=DateTime.Now,
                       RemoteAddressIP="127.0.0.1:558",
                       TerminalPhoneNo="123456789013",
-                       StartTime=DateTime.Now,
-                       WebApiPort=8092
+                      StartTime=DateTime.Now,
                 }
             };
         }

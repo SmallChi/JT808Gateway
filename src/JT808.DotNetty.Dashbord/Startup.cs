@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JT808.DotNetty.Dashbord.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace JT808.DotNetty.Dashbord
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<JT808DbContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -34,7 +36,6 @@ namespace JT808.DotNetty.Dashbord
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseMvc();
         }
     }

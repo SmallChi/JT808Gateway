@@ -23,10 +23,6 @@ namespace JT808.DotNetty.Dtos
         /// </summary>
         public string TerminalPhoneNo { get; set; }
         /// <summary>
-        /// WebApi端口号
-        /// </summary>
-        public int WebApiPort { get; set; }
-        /// <summary>
         /// 远程ip地址
         /// </summary>
         public string RemoteAddressIP { get; set; }

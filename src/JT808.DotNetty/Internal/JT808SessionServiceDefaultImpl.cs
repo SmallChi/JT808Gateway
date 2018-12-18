@@ -14,14 +14,10 @@ namespace JT808.DotNetty.Internal
     {
         private readonly JT808SessionManager jT808SessionManager;
 
-        private readonly JT808Configuration jT808Configuration;
-
         public JT808SessionServiceDefaultImpl(
-            IOptions<JT808Configuration> jT808ConfigurationAccssor,
             JT808SessionManager jT808SessionManager)
         {
             this.jT808SessionManager = jT808SessionManager;
-            this.jT808Configuration = jT808ConfigurationAccssor.Value;
         }
 
         public JT808ResultDto<List<JT808SessionInfoDto>> GetAll()
@@ -35,7 +31,6 @@ namespace JT808.DotNetty.Internal
                     LastActiveTime = s.LastActiveTime,
                     StartTime = s.StartTime,
                     TerminalPhoneNo = s.TerminalPhoneNo,
-                    WebApiPort = jT808Configuration.WebApiPort,
                     RemoteAddressIP = s.Channel.RemoteAddress.ToString(),
                 }).ToList();
                 resultDto.Code = JT808ResultCode.Ok;
