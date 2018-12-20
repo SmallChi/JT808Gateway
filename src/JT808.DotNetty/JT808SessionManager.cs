@@ -121,7 +121,15 @@ namespace JT808.DotNetty
         public void TryAddOrUpdateSession(JT808Session appSession)
         {
             SessionIdDict.TryAdd(appSession.SessionID, appSession);
-            TerminalPhoneNo_SessionId_Dict.TryAdd(appSession.TerminalPhoneNo, appSession.SessionID);
+            if(TerminalPhoneNo_SessionId_Dict.TryAdd(appSession.TerminalPhoneNo, appSession.SessionID))
+            {
+                //使用场景：
+                //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
+                //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
+                //todo: 有设备关联上来可以进行通知
+                //todo: 使用Redis发布订阅
+                
+            }
         }
 
         public JT808Session RemoveSessionByID(string sessionID)
@@ -137,6 +145,9 @@ namespace JT808.DotNetty
                     {
                         TerminalPhoneNo_SessionId_Dict.TryRemove(key, out string sessionid);
                     }
+                    //todo: 设备离线可以进行通知
+                    //todo: 使用Redis 发布订阅
+
                     logger.LogInformation($">>>{sessionID}-{string.Join(",",removeKeys)} Session Remove.");
                     return session;
                 }
