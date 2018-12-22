@@ -125,13 +125,7 @@ namespace JT808.DotNetty
 
         public IEnumerable<JT808Session> GetAll()
         {
-            return SessionIdDict.Select(s => new JT808Session
-            {
-                Channel= s.Value.Channel,
-                LastActiveTime= s.Value.LastActiveTime,
-                StartTime= s.Value.StartTime,
-                TerminalPhoneNo= s.Key
-            }).ToList();
+            return SessionIdDict.Select(s => s.Value).ToList();
         }
     }
 }

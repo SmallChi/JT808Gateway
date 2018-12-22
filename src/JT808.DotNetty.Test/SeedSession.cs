@@ -9,8 +9,6 @@ namespace JT808.DotNetty.Test
 {
     public class SeedSession
     {
-        public  List<EmbeddedChannel> embeddedChannels = new List<EmbeddedChannel>();
-
         public JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
 
         public SeedSession()

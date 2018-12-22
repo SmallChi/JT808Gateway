@@ -10,7 +10,12 @@ namespace JT808.DotNetty.Test
     {
         private static readonly JT808AtomicCounter jT808AtomicCounter = new JT808AtomicCounter();
 
-        private string Id { get { return jT808AtomicCounter.Increment().ToString(); } }
+        private string Id {
+            get
+            {
+                return Guid.NewGuid().ToString("N");
+            }
+        }
 
         public string AsLongText()
         {
