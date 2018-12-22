@@ -48,10 +48,6 @@ namespace JT808.DotNetty.Test.Internal
             Thread.Sleep(1000);
             var result = jT808SessionServiceDefaultImpl.GetAll();
 
-            var info5 = result.Data.FirstOrDefault(f => f.TerminalPhoneNo == "123456789005");
-
-            var remove5 = jT808SessionServiceDefaultImpl.RemoveByChannelId(info5.ChannelId);
-
             var result1 = jT808SessionServiceDefaultImpl.GetAll();
 
             Thread.Sleep(10000);

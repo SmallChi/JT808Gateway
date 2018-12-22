@@ -18,7 +18,7 @@ namespace JT808.DotNetty.Test
             for (var i = 0; i < 10; i++)
             {
                 var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-                jT808SessionManager.TryAddOrUpdateSession(new Metadata.JT808Session(channel, i.ToString()));
+                jT808SessionManager.TryAdd(new Metadata.JT808Session(channel, i.ToString()));
             }
         }
 
@@ -28,7 +28,7 @@ namespace JT808.DotNetty.Test
             for (var i = 0; i < 10; i++)
             {
                 var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-                jT808SessionManager.TryAddOrUpdateSession(new Metadata.JT808Session(channel, i.ToString()));
+                jT808SessionManager.TryAdd(new Metadata.JT808Session(channel, i.ToString()));
             }
         }
     }

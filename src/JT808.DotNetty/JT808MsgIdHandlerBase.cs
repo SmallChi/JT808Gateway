@@ -42,18 +42,15 @@ namespace JT808.DotNetty
         public Dictionary<ushort, Func<JT808Request, JT808Response>> HandlerDict { get; protected set; }
         /// <summary>
         /// 终端通用应答
+        /// 平台无需回复
+        /// 实现自己的业务
         /// </summary>
         /// <param name="reqJT808Package"></param>
         /// <param name="ctx"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0001(JT808Request request)
         {
-            return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
-            {
-                MsgId = request.Package.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Package.Header.MsgNum
-            }));
+            return null;
         }
         /// <summary>
         /// 终端心跳

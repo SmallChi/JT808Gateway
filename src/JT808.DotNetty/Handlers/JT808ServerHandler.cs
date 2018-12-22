@@ -59,7 +59,7 @@ namespace JT808.DotNetty.Handlers
                 {
                     logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
                 }
-                jT808SessionManager.TryAddOrUpdateSession(new JT808Session(ctx.Channel, jT808Package.Header.TerminalPhoneNo));
+                jT808SessionManager.TryAdd(new JT808Session(ctx.Channel, jT808Package.Header.TerminalPhoneNo));
                 Func<JT808Request, JT808Response> handlerFunc;
                 if (handler.HandlerDict.TryGetValue(jT808Package.Header.MsgId, out handlerFunc))
                 {

@@ -16,12 +16,6 @@ namespace JT808.DotNetty.Interfaces
         /// <returns></returns>
         JT808ResultDto<List<JT808SessionInfoDto>> GetAll();
         /// <summary>
-        /// 通过通道Id移除对应会话
-        /// </summary>
-        /// <param name="channelId"></param>
-        /// <returns></returns>
-        JT808ResultDto<bool> RemoveByChannelId(string channelId);
-        /// <summary>
         /// 通过设备终端号移除对应会话
         /// </summary>
         /// <param name="terminalPhoneNo"></param>

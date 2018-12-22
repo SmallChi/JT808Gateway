@@ -20,19 +20,11 @@ namespace JT808.DotNetty.Metadata
 
         public long Increment()
         {
-            if (counter < 0)
-            {
-                Interlocked.Exchange(ref counter,0);
-            }
             return Interlocked.Increment(ref counter);
         }
 
         public long Add(long len)
         {
-            if (counter < 0)
-            {
-                Interlocked.Exchange(ref counter, 0);
-            }
             return Interlocked.Add(ref counter,len);
         }
 

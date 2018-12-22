@@ -58,7 +58,7 @@ namespace JT808.DotNetty.Handlers
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             if(logger.IsEnabled(LogLevel.Debug))
-                logger.LogError($"The server returns a message {message.ToString()}");
+                logger.LogDebug($"The server returns a message {message.ToString()}");
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)

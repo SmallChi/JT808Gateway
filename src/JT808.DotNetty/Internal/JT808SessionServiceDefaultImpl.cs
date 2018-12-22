@@ -27,7 +27,6 @@ namespace JT808.DotNetty.Internal
             {
                 resultDto.Data = jT808SessionManager.GetAll().Select(s => new JT808SessionInfoDto
                 {
-                    ChannelId = s.SessionID,
                     LastActiveTime = s.LastActiveTime,
                     StartTime = s.StartTime,
                     TerminalPhoneNo = s.TerminalPhoneNo,
@@ -44,43 +43,18 @@ namespace JT808.DotNetty.Internal
             return resultDto;
         }
 
-        public JT808ResultDto<bool> RemoveByChannelId(string channelId)
-        {
-            JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
-            try
-            {
-                var session = jT808SessionManager.RemoveSessionByID(channelId);
-                if (session != null)
-                {
-                    session.Channel.CloseAsync();
-                }
-                resultDto.Code = JT808ResultCode.Ok;
-                resultDto.Data = true;
-            }
-            catch (AggregateException ex)
-            {
-                resultDto.Data = false;
-                resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
-            }
-            catch (Exception ex)
-            {
-                resultDto.Data = false;
-                resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
-            }
-            return resultDto;
-        }
-
         public JT808ResultDto<bool> RemoveByTerminalPhoneNo(string terminalPhoneNo)
         {
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                var session = jT808SessionManager.RemoveSessionByTerminalPhoneNo(terminalPhoneNo);
+                var session = jT808SessionManager.RemoveSession(terminalPhoneNo);
                 if (session != null)
                 {
-                    session.Channel.CloseAsync();
+                    if(session.Channel.Open)
+                    {
+                        session.Channel.CloseAsync();
+                    }
                 }
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;

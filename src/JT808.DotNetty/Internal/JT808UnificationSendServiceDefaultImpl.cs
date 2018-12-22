@@ -21,7 +21,7 @@ namespace JT808.DotNetty.Internal
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                var session = jT808SessionManager.GetSessionByTerminalPhoneNo(terminalPhoneNo);
+                var session = jT808SessionManager.GetSession(terminalPhoneNo);
                 if (session != null)
                 {
                     if (session.Channel.Open)

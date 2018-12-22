@@ -52,7 +52,6 @@ namespace JT808.DotNetty.Internal
             {
                 {$"{RouteTablePrefix}/UnificationSend", UnificationSend},
                 {$"{RouteTablePrefix}/{sessionRoutePrefix}/GetAll", GetSessionAll},
-                {$"{RouteTablePrefix}/{sessionRoutePrefix}/RemoveByChannelId", RemoveByChannelId},
                 {$"{RouteTablePrefix}/{sessionRoutePrefix}/RemoveByTerminalPhoneNo", RemoveByTerminalPhoneNo},
                 {$"{RouteTablePrefix}/GetAtomicCounter", GetAtomicCounter},
                 {$"{RouteTablePrefix}/{sourcePackagePrefix}/Add", AddSourcePackageAddress},
@@ -88,21 +87,6 @@ namespace JT808.DotNetty.Internal
         public JT808HttpResponse GetSessionAll(JT808HttpRequest request)
         {
             var result = jT808SessionService.GetAll();
-            return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 会话服务-通过通道Id移除对应会话
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse RemoveByChannelId(JT808HttpRequest request)
-        {
-            if (string.IsNullOrEmpty(request.Json))
-            {
-                return EmptyHttpResponse();
-            }
-            var result = jT808SessionService.RemoveByChannelId(request.Json);
             return CreateJT808HttpResponse(result);
         }
 

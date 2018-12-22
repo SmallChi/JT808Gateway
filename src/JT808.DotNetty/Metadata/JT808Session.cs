@@ -13,15 +13,6 @@ namespace JT808.DotNetty.Metadata
             TerminalPhoneNo = terminalPhoneNo;
             StartTime = DateTime.Now;
             LastActiveTime = DateTime.Now;
-            SessionID = Channel.Id.AsShortText();
-        }
-
-        public JT808Session(IChannel channel)
-        {
-            Channel = channel;
-            StartTime = DateTime.Now;
-            LastActiveTime = DateTime.Now;
-            SessionID = Channel.Id.AsShortText();
         }
 
         public JT808Session() { }
@@ -30,8 +21,6 @@ namespace JT808.DotNetty.Metadata
         /// 终端手机号
         /// </summary>
         public string TerminalPhoneNo { get; set; }
-
-        public string SessionID { get; set; }
 
         public IChannel Channel { get; set; }
 

@@ -48,7 +48,7 @@ namespace JT808.DotNetty.Handlers
             string channelId = context.Channel.Id.AsShortText();
             if (logger.IsEnabled(LogLevel.Debug))
                 logger.LogDebug($">>>{ channelId } The client disconnects from the server.");
-            jT808SessionManager.RemoveSessionByID(channelId);
+            jT808SessionManager.RemoveSessionByChannel(context.Channel);
             base.ChannelInactive(context);
         }
 
@@ -62,7 +62,7 @@ namespace JT808.DotNetty.Handlers
             string channelId = context.Channel.Id.AsShortText();
             if (logger.IsEnabled(LogLevel.Debug))
                 logger.LogDebug($"<<<{ channelId } The server disconnects from the client.");
-            jT808SessionManager.RemoveSessionByID(channelId);
+            jT808SessionManager.RemoveSessionByChannel(context.Channel);
             return base.CloseAsync(context);
         }
 
@@ -83,7 +83,7 @@ namespace JT808.DotNetty.Handlers
                     string channelId = context.Channel.Id.AsShortText();
                     logger.LogInformation($"{idleStateEvent.State.ToString()}>>>{channelId}");
                     // 由于808是设备发心跳，如果很久没有上报数据，那么就由服务器主动关闭连接。
-                    jT808SessionManager.RemoveSessionByID(channelId);
+                    jT808SessionManager.RemoveSessionByChannel(context.Channel);
                     context.CloseAsync();
                 }
                 // 按照808的消息，有些请求必须要应答，但是转发可以不需要有应答可以节省部分资源包括：
@@ -99,7 +99,7 @@ namespace JT808.DotNetty.Handlers
         {
             string channelId = context.Channel.Id.AsShortText();
             logger.LogError(exception,$"{channelId} {exception.Message}" );
-            jT808SessionManager.RemoveSessionByID(channelId);
+            jT808SessionManager.RemoveSessionByChannel(context.Channel);
             context.CloseAsync();
         }
     }

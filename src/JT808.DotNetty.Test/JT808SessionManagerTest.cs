@@ -15,17 +15,17 @@ namespace JT808.DotNetty.Test
         public void Test3()
         {
             var channel = new EmbeddedChannel();
-            jT808SessionManager.TryAddOrUpdateSession(new Metadata.JT808Session(channel, TerminalPhoneNo));
-            var sessionInfo=jT808SessionManager.GetSessionByTerminalPhoneNo(TerminalPhoneNo);
+            jT808SessionManager.TryAdd(new Metadata.JT808Session(channel, TerminalPhoneNo));
+            var sessionInfo=jT808SessionManager.GetSession(TerminalPhoneNo);
             Assert.Equal(TerminalPhoneNo, sessionInfo.TerminalPhoneNo);
-            Assert.Equal("embedded", sessionInfo.SessionID);
+            Assert.Equal("123456789123", sessionInfo.TerminalPhoneNo);
         }
 
         [Fact]
         public void Test4()
         {
             var channel = new EmbeddedChannel();
-            jT808SessionManager.TryAddOrUpdateSession(new Metadata.JT808Session(channel, TerminalPhoneNo));
+            jT808SessionManager.TryAdd(new Metadata.JT808Session(channel, TerminalPhoneNo));
             jT808SessionManager.Heartbeat(TerminalPhoneNo);
         }
 
@@ -33,10 +33,9 @@ namespace JT808.DotNetty.Test
         public void Test5()
         {
             var channel = new EmbeddedChannel();
-            jT808SessionManager.TryAddOrUpdateSession(new Metadata.JT808Session(channel, TerminalPhoneNo));
-            var sessionInfo = jT808SessionManager.GetSessionByID("embedded");
+            jT808SessionManager.TryAdd(new Metadata.JT808Session(channel, TerminalPhoneNo));
+            var sessionInfo = jT808SessionManager.GetSession(TerminalPhoneNo);
             Assert.Equal(TerminalPhoneNo, sessionInfo.TerminalPhoneNo);
-            Assert.Equal("embedded", sessionInfo.SessionID);
         }
 
 
@@ -44,10 +43,9 @@ namespace JT808.DotNetty.Test
         public void Test6()
         {
             var channel = new EmbeddedChannel();
-            jT808SessionManager.TryAddOrUpdateSession(new Metadata.JT808Session(channel, TerminalPhoneNo));
-            var sessionInfo = jT808SessionManager.RemoveSessionByID("embedded");
+            jT808SessionManager.TryAdd(new Metadata.JT808Session(channel, TerminalPhoneNo));
+            var sessionInfo = jT808SessionManager.RemoveSession(TerminalPhoneNo);
             Assert.Equal(TerminalPhoneNo, sessionInfo.TerminalPhoneNo);
-            Assert.Equal("embedded", sessionInfo.SessionID);
         }
 
 
@@ -69,8 +67,7 @@ namespace JT808.DotNetty.Test
         [Fact]
         public void Test9()
         {
-            var realSessionCount = jT808SessionManager.RealSessionCount;
-            var relevanceSessionCount = jT808SessionManager.RelevanceSessionCount;
+            var realSessionCount = jT808SessionManager.SessionCount;
         }
     }
 }
