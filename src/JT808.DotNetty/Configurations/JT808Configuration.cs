@@ -46,5 +46,7 @@ namespace JT808.DotNetty.Configurations
         //  就跟神兽貔貅一样。。。
         /// </summary>
         public List<JT808ClientConfiguration> ForwardingRemoteAddress { get; set; }
+
+        public string RedisHost { get; set; }
     }
 }

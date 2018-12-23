@@ -7,6 +7,6 @@ namespace JT808.DotNetty.Interfaces
 {
     public interface IJT808Publishing
     {
-        Task Publish(string topicName,string key,string value);
+        Task PublishAsync(string topicName,string key,string value);
     }
 }
