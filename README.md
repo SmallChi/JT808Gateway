@@ -33,7 +33,18 @@
 
 [WebApi接口服务](https://github.com/SmallChi/JT808DotNetty/blob/master/api/README.md)
 
-### 3.集成业务消息处理程序
+### 3.集成会话通知（在线/离线）
+
+| 功能 | 说明 |
+|:-------:|:-------:|:-------:|
+| JT808SessionPublishingRedisImpl | 基于Redis的发布通知 |
+| JT808SessionPublishingEmptyImpl | 默认空实现 |
+
+使用场景：有些超长待机的设备，不会实时保持连接，那么通过平台下发的命令是无法到达的，这时候就需要设备一上线，就即时通知服务去处理，然后在即时的下发消息到设备。
+
+> 只要实现IJT808SessionPublishing接口的任意一款MQ都能实现该功能。
+
+### 4.集成业务消息处理程序
 
 | 功能 | 说明 | 使用场景 |
 |:-------:|:-------:|:-------:|
@@ -41,7 +52,7 @@
 
 ### 举个栗子1
 
-#### 3.1.实现业务消息处理程序JT808MsgIdHandlerBase
+#### 4.1.实现业务消息处理程序JT808MsgIdHandlerBase
 
 ```business Imp
 public class JT808MsgIdCustomHandler : JT808MsgIdHandlerBase
@@ -63,19 +74,19 @@ public class JT808MsgIdCustomHandler : JT808MsgIdHandlerBase
 
 ```
 
-#### 3.2.自定义业务消息处理程序替换默认实现
+#### 4.2.自定义业务消息处理程序替换默认实现
 
 ``` handler
 services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHandlerBase), typeof(JT808MsgIdCustomHandler), ServiceLifetime.Singleton));
 ```
 
-#### 3.3.使用JT808 Host
+#### 4.3.使用JT808 Host
 
 ``` host
   UseJT808Host()
 ```
 
-#### 3.4.完整示例
+#### 4.4.完整示例
 
 ``` demo
 // 默认网关端口：808

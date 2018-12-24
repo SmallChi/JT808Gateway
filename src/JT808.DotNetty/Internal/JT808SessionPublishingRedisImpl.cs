@@ -1,40 +1,75 @@
 ﻿using JT808.DotNetty.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using StackExchange.Redis;
 using Microsoft.Extensions.Options;
 using JT808.DotNetty.Configurations;
-using Microsoft.Extensions.Logging;
 
 namespace JT808.DotNetty.Internal
 {
-    internal class JT808SessionPublishingRedisImpl : IJT808SessionPublishing
+    internal class JT808SessionPublishingRedisImpl : IJT808SessionPublishing,IDisposable
     {
         private IConnectionMultiplexer connectionMultiplexer;
 
         private IOptionsMonitor<JT808Configuration> optionsMonitor;
 
-        private ILogger<JT808SessionPublishingRedisImpl> logger;
+        private string redisHost;
 
-        private JT808SessionPublishingRedisImpl(
-            ILoggerFactory loggerFactory,
+        private IDisposable optionsMonitorDisposable;
+
+        public JT808SessionPublishingRedisImpl(
             IOptionsMonitor<JT808Configuration> optionsMonitor
             )
         {
             this.optionsMonitor = optionsMonitor;
-            logger = loggerFactory.CreateLogger<JT808SessionPublishingRedisImpl>();
-            connectionMultiplexer = ConnectionMultiplexer.Connect(optionsMonitor.CurrentValue.RedisHost);
+            redisHost = optionsMonitor.CurrentValue.RedisHost;
+            try
+            {
+                connectionMultiplexer = ConnectionMultiplexer.Connect(redisHost);
+            }
+            catch
+            {
+
+            }
+            optionsMonitorDisposable= this.optionsMonitor.OnChange((config,str) => 
+            {
+                if(config.RedisHost!= redisHost)
+                {
+                    redisHost = config.RedisHost;
+                    connectionMultiplexer.Close();
+                    try
+                    {
+                        connectionMultiplexer = ConnectionMultiplexer.Connect(redisHost);
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            });
         }
 
         public Task PublishAsync(string topicName, string key, string value)
         {
             if (connectionMultiplexer.IsConnected)
             {
-
+                Subscriber?.PublishAsync(topicName, value);
             }
             return Task.CompletedTask;
+        }
+
+        internal ISubscriber Subscriber
+        {
+            get
+            {
+                return connectionMultiplexer.GetSubscriber();
+            }
+        }
+
+        public void Dispose()
+        {
+            connectionMultiplexer.Close();
+            optionsMonitorDisposable.Dispose();
         }
     }
 }

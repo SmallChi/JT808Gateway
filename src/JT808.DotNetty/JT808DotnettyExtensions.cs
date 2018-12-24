@@ -35,6 +35,7 @@ namespace JT808.DotNetty
             return builder.ConfigureServices((hostContext, services) =>
             {
                 services.Configure<JT808Configuration>(hostContext.Configuration.GetSection("JT808Configuration"));
+                services.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
                 services.TryAddSingleton<JT808SessionManager>();
                 services.TryAddSingleton<JT808AtomicCounterService>();
                 services.TryAddSingleton<JT808TransmitAddressFilterService>();

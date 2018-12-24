@@ -1,4 +1,5 @@
 ﻿using DotNetty.Transport.Channels.Embedded;
+using JT808.DotNetty.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ namespace JT808.DotNetty.Test
 {
     public class SeedSession
     {
-        public JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
+        public JT808SessionManager jT808SessionManager = new JT808SessionManager(
+            new JT808SessionPublishingEmptyImpl(),
+            new LoggerFactory());
 
         public SeedSession()
         {
