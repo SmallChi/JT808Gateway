@@ -36,7 +36,7 @@
 ### 3.集成会话通知（在线/离线）
 
 | 功能 | 说明 |
-|:-------:|:-------:|:-------:|
+|:-------:|:-------:|
 | JT808SessionPublishingRedisImpl | 基于Redis的发布通知 |
 | JT808SessionPublishingEmptyImpl | 默认空实现 |
 
