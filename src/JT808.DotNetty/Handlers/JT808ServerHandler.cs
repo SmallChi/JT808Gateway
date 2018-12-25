@@ -50,21 +50,20 @@ namespace JT808.DotNetty.Handlers
             try
             {
                 jT808SourcePackageDispatcher?.SendAsync(msg);
-                //在压力大的情况下可以只解析到头部
-                //然后根据具体的消息Id通过队列去进行消费
-                //JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg);
-                JT808Package jT808Package = JT808Serializer.Deserialize(msg);
+                //解析到头部,然后根据具体的消息Id通过队列去进行消费
+                //要是一定要解析到数据体可以在JT808MsgIdHandlerBase类中根据具体的消息，
+                //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>
+                JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg);
                 jT808AtomicCounterService.MsgSuccessIncrement();
                 if (logger.IsEnabled(LogLevel.Debug))
                 {
                     logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
                 }
-                jT808SessionManager.TryAdd(new JT808Session(ctx.Channel, jT808Package.Header.TerminalPhoneNo));
+                jT808SessionManager.TryAdd(new JT808Session(ctx.Channel, jT808HeaderPackage.Header.TerminalPhoneNo));
                 Func<JT808Request, JT808Response> handlerFunc;
-                if (handler.HandlerDict.TryGetValue(jT808Package.Header.MsgId, out handlerFunc))
+                if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out handlerFunc))
                 {
-                    //JT808Response jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg));
-                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808Package, msg));
+                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg));
                     if (jT808Response != null)
                     {
                         if (!jT808TransmitAddressFilterService.ContainsKey(ctx.Channel.RemoteAddress))

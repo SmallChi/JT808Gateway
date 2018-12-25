@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using DotNetty.Transport.Channels;
 using JT808.DotNetty.Metadata;
-using JT808.Protocol;
 using JT808.Protocol.Enums;
 using JT808.Protocol.Extensions;
 using JT808.Protocol.MessageBody;
@@ -14,8 +10,10 @@ namespace JT808.DotNetty
     /// <summary>
     /// 抽象消息处理业务
     /// 自定义消息处理业务
-    /// ConfigureServices:
+    /// 注意:
+    /// 1.ConfigureServices:
     /// services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHandlerBase),typeof(JT808MsgIdCustomHandlerImpl),ServiceLifetime.Singleton));
+    /// 2.解析具体的消息体，具体消息调用具体的JT808Serializer.Deserialize<T>
     /// </summary>
     public abstract class JT808MsgIdHandlerBase
     {

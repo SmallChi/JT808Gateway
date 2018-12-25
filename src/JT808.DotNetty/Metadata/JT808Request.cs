@@ -7,16 +7,14 @@ namespace JT808.DotNetty.Metadata
 {
     public class JT808Request
     {
-        public JT808Package Package { get; set; }
+        public JT808HeaderPackage Package { get; }
 
+        /// <summary>
+        /// 用于消息发送
+        /// </summary>
         public byte[] OriginalPackage { get;}
 
-        public JT808Request()
-        {
-
-        }
-
-        public JT808Request(JT808Package package, byte[] originalPackage)
+        public JT808Request(JT808HeaderPackage package, byte[] originalPackage)
         {
             Package = package;
             OriginalPackage = originalPackage;
