@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.Configurations
+namespace JT808.DotNetty.Core.Configurations
 {
     public class JT808Configuration
     {
-        public int Port { get; set; } = 808;
+        public int TcpPort { get; set; } = 808;
 
-        public int UDPPort { get; set; } = 809;
+        public int UdpPort { get; set; } = 818;
 
         public int QuietPeriodSeconds { get; set; } = 1;
 
@@ -48,7 +48,5 @@ namespace JT808.DotNetty.Configurations
         //  就跟神兽貔貅一样。。。
         /// </summary>
         public List<JT808ClientConfiguration> ForwardingRemoteAddress { get; set; }
-
-        public string RedisHost { get; set; }
     }
 }

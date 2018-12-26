@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Interfaces
 {
-    public interface IJT808SessionPublishing : IJT808Publishing
+    public interface IJT808SessionPublishing
     {
-
+        Task PublishAsync(string topicName, string key, string value);
     }
 }

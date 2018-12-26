@@ -1,13 +1,13 @@
-﻿using JT808.DotNetty.Configurations;
-using JT808.DotNetty.Dtos;
+﻿using JT808.DotNetty.Abstractions.Dtos;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using JT808.DotNetty.Core.Configurations;
 
-namespace JT808.DotNetty.Internal
+namespace JT808.DotNetty.Core.Services
 {
     /// <summary>
     /// JT808转发地址过滤服务
