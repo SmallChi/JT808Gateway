@@ -74,7 +74,7 @@ namespace JT808.DotNetty.Core
                 //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
                 //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
                 //todo: 有设备关联上来可以进行通知 例如：使用Redis发布订阅
-                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline,null, appSession.TerminalPhoneNo);
+                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
             }
         }
 
@@ -100,7 +100,7 @@ namespace JT808.DotNetty.Core
                 }
                 string nos = string.Join(",", terminalPhoneNos);
                 logger.LogInformation($">>>{terminalPhoneNo}-{nos} 1-n Session Remove.");
-                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, null, nos);
+                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, nos);
                 return jT808Session;
             }
             else
@@ -108,7 +108,7 @@ namespace JT808.DotNetty.Core
                 if (SessionIdDict.TryRemove(terminalPhoneNo, out JT808TcpSession jT808SessionRemove))
                 {
                     logger.LogInformation($">>>{terminalPhoneNo} Session Remove.");
-                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, null, terminalPhoneNo);
+                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline,terminalPhoneNo);
                     return jT808SessionRemove;
                 }
                 else
@@ -129,7 +129,7 @@ namespace JT808.DotNetty.Core
             }
             string nos = string.Join(",", terminalPhoneNos);
             logger.LogInformation($">>>{nos} Channel Remove.");
-            jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, null, nos);
+            jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline,nos);
         }
 
         public IEnumerable<JT808TcpSession> GetAll()

@@ -1,6 +1,7 @@
 ﻿using JT808.DotNetty.Codecs;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
+using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Udp;
 using JT808.DotNetty.Udp.Handlers;

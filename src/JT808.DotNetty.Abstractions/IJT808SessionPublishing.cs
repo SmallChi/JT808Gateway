@@ -7,6 +7,6 @@ namespace JT808.DotNetty.Abstractions
     /// </summary>
     public interface IJT808SessionPublishing
     {
-        Task PublishAsync(string topicName, string key, string value);
+        Task PublishAsync(string topicName, string value);
     }
 }

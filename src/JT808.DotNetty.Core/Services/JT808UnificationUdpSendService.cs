@@ -1,4 +1,5 @@
 ﻿using DotNetty.Buffers;
+using DotNetty.Transport.Channels.Sockets;
 using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Interfaces;
@@ -25,7 +26,7 @@ namespace JT808.DotNetty.Internal
                 {
                     if (session.Channel.Open)
                     {
-                        session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
+                        session.Channel.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(data), session.Sender));
                         resultDto.Code = JT808ResultCode.Ok;
                         resultDto.Data = true;
                     }

@@ -24,6 +24,8 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         private readonly IJT808TcpSessionService jT808TcpSessionService;
 
+        private readonly IJT808UdpSessionService jT808UdpSessionService;
+
         private readonly IJT808UnificationTcpSendService jT808UnificationTcpSendService;
 
         private readonly IJT808UnificationUdpSendService jT808UnificationUdpSendService;
@@ -51,10 +53,12 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// </summary>
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
+            IJT808UdpSessionService jT808UdpSessionService,
             IJT808UnificationUdpSendService jT808UnificationUdpSendService,
             JT808UdpAtomicCounterService jT808UdpAtomicCounterService
             )
         {
+            this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
             this.jT808UdpAtomicCounterService = jT808UdpAtomicCounterService;
             InitUdpRoute();
@@ -69,11 +73,13 @@ namespace JT808.DotNetty.WebApi.Handlers
              IJT808UnificationTcpSendService jT808UnificationTcpSendService,
              IJT808UnificationUdpSendService jT808UnificationUdpSendService,
              IJT808TcpSessionService jT808TcpSessionService,
+             IJT808UdpSessionService jT808UdpSessionService,
              JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
              JT808TcpAtomicCounterService jT808TcpAtomicCounterService,
              JT808UdpAtomicCounterService jT808UdpAtomicCounterService
            )
         {
+            this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationTcpSendService = jT808UnificationTcpSendService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
             this.jT808TcpSessionService = jT808TcpSessionService;
@@ -89,7 +95,7 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public JT808HttpResponse GetSessionAll(JT808HttpRequest request)
+        public JT808HttpResponse GetTcpSessionAll(JT808HttpRequest request)
         {
             var result = jT808TcpSessionService.GetAll();
             return CreateJT808HttpResponse(result);
@@ -100,13 +106,39 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public JT808HttpResponse RemoveByTerminalPhoneNo(JT808HttpRequest request)
+        public JT808HttpResponse RemoveTcpSessionByTerminalPhoneNo(JT808HttpRequest request)
         {
             if (string.IsNullOrEmpty(request.Json))
             {
                 return EmptyHttpResponse();
             }
             var result = jT808TcpSessionService.RemoveByTerminalPhoneNo(request.Json);
+            return CreateJT808HttpResponse(result);
+        }
+
+        /// <summary>
+        /// 会话服务集合
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse GetUdpSessionAll(JT808HttpRequest request)
+        {
+            var result = jT808UdpSessionService.GetAll();
+            return CreateJT808HttpResponse(result);
+        }
+
+        /// <summary>
+        /// 会话服务-通过设备终端号移除对应会话
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse RemoveUdpSessionByTerminalPhoneNo(JT808HttpRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Json))
+            {
+                return EmptyHttpResponse();
+            }
+            var result = jT808UdpSessionService.RemoveByTerminalPhoneNo(request.Json);
             return CreateJT808HttpResponse(result);
         }
 
@@ -222,8 +254,8 @@ namespace JT808.DotNetty.WebApi.Handlers
             CreateRoute($"{transmitPrefix}/Remove", RemoveTransmitAddress);
             CreateRoute($"{transmitPrefix}/GetAll", GetTransmitAll);
             CreateRoute($"GetTcpAtomicCounter", GetTcpAtomicCounter);
-            CreateRoute($"{sessionRoutePrefix}/GetAll", GetSessionAll);
-            CreateRoute($"{sessionRoutePrefix}/RemoveByTerminalPhoneNo", RemoveByTerminalPhoneNo);
+            CreateRoute($"{sessionRoutePrefix}/Tcp/GetAll", GetTcpSessionAll);
+            CreateRoute($"{sessionRoutePrefix}/Tcp/RemoveByTerminalPhoneNo", RemoveTcpSessionByTerminalPhoneNo);
             CreateRoute($"UnificationTcpSend", UnificationTcpSend);
         }
 
@@ -231,6 +263,8 @@ namespace JT808.DotNetty.WebApi.Handlers
         {
             CreateRoute($"GetUdpAtomicCounter", GetUdpAtomicCounter);
             CreateRoute($"UnificationUdpSend", UnificationUdpSend);
+            CreateRoute($"{sessionRoutePrefix}/Udp/GetAll", GetUdpSessionAll);
+            CreateRoute($"{sessionRoutePrefix}/Udp/RemoveByTerminalPhoneNo", RemoveUdpSessionByTerminalPhoneNo);
         }
     }
 }

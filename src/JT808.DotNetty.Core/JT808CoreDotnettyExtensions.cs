@@ -2,6 +2,7 @@
 using JT808.DotNetty.Core.Configurations;
 using JT808.DotNetty.Core.Impls;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,8 @@ namespace JT808.DotNetty.Core
             serviceDescriptors.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherEmptyImpl>();
             serviceDescriptors.TryAddSingleton<IJT808UnificationTcpSendService, JT808UnificationTcpSendService>();
             serviceDescriptors.TryAddSingleton<IJT808UnificationUdpSendService, JT808UnificationUdpSendService>();
+            serviceDescriptors.TryAddSingleton<IJT808TcpSessionService, JT808TcpSessionService>();
+            serviceDescriptors.TryAddSingleton<IJT808UdpSessionService, JT808UdpSessionService>();
             return serviceDescriptors;
         }
     }
