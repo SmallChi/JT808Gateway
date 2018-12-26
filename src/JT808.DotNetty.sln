@@ -1,12 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty", "JT808.DotNetty\JT808.DotNetty.csproj", "{80C7F67E-6B7C-4178-8726-ADD3695622DD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Test", "JT808.DotNetty.Test\JT808.DotNetty.Test.csproj", "{7315D030-16CA-4AC8-B892-720F3D78C651}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B5A80356-5AF6-449F-9D8B-3C1BBB9D2443}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Protocol", "JT808.Protocol\src\JT808.Protocol\JT808.Protocol.csproj", "{9FCA2EE9-8253-41AA-A64C-9883413864F9}"
@@ -17,13 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Codecs", "JT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Core", "JT808.DotNetty.Core\JT808.DotNetty.Core.csproj", "{67C5DC72-0004-48B3-BB5A-9CB7069B4F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.Abstractions", "JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj", "{4DCF33C0-67C5-4179-AF1E-4E919F9F856D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Abstractions", "JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj", "{4DCF33C0-67C5-4179-AF1E-4E919F9F856D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BD7FF02-8516-4A77-A385-9FDCDD792E22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.Tcp", "JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj", "{330CD783-5564-4083-ABFC-573CDC369F50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Tcp", "JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj", "{330CD783-5564-4083-ABFC-573CDC369F50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.WebApi", "JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj", "{B783DE53-CE2A-4225-921F-04E5E57B28F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApi", "JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj", "{B783DE53-CE2A-4225-921F-04E5E57B28F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80C7F67E-6B7C-4178-8726-ADD3695622DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7315D030-16CA-4AC8-B892-720F3D78C651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7315D030-16CA-4AC8-B892-720F3D78C651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7315D030-16CA-4AC8-B892-720F3D78C651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7315D030-16CA-4AC8-B892-720F3D78C651}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9FCA2EE9-8253-41AA-A64C-9883413864F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FCA2EE9-8253-41AA-A64C-9883413864F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FCA2EE9-8253-41AA-A64C-9883413864F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -72,8 +60,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{80C7F67E-6B7C-4178-8726-ADD3695622DD} = {B5A80356-5AF6-449F-9D8B-3C1BBB9D2443}
-		{7315D030-16CA-4AC8-B892-720F3D78C651} = {3BD7FF02-8516-4A77-A385-9FDCDD792E22}
 		{9FCA2EE9-8253-41AA-A64C-9883413864F9} = {B5A80356-5AF6-449F-9D8B-3C1BBB9D2443}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

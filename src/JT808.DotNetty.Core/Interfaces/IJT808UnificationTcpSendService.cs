@@ -5,7 +5,7 @@ namespace JT808.DotNetty.Core.Interfaces
     /// <summary>
     /// JT808基于tcp的统一下发命令服务
     /// </summary>
-    internal interface IJT808UnificationTcpSendService
+    public interface IJT808UnificationTcpSendService
     {
         JT808ResultDto<bool> Send(string terminalPhoneNo, byte[] data);
     }
