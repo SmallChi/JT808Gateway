@@ -25,7 +25,6 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JT808.DotNetty.Codecs\JT808.DotNetty.Codecs.csproj" />
     <ProjectReference Include="..\JT808.DotNetty.Core\JT808.DotNetty.Core.csproj" />
   </ItemGroup>
 </Project>

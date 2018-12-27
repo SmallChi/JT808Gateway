@@ -17,7 +17,6 @@ namespace JT808.DotNetty.Core.Handlers
     /// </summary>
     public abstract class JT808MsgIdHttpHandlerBase
     {
-        private const string RouteTablePrefix = "/jt808api";
         /// <summary>
         /// 初始化消息处理业务
         /// </summary>
@@ -28,7 +27,7 @@ namespace JT808.DotNetty.Core.Handlers
 
         protected void CreateRoute(string url, Func<JT808HttpRequest, JT808HttpResponse> func)
         {
-            HandlerDict.Add($"{RouteTablePrefix}/{url}", func);
+            HandlerDict.Add(url, func);
         }
 
         public Dictionary<string, Func<JT808HttpRequest, JT808HttpResponse>> HandlerDict { get; }

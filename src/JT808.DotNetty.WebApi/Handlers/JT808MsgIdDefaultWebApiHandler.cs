@@ -1,4 +1,5 @@
-﻿using JT808.DotNetty.Abstractions.Dtos;
+﻿using JT808.DotNetty.Abstractions;
+using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
@@ -12,10 +13,6 @@ namespace JT808.DotNetty.WebApi.Handlers
     /// </summary>
     public class JT808MsgIdDefaultWebApiHandler : JT808MsgIdHttpHandlerBase
     {
-        private const string sessionRoutePrefix = "Session";
-
-        private const string transmitPrefix = "Transmit";
-
         private readonly JT808TcpAtomicCounterService jT808TcpAtomicCounterService;
 
         private readonly JT808UdpAtomicCounterService jT808UdpAtomicCounterService;
@@ -250,21 +247,21 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         protected virtual void InitTcpRoute()
         {
-            CreateRoute($"{transmitPrefix}/Add", AddTransmitAddress);
-            CreateRoute($"{transmitPrefix}/Remove", RemoveTransmitAddress);
-            CreateRoute($"{transmitPrefix}/GetAll", GetTransmitAll);
-            CreateRoute($"GetTcpAtomicCounter", GetTcpAtomicCounter);
-            CreateRoute($"{sessionRoutePrefix}/Tcp/GetAll", GetTcpSessionAll);
-            CreateRoute($"{sessionRoutePrefix}/Tcp/RemoveByTerminalPhoneNo", RemoveTcpSessionByTerminalPhoneNo);
-            CreateRoute($"UnificationTcpSend", UnificationTcpSend);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.TransmitAdd, AddTransmitAddress);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.TransmitRemove, RemoveTransmitAddress);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.TransmitGetAll, GetTransmitAll);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.GetTcpAtomicCounter, GetTcpAtomicCounter);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionTcpRemoveByTerminalPhoneNo, RemoveTcpSessionByTerminalPhoneNo);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.UnificationTcpSend, UnificationTcpSend);
         }
 
         protected virtual void InitUdpRoute()
         {
-            CreateRoute($"GetUdpAtomicCounter", GetUdpAtomicCounter);
-            CreateRoute($"UnificationUdpSend", UnificationUdpSend);
-            CreateRoute($"{sessionRoutePrefix}/Udp/GetAll", GetUdpSessionAll);
-            CreateRoute($"{sessionRoutePrefix}/Udp/RemoveByTerminalPhoneNo", RemoveUdpSessionByTerminalPhoneNo);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.GetUdpAtomicCounter, GetUdpAtomicCounter);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.UnificationUdpSend, UnificationUdpSend);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionUdpGetAll, GetUdpSessionAll);
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionUdpRemoveByTerminalPhoneNo, RemoveUdpSessionByTerminalPhoneNo);
         }
     }
 }

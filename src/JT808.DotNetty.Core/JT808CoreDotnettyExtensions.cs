@@ -9,8 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("JT808.DotNetty.Test")]
-
+[assembly: InternalsVisibleTo("JT808.DotNetty.Core.Test")]
+[assembly: InternalsVisibleTo("JT808.DotNetty.Tcp.Test")]
+[assembly: InternalsVisibleTo("JT808.DotNetty.Udp.Test")]
+[assembly: InternalsVisibleTo("JT808.DotNetty.WebApi.Test")]
 namespace JT808.DotNetty.Core
 {
     public static class JT808CoreDotnettyExtensions

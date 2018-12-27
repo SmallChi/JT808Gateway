@@ -1,4 +1,4 @@
-﻿using JT808.DotNetty.Codecs;
+﻿using JT808.DotNetty.Core.Codecs;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Core.Services;
@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("JT808.DotNetty.Test")]
+[assembly: InternalsVisibleTo("JT808.DotNetty.Tcp.Test")]
 
 namespace JT808.DotNetty.Tcp
 {

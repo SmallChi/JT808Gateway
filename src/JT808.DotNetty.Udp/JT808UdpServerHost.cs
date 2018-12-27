@@ -1,7 +1,7 @@
 ﻿using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using JT808.DotNetty.Codecs;
+using JT808.DotNetty.Core.Codecs;
 using JT808.DotNetty.Core.Configurations;
 using JT808.DotNetty.Udp.Handlers;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,13 +50,13 @@ namespace JT808.DotNetty.Udp
                     .Option(ChannelOption.SoReuseport, true);
             }
             bootstrap
-               .Option(ChannelOption.SoBacklog, configuration.SoBacklog)
+               .Option(ChannelOption.SoBroadcast, true)
                .Handler(new ActionChannelInitializer<IChannel>(channel =>
                {
                    IChannelPipeline pipeline = channel.Pipeline;
                    using (var scope = serviceProvider.CreateScope())
                    {
-                       pipeline.AddLast(new JT808UdpDecoder());
+                       pipeline.AddLast("jt808UdpDecoder", scope.ServiceProvider.GetRequiredService<JT808UdpDecoder>());
                        pipeline.AddLast("jt808UdpService", scope.ServiceProvider.GetRequiredService<JT808UdpServerHandler>());
                    }
                }));

@@ -1,20 +1,15 @@
-using JT808.DotNetty.Codecs;
-using JT808.DotNetty.Configurations;
-using JT808.DotNetty.Handlers;
-using JT808.DotNetty.Interfaces;
-using JT808.DotNetty.Internal;
+﻿using JT808.DotNetty.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net;
-using Xunit;
+using System.Collections.Generic;
+using System.Text;
 
-namespace JT808.DotNetty.Test
+namespace JT808.DotNetty.Udp.Test
 {
-    public class TestBase:IDisposable
+    public class TestBase
     {
         public static IServiceProvider ServiceProvider;
 
@@ -30,17 +25,13 @@ namespace JT808.DotNetty.Test
                 {
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-                })
-                .UseJT808Host();
+                    services.AddJT808Core(hostContext.Configuration)
+                            .AddJT808UdpHost();
+                });
             var build = serverHostBuilder.Build();
             build.Start();
             ServiceProvider = build.Services;
 
-        }
-
-        public virtual void Dispose()
-        {
-    
         }
     }
 }

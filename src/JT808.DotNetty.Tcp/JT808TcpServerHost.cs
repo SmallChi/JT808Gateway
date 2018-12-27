@@ -4,7 +4,7 @@ using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Libuv;
-using JT808.DotNetty.Codecs;
+using JT808.DotNetty.Core.Codecs;
 using JT808.DotNetty.Core.Configurations;
 using JT808.DotNetty.Handlers;
 using JT808.DotNetty.Tcp.Handlers;

@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JT808.DotNetty.Codecs\JT808.DotNetty.Codecs.csproj" />
     <ProjectReference Include="..\JT808.DotNetty.Core\JT808.DotNetty.Core.csproj" />
   </ItemGroup>
 

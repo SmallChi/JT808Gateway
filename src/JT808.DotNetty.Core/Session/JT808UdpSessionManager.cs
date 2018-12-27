@@ -87,34 +87,15 @@ namespace JT808.DotNetty.Core
             {
                 return default;
             }
-            // 处理转发过来的是数据 这时候通道对设备是1对多关系,需要清理垃圾数据
-            //1.用当前会话的通道Id找出通过转发过来的其他设备的终端号
-            var terminalPhoneNos = SessionIdDict.Where(w => w.Value.Channel.Id == jT808Session.Channel.Id).Select(s => s.Key).ToList();
-            //2.存在则一个个移除 
-            if (terminalPhoneNos.Count > 1)
+            if (SessionIdDict.TryRemove(terminalPhoneNo, out JT808UdpSession jT808SessionRemove))
             {
-                //3.移除包括当前的设备号
-                foreach (var key in terminalPhoneNos)
-                {
-                    SessionIdDict.TryRemove(key, out JT808UdpSession jT808SessionRemove);
-                }
-                string nos = string.Join(",", terminalPhoneNos);
-                logger.LogInformation($">>>{terminalPhoneNo}-{nos} 1-n Session Remove.");
-                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, nos);
-                return jT808Session;
+                logger.LogInformation($">>>{terminalPhoneNo} Session Remove.");
+                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline,terminalPhoneNo);
+                return jT808SessionRemove;
             }
             else
             {
-                if (SessionIdDict.TryRemove(terminalPhoneNo, out JT808UdpSession jT808SessionRemove))
-                {
-                    logger.LogInformation($">>>{terminalPhoneNo} Session Remove.");
-                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline,terminalPhoneNo);
-                    return jT808SessionRemove;
-                }
-                else
-                {
-                    return default;
-                }
+                return default;
             }
         }
 
