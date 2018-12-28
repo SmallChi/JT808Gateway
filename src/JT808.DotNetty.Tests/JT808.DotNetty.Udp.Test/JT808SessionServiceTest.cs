@@ -33,6 +33,10 @@ namespace JT808.DotNetty.Udp.Test
 
         public JT808SessionServiceTest()
         {
+            JT808SimpleUdpClient SimpleUdpClient11 = new JT808SimpleUdpClient(new IPEndPoint(IPAddress.Parse("157.255.57.82"), 12818));
+
+            JT808Package jT808Package11 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789001");
+            SimpleUdpClient11.WriteAsync(JT808Serializer.Serialize(jT808Package11));
             SimpleUdpClient1 = new JT808SimpleUdpClient(endPoint);
             SimpleUdpClient2 = new JT808SimpleUdpClient(endPoint);
             SimpleUdpClient3 = new JT808SimpleUdpClient(endPoint);
@@ -74,6 +78,19 @@ namespace JT808.DotNetty.Udp.Test
             var result1 = jT808SessionServiceDefaultImpl.GetAll();
             var result2 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo("123456789001");
             var result3 = jT808SessionServiceDefaultImpl.GetAll();
+        }
+
+        [TestMethod]
+        public void Test3()
+        {
+            // 判断通道是否关闭
+            IJT808UdpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808UdpSessionService>();
+            JT808UdpSessionManager jT808UdpSessionManager = ServiceProvider.GetService<JT808UdpSessionManager>();
+            var result1 = jT808SessionServiceDefaultImpl.GetAll();
+            SimpleUdpClient1.Down();
+            var session = jT808UdpSessionManager.GetSession("123456789001");
+            var result3 = jT808UdpSessionManager.GetAll();
+            Thread.Sleep(100000);
         }
     }
 }

@@ -123,13 +123,16 @@ namespace JT808.DotNetty.Core
             //todo: 设备离线可以进行通知
             //todo: 使用Redis 发布订阅
             var terminalPhoneNos = SessionIdDict.Where(w => w.Value.Channel.Id == channel.Id).Select(s => s.Key).ToList();
-            foreach (var key in terminalPhoneNos)
+            if (terminalPhoneNos.Count > 0)
             {
-                SessionIdDict.TryRemove(key, out JT808TcpSession jT808SessionRemove);
-            }
-            string nos = string.Join(",", terminalPhoneNos);
-            logger.LogInformation($">>>{nos} Channel Remove.");
-            jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline,nos);
+                foreach (var key in terminalPhoneNos)
+                {
+                    SessionIdDict.TryRemove(key, out JT808TcpSession jT808SessionRemove);
+                }
+                string nos = string.Join(",", terminalPhoneNos);
+                logger.LogInformation($">>>{nos} Channel Remove.");
+                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, nos);
+            }      
         }
 
         public IEnumerable<JT808TcpSession> GetAll()

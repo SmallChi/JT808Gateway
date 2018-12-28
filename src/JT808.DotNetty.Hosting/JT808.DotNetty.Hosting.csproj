@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JT808.DotNetty\JT808.DotNetty.csproj" />
+    <ProjectReference Include="..\JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj" />
+    <ProjectReference Include="..\JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj" />
+    <ProjectReference Include="..\JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

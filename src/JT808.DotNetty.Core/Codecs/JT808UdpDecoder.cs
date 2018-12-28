@@ -11,6 +11,7 @@ namespace JT808.DotNetty.Core.Codecs
     {
         protected override void Decode(IChannelHandlerContext context, DatagramPacket message, List<object> output)
         {
+            if (!message.Content.IsReadable()) return;
             IByteBuffer byteBuffer = message.Content;
             byte[] buffer = new byte[byteBuffer.ReadableBytes];
             byteBuffer.ReadBytes(buffer);

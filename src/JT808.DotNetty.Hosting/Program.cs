@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using JT808.DotNetty.Core;
+using JT808.DotNetty.Tcp;
+using JT808.DotNetty.Udp;
+using JT808.DotNetty.WebApi;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -24,16 +28,17 @@ namespace JT808.DotNetty.Hosting
                 .ConfigureLogging((context, logging) =>
                 {
                     logging.AddConsole();  
-                    logging.SetMinimumLevel(LogLevel.Debug);
+                    logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-                    // 自定义消息处理业务
-                    services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHandlerBase), typeof(JT808MsgIdCustomHandler), ServiceLifetime.Singleton));
-                })
-                .UseJT808Host();
+                    services.AddJT808Core(hostContext.Configuration)
+                            .AddJT808TcpHost()
+                            .AddJT808UdpHost()
+                            .AddJT808WebApiHost();
+                });
 
             await serverHostBuilder.RunConsoleAsync();
         }

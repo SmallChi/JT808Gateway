@@ -15,11 +15,21 @@ namespace JT808.DotNetty.Core
         {
             udpClient = new UdpClient();
             udpClient.Connect(remoteAddress);
-            Task.Run(() => {
+            Task.Run(() =>
+            {
                 while (true)
                 {
-                    string tmp = string.Join(" ", udpClient.Receive(ref remoteAddress));
-                    Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + tmp);
+                    try
+                    {
+                        string tmp = string.Join(" ", udpClient.Receive(ref remoteAddress));
+                        Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + tmp);
+                        Thread.Sleep(1000);
+                    }
+                    catch
+                    {
+
+
+                    }
                     Thread.Sleep(1000);
                 }
             });

@@ -24,18 +24,9 @@ namespace JT808.DotNetty.Internal
                 var session = jT808SessionManager.GetSession(terminalPhoneNo);
                 if (session != null)
                 {
-                    if (session.Channel.Open)
-                    {
-                        session.Channel.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(data), session.Sender));
-                        resultDto.Code = JT808ResultCode.Ok;
-                        resultDto.Data = true;
-                    }
-                    else
-                    {
-                        resultDto.Code = JT808ResultCode.Ok;
-                        resultDto.Data = false;
-                        resultDto.Message = "offline";
-                    }
+                    session.Channel.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(data), session.Sender));
+                    resultDto.Code = JT808ResultCode.Ok;
+                    resultDto.Data = true;
                 }
                 else
                 {

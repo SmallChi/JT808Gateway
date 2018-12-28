@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Core.Metadata;
+using DotNetty.Transport.Channels;
 
 namespace JT808.DotNetty.Core
 {
@@ -51,20 +52,38 @@ namespace JT808.DotNetty.Core
         }
 
         public void TryAdd(JT808UdpSession appSession)
-        {
-            // 解决了设备号跟通道绑定到一起，不需要用到通道本身的SessionId
-            // 不管设备下发更改了设备终端号，只要是没有在内存中就当是新的
-            // 存在的问题：
-            // 1.原先老的如何销毁
-            // 2.这时候用的通道是相同的，设备终端是不同的
-            // 当设备主动或者服务器断开以后，可以释放，这点内存忽略不计，况且更改设备号不是很频繁。
-            if (SessionIdDict.TryAdd(appSession.TerminalPhoneNo, appSession))
+        {  
+            //1.先判断是否在缓存里面
+            if(SessionIdDict.TryGetValue(appSession.TerminalPhoneNo,out JT808UdpSession jT808UdpSession))
             {
-                //使用场景：
-                //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
-                //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
-                //todo: 有设备关联上来可以进行通知 例如：使用Redis发布订阅
-                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
+                //处理缓存
+                //判断设备的终结点是否相同
+                if (jT808UdpSession.Sender.Equals(appSession.Sender))
+                {
+                    //相同 更新最后上线时间
+                    //每次使用最新的通道
+                    //将设备第一次上线时间赋值给当前上线的时间
+                    appSession.StartTime = jT808UdpSession.StartTime;
+                    SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, appSession);
+                }
+                else
+                {
+                    //不同 算成新设备上来并且推送通知
+                    SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, appSession);
+                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
+                }
+            }
+            else
+            {
+                //添加缓存
+                if (SessionIdDict.TryAdd(appSession.TerminalPhoneNo, appSession))
+                {
+                    //使用场景：
+                    //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
+                    //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
+                    //todo: 有设备关联上来可以进行通知 例如：使用Redis发布订阅
+                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
+                }
             }
         }
 
@@ -97,6 +116,23 @@ namespace JT808.DotNetty.Core
             {
                 return default;
             }
+        }
+
+        public void RemoveSessionByChannel(IChannel channel)
+        {
+            //todo: 设备离线可以进行通知
+            //todo: 使用Redis 发布订阅
+            var terminalPhoneNos = SessionIdDict.Where(w => w.Value.Channel.Id == channel.Id).Select(s => s.Key).ToList();
+            if (terminalPhoneNos.Count > 0)
+            {
+                foreach (var key in terminalPhoneNos)
+                {
+                    SessionIdDict.TryRemove(key, out JT808UdpSession jT808SessionRemove);
+                }
+                string nos = string.Join(",", terminalPhoneNos);
+                logger.LogInformation($">>>{nos} Channel Remove.");
+                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, nos);
+            }        
         }
 
         public IEnumerable<JT808UdpSession> GetAll()

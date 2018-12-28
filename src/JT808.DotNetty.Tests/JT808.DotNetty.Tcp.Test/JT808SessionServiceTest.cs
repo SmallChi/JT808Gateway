@@ -77,5 +77,18 @@ namespace JT808.DotNetty.Tcp.Test
             var result2 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo("123456789001");
             var result3 = jT808SessionServiceDefaultImpl.GetAll();
         }
+
+        [TestMethod]
+        public void Test3()
+        {
+            // 判断通道是否关闭
+            IJT808TcpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808TcpSessionService>();
+            JT808TcpSessionManager jT808TcpSessionManager = ServiceProvider.GetService<JT808TcpSessionManager>();
+            var result1 = jT808SessionServiceDefaultImpl.GetAll();
+            SimpleTcpClient1.Down();
+            Thread.Sleep(5000);
+            var session = jT808TcpSessionManager.GetSession("123456789001");
+            Thread.Sleep(100000);
+        }
     }
 }

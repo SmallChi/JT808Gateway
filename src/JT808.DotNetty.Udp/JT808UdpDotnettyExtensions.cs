@@ -15,7 +15,7 @@ namespace JT808.DotNetty.Udp
     {
         public static IServiceCollection AddJT808UdpHost(this IServiceCollection  serviceDescriptors)
         {
-            serviceDescriptors.TryAddSingleton<JT808UdpSessionManager>();
+            serviceDescriptors.TryAddSingleton<JT808UdpSessionManager>();           
             serviceDescriptors.TryAddSingleton<JT808UdpAtomicCounterService>();
             serviceDescriptors.TryAddSingleton<JT808MsgIdUdpHandlerBase, JT808MsgIdDefaultUdpHandler>();
             serviceDescriptors.TryAddScoped<JT808UdpDecoder>();

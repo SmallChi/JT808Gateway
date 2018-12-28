@@ -55,7 +55,7 @@ namespace JT808.DotNetty.Udp
                {
                    IChannelPipeline pipeline = channel.Pipeline;
                    using (var scope = serviceProvider.CreateScope())
-                   {
+                   {   
                        pipeline.AddLast("jt808UdpDecoder", scope.ServiceProvider.GetRequiredService<JT808UdpDecoder>());
                        pipeline.AddLast("jt808UdpService", scope.ServiceProvider.GetRequiredService<JT808UdpServerHandler>());
                    }

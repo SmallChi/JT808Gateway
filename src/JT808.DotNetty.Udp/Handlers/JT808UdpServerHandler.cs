@@ -9,6 +9,7 @@ using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
+using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Udp.Handlers
 {
@@ -85,5 +86,8 @@ namespace JT808.DotNetty.Udp.Handlers
                 }
             }
         }
+
+        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
+
     }
 }

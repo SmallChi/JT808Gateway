@@ -18,9 +18,18 @@ namespace JT808.DotNetty.Core
             Task.Run(()=> {
                 while (true)
                 {
-                    byte[] buffer = new byte[100];
-                    tcpClient.GetStream().Read(buffer, 0, 100);
-                    Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " "+string.Join(" ", buffer));
+                    try
+                    {
+                        byte[] buffer = new byte[100];
+                        tcpClient.GetStream().Read(buffer, 0, 100);
+                        Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + string.Join(" ", buffer));
+                        
+                    }
+                    catch 
+                    {
+
+                       
+                    }
                     Thread.Sleep(1000);
                 }
             });
