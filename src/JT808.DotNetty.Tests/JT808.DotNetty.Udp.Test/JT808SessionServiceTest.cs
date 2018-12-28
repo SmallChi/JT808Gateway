@@ -33,10 +33,6 @@ namespace JT808.DotNetty.Udp.Test
 
         public JT808SessionServiceTest()
         {
-            JT808SimpleUdpClient SimpleUdpClient11 = new JT808SimpleUdpClient(new IPEndPoint(IPAddress.Parse("157.255.57.82"), 12818));
-
-            JT808Package jT808Package11 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789001");
-            SimpleUdpClient11.WriteAsync(JT808Serializer.Serialize(jT808Package11));
             SimpleUdpClient1 = new JT808SimpleUdpClient(endPoint);
             SimpleUdpClient2 = new JT808SimpleUdpClient(endPoint);
             SimpleUdpClient3 = new JT808SimpleUdpClient(endPoint);
