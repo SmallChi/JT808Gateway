@@ -1,6 +1,7 @@
 ﻿using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Codecs;
 using JT808.DotNetty.Core.Handlers;
+using JT808.DotNetty.Core.Jobs;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Udp.Handlers;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace JT808.DotNetty.Udp
             serviceDescriptors.TryAddSingleton<JT808MsgIdUdpHandlerBase, JT808MsgIdDefaultUdpHandler>();
             serviceDescriptors.TryAddScoped<JT808UdpDecoder>();
             serviceDescriptors.TryAddScoped<JT808UdpServerHandler>();
+            serviceDescriptors.AddHostedService<JT808UdpAtomicCouterResetDailyJob>();
             serviceDescriptors.AddHostedService<JT808UdpServerHost>();
             return serviceDescriptors;
         }

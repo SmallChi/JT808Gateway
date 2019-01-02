@@ -1,4 +1,6 @@
 ﻿using JT808.DotNetty.Core;
+using JT808.DotNetty.Core.Handlers;
+using JT808.DotNetty.Hosting.Handlers;
 using JT808.DotNetty.Tcp;
 using JT808.DotNetty.Udp;
 using JT808.DotNetty.WebApi;
@@ -33,11 +35,15 @@ namespace JT808.DotNetty.Hosting
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
-                    services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+                    services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));             
                     services.AddJT808Core(hostContext.Configuration)
                             .AddJT808TcpHost()
                             .AddJT808UdpHost()
                             .AddJT808WebApiHost();
+                    // 自定义Tcp消息处理业务
+                    services.Replace(new ServiceDescriptor(typeof(JT808MsgIdTcpHandlerBase), typeof(JT808MsgIdTcpCustomHandler), ServiceLifetime.Singleton));
+                    // 自定义Udp消息处理业务
+                    services.Replace(new ServiceDescriptor(typeof(JT808MsgIdUdpHandlerBase), typeof(JT808MsgIdUdpCustomHandler), ServiceLifetime.Singleton));
                 });
 
             await serverHostBuilder.RunConsoleAsync();

@@ -35,11 +35,6 @@ namespace JT808.DotNetty.Core.Configurations
         public int WebApiPort { get; set; } = 828;
 
         /// <summary>
-        /// 源包分发器配置
-        /// </summary>
-        public List<JT808ClientConfiguration> SourcePackageDispatcherClientConfigurations { get; set; }
-
-        /// <summary>
         /// 转发远程地址 (可选项)知道转发的地址有利于提升性能
         /// 按照808的消息，有些请求必须要应答，但是转发可以不需要有应答可以节省部分资源包括：
         //  1.消息的序列化

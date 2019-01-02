@@ -16,6 +16,12 @@ namespace JT808.DotNetty.Core.Services
 
         }
 
+        public void Reset()
+        {
+            MsgSuccessCounter.Reset();
+            MsgFailCounter.Reset();
+        }
+
         public long MsgSuccessIncrement()
         {
             return MsgSuccessCounter.Increment();

@@ -18,6 +18,11 @@ namespace JT808.DotNetty.Core.Metadata
             this.counter = initialCount;
         }
 
+        public void Reset()
+        {
+            Interlocked.Exchange(ref counter, 0);
+        }
+
         public long Increment()
         {
             return Interlocked.Increment(ref counter);

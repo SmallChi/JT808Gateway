@@ -6,15 +6,27 @@
 
 默认端口：828
 
-## [统一下发设备消息服务](#send)
+## 1.统一下发设备消息服务
 
-## [管理会话服务](#session)
+[基于Tcp统一下发设备消息服务](#tcp_send)
 
-## [原包分发器通道服务](#sourcepackage)
+[基于Udp统一下发设备消息服务](#udp_send)
 
-## [转发地址过滤服务](#transmit)
+## 2.管理会话服务
 
-## [消息包计数服务](#counter)
+[基于Tcp管理会话服务](#tcp_session)
+
+[基于Udp管理会话服务](#udp_session)
+
+## 3.转发地址过滤服务
+
+[基于Tcp转发地址过滤服务](#tcp_transmit)
+
+## 4.消息包计数服务
+
+[基于Tcp消息包计数服务](#tcp_counter)
+
+[基于Udp消息包计数服务](#udp_counter)
 
 ### 统一对象返回 JT808ResultDto\<T>
 
@@ -33,9 +45,9 @@
 | 404 | 没有该服务 |
 | 500 | 服务内部错误 |
 
-### <span id="send">统一下发设备消息接口</span>
+### <span id="tcp_send">基于Tcp统一下发设备消息服务</span>
 
-请求地址：UnificationSend
+请求地址：UnificationTcpSend
 
 请求方式：POST
 
@@ -62,13 +74,41 @@
 }
 ```
 
-### <span id="session">会话服务接口</span>
+### <span id="udp_send">基于Udp统一下发设备消息服务</span>
 
-#### 统一会话信息对象返回 JT808SessionInfoDto
+请求地址：UnificationUdpSend
+
+请求方式：POST
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|------|:------:|:------|
+| TerminalPhoneNo| string| 设备终端号|
+| Data| byte[]| JT808 byte[]数组|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| bool| 是否成功|
+
+返回结果：
+
+``` result1
+{
+    "Message":"",
+    "Code":200,
+    "Data":true
+}
+```
+
+### <span id="tcp_session">基于Tcp管理会话服务</span>
+
+#### 统一会话信息对象返回 JT808TcpSessionInfoDto
 
 |属性|数据类型|参数说明|
 |------|------|------|
-| ChannelId| string| 通道Id|
 | LastActiveTime| DateTime| 最后上线时间|
 | StartTime| DateTime| 上线时间|
 | TerminalPhoneNo|string| 终端手机号|
@@ -76,7 +116,7 @@
 
 #### 1.获取会话集合
 
-请求地址：Session/GetAll
+请求地址：Session/Tcp/GetAll
 
 请求方式：GET
 
@@ -84,7 +124,7 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| Data| List\<JT808SessionInfoDto> | 实际会话信息集合 |
+| Data| List\<JT808TcpSessionInfoDto> | 实际会话信息集合 |
 
 返回结果：
 
@@ -94,13 +134,11 @@
     "Code":200,
     "Data":[
         {
-            "ChannelId":"eadad23",
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
             "TerminalPhoneNo":"123456789012",
             "RemoteAddressIP":"127.0.0.1:11808"
         },{
-            "ChannelId":"eadad23",
             "LastActiveTime":"2018-11-27 20:00:00",
             "StartTime":"2018-11-25 20:00:00",
             "TerminalPhoneNo":"123456789013",
@@ -112,7 +150,7 @@
 
 #### 2.通过设备终端号移除对应会话
 
-请求地址：Session/RemoveByTerminalPhoneNo
+请求地址：Session/Tcp/RemoveByTerminalPhoneNo
 
 请求方式：POST
 
@@ -138,104 +176,7 @@
 }
 ```
 
-### <span id="sourcepackage">原包分发器通道服务</span>
-
-#### 1.添加原包转发地址
-
-请求地址：SourcePackage/Add
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Host| string| ip地址|
-| Port| int| 端口号|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| bool | 是否成功
-
-返回结果：
-
-``` sp1
-{
-    "Message":"",
-    "Code":200,
-    "Data":true
-}
-```
-
-#### 2.删除原包转发地址（不能删除在网关服务器配置文件配的地址）
-
-请求地址：SourcePackage/Remove
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Host| string| ip地址|
-| Port| int| 端口号|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| bool | 是否成功|
-
-返回结果：
-
-``` sp2
-{
-    "Message":"",
-    "Code":200,
-    "Data":true
-}
-```
-
-#### 3.获取原包信息集合
-
-请求地址：SourcePackage/GetAll
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|------|:------:|:------|
-| RemoteAddress| string | 远程ip地址|
-| Registered| bool | 通道是否注册|
-| Active| bool | 通道是否激活|
-| Open| bool | 通道是否打开|
-
-返回结果：
-
-``` sp3
-{
-    "Message":"",
-    "Code":200,
-    "Data":[
-         {
-            "RemoteAddress":"127.0.0.1:6665",
-            "Registered":true,
-            "Active":true,
-            "Open":true
-        },{
-            "RemoteAddress":"127.0.0.1:6667",
-            "Registered":true,
-            "Active":true,
-            "Open":true
-        }
-    ]
-}
-```
-
-### <span id="transmit">转发地址过滤服务</span>
+### <span id="tcp_transmit">基于Tcp转发地址过滤服务</span>
 
 #### 1.添加转发过滤地址
 
@@ -259,6 +200,79 @@
 返回结果：
 
 ``` tr1
+{
+    "Message":"",
+    "Code":200,
+    "Data":true
+}
+```
+
+### <span id="udp_session">基于Udp管理会话服务</span>
+
+#### 统一会话信息对象返回 JT808UdpSessionInfoDto
+
+|属性|数据类型|参数说明|
+|------|------|------|
+| LastActiveTime| DateTime| 最后上线时间|
+| StartTime| DateTime| 上线时间|
+| TerminalPhoneNo|string| 终端手机号|
+| RemoteAddressIP| string| 远程ip地址|
+
+#### 1.获取会话集合
+
+请求地址：Session/Udp/GetAll
+
+请求方式：GET
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| List\<JT808UdpSessionInfoDto> | 实际会话信息集合 |
+
+返回结果：
+
+``` session1
+{
+    "Message":"",
+    "Code":200,
+    "Data":[
+        {
+            "LastActiveTime":"2018-11-27 20:00:00",
+            "StartTime":"2018-11-25 20:00:00",
+            "TerminalPhoneNo":"123456789012",
+            "RemoteAddressIP":"127.0.0.1:11808"
+        },{
+            "LastActiveTime":"2018-11-27 20:00:00",
+            "StartTime":"2018-11-25 20:00:00",
+            "TerminalPhoneNo":"123456789013",
+            "RemoteAddressIP":"127.0.0.1:11808"
+        }
+    ]
+}
+```
+
+#### 2.通过设备终端号移除对应会话
+
+请求地址：Session/Udp/RemoveByTerminalPhoneNo
+
+请求方式：POST
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| terminalPhoneNo| string| 设备终端号|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| bool | 是否成功
+
+返回结果：
+
+``` session3
 {
     "Message":"",
     "Code":200,
@@ -320,9 +334,9 @@
 }
 ```
 
-### <span id="counter">计数服务接口</span>
+### <span id="tcp_counter">基于Tcp消息包计数服务</span>
 
-请求地址：GetAtomicCounter
+请求地址：GetTcpAtomicCounter
 
 请求方式：GET
 
@@ -341,6 +355,32 @@
     "Code":200,
     "Data":{
         "MsgSuccessCount":10000,
+        "MsgFailCount":0
+    }
+}
+```
+
+### <span id="udp_counter">基于Udp消息包计数服务</span>
+
+请求地址：GetUdpAtomicCounter
+
+请求方式：GET
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|------|:------:|:------|
+| MsgSuccessCount| long| 消息包成功数|
+| MsgFailCount| long| 消息包失败数|
+
+返回结果：
+
+``` counter
+{
+    "Message":"",
+    "Code":200,
+    "Data":{
+        "MsgSuccessCount":1000,
         "MsgFailCount":0
     }
 }

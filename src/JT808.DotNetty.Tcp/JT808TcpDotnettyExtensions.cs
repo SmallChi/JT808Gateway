@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using JT808.DotNetty.Core.Jobs;
 
 [assembly: InternalsVisibleTo("JT808.DotNetty.Tcp.Test")]
 
@@ -27,6 +28,7 @@ namespace JT808.DotNetty.Tcp
             serviceDescriptors.TryAddScoped<JT808TcpConnectionHandler>();
             serviceDescriptors.TryAddScoped<JT808TcpDecoder>();
             serviceDescriptors.TryAddScoped<JT808TcpServerHandler>();
+            serviceDescriptors.AddHostedService<JT808TcpAtomicCouterResetDailyJob>();
             serviceDescriptors.AddHostedService<JT808TcpServerHost>();
             return serviceDescriptors;
         }
