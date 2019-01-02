@@ -18,10 +18,12 @@ namespace JT808.DotNetty.Udp
         {
             serviceDescriptors.TryAddSingleton<JT808UdpSessionManager>();           
             serviceDescriptors.TryAddSingleton<JT808UdpAtomicCounterService>();
+            serviceDescriptors.TryAddSingleton<JT808UdpTrafficService>();
             serviceDescriptors.TryAddSingleton<JT808MsgIdUdpHandlerBase, JT808MsgIdDefaultUdpHandler>();
             serviceDescriptors.TryAddScoped<JT808UdpDecoder>();
             serviceDescriptors.TryAddScoped<JT808UdpServerHandler>();
             serviceDescriptors.AddHostedService<JT808UdpAtomicCouterResetDailyJob>();
+            serviceDescriptors.AddHostedService<JT808UdpTrafficResetDailyJob>();
             serviceDescriptors.AddHostedService<JT808UdpServerHost>();
             return serviceDescriptors;
         }

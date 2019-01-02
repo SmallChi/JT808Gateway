@@ -5,21 +5,21 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Core.Jobs
 {
-    public class JT808TcpAtomicCouterResetDailyJob : JT808BackgroundService
+    public class JT808TcpTrafficResetDailyJob : JT808BackgroundService
     {
-        private readonly ILogger<JT808TcpAtomicCouterResetDailyJob> _logger;
+        private readonly ILogger<JT808TcpTrafficResetDailyJob> _logger;
 
-        private readonly JT808TcpAtomicCounterService _jT808TcpAtomicCounterService;
+        private readonly JT808TcpTrafficService _jT808TcpTrafficService;
 
-        public JT808TcpAtomicCouterResetDailyJob(
-            JT808TcpAtomicCounterService jT808TcpAtomicCounterService,
+        public JT808TcpTrafficResetDailyJob(
+            JT808TcpTrafficService jT808TcpTrafficService,
             ILoggerFactory loggerFactory)
         {
-            _jT808TcpAtomicCounterService = jT808TcpAtomicCounterService;
-            _logger =loggerFactory.CreateLogger<JT808TcpAtomicCouterResetDailyJob>();
+            _jT808TcpTrafficService = jT808TcpTrafficService;
+            _logger =loggerFactory.CreateLogger<JT808TcpTrafficResetDailyJob>();
         }
 
-        public override string ServiceName => nameof(JT808TcpAtomicCouterResetDailyJob);
+        public override string ServiceName => nameof(JT808TcpTrafficResetDailyJob);
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -28,7 +28,7 @@ namespace JT808.DotNetty.Core.Jobs
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation($"{ServiceName} task doing background work.");
-                _jT808TcpAtomicCounterService.Reset();
+                _jT808TcpTrafficService.ResetSize();
                 await Task.Delay(DelayTimeSpan, stoppingToken);
             }
             _logger.LogInformation($"{ServiceName} background task is stopping.");

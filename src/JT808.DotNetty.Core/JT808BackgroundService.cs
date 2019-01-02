@@ -33,6 +33,8 @@ namespace JT808.DotNetty.Core
 
         private Task _executingTask;
 
+        public abstract string ServiceName { get; }
+
         private readonly CancellationTokenSource _stoppingCts = new CancellationTokenSource();
 
         protected abstract Task ExecuteAsync(CancellationToken stoppingToken);

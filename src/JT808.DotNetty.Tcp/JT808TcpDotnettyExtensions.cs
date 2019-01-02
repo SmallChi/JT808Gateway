@@ -24,11 +24,13 @@ namespace JT808.DotNetty.Tcp
             serviceDescriptors.TryAddSingleton<JT808TcpSessionManager>();
             serviceDescriptors.TryAddSingleton<JT808TcpAtomicCounterService>();
             serviceDescriptors.TryAddSingleton<JT808TransmitAddressFilterService>();
+            serviceDescriptors.TryAddSingleton<JT808TcpTrafficService>();
             serviceDescriptors.TryAddSingleton<JT808MsgIdTcpHandlerBase, JT808MsgIdDefaultTcpHandler>();
             serviceDescriptors.TryAddScoped<JT808TcpConnectionHandler>();
             serviceDescriptors.TryAddScoped<JT808TcpDecoder>();
             serviceDescriptors.TryAddScoped<JT808TcpServerHandler>();
             serviceDescriptors.AddHostedService<JT808TcpAtomicCouterResetDailyJob>();
+            serviceDescriptors.AddHostedService<JT808TcpTrafficResetDailyJob>();
             serviceDescriptors.AddHostedService<JT808TcpServerHost>();
             return serviceDescriptors;
         }

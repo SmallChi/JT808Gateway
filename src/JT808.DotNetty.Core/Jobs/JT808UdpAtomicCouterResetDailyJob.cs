@@ -23,17 +23,19 @@ namespace JT808.DotNetty.Core.Jobs
             _logger =loggerFactory.CreateLogger<JT808UdpAtomicCouterResetDailyJob>();
         }
 
+        public override string ServiceName => nameof(JT808UdpAtomicCouterResetDailyJob);
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation($"{nameof(JT808UdpAtomicCouterResetDailyJob)} is starting.");
-            stoppingToken.Register(() => _logger.LogInformation($"{nameof(JT808UdpAtomicCouterResetDailyJob)} background task is stopping."));
+            _logger.LogInformation($"{ServiceName} is starting.");
+            stoppingToken.Register(() => _logger.LogInformation($"{ServiceName} background task is stopping."));
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation($"{nameof(JT808UdpAtomicCouterResetDailyJob)} task doing background work.");
+                _logger.LogInformation($"{ServiceName} task doing background work.");
                 _jT808UdpAtomicCounterService.Reset();
                 await Task.Delay(DelayTimeSpan, stoppingToken);
             }
-            _logger.LogInformation($"{nameof(JT808UdpAtomicCouterResetDailyJob)} background task is stopping.");
+            _logger.LogInformation($"{ServiceName} background task is stopping.");
         }
     }
 }

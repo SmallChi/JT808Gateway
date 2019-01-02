@@ -28,13 +28,17 @@ namespace JT808.DotNetty.Udp.Handlers
 
         private readonly JT808MsgIdUdpHandlerBase handler;
 
+        private readonly JT808UdpTrafficService jT808UdpTrafficService;
+
         public JT808UdpServerHandler(
+            JT808UdpTrafficService jT808UdpTrafficService,
             ILoggerFactory loggerFactory,
             IJT808SourcePackageDispatcher jT808SourcePackageDispatcher,
             JT808MsgIdUdpHandlerBase handler,
             JT808UdpAtomicCounterService jT808UdpAtomicCounterService,
             JT808UdpSessionManager jT808UdpSessionManager)
         {
+            this.jT808UdpTrafficService = jT808UdpTrafficService;
             this.handler = handler;
             this.jT808SourcePackageDispatcher = jT808SourcePackageDispatcher;
             this.jT808UdpAtomicCounterService = jT808UdpAtomicCounterService;
@@ -47,6 +51,7 @@ namespace JT808.DotNetty.Udp.Handlers
             try
             {
                 jT808SourcePackageDispatcher?.SendAsync(msg.Buffer);
+                jT808UdpTrafficService.ReceiveSize(msg.Buffer.Length);
                 //解析到头部,然后根据具体的消息Id通过队列去进行消费
                 //要是一定要解析到数据体可以在JT808MsgIdHandlerBase类中根据具体的消息，
                 //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>
@@ -63,7 +68,9 @@ namespace JT808.DotNetty.Udp.Handlers
                     JT808Response jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg.Buffer));
                     if (jT808Response != null)
                     {
-                        ctx.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(JT808Serializer.Serialize(jT808Response.Package, jT808Response.MinBufferSize)), msg.Sender));
+                        var sendData = JT808Serializer.Serialize(jT808Response.Package, jT808Response.MinBufferSize);
+                        jT808UdpTrafficService.SendSize(sendData.Length);
+                        ctx.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(sendData), msg.Sender));
                     }
                 }
             }

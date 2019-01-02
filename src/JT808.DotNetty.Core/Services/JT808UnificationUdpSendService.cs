@@ -3,6 +3,7 @@ using DotNetty.Transport.Channels.Sockets;
 using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Core.Services;
 using System;
 
 namespace JT808.DotNetty.Internal
@@ -11,8 +12,13 @@ namespace JT808.DotNetty.Internal
     {
         private readonly JT808UdpSessionManager jT808SessionManager;
 
-        public JT808UnificationUdpSendService(JT808UdpSessionManager jT808SessionManager)
+        private readonly JT808UdpTrafficService jT808UdpTrafficService;
+
+        public JT808UnificationUdpSendService(
+            JT808UdpTrafficService jT808UdpTrafficService,
+            JT808UdpSessionManager jT808SessionManager)
         {
+            this.jT808UdpTrafficService = jT808UdpTrafficService;
             this.jT808SessionManager = jT808SessionManager;
         }
 
@@ -24,6 +30,7 @@ namespace JT808.DotNetty.Internal
                 var session = jT808SessionManager.GetSession(terminalPhoneNo);
                 if (session != null)
                 {
+                    jT808UdpTrafficService.SendSize(data.Length);
                     session.Channel.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(data), session.Sender));
                     resultDto.Code = JT808ResultCode.Ok;
                     resultDto.Data = true;

@@ -13,50 +13,55 @@
             public const string SessionPrefix = "Session";
 
             public const string TransmitPrefix = "Transmit";
+
+            public const string TcpPrefix = "Tcp";
+
+            public const string UdpPrefix = "Udp";
+
             /// <summary>
             /// 添加转发过滤地址
             /// </summary>
-            public static string TransmitAdd = $"{RouteTablePrefix}/{TransmitPrefix}/Add";
+            public static string TransmitAdd = $"{RouteTablePrefix}/{TcpPrefix}/{TransmitPrefix}/Add";
             /// <summary>
             /// 删除转发过滤地址（不能删除在网关服务器配置文件配的地址）
             /// </summary>
-            public static string TransmitRemove = $"{RouteTablePrefix}/{TransmitPrefix}/Remove";
+            public static string TransmitRemove = $"{RouteTablePrefix}/{TcpPrefix}/{TransmitPrefix}/Remove";
             /// <summary>
             /// 获取转发过滤地址信息集合
             /// </summary>
-            public static string TransmitGetAll = $"{RouteTablePrefix}/{TransmitPrefix}/GetAll";
+            public static string TransmitGetAll = $"{RouteTablePrefix}/{TcpPrefix}/{TransmitPrefix}/GetAll";
             /// <summary>
             /// 获取Tcp包计数器
             /// </summary>
-            public static string GetTcpAtomicCounter = $"{RouteTablePrefix}/GetTcpAtomicCounter";
+            public static string GetTcpAtomicCounter = $"{RouteTablePrefix}/{TcpPrefix}/GetAtomicCounter";
             /// <summary>
             /// 基于Tcp的会话服务集合
             /// </summary>
-            public static string SessionTcpGetAll = $"{RouteTablePrefix}/{SessionPrefix}/Tcp/GetAll";
+            public static string SessionTcpGetAll = $"{RouteTablePrefix}/{TcpPrefix}/{SessionPrefix}/GetAll";
             /// <summary>
             /// 基于Tcp的会话服务-通过设备终端号移除对应会话
             /// </summary>
-            public static string SessionTcpRemoveByTerminalPhoneNo = $"{RouteTablePrefix}/{SessionPrefix}/Tcp/RemoveByTerminalPhoneNo";
+            public static string SessionTcpRemoveByTerminalPhoneNo = $"{RouteTablePrefix}/{TcpPrefix}/{SessionPrefix}/RemoveByTerminalPhoneNo";
             /// <summary>
             /// 基于Tcp的统一下发信息
             /// </summary>
-            public static string UnificationTcpSend = $"{RouteTablePrefix}/UnificationTcpSend";
+            public static string UnificationTcpSend = $"{RouteTablePrefix}/{TcpPrefix}/UnificationSend";
             /// <summary>
             /// 获取Udp包计数器
             /// </summary>
-            public static string GetUdpAtomicCounter = $"{RouteTablePrefix}/GetUdpAtomicCounter";
+            public static string GetUdpAtomicCounter = $"{RouteTablePrefix}/{UdpPrefix}/GetAtomicCounter";
             /// <summary>
             /// 基于Udp的统一下发信息
             /// </summary>
-            public static string UnificationUdpSend = $"{RouteTablePrefix}/UnificationUdpSend";
+            public static string UnificationUdpSend = $"{RouteTablePrefix}/{UdpPrefix}/UnificationSend";
             /// <summary>
             /// 基于Udp的会话服务集合
             /// </summary>
-            public static string SessionUdpGetAll = $"{RouteTablePrefix}/{SessionPrefix}/Udp/GetAll";
+            public static string SessionUdpGetAll = $"{RouteTablePrefix}/{UdpPrefix}/{SessionPrefix}/GetAll";
             /// <summary>
             /// 基于Udp的会话服务-通过设备终端号移除对应会话
             /// </summary>
-            public static string SessionUdpRemoveByTerminalPhoneNo = $"{RouteTablePrefix}/{SessionPrefix}/Udp/RemoveByTerminalPhoneNo";
+            public static string SessionUdpRemoveByTerminalPhoneNo = $"{RouteTablePrefix}/{UdpPrefix}/{SessionPrefix}/RemoveByTerminalPhoneNo";
 
         }
     }

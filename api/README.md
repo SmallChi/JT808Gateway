@@ -47,7 +47,7 @@
 
 ### <span id="tcp_send">基于Tcp统一下发设备消息服务</span>
 
-请求地址：UnificationTcpSend
+请求地址：Tcp/UnificationSend
 
 请求方式：POST
 
@@ -76,7 +76,7 @@
 
 ### <span id="udp_send">基于Udp统一下发设备消息服务</span>
 
-请求地址：UnificationUdpSend
+请求地址：Udp/UnificationSend
 
 请求方式：POST
 
@@ -116,7 +116,7 @@
 
 #### 1.获取会话集合
 
-请求地址：Session/Tcp/GetAll
+请求地址：Tcp/Session/GetAll
 
 请求方式：GET
 
@@ -150,7 +150,7 @@
 
 #### 2.通过设备终端号移除对应会话
 
-请求地址：Session/Tcp/RemoveByTerminalPhoneNo
+请求地址：Tcp/Session/RemoveByTerminalPhoneNo
 
 请求方式：POST
 
@@ -189,7 +189,7 @@
 
 #### 1.获取会话集合
 
-请求地址：Session/Udp/GetAll
+请求地址：Udp/Session/GetAll
 
 请求方式：GET
 
@@ -223,7 +223,7 @@
 
 #### 2.通过设备终端号移除对应会话
 
-请求地址：Session/Udp/RemoveByTerminalPhoneNo
+请求地址：Udp/Session/RemoveByTerminalPhoneNo
 
 请求方式：POST
 
@@ -253,7 +253,7 @@
 
 #### 1.添加转发过滤地址
 
-请求地址：Transmit/Add
+请求地址：Tcp/Transmit/Add
 
 请求方式：POST
 
@@ -282,7 +282,7 @@
 
 #### 2.删除转发过滤地址（不能删除在网关服务器配置文件配的地址）
 
-请求地址：Transmit/Remove
+请求地址：Tcp/Transmit/Remove
 
 请求方式：POST
 
@@ -311,7 +311,7 @@
 
 #### 3.获取转发过滤地址信息集合
 
-请求地址：Transmit/GetAll
+请求地址：Tcp/Transmit/GetAll
 
 请求方式：GET
 
@@ -336,7 +336,7 @@
 
 ### <span id="tcp_counter">基于Tcp消息包计数服务</span>
 
-请求地址：GetTcpAtomicCounter
+请求地址：Tcp/GetAtomicCounter
 
 请求方式：GET
 
@@ -362,7 +362,7 @@
 
 ### <span id="udp_counter">基于Udp消息包计数服务</span>
 
-请求地址：GetUdpAtomicCounter
+请求地址：Udp/GetAtomicCounter
 
 请求方式：GET
 
