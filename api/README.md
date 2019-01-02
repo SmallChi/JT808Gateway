@@ -176,37 +176,6 @@
 }
 ```
 
-### <span id="tcp_transmit">基于Tcp转发地址过滤服务</span>
-
-#### 1.添加转发过滤地址
-
-请求地址：Transmit/Add
-
-请求方式：POST
-
-请求参数：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Host| string| ip地址|
-| Port| int| 端口号|
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|:------:|:------:|:------|
-| Data| bool | 是否成功
-
-返回结果：
-
-``` tr1
-{
-    "Message":"",
-    "Code":200,
-    "Data":true
-}
-```
-
 ### <span id="udp_session">基于Udp管理会话服务</span>
 
 #### 统一会话信息对象返回 JT808UdpSessionInfoDto
@@ -273,6 +242,37 @@
 返回结果：
 
 ``` session3
+{
+    "Message":"",
+    "Code":200,
+    "Data":true
+}
+```
+
+### <span id="tcp_transmit">基于Tcp转发地址过滤服务</span>
+
+#### 1.添加转发过滤地址
+
+请求地址：Transmit/Add
+
+请求方式：POST
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Host| string| ip地址|
+| Port| int| 端口号|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| bool | 是否成功
+
+返回结果：
+
+``` tr1
 {
     "Message":"",
     "Code":200,
