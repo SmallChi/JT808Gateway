@@ -21,6 +21,7 @@ namespace JT808.DotNetty.Hosting
     {
         static async Task Main(string[] args)
         {
+            //7E020000220138123456780085000000010000000101EA2A3F08717931000C015400201901032000020104000000E6F87E
             var serverHostBuilder = new HostBuilder()
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {

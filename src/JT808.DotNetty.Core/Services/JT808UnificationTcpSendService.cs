@@ -4,6 +4,7 @@ using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Services;
 using System;
+using System.Linq;
 
 namespace JT808.DotNetty.Internal
 {
@@ -29,10 +30,20 @@ namespace JT808.DotNetty.Internal
                 var session = jT808SessionManager.GetSession(terminalPhoneNo);
                 if (session != null)
                 {
-                    jT808TcpTrafficService.SendSize(data.Length);
-                    session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
-                    resultDto.Code = JT808ResultCode.Ok;
-                    resultDto.Data = true;                    
+                    //判断转发数据是下发不了消息的
+                    if (jT808SessionManager.GetAll().Count(c => c.Channel.Id == session.Channel.Id) > 1)
+                    {
+                        resultDto.Code = JT808ResultCode.Ok;
+                        resultDto.Data = false;
+                        resultDto.Message = "not support transmit data send.";
+                    }
+                    else
+                    {
+                        jT808TcpTrafficService.SendSize(data.Length);
+                        session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
+                        resultDto.Code = JT808ResultCode.Ok;
+                        resultDto.Data = true;
+                    }
                 }
                 else
                 {

@@ -16,6 +16,16 @@ namespace JT808.DotNetty.Core.Services
             receiveCounter.Add(size);
         }
 
+        public long TotalReceiveSize
+        {
+            get { return receiveCounter.Count; }
+        }
+
+        public long TotalSendSize
+        {
+            get { return sendCounter.Count; }
+        }
+
         public void SendSize(long size)
         {
             sendCounter.Add(size);

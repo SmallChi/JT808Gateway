@@ -22,7 +22,7 @@ namespace JT808.DotNetty.Core
             {
                 DateTime current = DateTime.Now;
 #if DEBUG
-                DateTime tmp = current.AddSeconds(10);
+                DateTime tmp = current.AddMinutes(1);
 #else
                 DateTime tmp = current.Date.AddDays(1).AddMilliseconds(-1);
 #endif

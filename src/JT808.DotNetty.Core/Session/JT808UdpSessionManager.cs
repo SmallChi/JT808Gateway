@@ -11,7 +11,7 @@ namespace JT808.DotNetty.Core
 {
     /// <summary>
     /// JT808 udp会话管理
-    /// todo:估计要轮询下
+    /// 估计要轮询下
     /// </summary>
     public class JT808UdpSessionManager
     {
@@ -81,7 +81,7 @@ namespace JT808.DotNetty.Core
                     //使用场景：
                     //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
                     //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
-                    //todo: 有设备关联上来可以进行通知 例如：使用Redis发布订阅
+                    //有设备关联上来可以进行通知 例如：使用Redis发布订阅
                     jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
                 }
             }
@@ -99,8 +99,8 @@ namespace JT808.DotNetty.Core
 
         public JT808UdpSession RemoveSession(string terminalPhoneNo)
         {
-            //todo: 设备离线可以进行通知
-            //todo: 使用Redis 发布订阅
+            //设备离线可以进行通知
+            //使用Redis 发布订阅
             if (string.IsNullOrEmpty(terminalPhoneNo)) return default;
             if (!SessionIdDict.TryGetValue(terminalPhoneNo, out JT808UdpSession jT808Session))
             {
@@ -120,8 +120,8 @@ namespace JT808.DotNetty.Core
 
         public void RemoveSessionByChannel(IChannel channel)
         {
-            //todo: 设备离线可以进行通知
-            //todo: 使用Redis 发布订阅
+            //设备离线可以进行通知
+            //使用Redis 发布订阅
             var terminalPhoneNos = SessionIdDict.Where(w => w.Value.Channel.Id == channel.Id).Select(s => s.Key).ToList();
             if (terminalPhoneNos.Count > 0)
             {

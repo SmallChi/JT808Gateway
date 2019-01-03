@@ -22,11 +22,17 @@
 
 [基于Tcp转发地址过滤服务](#tcp_transmit)
 
-## 4.消息包计数服务
+## 4.消息包计数服务（次日清零）
 
 [基于Tcp消息包计数服务](#tcp_counter)
 
 [基于Udp消息包计数服务](#udp_counter)
+
+## 5.流量统计服务（次日清零）
+
+[基于Tcp流量统计服务](#tcp_traffic)
+
+[基于Udp流量统计服务](#udp_traffic)
 
 ### 统一对象返回 JT808ResultDto\<T>
 
@@ -382,6 +388,58 @@
     "Data":{
         "MsgSuccessCount":1000,
         "MsgFailCount":0
+    }
+}
+```
+
+### <span id="tcp_traffic">基于Tcp流量统计服务</span>
+
+请求地址：Tcp/Traffic/Get
+
+请求方式：GET
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|------|:------:|:------|
+| TotalReceiveSize| double| 总接收大小(单位KB)|
+| TotalSendSize| double| 总发送大小(单位KB)|
+
+返回结果：
+
+``` traffic1
+{
+    "Message":"",
+    "Code":200,
+    "Data":{
+        "TotalReceiveSize":0.0478515625,
+        "TotalSendSize":0.01953125
+    }
+}
+```
+
+### <span id="udp_traffic">基于Udp流量统计服务</span>
+
+请求地址：Udp/Traffic/Get
+
+请求方式：GET
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|------|:------:|:------|
+| TotalReceiveSize| double| 总接收大小(单位KB)|
+| TotalSendSize| double| 总发送大小(单位KB)|
+
+返回结果：
+
+``` traffic2
+{
+    "Message":"",
+    "Code":200,
+    "Data":{
+        "TotalReceiveSize":0.0478515625,
+        "TotalSendSize":0.01953125
     }
 }
 ```
