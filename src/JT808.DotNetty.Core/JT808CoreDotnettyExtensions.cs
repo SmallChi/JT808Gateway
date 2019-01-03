@@ -26,6 +26,7 @@ namespace JT808.DotNetty.Core
             serviceDescriptors.TryAddSingleton<IJT808UnificationUdpSendService, JT808UnificationUdpSendService>();
             serviceDescriptors.TryAddSingleton<IJT808TcpSessionService, JT808TcpSessionService>();
             serviceDescriptors.TryAddSingleton<IJT808UdpSessionService, JT808UdpSessionService>();
+            serviceDescriptors.TryAddSingleton<JT808SimpleSystemCollectService>();
             return serviceDescriptors;
         }
     }

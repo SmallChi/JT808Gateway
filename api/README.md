@@ -1,6 +1,6 @@
 ﻿# JT808 WebApi服务
 
-基地址：<a href="#">http://localhost:828/jt808api/</a>
+基地址：127.0.0.1:828/jt808api/
 
 数据格式：只支持Json格式
 
@@ -33,6 +33,41 @@
 [基于Tcp流量统计服务](#tcp_traffic)
 
 [基于Udp流量统计服务](#udp_traffic)
+
+## 6.系统性能数据采集服务
+
+[获取当前系统进程使用率](#system_collect)
+
+## 接口请求对照表
+
+### 基于Tcp接口请求
+
+|请求Url|请求方式|说明|
+|:------|:------|:------|
+| 127.0.0.1:828/jt808api/Tcp/UnificationSend| POST| 基于Tcp统一下发设备消息服务|
+| 127.0.0.1:828/jt808api/Tcp/Session/GetAll| GET| 基于Tcp管理会话服务-获取会话集合|
+| 127.0.0.1:828/jt808api/Tcp/Session/RemoveByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号移除对应会话|
+| 127.0.0.1:828/jt808api/Tcp/Transmit/Add| POST| 基于Tcp转发地址过滤服务-添加转发过滤地址|
+| 127.0.0.1:828/jt808api/Tcp/Transmit/Remove| POST| 基于Tcp转发地址过滤服务-删除转发过滤地址|
+| 127.0.0.1:828/jt808api/Tcp/Transmit/GetAll| GET| 基于Tcp转发地址过滤服务-获取转发过滤地址信息集合|
+| 127.0.0.1:828/jt808api/Tcp/GetAtomicCounter| GET| 基于Tcp消息包计数服务|
+| 127.0.0.1:828/jt808api/Tcp/Traffic/Get| GET| 基于Tcp流量统计服务|
+
+### 基于Udp接口请求
+
+|请求Url|请求方式|说明|
+|:------|:------|:------|
+| 127.0.0.1:828/jt808api/Udp/UnificationSend| POST| 基于Udp统一下发设备消息服务|
+| 127.0.0.1:828/jt808api/Udp/Session/GetAll| GET| 基于Udp管理会话服务-获取会话集合|
+| 127.0.0.1:828/jt808api/Udp/Session/RemoveByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号移除对应会话|
+| 127.0.0.1:828/jt808api/Udp/GetAtomicCounter| GET| 基于Udp消息包计数服务|
+| 127.0.0.1:828/jt808api/Udp/Traffic/Get| GET| 基于Udp流量统计服务|
+
+### 公共接口请求
+
+|请求Url|请求方式|说明|
+|:------|:------|:------|
+| 127.0.0.1:828/jt808api/SystemCollect/Get| GET| 获取当前系统进程使用情况|
 
 ### 统一对象返回 JT808ResultDto\<T>
 
@@ -440,6 +475,38 @@
     "Data":{
         "TotalReceiveSize":0.0478515625,
         "TotalSendSize":0.01953125
+    }
+}
+```
+
+### <span id="system_collect">系统性能数据采集服务</span>
+
+请求地址：SystemCollect/Get
+
+请求方式：GET
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|------|:------:|:------|
+| ProcessId| int| 进程Id|
+| WorkingSet64| double| 进程分配内存(单位MB)|
+| PeakWorkingSet64| double| 进程分配内存峰值(单位MB)|
+| PrivateMemorySize64| double| 进程分配私有内存(单位MB)|
+| CPUTotalProcessorTime| TimeSpan|进程执行CPU总处理时间|
+
+返回结果：
+
+``` sc
+{
+    "Message":"",
+    "Code":200,
+    "Data":{
+        "ProcessId":101412,
+        "WorkingSet64":73.0625,
+        "PeakWorkingSet64":73.0625,
+        "PrivateMemorySize64":134.6796875,
+        "CPUTotalProcessorTime":"00:00:14.5625000"
     }
 }
 ```

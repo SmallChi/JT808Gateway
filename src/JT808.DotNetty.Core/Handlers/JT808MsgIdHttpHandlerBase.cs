@@ -27,7 +27,15 @@ namespace JT808.DotNetty.Core.Handlers
 
         protected void CreateRoute(string url, Func<JT808HttpRequest, JT808HttpResponse> func)
         {
-            HandlerDict.Add(url, func);
+            if (!HandlerDict.ContainsKey(url))
+            {
+                HandlerDict.Add(url, func);
+            }
+            else
+            {
+                // 替换
+                HandlerDict[url] = func;
+            }
         }
 
         public Dictionary<string, Func<JT808HttpRequest, JT808HttpResponse>> HandlerDict { get; }

@@ -31,11 +31,14 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         private readonly JT808UdpTrafficService jT808UdpTrafficService;
 
+        private readonly JT808SimpleSystemCollectService jT808SimpleSystemCollectService;
+
         /// <summary>
         /// TCP一套注入
         /// </summary>
         /// <param name="jT808TcpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
+            JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
             JT808TcpTrafficService jT808TcpTrafficService,
             IJT808UnificationTcpSendService jT808UnificationTcpSendService,
             IJT808TcpSessionService jT808TcpSessionService,
@@ -43,11 +46,13 @@ namespace JT808.DotNetty.WebApi.Handlers
             JT808TcpAtomicCounterService jT808TcpAtomicCounterService
             )
         {
+            this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
             this.jT808TcpTrafficService = jT808TcpTrafficService;
             this.jT808UnificationTcpSendService = jT808UnificationTcpSendService;
             this.jT808TcpSessionService = jT808TcpSessionService;
             this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
             this.jT808TcpAtomicCounterService = jT808TcpAtomicCounterService;
+            InitCommonRoute();
             InitTcpRoute();
         }
 
@@ -56,16 +61,19 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// </summary>
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
+            JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
             JT808UdpTrafficService jT808UdpTrafficService,
             IJT808UdpSessionService jT808UdpSessionService,
             IJT808UnificationUdpSendService jT808UnificationUdpSendService,
             JT808UdpAtomicCounterService jT808UdpAtomicCounterService
             )
         {
+            this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
             this.jT808UdpTrafficService = jT808UdpTrafficService;
             this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
             this.jT808UdpAtomicCounterService = jT808UdpAtomicCounterService;
+            InitCommonRoute();
             InitUdpRoute();
         }
 
@@ -75,7 +83,8 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <param name="jT808TcpAtomicCounterService"></param>
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
-            JT808TcpTrafficService jT808TcpTrafficService,
+             JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
+             JT808TcpTrafficService jT808TcpTrafficService,
              JT808UdpTrafficService jT808UdpTrafficService,
              IJT808UnificationTcpSendService jT808UnificationTcpSendService,
              IJT808UnificationUdpSendService jT808UnificationUdpSendService,
@@ -86,6 +95,7 @@ namespace JT808.DotNetty.WebApi.Handlers
              JT808UdpAtomicCounterService jT808UdpAtomicCounterService
            )
         {
+            this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
             this.jT808TcpTrafficService = jT808TcpTrafficService;
             this.jT808UdpTrafficService = jT808UdpTrafficService;
             this.jT808UdpSessionService = jT808UdpSessionService;
@@ -95,6 +105,7 @@ namespace JT808.DotNetty.WebApi.Handlers
             this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
             this.jT808TcpAtomicCounterService = jT808TcpAtomicCounterService;
             this.jT808UdpAtomicCounterService = jT808UdpAtomicCounterService;
+            InitCommonRoute();
             InitTcpRoute();
             InitUdpRoute();
         }
@@ -281,6 +292,21 @@ namespace JT808.DotNetty.WebApi.Handlers
             jT808TrafficInfoDto.TotalReceiveSize = (jT808UdpTrafficService.TotalReceiveSize * 1.0) / 1024;
             jT808TrafficInfoDto.TotalSendSize = (jT808UdpTrafficService.TotalSendSize * 1.0) / 1024;
             return CreateJT808HttpResponse(jT808TrafficInfoDto);
+        }
+
+        /// <summary>
+        /// 获取当前系统进程使用率
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse SystemCollectGet(JT808HttpRequest request)
+        {
+            return CreateJT808HttpResponse(jT808SimpleSystemCollectService.Get());
+        }
+
+        protected virtual void InitCommonRoute()
+        {
+            CreateRoute(JT808Constants.JT808WebApiRouteTable.SystemCollectGet, SystemCollectGet);
         }
 
         protected virtual void InitTcpRoute()

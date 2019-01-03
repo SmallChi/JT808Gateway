@@ -14,12 +14,18 @@
 
             public const string TransmitPrefix = "Transmit";
 
+            public const string SystemCollectPrefix = "SystemCollect";
+
             public const string TrafficPrefix = "Traffic";
 
             public const string TcpPrefix = "Tcp";
 
             public const string UdpPrefix = "Udp";
 
+            /// <summary>
+            ///获取当前系统进程使用率
+            /// </summary>
+            public static string SystemCollectGet = $"{RouteTablePrefix}/{SystemCollectPrefix}/Get";
             /// <summary>
             ///基于Tcp的添加转发过滤地址
             /// </summary>
