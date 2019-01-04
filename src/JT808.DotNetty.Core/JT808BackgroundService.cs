@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,11 +19,7 @@ namespace JT808.DotNetty.Core
             get
             {
                 DateTime current = DateTime.Now;
-#if DEBUG
-                DateTime tmp = current.AddMinutes(1);
-#else
-                DateTime tmp = current.Date.AddDays(1).AddMilliseconds(-1);
-#endif
+                DateTime tmp = current.Date.AddDays(1).AddSeconds(-1);
                 return tmp.Subtract(current);
             }
             set { }
