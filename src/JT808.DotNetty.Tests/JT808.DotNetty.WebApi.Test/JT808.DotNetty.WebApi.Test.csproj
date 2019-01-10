@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
@@ -18,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj" />
+    <ProjectReference Include="..\..\JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj" />
   </ItemGroup>
 

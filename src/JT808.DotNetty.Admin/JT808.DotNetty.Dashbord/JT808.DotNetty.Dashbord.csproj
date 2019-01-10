@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="JT808.DotNetty.Dashbord.GrpcProtocol\**" />
     <Compile Remove="wwwroot\**" />
+    <Content Remove="JT808.DotNetty.Dashbord.GrpcProtocol\**" />
     <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="JT808.DotNetty.Dashbord.GrpcProtocol\**" />
     <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="JT808.DotNetty.Dashbord.GrpcProtocol\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
 
@@ -16,7 +20,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
-    <PackageReference Include="WebApiClient.JIT" Version="0.2.9" />
+    <PackageReference Include="WebApiClient.JIT" Version="0.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

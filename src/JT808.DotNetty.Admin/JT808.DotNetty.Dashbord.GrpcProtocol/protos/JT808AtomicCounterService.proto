@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+package JT808.GrpcDashbord.AtomicCounterGrpcService;
+
+import "ResultReply.proto";
+
+service AtomicCounterService{
+	rpc GetTcpAtomicCounter() returns (AtomicCounterReply){}
+	rpc GetUdpAtomicCounter() returns (AtomicCounterReply){}
+}
+
+message AtomicCounterReply{
+	AtomicCounterInfo AtomicCounterInfo = 1;
+	JT808.GrpcDashbord.ServiceGrpcBase.ResultReply ResultReply = 2;
+}
+
+message AtomicCounterInfo{
+    int32 MsgSuccessCount = 1; 
+	int32 MsgFailCount = 2;
+}

@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+
+package JT808.GrpcDashbord.ServiceGrpcBase;
+
+// 统一分页返回参数
+message PageOptionsRequest{
+    int32 PageIndex=1; 
+	int32 Total =2;
+}

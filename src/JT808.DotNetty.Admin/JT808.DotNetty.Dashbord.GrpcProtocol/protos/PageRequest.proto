@@ -1,0 +1,12 @@
+﻿syntax = "proto3";
+
+package JT808.GrpcDashbord.ServiceGrpcBase;
+
+// 统一分页参数
+message PageRequest{
+    int32 PageIndex=1; 
+    int32 PageSize=2;
+	int32 Total =3;
+	int32 Skip=4;
+	map<string, string> Sort = 5;
+}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JT808.DotNetty.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JT808.DotNetty.Dashbord.Controllers
@@ -38,31 +37,31 @@ namespace JT808.DotNetty.Dashbord.Controllers
             return true;
         }
 
-        /// <summary>
-        /// 获取会话集合
-        /// </summary>
-        /// <param name="jT808IPAddressDto"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("GetAll")]
-        public ActionResult<List<JT808SessionInfoDto>> GetAll()
-        {
-            return new List<JT808SessionInfoDto>() {
-                new JT808SessionInfoDto {
-                      ChannelId="0x00x0",
-                      LastActiveTime=DateTime.Now,
-                      RemoteAddressIP="127.0.0.1:559",
-                      TerminalPhoneNo="123456789012",
-                      StartTime=DateTime.Now,
-                },
-                new JT808SessionInfoDto {
-                      ChannelId="0x00x1",
-                      LastActiveTime=DateTime.Now,
-                      RemoteAddressIP="127.0.0.1:558",
-                      TerminalPhoneNo="123456789013",
-                      StartTime=DateTime.Now,
-                }
-            };
-        }
+        ///// <summary>
+        ///// 获取会话集合
+        ///// </summary>
+        ///// <param name="jT808IPAddressDto"></param>
+        ///// <returns></returns>
+        //[HttpGet]
+        //[Route("GetAll")]
+        //public ActionResult<List<JT808SessionInfoDto>> GetAll()
+        //{
+        //    return new List<JT808SessionInfoDto>() {
+        //        new JT808SessionInfoDto {
+        //              ChannelId="0x00x0",
+        //              LastActiveTime=DateTime.Now,
+        //              RemoteAddressIP="127.0.0.1:559",
+        //              TerminalPhoneNo="123456789012",
+        //              StartTime=DateTime.Now,
+        //        },
+        //        new JT808SessionInfoDto {
+        //              ChannelId="0x00x1",
+        //              LastActiveTime=DateTime.Now,
+        //              RemoteAddressIP="127.0.0.1:558",
+        //              TerminalPhoneNo="123456789013",
+        //              StartTime=DateTime.Now,
+        //        }
+        //    };
+        //}
     }
 }

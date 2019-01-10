@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+package JT808.GrpcDashbord.ServiceGrpcBase;
+
+// 统一回复
+message ResultReply{
+    // 状态码
+	enum StatusCode{
+		Success = 200;
+		NoContent = 201;
+		Failure = 202;
+		Unauthorized=403;
+		InnerError = 500;
+	}
+    StatusCode Code=1;
+    string Msg=2;
+}

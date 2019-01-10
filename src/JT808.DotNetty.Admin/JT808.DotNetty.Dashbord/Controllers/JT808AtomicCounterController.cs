@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JT808.DotNetty.Dtos;
+using JT808.DotNetty.Abstractions.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JT808.DotNetty.Dashbord.Controllers

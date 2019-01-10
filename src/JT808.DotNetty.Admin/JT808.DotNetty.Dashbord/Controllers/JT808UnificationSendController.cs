@@ -13,6 +13,7 @@ namespace JT808.DotNetty.Dashbord.Controllers
     [ApiController]
     public class JT808UnificationSendController : ControllerBase
     {
+
         /// <summary>
         /// 文本信息下发
         /// </summary>
