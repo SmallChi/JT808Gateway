@@ -23,10 +23,6 @@ namespace JT808.DotNetty.Core.Configurations
                     {
                         endPoint = new IPEndPoint(ip, Port);
                     }
-                    else
-                    {
-                        endPoint = new DnsEndPoint(Host, Port);
-                    }
                 }
                 return endPoint;
             }

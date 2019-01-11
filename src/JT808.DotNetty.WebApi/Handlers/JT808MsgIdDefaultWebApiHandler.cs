@@ -275,10 +275,11 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <returns></returns>
         public JT808HttpResponse TrafficTcpGet(JT808HttpRequest request)
         {
-            JT808TrafficInfoDto jT808TrafficInfoDto = new JT808TrafficInfoDto();
-            jT808TrafficInfoDto.TotalReceiveSize = (jT808TcpTrafficService.TotalReceiveSize * 1.0) / 1024;
-            jT808TrafficInfoDto.TotalSendSize = (jT808TcpTrafficService.TotalSendSize * 1.0) / 1024;
-            return CreateJT808HttpResponse(jT808TrafficInfoDto);
+            JT808ResultDto<JT808TrafficInfoDto> jT808ResultDto = new JT808ResultDto<JT808TrafficInfoDto>();
+            jT808ResultDto.Data = new JT808TrafficInfoDto();
+            jT808ResultDto.Data.TotalReceiveSize = (jT808TcpTrafficService.TotalReceiveSize * 1.0) / 1024;
+            jT808ResultDto.Data.TotalSendSize = (jT808TcpTrafficService.TotalSendSize * 1.0) / 1024;
+            return CreateJT808HttpResponse(jT808ResultDto);
         }
 
         /// <summary>
@@ -288,10 +289,11 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <returns></returns>
         public JT808HttpResponse TrafficUdpGet(JT808HttpRequest request)
         {
-            JT808TrafficInfoDto jT808TrafficInfoDto = new JT808TrafficInfoDto();
-            jT808TrafficInfoDto.TotalReceiveSize = (jT808UdpTrafficService.TotalReceiveSize * 1.0) / 1024;
-            jT808TrafficInfoDto.TotalSendSize = (jT808UdpTrafficService.TotalSendSize * 1.0) / 1024;
-            return CreateJT808HttpResponse(jT808TrafficInfoDto);
+            JT808ResultDto<JT808TrafficInfoDto> jT808ResultDto = new JT808ResultDto<JT808TrafficInfoDto>();
+            jT808ResultDto.Data = new JT808TrafficInfoDto();
+            jT808ResultDto.Data.TotalReceiveSize = (jT808UdpTrafficService.TotalReceiveSize * 1.0) / 1024;
+            jT808ResultDto.Data.TotalSendSize = (jT808UdpTrafficService.TotalSendSize * 1.0) / 1024;
+            return CreateJT808HttpResponse(jT808ResultDto);
         }
 
         /// <summary>
@@ -301,7 +303,9 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <returns></returns>
         public JT808HttpResponse SystemCollectGet(JT808HttpRequest request)
         {
-            return CreateJT808HttpResponse(jT808SimpleSystemCollectService.Get());
+            JT808ResultDto<JT808SystemCollectInfoDto> jT808ResultDto = new JT808ResultDto<JT808SystemCollectInfoDto>();
+            jT808ResultDto.Data = jT808SimpleSystemCollectService.Get();
+            return CreateJT808HttpResponse(jT808ResultDto);
         }
 
         protected virtual void InitCommonRoute()

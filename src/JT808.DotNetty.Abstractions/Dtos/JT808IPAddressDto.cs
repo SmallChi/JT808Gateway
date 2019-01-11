@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace JT808.DotNetty.Abstractions.Dtos
@@ -11,7 +12,7 @@ namespace JT808.DotNetty.Abstractions.Dtos
 
         public int Port { get; set; }
 
-        private EndPoint endPoint;
+        public EndPoint endPoint;
 
         public EndPoint EndPoint
         {
@@ -30,6 +31,7 @@ namespace JT808.DotNetty.Abstractions.Dtos
                 }
                 return endPoint;
             }
+            set { }
         }
     }
 }

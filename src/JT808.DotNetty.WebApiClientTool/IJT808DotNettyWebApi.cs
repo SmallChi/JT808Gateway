@@ -1,6 +1,4 @@
-﻿using JT808.DotNetty.Abstractions;
-using JT808.DotNetty.Abstractions.Dtos;
-using System;
+﻿using JT808.DotNetty.Abstractions.Dtos;
 using System.Collections.Generic;
 using WebApiClient;
 using WebApiClient.Attributes;
@@ -13,63 +11,56 @@ namespace JT808.DotNetty.WebApiClientTool
         /// <summary>
         /// 会话服务集合
         /// </summary>
-        /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("Tcp/Session/GetAll")]
-        ITask<List<JT808TcpSessionInfoDto>> GetTcpSessionAll([Uri]string uri);
+        ITask<JT808ResultDto<List<JT808TcpSessionInfoDto>>> GetTcpSessionAll();
         /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
-        /// <param name="uri"></param>
         /// <param name="terminalPhoneNo"></param>
         /// <returns></returns>
         [HttpPost("Tcp/Session/RemoveByTerminalPhoneNo")]
-        ITask<JT808ResultDto<bool>> RemoveTcpSessionByTerminalPhoneNo([Uri]string uri, [JsonContent] string terminalPhoneNo);
+        ITask<JT808ResultDto<bool>> RemoveTcpSessionByTerminalPhoneNo([JsonContent] string terminalPhoneNo);
         /// <summary>
         /// 基于Tcp的统一下发信息
         /// </summary>
-        /// <param name="uri"></param>
         /// <param name="jT808UnificationSendRequestDto"></param>
         /// <returns></returns>
         [HttpPost("Tcp/UnificationSend")]
-        ITask<JT808ResultDto<bool>> UnificationTcpSend([Uri]string uri, [JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
+        ITask<JT808ResultDto<bool>> UnificationTcpSend([JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
         /// <summary>
         /// 添加转发过滤地址
         /// </summary>
-        /// <param name="uri"></param>
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpPost("Tcp/Transmit/Add")]
-        ITask<JT808ResultDto<bool>> AddTransmitAddress([Uri]string uri, [JsonContent]JT808IPAddressDto jT808IPAddressDto);
+        ITask<JT808ResultDto<bool>> AddTransmitAddress([JsonContent]JT808IPAddressDto jT808IPAddressDto);
         /// <summary>
         /// 删除转发过滤地址（不能删除在网关服务器配置文件配的地址）
         /// </summary>
-        /// <param name="uri"></param>
         /// <param name="jT808IPAddressDto"></param>
         /// <returns></returns>
         [HttpPost("Tcp/Transmit/Remove")]
-        ITask<JT808ResultDto<bool>> RemoveTransmitAddress([Uri]string uri, [JsonContent]JT808IPAddressDto jT808IPAddressDto);
+        ITask<JT808ResultDto<bool>> RemoveTransmitAddress([JsonContent]JT808IPAddressDto jT808IPAddressDto);
         /// <summary>
         /// 获取转发过滤地址信息集合
         /// </summary>
-        /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("Tcp/Transmit/GetAll")]
-        ITask<JT808ResultDto<List<string>>> GetTransmitAll([Uri]string uri);
+        ITask<JT808ResultDto<List<string>>> GetTransmitAll();
         /// <summary>
         /// 获取Tcp包计数器
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("Tcp/GetAtomicCounter")]
-        ITask<JT808ResultDto<JT808AtomicCounterDto>> GetTcpAtomicCounter([Uri]string uri);
+        ITask<JT808ResultDto<JT808AtomicCounterDto>> GetTcpAtomicCounter();
         /// <summary>
         /// 基于Tcp的流量获取
         /// </summary>
-        /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("Tcp/Traffic/Get")]
-        ITask<JT808ResultDto<JT808TrafficInfoDto>> GetTcpTraffic([Uri]string uri);
+        ITask<JT808ResultDto<JT808TrafficInfoDto>> GetTcpTraffic();
 
         #endregion
 
@@ -80,48 +71,42 @@ namespace JT808.DotNetty.WebApiClientTool
         /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("Udp/Session/GetAll")]
-        ITask<JT808ResultDto<List<JT808UdpSessionInfoDto>>> GetUdpSessionAll([Uri]string uri);
+        ITask<JT808ResultDto<List<JT808UdpSessionInfoDto>>> GetUdpSessionAll();
         /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
-        /// <param name="uri"></param>
         /// <param name="terminalPhoneNo"></param>
         /// <returns></returns>
         [HttpPost("Udp/Session/RemoveByTerminalPhoneNo")]
-        ITask<JT808ResultDto<bool>> RemoveUdpSessionByTerminalPhoneNo([Uri]string uri, [JsonContent] string terminalPhoneNo);
+        ITask<JT808ResultDto<bool>> RemoveUdpSessionByTerminalPhoneNo([JsonContent] string terminalPhoneNo);
         /// <summary>
         /// /基于Udp的统一下发信息
         /// </summary>
-        /// <param name="uri"></param>
         /// <param name="jT808UnificationSendRequestDto"></param>
         /// <returns></returns>
-        [HttpPost("Udp/UnificationSend/")]
-        ITask<JT808ResultDto<bool>> UnificationUdpSend([Uri]string uri, [JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
+        [HttpPost("Udp/UnificationSend")]
+        ITask<JT808ResultDto<bool>> UnificationUdpSend([JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
         /// <summary>
         /// 基于Udp的流量获取
         /// </summary>
-        /// <param name="uri"></param>
         /// <returns></returns>
-        [HttpGet("Udp/TrafficPrefix/Get")]
-        ITask<JT808ResultDto<JT808TrafficInfoDto>> GetUdpTraffic([Uri]string uri);
+        [HttpGet("Udp/Traffic/Get")]
+        ITask<JT808ResultDto<JT808TrafficInfoDto>> GetUdpTraffic();
         /// <summary>
         /// 获取Udp包计数器
         /// </summary>
-        /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("Udp/GetAtomicCounter")]
-        ITask<JT808ResultDto<JT808AtomicCounterDto>> GetUdpAtomicCounter([Uri]string uri);
-
+        ITask<JT808ResultDto<JT808AtomicCounterDto>> GetUdpAtomicCounter();
         #endregion
 
         #region 公共部分
         /// <summary>
         /// 获取当前系统进程使用率
         /// </summary>
-        /// <param name="uri"></param>
         /// <returns></returns>
         [HttpGet("SystemCollect/Get")]
-        ITask<JT808ResultDto<JT808SystemCollectInfoDto>> GetSystemCollect([Uri]string uri);
+        ITask<JT808ResultDto<JT808SystemCollectInfoDto>> GetSystemCollect();
         #endregion
     }
 }

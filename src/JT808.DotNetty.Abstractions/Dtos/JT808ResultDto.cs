@@ -6,6 +6,11 @@ namespace JT808.DotNetty.Abstractions.Dtos
 {
     public class JT808ResultDto<T>
     {
+        public JT808ResultDto()
+        {
+            Code = JT808ResultCode.Ok;
+        }
+
         public string Message { get; set; }
 
         public int Code { get; set; }
