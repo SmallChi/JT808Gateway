@@ -3,10 +3,11 @@
 package JT808.GrpcDashbord.AtomicCounterGrpcService;
 
 import "ResultReply.proto";
+import "EmptyRequest.proto";
 
 service AtomicCounterService{
-	rpc GetTcpAtomicCounter() returns (AtomicCounterReply){}
-	rpc GetUdpAtomicCounter() returns (AtomicCounterReply){}
+	rpc GetTcpAtomicCounter(JT808.GrpcDashbord.ServiceGrpcBase.EmptyRequest) returns (AtomicCounterReply){}
+	rpc GetUdpAtomicCounter(JT808.GrpcDashbord.ServiceGrpcBase.EmptyRequest) returns (AtomicCounterReply){}
 }
 
 message AtomicCounterReply{

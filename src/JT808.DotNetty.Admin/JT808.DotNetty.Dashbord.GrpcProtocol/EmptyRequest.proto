@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package JT808.GrpcDashbord.ServiceGrpcBase;
+
+// 空请求
+message EmptyRequest{
+    
+}

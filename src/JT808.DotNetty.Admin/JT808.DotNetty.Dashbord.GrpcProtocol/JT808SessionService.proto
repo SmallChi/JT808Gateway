@@ -1,0 +1,32 @@
+﻿syntax = "proto3";
+
+package JT808.GrpcDashbord.SessionGrpcService;
+
+import "ResultReply.proto";
+import "EmptyRequest.proto";
+
+service SessionService{
+	rpc GetTcpSessionAll(JT808.GrpcDashbord.ServiceGrpcBase.EmptyRequest) returns (TcpSessionReply){}
+	rpc GetUdpSessionAll(JT808.GrpcDashbord.ServiceGrpcBase.EmptyRequest) returns (UdpSessionReply){}
+}
+
+message TcpSessionReply{
+  repeated SessionInfo SessionInfos=1; 
+  JT808.GrpcDashbord.ServiceGrpcBase.ResultReply ResultReply=2;
+}
+
+message UdpSessionReply{
+  repeated SessionInfo SessionInfos = 1; 
+  JT808.GrpcDashbord.ServiceGrpcBase.ResultReply ResultReply=2;
+}
+
+message SessionInfo{
+	// 最后上线时间
+	int64 LastActiveTime=1;
+	// 上线时间
+	int64 StartTime=2;
+	// 终端手机号
+	string TerminalPhoneNo=3;
+	// 远程ip地址
+	string RemoteAddressIP=4;
+}

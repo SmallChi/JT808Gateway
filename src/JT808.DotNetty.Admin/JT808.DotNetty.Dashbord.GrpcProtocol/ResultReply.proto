@@ -6,11 +6,11 @@ package JT808.GrpcDashbord.ServiceGrpcBase;
 message ResultReply{
     // 状态码
 	enum StatusCode{
-		Success = 200;
-		NoContent = 201;
-		Failure = 202;
-		Unauthorized=403;
-		InnerError = 500;
+		Success = 0;
+		NoContent = 1;
+		Failure = 2;
+		Unauthorized=3;
+		InnerError = 4;
 	}
     StatusCode Code=1;
     string Msg=2;
