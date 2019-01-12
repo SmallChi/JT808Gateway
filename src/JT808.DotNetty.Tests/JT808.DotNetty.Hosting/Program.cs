@@ -1,9 +1,11 @@
-﻿using JT808.DotNetty.Core;
+﻿using JT808.DotNetty.Abstractions;
+using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Hosting.Handlers;
 using JT808.DotNetty.Tcp;
 using JT808.DotNetty.Udp;
 using JT808.DotNetty.WebApi;
+using JT808.DotNetty.WebApiClientTool;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -14,6 +16,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using WebApiClient.Extensions.DependencyInjection;
 
 namespace JT808.DotNetty.Hosting
 {
@@ -36,7 +39,7 @@ namespace JT808.DotNetty.Hosting
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
-                    services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));             
+                    services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Core(hostContext.Configuration)
                             .AddJT808TcpHost()
                             .AddJT808UdpHost()
@@ -45,6 +48,19 @@ namespace JT808.DotNetty.Hosting
                     services.Replace(new ServiceDescriptor(typeof(JT808MsgIdTcpHandlerBase), typeof(JT808MsgIdTcpCustomHandler), ServiceLifetime.Singleton));
                     // 自定义Udp消息处理业务
                     services.Replace(new ServiceDescriptor(typeof(JT808MsgIdUdpHandlerBase), typeof(JT808MsgIdUdpCustomHandler), ServiceLifetime.Singleton));
+                    // 自定义会话通知（在线/离线）使用异步方式
+                    //services.Replace(new ServiceDescriptor(typeof(IJT808SessionPublishing), typeof(CustomJT808SessionPublishing), ServiceLifetime.Singleton));
+                    //  自定义原包转发 使用异步方式
+                    //services.Replace(new ServiceDescriptor(typeof(IJT808SourcePackageDispatcher), typeof(CustomJT808SourcePackageDispatcher), ServiceLifetime.Singleton));
+                    // webapi客户端调用
+                    services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+                    {
+                        c.HttpHost = new Uri("http://localhost:12828/");
+                        c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+                        c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
+                    });
+                    var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
+                    var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
                 });
 
             await serverHostBuilder.RunConsoleAsync();

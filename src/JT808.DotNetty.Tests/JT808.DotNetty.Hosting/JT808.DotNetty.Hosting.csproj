@@ -12,11 +12,13 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="WebApiClient.Extensions.DependencyInjection" Version="1.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj" />
+    <ProjectReference Include="..\..\JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj" />
   </ItemGroup>
 

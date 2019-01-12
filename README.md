@@ -55,7 +55,7 @@
 | Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
 | Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
 
-## 参考1
+## 举个栗子1
 
 ``` demo1
 static async Task Main(string[] args)
@@ -74,7 +74,7 @@ static async Task Main(string[] args)
         .ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>))
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddJT808Core(hostContext.Configuration)
                     .AddJT808TcpHost()
                     .AddJT808UdpHost()
@@ -83,6 +83,19 @@ static async Task Main(string[] args)
             services.Replace(new ServiceDescriptor(typeof(JT808MsgIdTcpHandlerBase), typeof(JT808MsgIdTcpCustomHandler), ServiceLifetime.Singleton));
             // 自定义Udp消息处理业务
             services.Replace(new ServiceDescriptor(typeof(JT808MsgIdUdpHandlerBase), typeof(JT808MsgIdUdpCustomHandler), ServiceLifetime.Singleton));
+            // 自定义会话通知（在线/离线）使用异步方式
+            //services.Replace(new ServiceDescriptor(typeof(IJT808SessionPublishing), typeof(CustomJT808SessionPublishing), ServiceLifetime.Singleton));
+            //  自定义原包转发 使用异步方式
+            //services.Replace(new ServiceDescriptor(typeof(IJT808SourcePackageDispatcher), typeof(CustomJT808SourcePackageDispatcher), ServiceLifetime.Singleton));
+            // webapi客户端调用
+            services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+            {
+                c.HttpHost = new Uri("http://localhost:12828/");
+                c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+                c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
+            });
+            var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
+            var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
         });
 
     await serverHostBuilder.RunConsoleAsync();
