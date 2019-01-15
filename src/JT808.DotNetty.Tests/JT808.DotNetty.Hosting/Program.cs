@@ -59,8 +59,8 @@ namespace JT808.DotNetty.Hosting
                         c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
                         c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
                     });
-                    var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
-                    var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
+                    //var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
+                    //var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
                 });
 
             await serverHostBuilder.RunConsoleAsync();

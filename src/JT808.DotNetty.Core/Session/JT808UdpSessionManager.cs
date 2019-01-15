@@ -6,6 +6,9 @@ using System.Linq;
 using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Core.Metadata;
 using DotNetty.Transport.Channels;
+using Microsoft.Extensions.Caching.Memory;
+using JT808.DotNetty.Core.Configurations;
+using Microsoft.Extensions.Options;
 
 namespace JT808.DotNetty.Core
 {
@@ -18,13 +21,18 @@ namespace JT808.DotNetty.Core
         private readonly ILogger<JT808UdpSessionManager> logger;
 
         private readonly IJT808SessionPublishing jT808SessionPublishing;
-
+        private readonly IMemoryCache memoryCache;
+        private readonly IOptionsMonitor<JT808Configuration> jT808ConfigurationAccessor;
         public JT808UdpSessionManager(
             IJT808SessionPublishing jT808SessionPublishing,
+            IMemoryCache memoryCache,
+            IOptionsMonitor<JT808Configuration> jT808ConfigurationAccessor,
             ILoggerFactory loggerFactory)
         {
             this.jT808SessionPublishing = jT808SessionPublishing;
             logger = loggerFactory.CreateLogger<JT808UdpSessionManager>();
+            this.memoryCache = memoryCache;
+           this.jT808ConfigurationAccessor = jT808ConfigurationAccessor;
         }
 
         private ConcurrentDictionary<string, JT808UdpSession> SessionIdDict = new ConcurrentDictionary<string, JT808UdpSession>(StringComparer.OrdinalIgnoreCase);
@@ -50,11 +58,29 @@ namespace JT808.DotNetty.Core
                 return default;
             }
         }
+        /// <summary>
+        /// 定期去删除过期数据
+        /// </summary>
+        public void TimerToRemoveExpiredData() {
+            foreach (var item in SessionIdDict)
+            {
+                memoryCache.Get(item.Key);
+            }
+        }
 
         public void TryAdd(JT808UdpSession appSession)
-        {  
+        {
+            memoryCache.GetOrCreate<bool>(appSession.TerminalPhoneNo, (cacheEntry) =>
+            {
+                cacheEntry.SetSlidingExpiration(TimeSpan.FromSeconds(jT808ConfigurationAccessor.CurrentValue.UdpSlidingExpirationTimeSeconds));
+                cacheEntry.RegisterPostEvictionCallback((key, value, reason, state) =>
+                {
+                    RemoveSession(key.ToString());
+                });
+                return true;
+            });
             //1.先判断是否在缓存里面
-            if(SessionIdDict.TryGetValue(appSession.TerminalPhoneNo,out JT808UdpSession jT808UdpSession))
+            if (SessionIdDict.TryGetValue(appSession.TerminalPhoneNo,out JT808UdpSession jT808UdpSession))
             {
                 //处理缓存
                 //判断设备的终结点是否相同

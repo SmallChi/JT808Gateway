@@ -28,6 +28,8 @@ namespace JT808.DotNetty.Core.Configurations
 
         public int AllIdleTimeSeconds { get; set; } = 3600;
 
+        public int UdpSlidingExpirationTimeSeconds { get; set; } = 5*60;
+
         /// <summary>
         /// WebApi服务
         /// 默认828端口
