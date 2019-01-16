@@ -25,26 +25,20 @@ namespace JT808.GrpcDashbord.AtomicCounterGrpcService {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ch9KVDgwOEF0b21pY0NvdW50ZXJTZXJ2aWNlLnByb3RvEitKVDgwOC5HcnBj",
-            "RGFzaGJvcmQuQXRvbWljQ291bnRlckdycGNTZXJ2aWNlGhFSZXN1bHRSZXBs",
-            "eS5wcm90bxoSRW1wdHlSZXF1ZXN0LnByb3RvIrUBChJBdG9taWNDb3VudGVy",
-            "UmVwbHkSWQoRQXRvbWljQ291bnRlckluZm8YASABKAsyPi5KVDgwOC5HcnBj",
-            "RGFzaGJvcmQuQXRvbWljQ291bnRlckdycGNTZXJ2aWNlLkF0b21pY0NvdW50",
-            "ZXJJbmZvEkQKC1Jlc3VsdFJlcGx5GAIgASgLMi8uSlQ4MDguR3JwY0Rhc2hi",
-            "b3JkLlNlcnZpY2VHcnBjQmFzZS5SZXN1bHRSZXBseSJCChFBdG9taWNDb3Vu",
-            "dGVySW5mbxIXCg9Nc2dTdWNjZXNzQ291bnQYASABKAUSFAoMTXNnRmFpbENv",
-            "dW50GAIgASgFMrACChRBdG9taWNDb3VudGVyU2VydmljZRKKAQoTR2V0VGNw",
-            "QXRvbWljQ291bnRlchIwLkpUODA4LkdycGNEYXNoYm9yZC5TZXJ2aWNlR3Jw",
-            "Y0Jhc2UuRW1wdHlSZXF1ZXN0Gj8uSlQ4MDguR3JwY0Rhc2hib3JkLkF0b21p",
-            "Y0NvdW50ZXJHcnBjU2VydmljZS5BdG9taWNDb3VudGVyUmVwbHkiABKKAQoT",
-            "R2V0VWRwQXRvbWljQ291bnRlchIwLkpUODA4LkdycGNEYXNoYm9yZC5TZXJ2",
-            "aWNlR3JwY0Jhc2UuRW1wdHlSZXF1ZXN0Gj8uSlQ4MDguR3JwY0Rhc2hib3Jk",
-            "LkF0b21pY0NvdW50ZXJHcnBjU2VydmljZS5BdG9taWNDb3VudGVyUmVwbHki",
-            "AGIGcHJvdG8z"));
+            "RGFzaGJvcmQuQXRvbWljQ291bnRlckdycGNTZXJ2aWNlGhJFbXB0eVJlcXVl",
+            "c3QucHJvdG8iQwoSQXRvbWljQ291bnRlclJlcGx5EhcKD01zZ1N1Y2Nlc3ND",
+            "b3VudBgBIAEoBRIUCgxNc2dGYWlsQ291bnQYAiABKAUysAIKFEF0b21pY0Nv",
+            "dW50ZXJTZXJ2aWNlEooBChNHZXRUY3BBdG9taWNDb3VudGVyEjAuSlQ4MDgu",
+            "R3JwY0Rhc2hib3JkLlNlcnZpY2VHcnBjQmFzZS5FbXB0eVJlcXVlc3QaPy5K",
+            "VDgwOC5HcnBjRGFzaGJvcmQuQXRvbWljQ291bnRlckdycGNTZXJ2aWNlLkF0",
+            "b21pY0NvdW50ZXJSZXBseSIAEooBChNHZXRVZHBBdG9taWNDb3VudGVyEjAu",
+            "SlQ4MDguR3JwY0Rhc2hib3JkLlNlcnZpY2VHcnBjQmFzZS5FbXB0eVJlcXVl",
+            "c3QaPy5KVDgwOC5HcnBjRGFzaGJvcmQuQXRvbWljQ291bnRlckdycGNTZXJ2",
+            "aWNlLkF0b21pY0NvdW50ZXJSZXBseSIAYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::JT808.GrpcDashbord.ServiceGrpcBase.ResultReplyReflection.Descriptor, global::JT808.GrpcDashbord.ServiceGrpcBase.EmptyRequestReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::JT808.GrpcDashbord.ServiceGrpcBase.EmptyRequestReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterReply), global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterReply.Parser, new[]{ "AtomicCounterInfo", "ResultReply" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterInfo), global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterInfo.Parser, new[]{ "MsgSuccessCount", "MsgFailCount" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterReply), global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterReply.Parser, new[]{ "MsgSuccessCount", "MsgFailCount" }, null, null, null)
           }));
     }
     #endregion
@@ -76,183 +70,14 @@ namespace JT808.GrpcDashbord.AtomicCounterGrpcService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public AtomicCounterReply(AtomicCounterReply other) : this() {
-      atomicCounterInfo_ = other.atomicCounterInfo_ != null ? other.atomicCounterInfo_.Clone() : null;
-      resultReply_ = other.resultReply_ != null ? other.resultReply_.Clone() : null;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AtomicCounterReply Clone() {
-      return new AtomicCounterReply(this);
-    }
-
-    /// <summary>Field number for the "AtomicCounterInfo" field.</summary>
-    public const int AtomicCounterInfoFieldNumber = 1;
-    private global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterInfo atomicCounterInfo_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterInfo AtomicCounterInfo {
-      get { return atomicCounterInfo_; }
-      set {
-        atomicCounterInfo_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "ResultReply" field.</summary>
-    public const int ResultReplyFieldNumber = 2;
-    private global::JT808.GrpcDashbord.ServiceGrpcBase.ResultReply resultReply_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::JT808.GrpcDashbord.ServiceGrpcBase.ResultReply ResultReply {
-      get { return resultReply_; }
-      set {
-        resultReply_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as AtomicCounterReply);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(AtomicCounterReply other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (!object.Equals(AtomicCounterInfo, other.AtomicCounterInfo)) return false;
-      if (!object.Equals(ResultReply, other.ResultReply)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (atomicCounterInfo_ != null) hash ^= AtomicCounterInfo.GetHashCode();
-      if (resultReply_ != null) hash ^= ResultReply.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (atomicCounterInfo_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(AtomicCounterInfo);
-      }
-      if (resultReply_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(ResultReply);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (atomicCounterInfo_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AtomicCounterInfo);
-      }
-      if (resultReply_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ResultReply);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(AtomicCounterReply other) {
-      if (other == null) {
-        return;
-      }
-      if (other.atomicCounterInfo_ != null) {
-        if (atomicCounterInfo_ == null) {
-          atomicCounterInfo_ = new global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterInfo();
-        }
-        AtomicCounterInfo.MergeFrom(other.AtomicCounterInfo);
-      }
-      if (other.resultReply_ != null) {
-        if (resultReply_ == null) {
-          resultReply_ = new global::JT808.GrpcDashbord.ServiceGrpcBase.ResultReply();
-        }
-        ResultReply.MergeFrom(other.ResultReply);
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            if (atomicCounterInfo_ == null) {
-              atomicCounterInfo_ = new global::JT808.GrpcDashbord.AtomicCounterGrpcService.AtomicCounterInfo();
-            }
-            input.ReadMessage(atomicCounterInfo_);
-            break;
-          }
-          case 18: {
-            if (resultReply_ == null) {
-              resultReply_ = new global::JT808.GrpcDashbord.ServiceGrpcBase.ResultReply();
-            }
-            input.ReadMessage(resultReply_);
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class AtomicCounterInfo : pb::IMessage<AtomicCounterInfo> {
-    private static readonly pb::MessageParser<AtomicCounterInfo> _parser = new pb::MessageParser<AtomicCounterInfo>(() => new AtomicCounterInfo());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<AtomicCounterInfo> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::JT808.GrpcDashbord.AtomicCounterGrpcService.JT808AtomicCounterServiceReflection.Descriptor.MessageTypes[1]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AtomicCounterInfo() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AtomicCounterInfo(AtomicCounterInfo other) : this() {
       msgSuccessCount_ = other.msgSuccessCount_;
       msgFailCount_ = other.msgFailCount_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AtomicCounterInfo Clone() {
-      return new AtomicCounterInfo(this);
+    public AtomicCounterReply Clone() {
+      return new AtomicCounterReply(this);
     }
 
     /// <summary>Field number for the "MsgSuccessCount" field.</summary>
@@ -279,11 +104,11 @@ namespace JT808.GrpcDashbord.AtomicCounterGrpcService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as AtomicCounterInfo);
+      return Equals(other as AtomicCounterReply);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(AtomicCounterInfo other) {
+    public bool Equals(AtomicCounterReply other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -342,7 +167,7 @@ namespace JT808.GrpcDashbord.AtomicCounterGrpcService {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(AtomicCounterInfo other) {
+    public void MergeFrom(AtomicCounterReply other) {
       if (other == null) {
         return;
       }

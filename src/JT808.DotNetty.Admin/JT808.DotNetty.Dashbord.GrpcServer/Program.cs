@@ -33,7 +33,15 @@ namespace JT808.DotNetty.Dashbord.GrpcServer
             Metadata metadata = new Metadata();
             metadata.Add("token", "test");
             metadata.Add("request", "web");
-            var result=client.GetTcpAtomicCounter(new GrpcDashbord.ServiceGrpcBase.EmptyRequest(), metadata);
+           
+            try
+            {
+                var result = client.GetTcpAtomicCounter(new GrpcDashbord.ServiceGrpcBase.EmptyRequest(), metadata);
+            }
+            catch (RpcException ex)
+            {
+
+            }
             Console.ReadKey();
             server.ShutdownAsync().Wait();
         }
