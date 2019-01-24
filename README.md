@@ -90,7 +90,7 @@ static async Task Main(string[] args)
             // webapi客户端调用
             services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
             {
-                c.HttpHost = new Uri("http://localhost:12828/");
+                c.HttpHost = new Uri("http://localhost:12828/jt808api/");
                 c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
                 c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
             });
