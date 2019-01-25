@@ -60,7 +60,8 @@ namespace JT808.DotNetty.Core
             //1.先判断是否在缓存里面
             if (SessionIdDict.TryGetValue(appSession.TerminalPhoneNo,out JT808UdpSession jT808UdpSession))
             {
-                SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, appSession);
+                appSession.StartTime = jT808UdpSession.StartTime;
+                SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, jT808UdpSession);
             }
             else
             {
