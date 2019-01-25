@@ -14,30 +14,16 @@ namespace JT808.DotNetty.Dashbord.GrpcServer.GrpcImpls
         public override Task<AtomicCounterReply> GetTcpAtomicCounter(EmptyRequest request, ServerCallContext context)
         {
             AtomicCounterReply atomicCounterReply = new AtomicCounterReply();
-            atomicCounterReply.AtomicCounterInfo = new AtomicCounterInfo
-            {
-                MsgFailCount = 10,
-                MsgSuccessCount = 11111
-            };
-            atomicCounterReply.ResultReply = new ResultReply
-            {
-                Code = ResultReply.Types.StatusCode.Success,
-            };
+            atomicCounterReply.MsgFailCount = 10;
+            atomicCounterReply.MsgSuccessCount = 1111;
             return Task.FromResult(atomicCounterReply);
         }
 
         public override Task<AtomicCounterReply> GetUdpAtomicCounter(EmptyRequest request, ServerCallContext context)
         {
             AtomicCounterReply atomicCounterReply = new AtomicCounterReply();
-            atomicCounterReply.AtomicCounterInfo = new AtomicCounterInfo
-            {
-                MsgFailCount = 50,
-                MsgSuccessCount = 10000
-            };
-            atomicCounterReply.ResultReply = new ResultReply
-            {
-                Code = ResultReply.Types.StatusCode.Success,
-            };
+            atomicCounterReply.MsgFailCount = 50;
+            atomicCounterReply.MsgSuccessCount = 1111;
             return Task.FromResult(atomicCounterReply);
         }
     }
