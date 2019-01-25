@@ -6,7 +6,6 @@ using System.Linq;
 using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Core.Metadata;
 using DotNetty.Transport.Channels;
-using Microsoft.Extensions.Caching.Memory;
 using JT808.DotNetty.Core.Configurations;
 using Microsoft.Extensions.Options;
 
@@ -21,17 +20,14 @@ namespace JT808.DotNetty.Core
         private readonly ILogger<JT808UdpSessionManager> logger;
 
         private readonly IJT808SessionPublishing jT808SessionPublishing;
-        private readonly IMemoryCache memoryCache;
         private readonly IOptionsMonitor<JT808Configuration> jT808ConfigurationAccessor;
         public JT808UdpSessionManager(
             IJT808SessionPublishing jT808SessionPublishing,
-            IMemoryCache memoryCache,
             IOptionsMonitor<JT808Configuration> jT808ConfigurationAccessor,
             ILoggerFactory loggerFactory)
         {
             this.jT808SessionPublishing = jT808SessionPublishing;
             logger = loggerFactory.CreateLogger<JT808UdpSessionManager>();
-            this.memoryCache = memoryCache;
            this.jT808ConfigurationAccessor = jT808ConfigurationAccessor;
         }
 
@@ -58,59 +54,28 @@ namespace JT808.DotNetty.Core
                 return default;
             }
         }
-        /// <summary>
-        /// 定期去删除过期数据
-        /// </summary>
-        public void TimerToRemoveExpiredData() {
-            foreach (var item in SessionIdDict)
-            {
-                memoryCache.Get(item.Key);
-            }
-        }
 
         public void TryAdd(JT808UdpSession appSession)
         {
-            memoryCache.GetOrCreate<bool>(appSession.TerminalPhoneNo, (cacheEntry) =>
-            {
-                cacheEntry.SetSlidingExpiration(TimeSpan.FromSeconds(jT808ConfigurationAccessor.CurrentValue.UdpSlidingExpirationTimeSeconds));
-                cacheEntry.RegisterPostEvictionCallback((key, value, reason, state) =>
-                {
-                    RemoveSession(key.ToString());
-                });
-                return true;
-            });
             //1.先判断是否在缓存里面
             if (SessionIdDict.TryGetValue(appSession.TerminalPhoneNo,out JT808UdpSession jT808UdpSession))
             {
-                //处理缓存
-                //判断设备的终结点是否相同
-                if (jT808UdpSession.Sender.Equals(appSession.Sender))
-                {
-                    //相同 更新最后上线时间
-                    //每次使用最新的通道
-                    //将设备第一次上线时间赋值给当前上线的时间
-                    appSession.StartTime = jT808UdpSession.StartTime;
-                    SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, appSession);
-                }
-                else
-                {
-                    //不同 算成新设备上来并且推送通知
-                    SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, appSession);
-                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
-                }
+                SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, appSession);
             }
             else
             {
                 //添加缓存
-                if (SessionIdDict.TryAdd(appSession.TerminalPhoneNo, appSession))
-                {
-                    //使用场景：
-                    //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
-                    //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
-                    //有设备关联上来可以进行通知 例如：使用Redis发布订阅
-                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
-                }
+                //使用场景：
+                //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
+                //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
+                //有设备关联上来可以进行通知 例如：使用Redis发布订阅
+                SessionIdDict.TryAdd(appSession.TerminalPhoneNo, appSession);
             }
+            //移动是个大的内网，不跟随下发，根本就发不出来
+            //移动很多卡，存储的那个socket地址端口，有效期非常短
+            //不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了
+            //所以此处采用跟随设备消息下发指令
+            jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
         }
 
         public void Heartbeat(string terminalPhoneNo)
