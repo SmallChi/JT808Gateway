@@ -44,6 +44,8 @@
 
 > 只要实现IJT808SessionPublishing接口的任意一款MQ都能实现该功能。
 
+> 使用物联网卡通过udp下发指令时，存储的那个socket地址端口，有效期非常短,不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了,所以此处采用跟随设备消息下发指令。
+
 ## NuGet安装
 
 | Package Name          | Version                                            | Downloads                                           |
