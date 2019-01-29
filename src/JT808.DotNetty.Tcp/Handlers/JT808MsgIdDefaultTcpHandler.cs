@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.Tcp
+namespace JT808.DotNetty.Tcp.Handlers
 {
     /// <summary>
     /// 默认消息处理业务实现
