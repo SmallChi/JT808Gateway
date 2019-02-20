@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />

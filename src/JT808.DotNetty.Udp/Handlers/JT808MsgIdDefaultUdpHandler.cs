@@ -1,7 +1,7 @@
 ﻿using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
 
-namespace JT808.DotNetty.Udp
+namespace JT808.DotNetty.Udp.Handlers
 {
     /// <summary>
     /// 默认消息处理业务实现
