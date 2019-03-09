@@ -57,7 +57,7 @@ namespace JT808.DotNetty.Udp.Handlers
                 //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>
                 JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg.Buffer);
                 jT808UdpAtomicCounterService.MsgSuccessIncrement();
-                jT808UdpSessionManager.TryAdd(new JT808UdpSession(ctx.Channel, msg.Sender, jT808HeaderPackage.Header.TerminalPhoneNo));
+                jT808UdpSessionManager.TryAdd(ctx.Channel, msg.Sender, jT808HeaderPackage.Header.TerminalPhoneNo);
                 if (logger.IsEnabled(LogLevel.Debug))
                 {
                     logger.LogDebug("accept package success count<<<" + jT808UdpAtomicCounterService.MsgSuccessCount.ToString());

@@ -60,7 +60,7 @@ namespace JT808.DotNetty.Core
             }
         }
 
-        public void TryAdd(JT808TcpSession appSession)
+        public void TryAdd(string terminalPhoneNo,IChannel channel)
         {
             // 解决了设备号跟通道绑定到一起，不需要用到通道本身的SessionId
             // 不管设备下发更改了设备终端号，只要是没有在内存中就当是新的
@@ -68,13 +68,25 @@ namespace JT808.DotNetty.Core
             // 1.原先老的如何销毁
             // 2.这时候用的通道是相同的，设备终端是不同的
             // 当设备主动或者服务器断开以后，可以释放，这点内存忽略不计，况且更改设备号不是很频繁。
-            if (SessionIdDict.TryAdd(appSession.TerminalPhoneNo, appSession))
+
+            //修复第一次通过转发过来的数据，再次通过直连后通道没有改变导致下发不成功，所以每次进行通道的更新操作。
+            if (SessionIdDict.TryGetValue(terminalPhoneNo, out JT808TcpSession oldJT808Session))
             {
-                //使用场景：
-                //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
-                //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
-                //有设备关联上来可以进行通知 例如：使用Redis发布订阅
-                jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
+                oldJT808Session.LastActiveTime = DateTime.Now;
+                oldJT808Session.Channel = channel;
+                SessionIdDict.TryUpdate(terminalPhoneNo, oldJT808Session, oldJT808Session);
+            }
+            else
+            {
+                JT808TcpSession jT808TcpSession = new JT808TcpSession(channel, terminalPhoneNo);
+                if (SessionIdDict.TryAdd(terminalPhoneNo, jT808TcpSession))
+                {
+                    //使用场景：
+                    //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
+                    //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
+                    //有设备关联上来可以进行通知 例如：使用Redis发布订阅
+                    jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, jT808TcpSession.TerminalPhoneNo);
+                }
             }
         }
 

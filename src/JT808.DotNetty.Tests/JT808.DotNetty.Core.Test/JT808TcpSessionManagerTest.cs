@@ -13,7 +13,7 @@ namespace JT808.DotNetty.Core.Test
         {
             var no = "test150";
             var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no));
+            jT80TcpSessionManager.TryAdd(no,channel);
             Thread.Sleep(1000);
             jT80TcpSessionManager.Heartbeat(no);
         }
@@ -23,7 +23,7 @@ namespace JT808.DotNetty.Core.Test
         {
             var no = "test151";
             var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no));
+            jT80TcpSessionManager.TryAdd(no, channel);
             var sessionInfo = jT80TcpSessionManager.RemoveSession(no);
             Assert.AreEqual(no, sessionInfo.TerminalPhoneNo);
         }
@@ -50,11 +50,11 @@ namespace JT808.DotNetty.Core.Test
             var no3 = "test4";
             var no4 = "test5";
             var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no1));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no2));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no3));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, no4));
+            jT80TcpSessionManager.TryAdd(no,channel);
+            jT80TcpSessionManager.TryAdd(no1,channel);
+            jT80TcpSessionManager.TryAdd(no2,channel);
+            jT80TcpSessionManager.TryAdd(no3,channel);
+            jT80TcpSessionManager.TryAdd(no4,channel);
             var removeSession = jT80TcpSessionManager.RemoveSession(no);
             Assert.AreEqual(no, removeSession.TerminalPhoneNo);
             Assert.AreEqual(channel, removeSession.Channel);
@@ -72,11 +72,11 @@ namespace JT808.DotNetty.Core.Test
             var no4 = "test65";
             var channel1 = new EmbeddedChannel(new JT808DefaultChannelId());
             var channel2 = new EmbeddedChannel(new JT808DefaultChannelId());
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel1, no));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel1, no1));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel1, no2));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel2, no3));
-            jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel2, no4));
+            jT80TcpSessionManager.TryAdd(no,channel1);
+            jT80TcpSessionManager.TryAdd(no1,channel1);
+            jT80TcpSessionManager.TryAdd(no2,channel1);
+            jT80TcpSessionManager.TryAdd(no3,channel2);
+            jT80TcpSessionManager.TryAdd(no4,channel2);
             jT80TcpSessionManager.RemoveSessionByChannel(channel1);
         }
     }

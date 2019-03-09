@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
 </Project>

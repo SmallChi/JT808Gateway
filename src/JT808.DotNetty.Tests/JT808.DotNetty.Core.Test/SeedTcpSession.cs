@@ -20,7 +20,7 @@ namespace JT808.DotNetty.Core.Test
             for (var i = 0; i < 10; i++)
             {
                 var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-                jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, i.ToString()));
+                jT80TcpSessionManager.TryAdd(i.ToString(),channel);
             }
         }
 
@@ -30,7 +30,7 @@ namespace JT808.DotNetty.Core.Test
             for (var i = 0; i < 10; i++)
             {
                 var channel = new EmbeddedChannel(new JT808DefaultChannelId());
-                jT80TcpSessionManager.TryAdd(new Metadata.JT808TcpSession(channel, i.ToString()));
+                jT80TcpSessionManager.TryAdd(i.ToString(), channel);
             }
         }
     }

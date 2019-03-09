@@ -8,6 +8,7 @@ using JT808.DotNetty.Core.Metadata;
 using DotNetty.Transport.Channels;
 using JT808.DotNetty.Core.Configurations;
 using Microsoft.Extensions.Options;
+using System.Net;
 
 namespace JT808.DotNetty.Core
 {
@@ -55,13 +56,15 @@ namespace JT808.DotNetty.Core
             }
         }
 
-        public void TryAdd(JT808UdpSession appSession)
+        public void TryAdd(IChannel channel,EndPoint sender,string terminalPhoneNo)
         {
             //1.先判断是否在缓存里面
-            if (SessionIdDict.TryGetValue(appSession.TerminalPhoneNo,out JT808UdpSession jT808UdpSession))
+            if (SessionIdDict.TryGetValue(terminalPhoneNo, out JT808UdpSession jT808UdpSession))
             {
-                appSession.StartTime = jT808UdpSession.StartTime;
-                SessionIdDict.TryUpdate(appSession.TerminalPhoneNo, appSession, jT808UdpSession);
+                jT808UdpSession.LastActiveTime=DateTime.Now;
+                jT808UdpSession.Sender = sender;
+                jT808UdpSession.Channel = channel;
+                SessionIdDict.TryUpdate(terminalPhoneNo, jT808UdpSession, jT808UdpSession);
             }
             else
             {
@@ -70,13 +73,13 @@ namespace JT808.DotNetty.Core
                 //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
                 //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
                 //有设备关联上来可以进行通知 例如：使用Redis发布订阅
-                SessionIdDict.TryAdd(appSession.TerminalPhoneNo, appSession);
+                SessionIdDict.TryAdd(terminalPhoneNo, new JT808UdpSession(channel, sender, terminalPhoneNo));
             }
             //移动是个大的内网，不跟随下发，根本就发不出来
             //移动很多卡，存储的那个socket地址端口，有效期非常短
             //不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了
             //所以此处采用跟随设备消息下发指令
-            jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, appSession.TerminalPhoneNo);
+            jT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, terminalPhoneNo);
         }
 
         public void Heartbeat(string terminalPhoneNo)
