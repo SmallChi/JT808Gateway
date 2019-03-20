@@ -21,9 +21,7 @@ namespace JT808.DotNetty.Tcp
         public static IServiceCollection AddJT808TcpHost(this IServiceCollection  serviceDescriptors)
         {
             serviceDescriptors.TryAddSingleton<JT808TcpSessionManager>();
-            serviceDescriptors.TryAddSingleton<JT808TcpAtomicCounterService>();
             serviceDescriptors.TryAddSingleton<JT808TransmitAddressFilterService>();
-            serviceDescriptors.TryAddSingleton<JT808TcpTrafficService>();
             serviceDescriptors.TryAddSingleton<JT808MsgIdTcpHandlerBase, JT808MsgIdDefaultTcpHandler>();
             serviceDescriptors.TryAddScoped<JT808TcpConnectionHandler>();
             serviceDescriptors.TryAddScoped<JT808TcpDecoder>();

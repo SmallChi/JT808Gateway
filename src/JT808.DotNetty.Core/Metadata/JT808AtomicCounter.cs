@@ -9,7 +9,7 @@ namespace JT808.DotNetty.Core.Metadata
     /// 
     /// <see cref="Grpc.Core.Internal"/>
     /// </summary>
-    public class JT808AtomicCounter
+    internal class JT808AtomicCounter
     {
         long counter = 0;
 

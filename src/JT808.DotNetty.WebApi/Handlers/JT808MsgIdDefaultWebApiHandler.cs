@@ -1,5 +1,6 @@
 ﻿using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Abstractions.Dtos;
+using JT808.DotNetty.Core.Enums;
 using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
@@ -13,9 +14,9 @@ namespace JT808.DotNetty.WebApi.Handlers
     /// </summary>
     public class JT808MsgIdDefaultWebApiHandler : JT808MsgIdHttpHandlerBase
     {
-        private readonly JT808TcpAtomicCounterService jT808TcpAtomicCounterService;
+        private readonly JT808AtomicCounterService jT808TcpAtomicCounterService;
 
-        private readonly JT808UdpAtomicCounterService jT808UdpAtomicCounterService;
+        private readonly JT808AtomicCounterService jT808UdpAtomicCounterService;
 
         private readonly JT808TransmitAddressFilterService jT808TransmitAddressFilterService;
 
@@ -27,9 +28,9 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         private readonly IJT808UnificationUdpSendService jT808UnificationUdpSendService;
 
-        private readonly JT808TcpTrafficService jT808TcpTrafficService;
+        private readonly JT808TrafficService jT808TcpTrafficService;
 
-        private readonly JT808UdpTrafficService jT808UdpTrafficService;
+        private readonly JT808TrafficService jT808UdpTrafficService;
 
         private readonly JT808SimpleSystemCollectService jT808SimpleSystemCollectService;
 
@@ -39,19 +40,19 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <param name="jT808TcpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
             JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
-            JT808TcpTrafficService jT808TcpTrafficService,
+            JT808TrafficServiceFactory  jT808TrafficServiceFactory,
             IJT808UnificationTcpSendService jT808UnificationTcpSendService,
             IJT808TcpSessionService jT808TcpSessionService,
             JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
-            JT808TcpAtomicCounterService jT808TcpAtomicCounterService
+            JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory
             )
         {
             this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
-            this.jT808TcpTrafficService = jT808TcpTrafficService;
+            this.jT808TcpTrafficService = jT808TrafficServiceFactory.Create(JT808ModeType.Tcp);
             this.jT808UnificationTcpSendService = jT808UnificationTcpSendService;
             this.jT808TcpSessionService = jT808TcpSessionService;
             this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
-            this.jT808TcpAtomicCounterService = jT808TcpAtomicCounterService;
+            this.jT808TcpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808ModeType.Tcp);
             InitCommonRoute();
             InitTcpRoute();
         }
@@ -62,17 +63,17 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
             JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
-            JT808UdpTrafficService jT808UdpTrafficService,
+            JT808TrafficServiceFactory jT808TrafficServiceFactory,
             IJT808UdpSessionService jT808UdpSessionService,
             IJT808UnificationUdpSendService jT808UnificationUdpSendService,
-            JT808UdpAtomicCounterService jT808UdpAtomicCounterService
+            JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory
             )
         {
             this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
-            this.jT808UdpTrafficService = jT808UdpTrafficService;
+            this.jT808UdpTrafficService = jT808TrafficServiceFactory.Create(JT808ModeType.Udp);
             this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
-            this.jT808UdpAtomicCounterService = jT808UdpAtomicCounterService;
+            this.jT808UdpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808ModeType.Udp);
             InitCommonRoute();
             InitUdpRoute();
         }
@@ -84,27 +85,25 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
              JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
-             JT808TcpTrafficService jT808TcpTrafficService,
-             JT808UdpTrafficService jT808UdpTrafficService,
+             JT808TrafficServiceFactory jT808TrafficServiceFactory,
              IJT808UnificationTcpSendService jT808UnificationTcpSendService,
              IJT808UnificationUdpSendService jT808UnificationUdpSendService,
              IJT808TcpSessionService jT808TcpSessionService,
              IJT808UdpSessionService jT808UdpSessionService,
              JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
-             JT808TcpAtomicCounterService jT808TcpAtomicCounterService,
-             JT808UdpAtomicCounterService jT808UdpAtomicCounterService
+            JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory
            )
         {
             this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
-            this.jT808TcpTrafficService = jT808TcpTrafficService;
-            this.jT808UdpTrafficService = jT808UdpTrafficService;
+            this.jT808TcpTrafficService = jT808TrafficServiceFactory.Create(JT808ModeType.Tcp);
+            this.jT808UdpTrafficService = jT808TrafficServiceFactory.Create(JT808ModeType.Udp);
             this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationTcpSendService = jT808UnificationTcpSendService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
             this.jT808TcpSessionService = jT808TcpSessionService;
             this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
-            this.jT808TcpAtomicCounterService = jT808TcpAtomicCounterService;
-            this.jT808UdpAtomicCounterService = jT808UdpAtomicCounterService;
+            this.jT808TcpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808ModeType.Tcp);
+            this.jT808UdpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808ModeType.Udp);
             InitCommonRoute();
             InitTcpRoute();
             InitUdpRoute();

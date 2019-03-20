@@ -43,8 +43,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// 平台无需回复
         /// 实现自己的业务
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0001(JT808Request request)
         {
@@ -53,8 +52,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 终端心跳
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0002(JT808Request request)
         {
@@ -69,8 +67,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 终端注销
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0003(JT808Request request)
         {
@@ -84,8 +81,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 终端注册
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0100(JT808Request request)
         {
@@ -99,8 +95,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 终端鉴权
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0102(JT808Request request)
         {
@@ -114,8 +109,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 位置信息汇报
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0200(JT808Request request)
         {
@@ -129,8 +123,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 定位数据批量上传
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0704(JT808Request request)
         {
@@ -144,8 +137,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <summary>
         /// 数据上行透传
         /// </summary>
-        /// <param name="reqJT808Package"></param>
-        /// <param name="ctx"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public virtual JT808Response Msg0x0900(JT808Request request)
         {

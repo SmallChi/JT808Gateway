@@ -5,11 +5,17 @@ using System.Text;
 
 namespace JT808.DotNetty.Core.Services
 {
-    public class JT808TcpTrafficService
+    public class JT808TrafficService
     {
-        private readonly JT808AtomicCounter receiveCounter = new JT808AtomicCounter();
+        public JT808TrafficService()
+        {
+            receiveCounter = new JT808AtomicCounter();
+            sendCounter = new JT808AtomicCounter();
+        }
 
-        private readonly JT808AtomicCounter sendCounter = new JT808AtomicCounter();
+        private readonly JT808AtomicCounter receiveCounter;
+
+        private readonly JT808AtomicCounter sendCounter;
 
         public void ReceiveSize(long size)
         {

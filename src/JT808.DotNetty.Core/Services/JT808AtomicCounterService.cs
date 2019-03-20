@@ -3,17 +3,18 @@
 namespace JT808.DotNetty.Core.Services
 {
     /// <summary>
-    /// Tcp计数包服务
+    /// 计数包服务
     /// </summary>
-    public class JT808TcpAtomicCounterService
+    public class JT808AtomicCounterService
     {
-        private readonly JT808AtomicCounter MsgSuccessCounter = new JT808AtomicCounter();
+        private readonly JT808AtomicCounter MsgSuccessCounter;
 
-        private readonly JT808AtomicCounter MsgFailCounter = new JT808AtomicCounter();
+        private readonly JT808AtomicCounter MsgFailCounter;
 
-        public JT808TcpAtomicCounterService()
+        public JT808AtomicCounterService()
         {
-
+            MsgSuccessCounter=new JT808AtomicCounter();
+            MsgFailCounter = new JT808AtomicCounter();
         }
 
         public void Reset()

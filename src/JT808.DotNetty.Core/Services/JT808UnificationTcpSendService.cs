@@ -12,13 +12,13 @@ namespace JT808.DotNetty.Internal
     {
         private readonly JT808TcpSessionManager jT808SessionManager;
 
-        private readonly JT808TcpTrafficService  jT808TcpTrafficService;
+        private readonly JT808TrafficService jT808TrafficService;
 
         public JT808UnificationTcpSendService(
-            JT808TcpTrafficService jT808TcpTrafficService,
+            JT808TrafficServiceFactory jT808TrafficServiceFactory,
             JT808TcpSessionManager jT808SessionManager)
         {
-            this.jT808TcpTrafficService = jT808TcpTrafficService;
+            this.jT808TrafficService = jT808TrafficServiceFactory.Create(Core.Enums.JT808ModeType.Tcp);
             this.jT808SessionManager = jT808SessionManager;
         }
 
@@ -39,7 +39,7 @@ namespace JT808.DotNetty.Internal
                     }
                     else
                     {
-                        jT808TcpTrafficService.SendSize(data.Length);
+                        jT808TrafficService.SendSize(data.Length);
                         session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
                         resultDto.Code = JT808ResultCode.Ok;
                         resultDto.Data = true;

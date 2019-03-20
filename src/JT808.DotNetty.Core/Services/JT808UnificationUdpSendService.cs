@@ -12,13 +12,13 @@ namespace JT808.DotNetty.Internal
     {
         private readonly JT808UdpSessionManager jT808SessionManager;
 
-        private readonly JT808UdpTrafficService jT808UdpTrafficService;
+        private readonly JT808TrafficService jT808TrafficService;
 
         public JT808UnificationUdpSendService(
-            JT808UdpTrafficService jT808UdpTrafficService,
+            JT808TrafficServiceFactory  jT808TrafficServiceFactory,
             JT808UdpSessionManager jT808SessionManager)
         {
-            this.jT808UdpTrafficService = jT808UdpTrafficService;
+            this.jT808TrafficService = jT808TrafficServiceFactory.Create(Core.Enums.JT808ModeType.Udp);
             this.jT808SessionManager = jT808SessionManager;
         }
 
@@ -30,7 +30,7 @@ namespace JT808.DotNetty.Internal
                 var session = jT808SessionManager.GetSession(terminalPhoneNo);
                 if (session != null)
                 {
-                    jT808UdpTrafficService.SendSize(data.Length);
+                    jT808TrafficService.SendSize(data.Length);
                     session.Channel.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(data), session.Sender));
                     resultDto.Code = JT808ResultCode.Ok;
                     resultDto.Data = true;

@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Core.Jobs
 {
-    public class JT808TcpAtomicCouterResetDailyJob : JT808BackgroundService
+    internal class JT808TcpAtomicCouterResetDailyJob : JT808BackgroundService
     {
         private readonly ILogger<JT808TcpAtomicCouterResetDailyJob> _logger;
 
-        private readonly JT808TcpAtomicCounterService _jT808TcpAtomicCounterService;
+        private readonly JT808AtomicCounterService _jT808AtomicCounterService;
 
         public JT808TcpAtomicCouterResetDailyJob(
-            JT808TcpAtomicCounterService jT808TcpAtomicCounterService,
+            JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
             ILoggerFactory loggerFactory)
         {
-            _jT808TcpAtomicCounterService = jT808TcpAtomicCounterService;
+            _jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(Enums.JT808ModeType.Tcp);
             _logger =loggerFactory.CreateLogger<JT808TcpAtomicCouterResetDailyJob>();
         }
 
@@ -28,7 +28,7 @@ namespace JT808.DotNetty.Core.Jobs
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation($"{ServiceName} task doing background work.");
-                _jT808TcpAtomicCounterService.Reset();
+                _jT808AtomicCounterService.Reset();
                 await Task.Delay(DelayTimeSpan, stoppingToken);
             }
             _logger.LogInformation($"{ServiceName} background task is stopping.");
