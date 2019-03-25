@@ -8,6 +8,7 @@ namespace JT808.DotNetty.Core.Metadata
     public class JT808Response
     {
         public JT808Package Package { get; set; }
+        public byte[] HexData { get; set; }
         /// <summary>
         /// 根据实际情况适当调整包的大小
         /// </summary>
@@ -22,6 +23,11 @@ namespace JT808.DotNetty.Core.Metadata
         {
             Package = package;
             MinBufferSize = minBufferSize;
+        }
+
+        public JT808Response(byte[] hexData)
+        {
+            HexData = hexData;
         }
     }
 }

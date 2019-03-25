@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Hosting", "J
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApiClientTool", "JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj", "{9D86C951-94F2-4CBD-B177-8AF31DDB05D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.Client", "JT808.DotNetty.Client\JT808.DotNetty.Client.csproj", "{87C08239-C57F-4FC5-9579-05D0723AA4A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Client", "JT808.DotNetty.Client\JT808.DotNetty.Client.csproj", "{87C08239-C57F-4FC5-9579-05D0723AA4A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
