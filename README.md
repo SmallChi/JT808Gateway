@@ -112,8 +112,11 @@ static async Task Main(string[] args)
 ## 举个栗子2
 
 1.拉取JT808子模块
+
 2.打开项目进行编译生成还原
+
 3.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
+
 4.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
 
 如图所示：
