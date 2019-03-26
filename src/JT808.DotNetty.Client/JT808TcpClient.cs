@@ -56,10 +56,8 @@ namespace JT808.DotNetty.Client
                    channel.Pipeline.AddLast("jt808TcpClientConnection", new JT808TcpClientConnectionHandler(this));
                    channel.Pipeline.AddLast("jt808TcpService", new JT808TcpClientHandler(this));
                }));
-            Task.Run(async () =>
-            {
-                clientChannel = await bootstrap.ConnectAsync(deviceConfig.TcpHost, deviceConfig.TcpPort);
-            });
+           
+            clientChannel = bootstrap.ConnectAsync(IPAddress.Parse(DeviceConfig.TcpHost), DeviceConfig.TcpPort).Result;
         }
 
         public async void Send(JT808ClientRequest request)

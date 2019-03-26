@@ -8,7 +8,7 @@ namespace JT808.DotNetty.Core.Services
     {
         private readonly ConcurrentDictionary<JT808ModeType, JT808AtomicCounterService> cache;
 
-        private JT808AtomicCounterServiceFactory()
+        public JT808AtomicCounterServiceFactory()
         {
             cache = new ConcurrentDictionary<JT808ModeType, JT808AtomicCounterService>();
         }

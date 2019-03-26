@@ -108,3 +108,13 @@ static async Task Main(string[] args)
 
 如图所示：
 ![demo1](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo1.png)
+
+## 举个栗子2
+
+1.拉取JT808子模块
+2.打开项目进行编译生成还原
+3.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
+4.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
+
+如图所示：
+![demo2](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo2.png)

@@ -11,7 +11,7 @@ namespace JT808.DotNetty.Core.Services
     {
         private readonly ConcurrentDictionary<JT808ModeType, JT808TrafficService> cache;
 
-        private JT808TrafficServiceFactory()
+        public JT808TrafficServiceFactory()
         {
             cache = new ConcurrentDictionary<JT808ModeType, JT808TrafficService>();
         }

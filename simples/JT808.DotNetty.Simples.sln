@@ -5,39 +5,39 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B5A80356-5AF6-449F-9D8B-3C1BBB9D2443}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Protocol", "JT808.Protocol\src\JT808.Protocol\JT808.Protocol.csproj", "{9FCA2EE9-8253-41AA-A64C-9883413864F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Protocol", "..\src\JT808.Protocol\src\JT808.Protocol\JT808.Protocol.csproj", "{9FCA2EE9-8253-41AA-A64C-9883413864F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Udp", "JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj", "{C960084C-2CF4-4748-AD35-D2384285D6A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Udp", "..\src\JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj", "{C960084C-2CF4-4748-AD35-D2384285D6A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Core", "JT808.DotNetty.Core\JT808.DotNetty.Core.csproj", "{67C5DC72-0004-48B3-BB5A-9CB7069B4F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Core", "..\src\JT808.DotNetty.Core\JT808.DotNetty.Core.csproj", "{67C5DC72-0004-48B3-BB5A-9CB7069B4F02}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Abstractions", "JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj", "{4DCF33C0-67C5-4179-AF1E-4E919F9F856D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Abstractions", "..\src\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj", "{4DCF33C0-67C5-4179-AF1E-4E919F9F856D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BD7FF02-8516-4A77-A385-9FDCDD792E22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Tcp", "JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj", "{330CD783-5564-4083-ABFC-573CDC369F50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Tcp", "..\src\JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj", "{330CD783-5564-4083-ABFC-573CDC369F50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApi", "JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj", "{B783DE53-CE2A-4225-921F-04E5E57B28F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApi", "..\src\JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj", "{B783DE53-CE2A-4225-921F-04E5E57B28F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Core.Test", "JT808.DotNetty.Tests\JT808.DotNetty.Core.Test\JT808.DotNetty.Core.Test.csproj", "{1C4CCE9B-761B-4581-B5DA-5B6D83572D56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Core.Test", "..\src\JT808.DotNetty.Tests\JT808.DotNetty.Core.Test\JT808.DotNetty.Core.Test.csproj", "{1C4CCE9B-761B-4581-B5DA-5B6D83572D56}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Tcp.Test", "JT808.DotNetty.Tests\JT808.DotNetty.Tcp.Test\JT808.DotNetty.Tcp.Test.csproj", "{AEF1E1E2-C861-4268-86F6-6F376FAF79A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Tcp.Test", "..\src\JT808.DotNetty.Tests\JT808.DotNetty.Tcp.Test\JT808.DotNetty.Tcp.Test.csproj", "{AEF1E1E2-C861-4268-86F6-6F376FAF79A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Udp.Test", "JT808.DotNetty.Tests\JT808.DotNetty.Udp.Test\JT808.DotNetty.Udp.Test.csproj", "{E503BFD8-D90A-4610-97C7-5B9A0497303B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Udp.Test", "..\src\JT808.DotNetty.Tests\JT808.DotNetty.Udp.Test\JT808.DotNetty.Udp.Test.csproj", "{E503BFD8-D90A-4610-97C7-5B9A0497303B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApi.Test", "JT808.DotNetty.Tests\JT808.DotNetty.WebApi.Test\JT808.DotNetty.WebApi.Test.csproj", "{EDE77A29-0840-450C-8B08-2D3388845AE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApi.Test", "..\src\JT808.DotNetty.Tests\JT808.DotNetty.WebApi.Test\JT808.DotNetty.WebApi.Test.csproj", "{EDE77A29-0840-450C-8B08-2D3388845AE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Hosting", "JT808.DotNetty.Tests\JT808.DotNetty.Hosting\JT808.DotNetty.Hosting.csproj", "{A0F2F006-5AEB-454E-83C5-ABFB58DE17A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Hosting", "..\src\JT808.DotNetty.Tests\JT808.DotNetty.Hosting\JT808.DotNetty.Hosting.csproj", "{A0F2F006-5AEB-454E-83C5-ABFB58DE17A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApiClientTool", "JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj", "{9D86C951-94F2-4CBD-B177-8AF31DDB05D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.WebApiClientTool", "..\src\JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj", "{9D86C951-94F2-4CBD-B177-8AF31DDB05D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Client", "JT808.DotNetty.Client\JT808.DotNetty.Client.csproj", "{87C08239-C57F-4FC5-9579-05D0723AA4A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Client", "..\src\JT808.DotNetty.Client\JT808.DotNetty.Client.csproj", "{87C08239-C57F-4FC5-9579-05D0723AA4A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "simples", "simples", "{2459FB59-8A33-49A4-ADBC-A0B12C5886A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.SimpleClient", "..\simples\JT808.DotNetty.SimpleClient\JT808.DotNetty.SimpleClient.csproj", "{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleClient", "JT808.DotNetty.SimpleClient\JT808.DotNetty.SimpleClient.csproj", "{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.SimpleServer", "..\simples\JT808.DotNetty.SimpleServer\JT808.DotNetty.SimpleServer.csproj", "{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleServer", "JT808.DotNetty.SimpleServer\JT808.DotNetty.SimpleServer.csproj", "{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
