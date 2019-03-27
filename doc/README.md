@@ -4,7 +4,7 @@
 
 | 操作系统 | 配置 | 使用 |
 |:-------:|:-------:|:-------:|
-| win server 2018 | 4c8g | 压力测试客户端 |
+| win server 2016 | 4c8g | 压力测试客户端 |
 | centos7 | 4c8g | JT808服务端 |
 
 ![performance_1000](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/performance_1000.png)
