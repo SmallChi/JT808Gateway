@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
 using JT808.Protocol.Enums;
 using JT808.Protocol.Extensions;
@@ -24,7 +25,7 @@ namespace JT808.DotNetty.Core.Handlers
         protected JT808MsgIdUdpHandlerBase(JT808UdpSessionManager sessionManager)
         {
             this.sessionManager = sessionManager;
-            HandlerDict = new Dictionary<ushort, Func<JT808Request, JT808Response>>
+            HandlerDict = new Dictionary<ushort, Func<JT808Request, IJT808Reply>>
             {
                 {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
                 {JT808MsgId.终端鉴权.ToUInt16Value(), Msg0x0102},
@@ -37,7 +38,7 @@ namespace JT808.DotNetty.Core.Handlers
             };
         }
 
-        public Dictionary<ushort, Func<JT808Request, JT808Response>> HandlerDict { get; protected set; }
+        public Dictionary<ushort, Func<JT808Request, IJT808Reply>> HandlerDict { get; protected set; }
         /// <summary>
         /// 终端通用应答
         /// 平台无需回复
@@ -45,7 +46,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0001(JT808Request request)
+        public virtual IJT808Reply Msg0x0001(JT808Request request)
         {
             return null;
         }
@@ -54,7 +55,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0002(JT808Request request)
+        public virtual IJT808Reply Msg0x0002(JT808Request request)
         {
             sessionManager.Heartbeat(request.Package.Header.TerminalPhoneNo);
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
@@ -69,7 +70,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0003(JT808Request request)
+        public virtual IJT808Reply Msg0x0003(JT808Request request)
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
@@ -83,7 +84,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0100(JT808Request request)
+        public virtual IJT808Reply Msg0x0100(JT808Request request)
         {
             return new JT808Response(JT808MsgId.终端注册应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8100()
             {
@@ -97,7 +98,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0102(JT808Request request)
+        public virtual IJT808Reply Msg0x0102(JT808Request request)
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
@@ -112,7 +113,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// <param name="reqJT808Package"></param>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0200(JT808Request request)
+        public virtual IJT808Reply Msg0x0200(JT808Request request)
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
@@ -126,7 +127,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0704(JT808Request request)
+        public virtual IJT808Reply Msg0x0704(JT808Request request)
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {
@@ -140,7 +141,7 @@ namespace JT808.DotNetty.Core.Handlers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual JT808Response Msg0x0900(JT808Request request)
+        public virtual IJT808Reply Msg0x0900(JT808Request request)
         {
             return new JT808Response(JT808MsgId.平台通用应答.Create(request.Package.Header.TerminalPhoneNo, new JT808_0x8001()
             {

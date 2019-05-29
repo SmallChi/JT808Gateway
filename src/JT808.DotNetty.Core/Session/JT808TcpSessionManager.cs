@@ -6,6 +6,7 @@ using System.Linq;
 using DotNetty.Transport.Channels;
 using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Core.Metadata;
+using JT808.DotNetty.Core.Interfaces;
 
 namespace JT808.DotNetty.Core
 {
@@ -58,6 +59,60 @@ namespace JT808.DotNetty.Core
                 oldjT808Session.LastActiveTime = DateTime.Now;
                 SessionIdDict.TryUpdate(terminalPhoneNo, oldjT808Session, oldjT808Session);
             }
+        }
+
+        public bool TrySend(string terminalPhoneNo, byte[] data, out string message)
+        {
+            bool isSuccessed;
+            var session = GetSession(terminalPhoneNo);
+            if (session != null)
+            {
+                //判断转发数据是下发不了消息的
+                if (SessionIdDict.Select(s=>s.Value).Count(c => c.Channel.Id == session.Channel.Id) > 1)
+                {
+                    isSuccessed = false;
+                    message = "not support transmit data send.";
+                }
+                else
+                {
+                    session.Channel.WriteAndFlushAsync(new JT808Response(data));
+                    isSuccessed = true;
+                    message = "";
+                }
+            }
+            else
+            {
+                isSuccessed = false;
+                message = "offline";
+            }
+            return isSuccessed;
+        }
+
+        public bool TrySend(string terminalPhoneNo, IJT808Reply reply, out string message)
+        {
+            bool isSuccessed;
+            var session = GetSession(terminalPhoneNo);
+            if (session != null)
+            {
+                //判断转发数据是下发不了消息的
+                if (SessionIdDict.Select(s => s.Value).Count(c => c.Channel.Id == session.Channel.Id) > 1)
+                {
+                    isSuccessed = false;
+                    message = "not support transmit data send.";
+                }
+                else
+                {
+                    session.Channel.WriteAndFlushAsync(reply);
+                    isSuccessed = true;
+                    message = "";
+                }
+            }
+            else
+            {
+                isSuccessed = false;
+                message = "offline";
+            }
+            return isSuccessed;
         }
 
         public void TryAdd(string terminalPhoneNo,IChannel channel)

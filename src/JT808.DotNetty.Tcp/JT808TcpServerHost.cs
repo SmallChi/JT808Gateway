@@ -65,15 +65,16 @@ namespace JT808.DotNetty.Tcp
                    IChannelPipeline pipeline = channel.Pipeline;
                    using (var scope = serviceProvider.CreateScope())
                    {
+                       channel.Pipeline.AddLast("jt808TcpBuffer", new DelimiterBasedFrameDecoder(int.MaxValue,
+                                    Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.BeginFlag }),
+                                    Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.EndFlag })));
+                       channel.Pipeline.AddLast("jt808TcpDecode", scope.ServiceProvider.GetRequiredService<JT808TcpDecoder>());
+                       channel.Pipeline.AddLast("jt808TcpEncode", scope.ServiceProvider.GetRequiredService<JT808TcpEncoder>());
                        channel.Pipeline.AddLast("systemIdleState", new IdleStateHandler(
                                                 configuration.ReaderIdleTimeSeconds,
                                                 configuration.WriterIdleTimeSeconds,
                                                 configuration.AllIdleTimeSeconds));
                        channel.Pipeline.AddLast("jt808TcpConnection", scope.ServiceProvider.GetRequiredService<JT808TcpConnectionHandler>());
-                       channel.Pipeline.AddLast("jt808TcpBuffer", new DelimiterBasedFrameDecoder(int.MaxValue,
-                           Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.BeginFlag }),
-                           Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.EndFlag })));
-                       channel.Pipeline.AddLast("jt808TcpDecode", scope.ServiceProvider.GetRequiredService<JT808TcpDecoder>());
                        channel.Pipeline.AddLast("jt808TcpService", scope.ServiceProvider.GetRequiredService<JT808TcpServerHandler>());
                    }
                }));

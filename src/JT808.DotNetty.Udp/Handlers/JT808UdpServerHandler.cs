@@ -10,6 +10,7 @@ using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
 using System.Threading.Tasks;
+using JT808.DotNetty.Core.Interfaces;
 
 namespace JT808.DotNetty.Udp.Handlers
 {
@@ -62,10 +63,9 @@ namespace JT808.DotNetty.Udp.Handlers
                 {
                     logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
                 }
-                Func<JT808Request, JT808Response> handlerFunc;
-                if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out handlerFunc))
+                if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out var handlerFunc))
                 {
-                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg.Buffer));
+                    IJT808Reply jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg.Buffer));
                     if (jT808Response != null)
                     {
                         var sendData = JT808Serializer.Serialize(jT808Response.Package, jT808Response.MinBufferSize);

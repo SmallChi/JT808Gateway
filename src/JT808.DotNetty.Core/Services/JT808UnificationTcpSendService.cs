@@ -2,6 +2,7 @@
 using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Core.Metadata;
 using JT808.DotNetty.Core.Services;
 using System;
 using System.Linq;
@@ -12,13 +13,9 @@ namespace JT808.DotNetty.Internal
     {
         private readonly JT808TcpSessionManager jT808SessionManager;
 
-        private readonly JT808TrafficService jT808TrafficService;
-
         public JT808UnificationTcpSendService(
-            JT808TrafficServiceFactory jT808TrafficServiceFactory,
             JT808TcpSessionManager jT808SessionManager)
         {
-            this.jT808TrafficService = jT808TrafficServiceFactory.Create(Core.Enums.JT808ModeType.Tcp);
             this.jT808SessionManager = jT808SessionManager;
         }
 
@@ -27,29 +24,16 @@ namespace JT808.DotNetty.Internal
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                var session = jT808SessionManager.GetSession(terminalPhoneNo);
-                if (session != null)
+                if(jT808SessionManager.TrySend(terminalPhoneNo, data, out var message))
                 {
-                    //判断转发数据是下发不了消息的
-                    if (jT808SessionManager.GetAll().Count(c => c.Channel.Id == session.Channel.Id) > 1)
-                    {
-                        resultDto.Code = JT808ResultCode.Ok;
-                        resultDto.Data = false;
-                        resultDto.Message = "not support transmit data send.";
-                    }
-                    else
-                    {
-                        jT808TrafficService.SendSize(data.Length);
-                        session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
-                        resultDto.Code = JT808ResultCode.Ok;
-                        resultDto.Data = true;
-                    }
+                    resultDto.Code = JT808ResultCode.Ok;
+                    resultDto.Data = false;
                 }
                 else
                 {
                     resultDto.Code = JT808ResultCode.Ok;
                     resultDto.Data = false;
-                    resultDto.Message = "offline";
+                    resultDto.Message = message;
                 }
             }
             catch (Exception ex)

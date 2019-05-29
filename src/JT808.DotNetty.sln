@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B5A80356-5AF6-449F-9D8B-3C1BBB9D2443}"
 EndProject
@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Client", "JT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "simples", "simples", "{2459FB59-8A33-49A4-ADBC-A0B12C5886A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.SimpleClient", "..\simples\JT808.DotNetty.SimpleClient\JT808.DotNetty.SimpleClient.csproj", "{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleClient", "..\simples\JT808.DotNetty.SimpleClient\JT808.DotNetty.SimpleClient.csproj", "{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.SimpleServer", "..\simples\JT808.DotNetty.SimpleServer\JT808.DotNetty.SimpleServer.csproj", "{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleServer", "..\simples\JT808.DotNetty.SimpleServer\JT808.DotNetty.SimpleServer.csproj", "{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,6 @@
 ﻿using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
+using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,7 +20,7 @@ namespace JT808.DotNetty.Hosting.Handlers
 
         private readonly ILogger<JT808MsgIdTcpCustomHandler> logger;
 
-        public override JT808Response Msg0x0200(JT808Request request)
+        public override IJT808Reply Msg0x0200(JT808Request request)
         {
             logger.LogDebug("Tcp_Msg0x0200");
             return base.Msg0x0200(request);

@@ -62,7 +62,7 @@ namespace JT808.DotNetty.WebApi
                             pipeline.AddLast("http_encoder", new HttpResponseEncoder());
                             pipeline.AddLast("http_decoder", new HttpRequestDecoder(4096, 8192, 8192, false));
                             //将多个消息转换为单一的request或者response对象 =>IFullHttpRequest
-                            pipeline.AddLast("http_aggregator", new HttpObjectAggregator(65536));
+                            pipeline.AddLast("http_aggregator", new HttpObjectAggregator(int.MaxValue));
                             pipeline.AddLast("http_jt808webapihandler", scope.ServiceProvider.GetRequiredService<JT808WebAPIServerHandler>());
                         }
                     }));

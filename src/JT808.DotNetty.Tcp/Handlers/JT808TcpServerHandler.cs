@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Core.Metadata;
+using JT808.DotNetty.Core.Interfaces;
 
 namespace JT808.DotNetty.Tcp.Handlers
 {
@@ -30,6 +31,8 @@ namespace JT808.DotNetty.Tcp.Handlers
 
         private readonly ILogger<JT808TcpServerHandler> logger;
 
+        private readonly ILogger unknownLogger;
+
         public JT808TcpServerHandler(
             JT808TrafficServiceFactory  jT808TrafficServiceFactory,
             ILoggerFactory loggerFactory,
@@ -46,6 +49,7 @@ namespace JT808.DotNetty.Tcp.Handlers
             this.jT808SourcePackageDispatcher = jT808SourcePackageDispatcher;
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(Core.Enums.JT808ModeType.Tcp);
             logger = loggerFactory.CreateLogger<JT808TcpServerHandler>();
+            unknownLogger = loggerFactory.CreateLogger("tcp_unknown_msgid");
         }
 
 
@@ -65,18 +69,23 @@ namespace JT808.DotNetty.Tcp.Handlers
                     logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
                 }
                 jT808SessionManager.TryAdd(jT808HeaderPackage.Header.TerminalPhoneNo,ctx.Channel);
-                Func<JT808Request, JT808Response> handlerFunc;
-                if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out handlerFunc))
+                if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out var handlerFunc))
                 {
-                    JT808Response jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg));
+                    IJT808Reply jT808Response = handlerFunc(new JT808Request(jT808HeaderPackage, msg));
                     if (jT808Response != null)
                     {
                         if (!jT808TransmitAddressFilterService.ContainsKey(ctx.Channel.RemoteAddress))
                         {
-                            var sendData = JT808Serializer.Serialize(jT808Response.Package, jT808Response.MinBufferSize);
-                            jT808TrafficService.SendSize(sendData.Length);
-                            ctx.WriteAndFlushAsync(Unpooled.WrappedBuffer(sendData));
+                            ctx.WriteAndFlushAsync(jT808Response);
                         }
+                    }
+                }
+                else
+                {
+                    //未知的消息类型已日志形式输出
+                    if (unknownLogger.IsEnabled(LogLevel.Debug))
+                    {
+                        unknownLogger.LogDebug(ByteBufferUtil.HexDump(msg));
                     }
                 }
             }

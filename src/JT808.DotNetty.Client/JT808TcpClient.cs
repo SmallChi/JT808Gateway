@@ -56,7 +56,6 @@ namespace JT808.DotNetty.Client
                    channel.Pipeline.AddLast("jt808TcpClientConnection", new JT808TcpClientConnectionHandler(this));
                    channel.Pipeline.AddLast("jt808TcpService", new JT808TcpClientHandler(this));
                }));
-           
             clientChannel = bootstrap.ConnectAsync(IPAddress.Parse(DeviceConfig.TcpHost), DeviceConfig.TcpPort).Result;
         }
 
@@ -79,7 +78,6 @@ namespace JT808.DotNetty.Client
             }
             if (disposing)
             {
-
                 // 清理托管资源
                 group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
             }
