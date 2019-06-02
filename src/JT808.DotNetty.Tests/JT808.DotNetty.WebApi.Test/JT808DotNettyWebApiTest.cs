@@ -14,13 +14,12 @@ namespace JT808.DotNetty.WebApi.Test
 
         public JT808DotNettyWebApiTest()
         {
-
-            var httpApiConfig = new HttpApiConfig
+            HttpApi.Register<IJT808DotNettyWebApi>().ConfigureHttpApiConfig(c =>
             {
-                HttpHost = new Uri("http://127.0.0.1:12828"+ JT808Constants.JT808WebApiRouteTable.RouteTablePrefix+"/"),
-                LoggerFactory = new LoggerFactory(),
-            };
-            jT808DotNettyWebApi = HttpApiClient.Create<IJT808DotNettyWebApi>(httpApiConfig);
+                c.HttpHost = new Uri("http://127.0.0.1:12828" + JT808Constants.JT808WebApiRouteTable.RouteTablePrefix + "/");
+                c.LoggerFactory = new LoggerFactory();
+            });
+            var api = HttpApi.Resolve<IJT808DotNettyWebApi>();
         }
 
         [TestMethod]

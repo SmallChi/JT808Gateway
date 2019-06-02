@@ -12,9 +12,9 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
     <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</PackageLicenseUrl>
+    <license>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</license>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +25,7 @@
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
     <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />
+    <PackageReference Include="JT808" Version="1.3.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
@@ -33,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
-    <ProjectReference Include="..\JT808.Protocol\src\JT808.Protocol\JT808.Protocol.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using JT808.DotNetty.Core.Services;
+﻿using JT808.DotNetty.Abstractions.Enums;
+using JT808.DotNetty.Core.Services;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace JT808.DotNetty.Core.Jobs
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
             ILoggerFactory loggerFactory)
         {
-            _jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(Enums.JT808ModeType.Udp);
+            _jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
             _logger =loggerFactory.CreateLogger<JT808UdpAtomicCouterResetDailyJob>();
         }
 

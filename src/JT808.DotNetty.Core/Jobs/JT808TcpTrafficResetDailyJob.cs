@@ -1,4 +1,5 @@
-﻿using JT808.DotNetty.Core.Services;
+﻿using JT808.DotNetty.Abstractions.Enums;
+using JT808.DotNetty.Core.Services;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace JT808.DotNetty.Core.Jobs
             JT808TrafficServiceFactory  jT808TrafficServiceFactory,
             ILoggerFactory loggerFactory)
         {
-            _jT808TrafficService = jT808TrafficServiceFactory.Create( Enums.JT808ModeType.Tcp);
+            _jT808TrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.tcp);
             _logger =loggerFactory.CreateLogger<JT808TcpTrafficResetDailyJob>();
         }
 

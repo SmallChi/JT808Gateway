@@ -11,6 +11,7 @@ using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
 using System.Threading.Tasks;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Abstractions.Enums;
 
 namespace JT808.DotNetty.Udp.Handlers
 {
@@ -31,33 +32,44 @@ namespace JT808.DotNetty.Udp.Handlers
 
         private readonly JT808TrafficService jT808TrafficService;
 
+        private readonly IJT808UplinkPacket jT808UplinkPacket;
+
+        private readonly IJT808DatagramPacket jT808DatagramPacket;
+
+        private readonly ILogger unknownLogger;
         public JT808UdpServerHandler(
+            IJT808DatagramPacket jT808DatagramPacket,
             JT808TrafficServiceFactory  jT808TrafficServiceFactory,
             ILoggerFactory loggerFactory,
             IJT808SourcePackageDispatcher jT808SourcePackageDispatcher,
+            IJT808UplinkPacket jT808UplinkPacket,
             JT808MsgIdUdpHandlerBase handler,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
             JT808UdpSessionManager jT808UdpSessionManager)
         {
-            this.jT808TrafficService = jT808TrafficServiceFactory.Create(Core.Enums.JT808ModeType.Udp);
+            this.jT808DatagramPacket = jT808DatagramPacket;
+            this.jT808TrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.udp);
             this.handler = handler;
             this.jT808SourcePackageDispatcher = jT808SourcePackageDispatcher;
-            this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(Core.Enums.JT808ModeType.Udp);
+            this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
+            this.jT808UplinkPacket = jT808UplinkPacket;
             this.jT808UdpSessionManager = jT808UdpSessionManager;
             logger = loggerFactory.CreateLogger<JT808UdpServerHandler>();
+            unknownLogger = loggerFactory.CreateLogger("udp_unknown_msgid");
         }
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, JT808UdpPackage msg)
         {
             try
             {
-                jT808SourcePackageDispatcher?.SendAsync(msg.Buffer);
-                jT808TrafficService.ReceiveSize(msg.Buffer.Length);
+                jT808SourcePackageDispatcher.SendAsync(msg.Buffer);
+                jT808UplinkPacket.ProcessorAsync(msg.Buffer, JT808TransportProtocolType.udp);
                 //解析到头部,然后根据具体的消息Id通过队列去进行消费
                 //要是一定要解析到数据体可以在JT808MsgIdHandlerBase类中根据具体的消息，
                 //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>
                 JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg.Buffer);
                 jT808AtomicCounterService.MsgSuccessIncrement();
+                jT808TrafficService.ReceiveSize(msg.Buffer.Length);
                 jT808UdpSessionManager.TryAdd(ctx.Channel, msg.Sender, jT808HeaderPackage.Header.TerminalPhoneNo);
                 if (logger.IsEnabled(LogLevel.Debug))
                 {
@@ -69,8 +81,15 @@ namespace JT808.DotNetty.Udp.Handlers
                     if (jT808Response != null)
                     {
                         var sendData = JT808Serializer.Serialize(jT808Response.Package, jT808Response.MinBufferSize);
-                        jT808TrafficService.SendSize(sendData.Length);
-                        ctx.WriteAndFlushAsync(new DatagramPacket(Unpooled.WrappedBuffer(sendData), msg.Sender));
+                        ctx.WriteAndFlushAsync(jT808DatagramPacket.Create(sendData,msg.Sender));
+                    }
+                }
+                else
+                {
+                    //未知的消息类型已日志形式输出
+                    if (unknownLogger.IsEnabled(LogLevel.Debug))
+                    {
+                        unknownLogger.LogDebug(ByteBufferUtil.HexDump(msg.Buffer));
                     }
                 }
             }

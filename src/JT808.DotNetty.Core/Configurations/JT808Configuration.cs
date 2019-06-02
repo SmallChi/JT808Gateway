@@ -8,7 +8,7 @@ namespace JT808.DotNetty.Core.Configurations
     {
         public int TcpPort { get; set; } = 808;
 
-        public int UdpPort { get; set; } = 818;
+        public int UdpPort { get; set; } = 808;
 
         public int QuietPeriodSeconds { get; set; } = 1;
 

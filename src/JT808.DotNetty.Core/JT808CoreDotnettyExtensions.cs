@@ -55,6 +55,8 @@ namespace JT808.DotNetty.Core
             }
             serviceDescriptors.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));
             serviceDescriptors.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
+            serviceDescriptors.TryAddSingleton<IJT808DownlinkPacket, JT808DownlinkPacketEmptyImpl>();
+            serviceDescriptors.TryAddSingleton<IJT808UplinkPacket, JT808UplinkPacketEmptyImpl>();
             serviceDescriptors.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherEmptyImpl>();
             serviceDescriptors.TryAddSingleton<JT808AtomicCounterServiceFactory>();
             serviceDescriptors.TryAddSingleton<JT808TrafficServiceFactory>();
@@ -80,6 +82,8 @@ namespace JT808.DotNetty.Core
             }
             serviceDescriptors.Configure(jt808Options);
             serviceDescriptors.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
+            serviceDescriptors.TryAddSingleton<IJT808DownlinkPacket, JT808DownlinkPacketEmptyImpl>();
+            serviceDescriptors.TryAddSingleton<IJT808UplinkPacket, JT808UplinkPacketEmptyImpl>();
             serviceDescriptors.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherEmptyImpl>();
             serviceDescriptors.TryAddSingleton<JT808AtomicCounterServiceFactory>();
             serviceDescriptors.TryAddSingleton<JT808TrafficServiceFactory>();

@@ -43,6 +43,8 @@
 |:------:|:------|:------|
 | IJT808SessionPublishing| 会话通知（在线/离线）| 有些超长待机的设备，不会实时保持连接，那么通过平台下发的命令是无法到达的，这时候就需要设备一上线，就即时通知服务去处理，然后在即时的下发消息到设备。|
 | IJT808SourcePackageDispatcher| 原包分发器| 需要将源数据转给其他平台|
+| IJT808UplinkPacket| 上行数据包处理接口| 平台需要查看网关的上行数据日志（可以配合InfluxDB使用）|
+| IJT808DownlinkPacket| 下行数据包处理接口| 平台需要查看网关的下行数据日志（可以配合InfluxDB使用）|
 
 > 只要实现IJT808SessionPublishing接口的任意一款MQ都能实现该功能。
 

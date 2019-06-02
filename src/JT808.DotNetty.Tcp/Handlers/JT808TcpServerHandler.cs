@@ -9,6 +9,7 @@ using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Core.Metadata;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Abstractions.Enums;
 
 namespace JT808.DotNetty.Tcp.Handlers
 {
@@ -29,6 +30,8 @@ namespace JT808.DotNetty.Tcp.Handlers
 
         private readonly JT808TrafficService jT808TrafficService;
 
+        private readonly IJT808UplinkPacket  jT808UplinkPacket;
+
         private readonly ILogger<JT808TcpServerHandler> logger;
 
         private readonly ILogger unknownLogger;
@@ -38,16 +41,18 @@ namespace JT808.DotNetty.Tcp.Handlers
             ILoggerFactory loggerFactory,
             JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
             IJT808SourcePackageDispatcher jT808SourcePackageDispatcher,
+            IJT808UplinkPacket jT808UplinkPacket,
             JT808MsgIdTcpHandlerBase handler,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
             JT808TcpSessionManager jT808SessionManager)
         {
-            this.jT808TrafficService = jT808TrafficServiceFactory.Create(Core.Enums.JT808ModeType.Tcp);
+            this.jT808TrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
             this.handler = handler;
             this.jT808SessionManager = jT808SessionManager;
             this.jT808SourcePackageDispatcher = jT808SourcePackageDispatcher;
-            this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(Core.Enums.JT808ModeType.Tcp);
+            this.jT808UplinkPacket = jT808UplinkPacket;
+            this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             logger = loggerFactory.CreateLogger<JT808TcpServerHandler>();
             unknownLogger = loggerFactory.CreateLogger("tcp_unknown_msgid");
         }
@@ -57,7 +62,8 @@ namespace JT808.DotNetty.Tcp.Handlers
         {
             try
             {
-                jT808SourcePackageDispatcher?.SendAsync(msg);
+                jT808SourcePackageDispatcher.SendAsync(msg);
+                jT808UplinkPacket.ProcessorAsync(msg, JT808TransportProtocolType.tcp);
                 //解析到头部,然后根据具体的消息Id通过队列去进行消费
                 //要是一定要解析到数据体可以在JT808MsgIdHandlerBase类中根据具体的消息，
                 //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>

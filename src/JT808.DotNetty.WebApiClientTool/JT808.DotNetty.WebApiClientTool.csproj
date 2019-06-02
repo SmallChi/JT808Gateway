@@ -12,13 +12,13 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
     <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</PackageLicenseUrl>
+    <license>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</license>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebApiClient.JIT" Version="0.3.4" />
+    <PackageReference Include="WebApiClient.JIT" Version="1.0.9" />
   </ItemGroup>
 
   <ItemGroup>
