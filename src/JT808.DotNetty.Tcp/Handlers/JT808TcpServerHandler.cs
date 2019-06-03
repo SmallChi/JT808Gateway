@@ -70,9 +70,10 @@ namespace JT808.DotNetty.Tcp.Handlers
                 JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg);
                 jT808AtomicCounterService.MsgSuccessIncrement();
                 jT808TrafficService.ReceiveSize(msg.Length);
-                if (logger.IsEnabled(LogLevel.Debug))
+                if (logger.IsEnabled(LogLevel.Trace))
                 {
-                    logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
+                    logger.LogTrace("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
+                    logger.LogTrace("accept msg <<< " + ByteBufferUtil.HexDump(msg));
                 }
                 jT808SessionManager.TryAdd(jT808HeaderPackage.Header.TerminalPhoneNo,ctx.Channel);
                 if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out var handlerFunc))

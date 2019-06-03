@@ -71,9 +71,10 @@ namespace JT808.DotNetty.Udp.Handlers
                 jT808AtomicCounterService.MsgSuccessIncrement();
                 jT808TrafficService.ReceiveSize(msg.Buffer.Length);
                 jT808UdpSessionManager.TryAdd(ctx.Channel, msg.Sender, jT808HeaderPackage.Header.TerminalPhoneNo);
-                if (logger.IsEnabled(LogLevel.Debug))
+                if (logger.IsEnabled(LogLevel.Trace))
                 {
-                    logger.LogDebug("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
+                    logger.LogTrace("accept package success count<<<" + jT808AtomicCounterService.MsgSuccessCount.ToString());
+                    logger.LogTrace("accept msg <<< " + ByteBufferUtil.HexDump(msg.Buffer));
                 }
                 if (handler.HandlerDict.TryGetValue(jT808HeaderPackage.Header.MsgId, out var handlerFunc))
                 {
