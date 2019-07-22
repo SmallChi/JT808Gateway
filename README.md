@@ -1,0 +1,133 @@
+﻿# JT808DotNetty
+
+基于DotNetty封装的JT808DotNetty支持TCP/UDP通用消息业务处理 
+
+[了解JT808协议进这边](https://github.com/SmallChi/JT808)
+
+[了解JT809协议进这边](https://github.com/SmallChi/JT809)
+
+[了解JT1078协议进这边](https://github.com/SmallChi/JT1078)
+
+[了解JTNE协议进这边](https://github.com/SmallChi/JTNewEnergy)
+
+ [玩一玩压力测试](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/README.md)
+
+[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)
+
+## 新网关的优势：
+
+1. 跨平台
+2. 借助 .NET Core模块化的思想
+3. 单机同时一万辆车在线不是梦(真有一万辆车那都很吃香了<(￣3￣)> <(￣3￣)> <(￣3￣)>  )
+4. 简单易上手
+
+## 设计模型
+
+![design_model](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/design_model.png)
+
+## 基于Tcp的消息业务处理程序（JT808.DotNetty.Tcp）
+
+通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdTcpHandlerBase去实现自定义的消息业务处理程序。
+
+## 基于Udp的消息业务处理程序（JT808.DotNetty.Udp）
+
+通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdUdpHandlerBase去实现自定义的消息业务处理程序。
+
+## 基于WebApi的消息业务处理程序（JT808.DotNetty.WebApi）
+
+通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdHttpHandlerBase去实现自定义的WebApi接口服务。
+
+[WebApi公共接口服务](https://github.com/SmallChi/JT808DotNetty/blob/master/api/README.md)
+
+## 集成接口功能（JT808.DotNetty.Abstractions）
+
+|接口名称|接口说明|使用场景|
+|:------:|:------|:------|
+| IJT808SessionPublishing| 会话通知（在线/离线）| 有些超长待机的设备，不会实时保持连接，那么通过平台下发的命令是无法到达的，这时候就需要设备一上线，就即时通知服务去处理，然后在即时的下发消息到设备。|
+| IJT808SourcePackageDispatcher| 原包分发器| 需要将源数据转给其他平台|
+| IJT808UplinkPacket| 上行数据包处理接口| 平台需要查看网关的上行数据日志（可以配合InfluxDB使用）|
+| IJT808DownlinkPacket| 下行数据包处理接口| 平台需要查看网关的下行数据日志（可以配合InfluxDB使用）|
+
+> 只要实现IJT808SessionPublishing接口的任意一款MQ都能实现该功能。
+
+> 使用物联网卡通过udp下发指令时，存储的那个socket地址端口，有效期非常短,不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了,所以此处采用跟随设备消息下发指令。
+
+## NuGet安装
+
+| Package Name          | Version                                            | Downloads                                           |
+| --------------------- | -------------------------------------------------- | --------------------------------------------------- |
+| Install-Package JT808.DotNetty.Core | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Core.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
+| Install-Package JT808.DotNetty.Abstractions | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Abstractions.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Abstractions.svg) |
+| Install-Package JT808.DotNetty.Tcp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Tcp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Tcp.svg) |
+| Install-Package JT808.DotNetty.Udp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Udp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Udp.svg) |
+| Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
+| Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
+
+## 举个栗子1
+
+``` demo1
+static async Task Main(string[] args)
+{
+    var serverHostBuilder = new HostBuilder()
+        .ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
+            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        })
+        .ConfigureLogging((context, logging) =>
+        {
+            logging.AddConsole();  
+            logging.SetMinimumLevel(LogLevel.Trace);
+        })
+        .ConfigureServices((hostContext, services) =>
+        {
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddJT808Configure()
+                    .AddJT808NettyCore(hostContext.Configuration)
+                    //自定义日志下发包
+                    .ReplaceDownlinkPacket<JT808DownlinkPacketLogging>()
+                    //自定义会话通知（在线/离线）使用异步方式
+                    //.ReplaceSessionPublishing<CustomJT808SessionPublishing>()
+                    //自定义原包转发 使用异步方式
+                    //.ReplaceSourcePackageDispatcher<CustomJT808SourcePackageDispatcher>
+                    .AddJT808TcpNettyHost()
+                    // 自定义Tcp消息处理业务
+                    .ReplaceMsgIdHandler<JT808MsgIdTcpCustomHandler>()
+                    .Builder()
+                    .AddJT808UdpNettyHost()
+                    // 自定义Udp消息处理业务
+                    .ReplaceMsgIdHandler<JT808MsgIdUdpCustomHandler>()
+                    .Builder()
+                    .AddJT808WebApiNettyHost()
+                    .Builder();
+            //webapi客户端调用
+            services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+            {
+                c.HttpHost = new Uri("http://localhost:828/jt808api/");
+                c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+                c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
+            });
+            var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
+            var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
+        });
+
+    await serverHostBuilder.RunConsoleAsync();
+}
+```
+
+如图所示：
+![demo1](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo1.png)
+
+## 举个栗子2
+
+1.拉取JT808子模块
+
+2.打开项目进行还原编译生成
+
+3.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
+
+4.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
+
+如图所示：
+![demo2](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo2.png)

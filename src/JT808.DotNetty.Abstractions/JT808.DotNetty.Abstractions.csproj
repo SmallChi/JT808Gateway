@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SharedProperties.props" />
+  <PropertyGroup>
+    <PackageId>JT808.DotNetty.Abstractions</PackageId>
+    <Product>JT808.DotNetty.Abstractions</Product>
+    <Description>基于DotNetty实现的JT808DotNetty的抽象库</Description>
+    <PackageReleaseNotes>基于DotNetty实现的JT808DotNetty的抽象库</PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>

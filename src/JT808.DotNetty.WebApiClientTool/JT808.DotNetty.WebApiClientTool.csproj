@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SharedProperties.props" />
+  <PropertyGroup>
+    <PackageId>JT808.DotNetty.WebApiClientTool</PackageId>
+    <Product>JT808.DotNetty.WebApiClientTool</Product>
+    <Description>JT808DotNetty的WebApiClient客户端调用工具</Description>
+    <PackageReleaseNotes>JT808DotNetty的WebApiClient客户端调用工具</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WebApiClient.JIT" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
