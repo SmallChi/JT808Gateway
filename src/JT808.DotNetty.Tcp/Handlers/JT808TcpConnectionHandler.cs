@@ -1,6 +1,7 @@
 ﻿using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
 using JT808.DotNetty.Core;
+using JT808.DotNetty.Core.Session;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -14,10 +15,10 @@ namespace JT808.DotNetty.Tcp.Handlers
     {
         private readonly ILogger<JT808TcpConnectionHandler> logger;
 
-        private readonly JT808TcpSessionManager jT808SessionManager;
+        private readonly JT808SessionManager jT808SessionManager;
 
         public JT808TcpConnectionHandler(
-            JT808TcpSessionManager jT808SessionManager,
+            JT808SessionManager jT808SessionManager,
             ILoggerFactory loggerFactory)
         {
             this.jT808SessionManager = jT808SessionManager;

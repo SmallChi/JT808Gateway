@@ -17,17 +17,5 @@ namespace JT808.DotNetty.Udp
         {
             return Instance;
         }
-
-        public IJT808UdpNettyBuilder ReplaceSessionService<T>() where T : IJT808UdpSessionService
-        {
-            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808UdpSessionService), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
-
-        public IJT808UdpNettyBuilder ReplaceUnificationSendService<T>() where T : IJT808UnificationUdpSendService
-        {
-            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808UnificationUdpSendService), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
     }
 }

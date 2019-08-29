@@ -21,18 +21,5 @@ namespace JT808.DotNetty.Tcp
         {
             return Instance;
         }
-
-
-        public IJT808TcpNettyBuilder ReplaceSessionService<T>() where T : IJT808TcpSessionService
-        {
-            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808TcpSessionService), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
-
-        public IJT808TcpNettyBuilder ReplaceUnificationSendService<T>() where T : IJT808UnificationTcpSendService
-        {
-            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808UnificationTcpSendService), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
     }
 }

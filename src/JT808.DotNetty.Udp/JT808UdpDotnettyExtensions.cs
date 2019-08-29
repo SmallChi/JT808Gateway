@@ -19,10 +19,7 @@ namespace JT808.DotNetty.Udp
     {
         public static IJT808UdpNettyBuilder AddJT808UdpNettyHost(this IJT808NettyBuilder jT808NettyBuilder)
         {
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UdpSessionService, JT808UdpSessionService>();
             jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808DatagramPacket, JT808DatagramPacketImpl>();
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationUdpSendService, JT808UnificationUdpSendService>();
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<JT808UdpSessionManager>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808UdpDecoder>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808UdpServerHandler>();
             jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808UdpServerHost>();

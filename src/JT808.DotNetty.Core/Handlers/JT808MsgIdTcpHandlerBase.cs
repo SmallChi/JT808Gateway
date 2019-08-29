@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
+using JT808.DotNetty.Core.Session;
 using JT808.Protocol.Enums;
 using JT808.Protocol.Extensions;
 using JT808.Protocol.MessageBody;
@@ -18,11 +19,11 @@ namespace JT808.DotNetty.Core.Handlers
     /// </summary>
     public abstract class JT808MsgIdTcpHandlerBase
     {
-        protected JT808TcpSessionManager sessionManager { get; }
+        protected JT808SessionManager sessionManager { get; }
         /// <summary>
         /// 初始化消息处理业务
         /// </summary>
-        protected JT808MsgIdTcpHandlerBase(JT808TcpSessionManager sessionManager)
+        protected JT808MsgIdTcpHandlerBase(JT808SessionManager sessionManager)
         {
             this.sessionManager = sessionManager;
             HandlerDict = new Dictionary<ushort, Func<JT808Request, IJT808Reply>>

@@ -21,9 +21,6 @@ namespace JT808.DotNetty.Tcp
     {
         public static IJT808TcpNettyBuilder AddJT808TcpNettyHost(this IJT808NettyBuilder jT808NettyBuilder)
         {
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808TcpSessionService, JT808TcpSessionService>();
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationTcpSendService, JT808UnificationTcpSendService>();
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<JT808TcpSessionManager>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpConnectionHandler>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpEncoder>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpDecoder>();

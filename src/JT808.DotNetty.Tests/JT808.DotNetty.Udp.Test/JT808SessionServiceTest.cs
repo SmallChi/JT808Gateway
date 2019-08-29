@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using JT808.Protocol.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JT808.DotNetty.Core.Session;
 
 namespace JT808.DotNetty.Udp.Test
 {
@@ -63,29 +64,29 @@ namespace JT808.DotNetty.Udp.Test
         [TestMethod]
         public void Test1()
         {
-            IJT808UdpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808UdpSessionService>();
-            var result = jT808SessionServiceDefaultImpl.GetAll();
+            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            var result = jT808SessionServiceDefaultImpl.GetUdpAll();
         }
 
         [TestMethod]
         public void Test2()
         {
-            IJT808UdpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808UdpSessionService>();
-            var result1 = jT808SessionServiceDefaultImpl.GetAll();
+            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            var result1 = jT808SessionServiceDefaultImpl.GetUdpAll();
             var result2 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo("123456789001");
-            var result3 = jT808SessionServiceDefaultImpl.GetAll();
+            var result3 = jT808SessionServiceDefaultImpl.GetUdpAll();
         }
 
         [TestMethod]
         public void Test3()
         {
             // 判断通道是否关闭
-            IJT808UdpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808UdpSessionService>();
-            JT808UdpSessionManager jT808UdpSessionManager = ServiceProvider.GetService<JT808UdpSessionManager>();
-            var result1 = jT808SessionServiceDefaultImpl.GetAll();
+            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            JT808SessionManager jT808UdpSessionManager = ServiceProvider.GetService<JT808SessionManager>();
+            var result1 = jT808SessionServiceDefaultImpl.GetUdpAll();
             SimpleUdpClient1.Down();
-            var session = jT808UdpSessionManager.GetSession("123456789001");
-            var result3 = jT808UdpSessionManager.GetAll();
+            var session = jT808UdpSessionManager.GetSessionByTerminalPhoneNo("123456789001");
+            var result3 = jT808UdpSessionManager.GetUdpAll();
             Thread.Sleep(100000);
         }
     }

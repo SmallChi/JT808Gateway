@@ -1,20 +1,16 @@
-﻿using DotNetty.Buffers;
-using JT808.DotNetty.Abstractions.Dtos;
-using JT808.DotNetty.Core;
+﻿using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core.Interfaces;
-using JT808.DotNetty.Core.Metadata;
-using JT808.DotNetty.Core.Services;
+using JT808.DotNetty.Core.Session;
 using System;
-using System.Linq;
 
 namespace JT808.DotNetty.Internal
 {
-    internal class JT808UnificationTcpSendService : IJT808UnificationTcpSendService
+    internal class JT808UnificationSendService : IJT808UnificationSendService
     {
-        private readonly JT808TcpSessionManager jT808SessionManager;
+        private readonly JT808SessionManager jT808SessionManager;
 
-        public JT808UnificationTcpSendService(
-            JT808TcpSessionManager jT808SessionManager)
+        public JT808UnificationSendService(
+            JT808SessionManager jT808SessionManager)
         {
             this.jT808SessionManager = jT808SessionManager;
         }

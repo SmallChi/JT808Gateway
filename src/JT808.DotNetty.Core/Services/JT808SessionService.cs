@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Core.Session;
 
 namespace JT808.DotNetty.Core.Services
 {
-    internal class JT808TcpSessionService : IJT808TcpSessionService
+    internal class JT808SessionService : IJT808SessionService
     {
-        private readonly JT808TcpSessionManager jT808SessionManager;
+        private readonly JT808SessionManager jT808SessionManager;
 
-        public JT808TcpSessionService(
-            JT808TcpSessionManager jT808SessionManager)
+        public JT808SessionService(
+            JT808SessionManager jT808SessionManager)
         {
             this.jT808SessionManager = jT808SessionManager;
         }
 
-        public JT808ResultDto<List<JT808TcpSessionInfoDto>> GetAll()
+        public JT808ResultDto<List<JT808TcpSessionInfoDto>> GetTcpAll()
         {
             JT808ResultDto<List<JT808TcpSessionInfoDto>> resultDto = new JT808ResultDto<List<JT808TcpSessionInfoDto>>();
             try
@@ -27,6 +28,29 @@ namespace JT808.DotNetty.Core.Services
                     StartTime = s.StartTime,
                     TerminalPhoneNo = s.TerminalPhoneNo,
                     RemoteAddressIP = s.Channel.RemoteAddress.ToString(),
+                }).ToList();
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = null;
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+            }
+            return resultDto;
+        }
+
+        public JT808ResultDto<List<JT808UdpSessionInfoDto>> GetUdpAll()
+        {
+            JT808ResultDto<List<JT808UdpSessionInfoDto>> resultDto = new JT808ResultDto<List<JT808UdpSessionInfoDto>>();
+            try
+            {
+                resultDto.Data = jT808SessionManager.GetUdpAll().Select(s => new JT808UdpSessionInfoDto
+                {
+                    LastActiveTime = s.LastActiveTime,
+                    StartTime = s.StartTime,
+                    TerminalPhoneNo = s.TerminalPhoneNo,
+                    RemoteAddressIP = s.Sender.ToString()
                 }).ToList();
                 resultDto.Code = JT808ResultCode.Ok;
             }

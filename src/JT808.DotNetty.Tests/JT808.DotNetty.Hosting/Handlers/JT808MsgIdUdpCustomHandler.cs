@@ -2,6 +2,7 @@
 using JT808.DotNetty.Core.Handlers;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
+using JT808.DotNetty.Core.Session;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace JT808.DotNetty.Hosting.Handlers
     {
         public JT808MsgIdUdpCustomHandler(
             ILoggerFactory loggerFactory,
-            JT808UdpSessionManager sessionManager) : base(sessionManager)
+            JT808SessionManager sessionManager) : base(sessionManager)
         {
             logger = loggerFactory.CreateLogger<JT808MsgIdUdpCustomHandler>();
         }

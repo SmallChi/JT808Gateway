@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using JT808.Protocol.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JT808.DotNetty.Core.Session;
 
 namespace JT808.DotNetty.Tcp.Test
 {
@@ -64,30 +65,30 @@ namespace JT808.DotNetty.Tcp.Test
         [TestMethod]
         public void Test1()
         {
-            IJT808TcpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808TcpSessionService>();
-            var result = jT808SessionServiceDefaultImpl.GetAll();
+            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            var result = jT808SessionServiceDefaultImpl.GetTcpAll();
             Thread.Sleep(5000);
         }
 
         [TestMethod]
         public void Test2()
         {
-            IJT808TcpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808TcpSessionService>();
-            var result1 = jT808SessionServiceDefaultImpl.GetAll();
+            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            var result1 = jT808SessionServiceDefaultImpl.GetTcpAll();
             var result2 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo("123456789001");
-            var result3 = jT808SessionServiceDefaultImpl.GetAll();
+            var result3 = jT808SessionServiceDefaultImpl.GetTcpAll();
         }
 
         [TestMethod]
         public void Test3()
         {
             // 判断通道是否关闭
-            IJT808TcpSessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808TcpSessionService>();
-            JT808TcpSessionManager jT808TcpSessionManager = ServiceProvider.GetService<JT808TcpSessionManager>();
-            var result1 = jT808SessionServiceDefaultImpl.GetAll();
+            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            JT808SessionManager jT808TcpSessionManager = ServiceProvider.GetService<JT808SessionManager>();
+            var result1 = jT808SessionServiceDefaultImpl.GetTcpAll();
             SimpleTcpClient1.Down();
             Thread.Sleep(5000);
-            var session = jT808TcpSessionManager.GetSession("123456789001");
+            var session = jT808TcpSessionManager.GetSessionByTerminalPhoneNo("123456789001");
             Thread.Sleep(100000);
         }
     }

@@ -19,8 +19,8 @@ namespace JT808.DotNetty.Tcp.Test
     {
         static IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6565);
 
-        private IJT808UnificationTcpSendService jT808UnificationTcpSendService;
-        private IJT808TcpSessionService jT808SessionServiceDefaultImpl;
+        private IJT808UnificationSendService jT808UnificationSendService;
+        private IJT808SessionService jT808SessionServiceDefaultImpl;
 
         public JT808UnificationTcpSendServiceTest()
         {
@@ -56,9 +56,9 @@ namespace JT808.DotNetty.Tcp.Test
         [TestMethod]
         public void Test1()
         {
-            jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808TcpSessionService>();
-            jT808UnificationTcpSendService = ServiceProvider.GetService<IJT808UnificationTcpSendService>();
-            jT808SessionServiceDefaultImpl.GetAll();
+            jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
+            jT808UnificationSendService = ServiceProvider.GetService<IJT808UnificationSendService>();
+            jT808SessionServiceDefaultImpl.GetTcpAll();
             string no = "123456789001";
             // 文本信息包
             JT808Package jT808Package2 = JT808.Protocol.Enums.JT808MsgId.文本信息下发.Create(no, new JT808_0x8300
@@ -67,7 +67,7 @@ namespace JT808.DotNetty.Tcp.Test
                 TextInfo = "smallchi 518"
             });
             var data = JT808Serializer.Serialize(jT808Package2);
-            JT808ResultDto<bool> jt808Result = jT808UnificationTcpSendService.Send(no, data);
+            JT808ResultDto<bool> jt808Result = jT808UnificationSendService.Send(no, data);
             Thread.Sleep(1000);
             Assert.AreEqual(200, jt808Result.Code);
             Assert.IsTrue(jt808Result.Data);

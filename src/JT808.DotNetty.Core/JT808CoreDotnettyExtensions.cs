@@ -4,6 +4,7 @@ using JT808.DotNetty.Core.Converters;
 using JT808.DotNetty.Core.Impls;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Services;
+using JT808.DotNetty.Core.Session;
 using JT808.DotNetty.Internal;
 using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
@@ -59,6 +60,9 @@ namespace JT808.DotNetty.Core
             IJT808NettyBuilder nettyBuilder = new JT808NettyBuilderDefault(jt808Builder);
             nettyBuilder.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));
             nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationSendService, JT808UnificationSendService>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionService, JT808SessionService>();
             return nettyBuilder;
         }
 
@@ -78,6 +82,9 @@ namespace JT808.DotNetty.Core
             IJT808NettyBuilder nettyBuilder = new JT808NettyBuilderDefault(jt808Builder);
             nettyBuilder.JT808Builder.Services.Configure(jt808Options);
             nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationSendService, JT808UnificationSendService>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionService, JT808SessionService>();
             return nettyBuilder;
         }
     }

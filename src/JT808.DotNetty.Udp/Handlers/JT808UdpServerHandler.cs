@@ -8,6 +8,7 @@ using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Abstractions.Enums;
 using JT808.Protocol.Interfaces;
+using JT808.DotNetty.Core.Session;
 
 namespace JT808.DotNetty.Udp.Handlers
 {
@@ -20,7 +21,7 @@ namespace JT808.DotNetty.Udp.Handlers
 
         private readonly ILogger<JT808UdpServerHandler> logger;
 
-        private readonly JT808UdpSessionManager jT808UdpSessionManager;
+        private readonly JT808SessionManager jT808UdpSessionManager;
 
         private readonly JT808Serializer JT808Serializer;
 
@@ -28,7 +29,7 @@ namespace JT808.DotNetty.Udp.Handlers
             IJT808Config jT808Config,
             ILoggerFactory loggerFactory,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
-            JT808UdpSessionManager jT808UdpSessionManager)
+            JT808SessionManager jT808UdpSessionManager)
         {
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
             this.jT808UdpSessionManager = jT808UdpSessionManager;

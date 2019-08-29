@@ -1,4 +1,5 @@
 ﻿using DotNetty.Transport.Channels.Embedded;
+using JT808.DotNetty.Core.Session;
 using JT808.DotNetty.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +12,7 @@ namespace JT808.DotNetty.Core.Test
     [TestClass]
     public class SeedTcpSession
     {
-        public JT808TcpSessionManager jT80TcpSessionManager = new JT808TcpSessionManager(
+        public JT808SessionManager jT80TcpSessionManager = new JT808SessionManager(
             new JT808SessionPublishingEmptyImpl(),
             new LoggerFactory());
 

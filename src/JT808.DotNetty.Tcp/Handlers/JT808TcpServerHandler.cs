@@ -8,6 +8,7 @@ using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Abstractions.Enums;
 using JT808.Protocol.Interfaces;
 using JT808.Protocol.Exceptions;
+using JT808.DotNetty.Core.Session;
 
 namespace JT808.DotNetty.Tcp.Handlers
 {
@@ -16,7 +17,7 @@ namespace JT808.DotNetty.Tcp.Handlers
     /// </summary>
     internal class JT808TcpServerHandler : SimpleChannelInboundHandler<byte[]>
     {       
-        private readonly JT808TcpSessionManager jT808SessionManager;
+        private readonly JT808SessionManager jT808SessionManager;
 
         private readonly JT808AtomicCounterService jT808AtomicCounterService;
 
@@ -28,7 +29,7 @@ namespace JT808.DotNetty.Tcp.Handlers
             IJT808Config jT808Config,
             ILoggerFactory loggerFactory,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
-            JT808TcpSessionManager jT808SessionManager)
+            JT808SessionManager jT808SessionManager)
         {
             this.jT808SessionManager = jT808SessionManager;
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
