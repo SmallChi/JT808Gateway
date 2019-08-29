@@ -58,13 +58,7 @@ namespace JT808.DotNetty.Core
             }
             IJT808NettyBuilder nettyBuilder = new JT808NettyBuilderDefault(jt808Builder);
             nettyBuilder.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808DownlinkPacket, JT808DownlinkPacketEmptyImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UplinkPacket, JT808UplinkPacketEmptyImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherEmptyImpl>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808TrafficServiceFactory>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808SimpleSystemCollectService>();
             return nettyBuilder;
         }
 
@@ -83,13 +77,7 @@ namespace JT808.DotNetty.Core
             }
             IJT808NettyBuilder nettyBuilder = new JT808NettyBuilderDefault(jt808Builder);
             nettyBuilder.JT808Builder.Services.Configure(jt808Options);
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808DownlinkPacket, JT808DownlinkPacketEmptyImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UplinkPacket, JT808UplinkPacketEmptyImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SourcePackageDispatcher, JT808SourcePackageDispatcherEmptyImpl>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808TrafficServiceFactory>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808SimpleSystemCollectService>();
             return nettyBuilder;
         }
     }

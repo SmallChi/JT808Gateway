@@ -22,17 +22,6 @@ namespace JT808.DotNetty.Tcp
             return Instance;
         }
 
-        public IJT808TcpNettyBuilder ReplaceCustomMsgIdHandler<T>() where T : IJT808TcpCustomMsgIdHandler
-        {
-            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808TcpCustomMsgIdHandler), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
-
-        public IJT808TcpNettyBuilder ReplaceMsgIdHandler<T>() where T : JT808MsgIdTcpHandlerBase
-        {
-            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(JT808MsgIdTcpHandlerBase), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
 
         public IJT808TcpNettyBuilder ReplaceSessionService<T>() where T : IJT808TcpSessionService
         {

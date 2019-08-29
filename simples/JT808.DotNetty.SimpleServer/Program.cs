@@ -36,8 +36,6 @@ namespace JT808.DotNetty.SimpleServer
                 services.AddJT808Configure()
                         .AddJT808NettyCore(hostContext.Configuration)
                         .AddJT808TcpNettyHost()
-                        // 自定义Tcp消息处理业务
-                        .ReplaceMsgIdHandler<JT808MsgIdTcpSimpleHandler>()
                         .Builder();
             });
 

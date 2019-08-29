@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using JT808.DotNetty.Core.Jobs;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Internal;
 
@@ -22,18 +21,13 @@ namespace JT808.DotNetty.Tcp
     {
         public static IJT808TcpNettyBuilder AddJT808TcpNettyHost(this IJT808NettyBuilder jT808NettyBuilder)
         {
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808TcpCustomMsgIdHandler, JT808TcpCustomMsgIdHandlerEmpty>();
             jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808TcpSessionService, JT808TcpSessionService>();
             jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationTcpSendService, JT808UnificationTcpSendService>();
             jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<JT808TcpSessionManager>();
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<JT808TransmitAddressFilterService>();
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<JT808MsgIdTcpHandlerBase, JT808MsgIdDefaultTcpHandler>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpConnectionHandler>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpEncoder>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpDecoder>();
             jT808NettyBuilder.JT808Builder.Services.TryAddScoped<JT808TcpServerHandler>();
-            jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808TcpAtomicCouterResetDailyJob>();
-            jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808TcpTrafficResetDailyJob>();
             jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808TcpServerHost>();
             return new JT808TcpBuilderDefault(jT808NettyBuilder);
         }

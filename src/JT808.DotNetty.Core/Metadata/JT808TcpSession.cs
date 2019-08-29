@@ -1,9 +1,11 @@
 ﻿using DotNetty.Transport.Channels;
+using JT808.DotNetty.Abstractions.Enums;
+using JT808.DotNetty.Core.Interfaces;
 using System;
 
 namespace JT808.DotNetty.Core.Metadata
 {
-    public class JT808TcpSession
+    public class JT808TcpSession: IJT808Session
     {
         public JT808TcpSession(IChannel channel, string terminalPhoneNo)
         {
@@ -25,5 +27,6 @@ namespace JT808.DotNetty.Core.Metadata
         public DateTime LastActiveTime { get; set; }
 
         public DateTime StartTime { get; set; }
+        public JT808TransportProtocolType TransportProtocolType { get; set; } = JT808TransportProtocolType.tcp;
     }
 }

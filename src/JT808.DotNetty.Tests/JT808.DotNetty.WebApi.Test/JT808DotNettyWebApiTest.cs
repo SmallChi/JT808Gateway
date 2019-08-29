@@ -23,21 +23,9 @@ namespace JT808.DotNetty.WebApi.Test
         }
 
         [TestMethod]
-        public void GetSystemCollectTest()
-        {
-            var result = jT808DotNettyWebApi.GetSystemCollect().GetAwaiter().GetResult();
-        }
-
-        [TestMethod]
         public void GetUdpAtomicCounterTest()
         {
             var result = jT808DotNettyWebApi.GetUdpAtomicCounter().GetAwaiter().GetResult();
-        }
-
-        [TestMethod]
-        public void GetUdpTrafficTest()
-        {
-            var result = jT808DotNettyWebApi.GetUdpTraffic().GetAwaiter().GetResult();
         }
 
         [TestMethod]
@@ -62,41 +50,9 @@ namespace JT808.DotNetty.WebApi.Test
         }
 
         [TestMethod]
-        public void GetTcpTrafficTest()
-        {
-            var result = jT808DotNettyWebApi.GetTcpTraffic().GetAwaiter().GetResult();
-        }
-
-        [TestMethod]
         public void GetTcpAtomicCounterTest()
         {
             var result = jT808DotNettyWebApi.GetTcpAtomicCounter().GetAwaiter().GetResult();
-        }
-
-        [TestMethod]
-        public void GetTransmitAllTest()
-        {
-            var result = jT808DotNettyWebApi.GetTransmitAll().GetAwaiter().GetResult();
-        }
-
-        [TestMethod]
-        public void RemoveTransmitAddressTest()
-        {
-            var result = jT808DotNettyWebApi.RemoveTransmitAddress(new Abstractions.Dtos.JT808IPAddressDto
-            {
-                Host = "127.0.0.1",
-                Port = 6561
-            }).GetAwaiter().GetResult();
-        }
-
-        [TestMethod]
-        public void AddTransmitAddressTest()
-        {
-            var result = jT808DotNettyWebApi.AddTransmitAddress(new Abstractions.Dtos.JT808IPAddressDto
-            {
-                Host = "127.0.0.1",
-                Port = 6553
-            }).GetAwaiter().GetResult();
         }
 
         [TestMethod]

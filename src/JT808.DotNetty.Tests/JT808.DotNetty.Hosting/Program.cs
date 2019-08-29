@@ -54,19 +54,9 @@ namespace JT808.DotNetty.Hosting
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
                             .AddJT808NettyCore(hostContext.Configuration)
-                            //自定义日志下发包
-                            .ReplaceDownlinkPacket<JT808DownlinkPacketLogging>()
-                            //自定义会话通知（在线/离线）使用异步方式
-                            //.ReplaceSessionPublishing<CustomJT808SessionPublishing>()
-                            //自定义原包转发 使用异步方式
-                            //.ReplaceSourcePackageDispatcher<CustomJT808SourcePackageDispatcher>
                             .AddJT808TcpNettyHost()
-                            // 自定义Tcp消息处理业务
-                            .ReplaceMsgIdHandler<JT808MsgIdTcpCustomHandler>()
                             .Builder()
                             .AddJT808UdpNettyHost()
-                            // 自定义Udp消息处理业务
-                            .ReplaceMsgIdHandler<JT808MsgIdUdpCustomHandler>()
                             .Builder()
                             .AddJT808WebApiNettyHost()
                             .Builder();

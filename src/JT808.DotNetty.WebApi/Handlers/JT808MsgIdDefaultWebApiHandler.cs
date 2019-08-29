@@ -18,8 +18,6 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         private readonly JT808AtomicCounterService jT808UdpAtomicCounterService;
 
-        private readonly JT808TransmitAddressFilterService jT808TransmitAddressFilterService;
-
         private readonly IJT808TcpSessionService jT808TcpSessionService;
 
         private readonly IJT808UdpSessionService jT808UdpSessionService;
@@ -28,32 +26,19 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         private readonly IJT808UnificationUdpSendService jT808UnificationUdpSendService;
 
-        private readonly JT808TrafficService jT808TcpTrafficService;
-
-        private readonly JT808TrafficService jT808UdpTrafficService;
-
-        private readonly JT808SimpleSystemCollectService jT808SimpleSystemCollectService;
-
         /// <summary>
         /// TCP一套注入
         /// </summary>
         /// <param name="jT808TcpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
-            JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
-            JT808TrafficServiceFactory  jT808TrafficServiceFactory,
             IJT808UnificationTcpSendService jT808UnificationTcpSendService,
             IJT808TcpSessionService jT808TcpSessionService,
-            JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory
             )
         {
-            this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
-            this.jT808TcpTrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.jT808UnificationTcpSendService = jT808UnificationTcpSendService;
-            this.jT808TcpSessionService = jT808TcpSessionService;
-            this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
+            this.jT808TcpSessionService = jT808TcpSessionService; 
             this.jT808TcpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
-            InitCommonRoute();
             InitTcpRoute();
         }
 
@@ -62,19 +47,14 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// </summary>
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
-            JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
-            JT808TrafficServiceFactory jT808TrafficServiceFactory,
             IJT808UdpSessionService jT808UdpSessionService,
             IJT808UnificationUdpSendService jT808UnificationUdpSendService,
             JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory
             )
         {
-            this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
-            this.jT808UdpTrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.udp);
             this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
             this.jT808UdpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
-            InitCommonRoute();
             InitUdpRoute();
         }
 
@@ -84,27 +64,19 @@ namespace JT808.DotNetty.WebApi.Handlers
         /// <param name="jT808TcpAtomicCounterService"></param>
         /// <param name="jT808UdpAtomicCounterService"></param>
         public JT808MsgIdDefaultWebApiHandler(
-             JT808SimpleSystemCollectService jT808SimpleSystemCollectService,
-             JT808TrafficServiceFactory jT808TrafficServiceFactory,
              IJT808UnificationTcpSendService jT808UnificationTcpSendService,
              IJT808UnificationUdpSendService jT808UnificationUdpSendService,
              IJT808TcpSessionService jT808TcpSessionService,
              IJT808UdpSessionService jT808UdpSessionService,
-             JT808TransmitAddressFilterService jT808TransmitAddressFilterService,
             JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory
            )
         {
-            this.jT808SimpleSystemCollectService = jT808SimpleSystemCollectService;
-            this.jT808TcpTrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.tcp);
-            this.jT808UdpTrafficService = jT808TrafficServiceFactory.Create(JT808TransportProtocolType.udp);
             this.jT808UdpSessionService = jT808UdpSessionService;
             this.jT808UnificationTcpSendService = jT808UnificationTcpSendService;
             this.jT808UnificationUdpSendService = jT808UnificationUdpSendService;
             this.jT808TcpSessionService = jT808TcpSessionService;
-            this.jT808TransmitAddressFilterService = jT808TransmitAddressFilterService;
             this.jT808TcpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.jT808UdpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
-            InitCommonRoute();
             InitTcpRoute();
             InitUdpRoute();
         }
@@ -159,44 +131,6 @@ namespace JT808.DotNetty.WebApi.Handlers
             }
             var result = jT808UdpSessionService.RemoveByTerminalPhoneNo(request.Json);
             return CreateJT808HttpResponse(result);
-        }
-
-        /// <summary>
-        /// 添加转发过滤地址
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse AddTransmitAddress(JT808HttpRequest request)
-        {
-            if (string.IsNullOrEmpty(request.Json))
-            {
-                return EmptyHttpResponse();
-            } 
-            return CreateJT808HttpResponse(jT808TransmitAddressFilterService.Add(request.Json));
-        }
-
-        /// <summary>
-        /// 删除转发过滤地址（不能删除在网关服务器配置文件配的地址）
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse RemoveTransmitAddress(JT808HttpRequest request)
-        {
-            if (string.IsNullOrEmpty(request.Json))
-            {
-                return EmptyHttpResponse();
-            }
-            return CreateJT808HttpResponse(jT808TransmitAddressFilterService.Remove(request.Json));
-        }
-
-        /// <summary>
-        /// 获取转发过滤地址信息集合
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse GetTransmitAll(JT808HttpRequest request)
-        {
-            return CreateJT808HttpResponse(jT808TransmitAddressFilterService.GetAll());
         }
 
         /// <summary>
@@ -265,61 +199,12 @@ namespace JT808.DotNetty.WebApi.Handlers
             return CreateJT808HttpResponse(result);
         }
 
-        /// <summary>
-        /// 基于Tcp的流量获取
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse TrafficTcpGet(JT808HttpRequest request)
-        {
-            JT808ResultDto<JT808TrafficInfoDto> jT808ResultDto = new JT808ResultDto<JT808TrafficInfoDto>();
-            jT808ResultDto.Data = new JT808TrafficInfoDto();
-            jT808ResultDto.Data.TotalReceiveSize = (jT808TcpTrafficService.TotalReceiveSize * 1.0) / 1024;
-            jT808ResultDto.Data.TotalSendSize = (jT808TcpTrafficService.TotalSendSize * 1.0) / 1024;
-            return CreateJT808HttpResponse(jT808ResultDto);
-        }
-
-        /// <summary>
-        /// 基于Udp的流量获取
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse TrafficUdpGet(JT808HttpRequest request)
-        {
-            JT808ResultDto<JT808TrafficInfoDto> jT808ResultDto = new JT808ResultDto<JT808TrafficInfoDto>();
-            jT808ResultDto.Data = new JT808TrafficInfoDto();
-            jT808ResultDto.Data.TotalReceiveSize = (jT808UdpTrafficService.TotalReceiveSize * 1.0) / 1024;
-            jT808ResultDto.Data.TotalSendSize = (jT808UdpTrafficService.TotalSendSize * 1.0) / 1024;
-            return CreateJT808HttpResponse(jT808ResultDto);
-        }
-
-        /// <summary>
-        /// 获取当前系统进程使用率
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public JT808HttpResponse SystemCollectGet(JT808HttpRequest request)
-        {
-            JT808ResultDto<JT808SystemCollectInfoDto> jT808ResultDto = new JT808ResultDto<JT808SystemCollectInfoDto>();
-            jT808ResultDto.Data = jT808SimpleSystemCollectService.Get();
-            return CreateJT808HttpResponse(jT808ResultDto);
-        }
-
-        protected virtual void InitCommonRoute()
-        {
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.SystemCollectGet, SystemCollectGet);
-        }
-
         protected virtual void InitTcpRoute()
         {
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.TransmitAdd, AddTransmitAddress);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.TransmitRemove, RemoveTransmitAddress);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.TransmitGetAll, GetTransmitAll);
             CreateRoute(JT808Constants.JT808WebApiRouteTable.GetTcpAtomicCounter, GetTcpAtomicCounter);
             CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
             CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionTcpRemoveByTerminalPhoneNo, RemoveTcpSessionByTerminalPhoneNo);
             CreateRoute(JT808Constants.JT808WebApiRouteTable.UnificationTcpSend, UnificationTcpSend);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.TrafficTcpGet, TrafficTcpGet);
         }
 
         protected virtual void InitUdpRoute()
@@ -328,7 +213,6 @@ namespace JT808.DotNetty.WebApi.Handlers
             CreateRoute(JT808Constants.JT808WebApiRouteTable.UnificationUdpSend, UnificationUdpSend);
             CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionUdpGetAll, GetUdpSessionAll);
             CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionUdpRemoveByTerminalPhoneNo, RemoveUdpSessionByTerminalPhoneNo);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.TrafficUdpGet, TrafficUdpGet);
         }
     }
 }
