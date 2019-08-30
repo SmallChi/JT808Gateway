@@ -25,14 +25,6 @@
 
 ![design_model](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/design_model.png)
 
-## 基于Tcp的消息业务处理程序（JT808.DotNetty.Tcp）
-
-通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdTcpHandlerBase去实现自定义的消息业务处理程序。
-
-## 基于Udp的消息业务处理程序（JT808.DotNetty.Udp）
-
-通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdUdpHandlerBase去实现自定义的消息业务处理程序。
-
 ## 基于WebApi的消息业务处理程序（JT808.DotNetty.WebApi）
 
 通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdHttpHandlerBase去实现自定义的WebApi接口服务。
@@ -44,9 +36,10 @@
 |接口名称|接口说明|使用场景|
 |:------:|:------|:------|
 | IJT808SessionPublishing| 会话通知（在线/离线）| 有些超长待机的设备，不会实时保持连接，那么通过平台下发的命令是无法到达的，这时候就需要设备一上线，就即时通知服务去处理，然后在即时的下发消息到设备。|
-| IJT808SourcePackageDispatcher| 原包分发器| 需要将源数据转给其他平台|
-| IJT808UplinkPacket| 上行数据包处理接口| 平台需要查看网关的上行数据日志（可以配合InfluxDB使用）|
-| IJT808DownlinkPacket| 下行数据包处理接口| 平台需要查看网关的下行数据日志（可以配合InfluxDB使用）|
+| IJT808MsgProducer| 数据生产接口| 网关将接收到的数据发送到队列|
+| IJT808MsgConsumer| 数据消费接口| 将数据进行对应的消息业务处理(例：设备流量统计、第三方平台数据转发、消息日志等) |
+| IJT808MsgReplyProducer| 应答数据生产接口|将生产的数据解析为对应的消息Id应答发送到队列 |
+| IJT808MsgReplyConsumer| 应答数据消费接口| 将接收到的应答数据下发给设备|
 
 > 只要实现IJT808SessionPublishing接口的任意一款MQ都能实现该功能。
 
@@ -56,12 +49,15 @@
 
 | Package Name          | Version                                            | Downloads                                           |
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Install-Package JT808.DotNetty.Core | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Core.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
 | Install-Package JT808.DotNetty.Abstractions | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Abstractions.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Abstractions.svg) |
+| Install-Package JT808.DotNetty.Core | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Core.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
 | Install-Package JT808.DotNetty.Tcp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Tcp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Tcp.svg) |
 | Install-Package JT808.DotNetty.Udp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Udp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Udp.svg) |
 | Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
 | Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
+| Install-Package JT808.DotNetty.Client | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Client.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Client.svg) |
+| Install-Package JT808.DotNetty.Kafka | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
+| Install-Package JT808.DotNetty.RabbitMQ | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
 
 ## 举个栗子1
 
@@ -85,20 +81,10 @@ static async Task Main(string[] args)
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddJT808Configure()
                     .AddJT808NettyCore(hostContext.Configuration)
-                    //自定义日志下发包
-                    .ReplaceDownlinkPacket<JT808DownlinkPacketLogging>()
                     //自定义会话通知（在线/离线）使用异步方式
                     //.ReplaceSessionPublishing<CustomJT808SessionPublishing>()
-                    //自定义原包转发 使用异步方式
-                    //.ReplaceSourcePackageDispatcher<CustomJT808SourcePackageDispatcher>
                     .AddJT808TcpNettyHost()
-                    // 自定义Tcp消息处理业务
-                    .ReplaceMsgIdHandler<JT808MsgIdTcpCustomHandler>()
-                    .Builder()
                     .AddJT808UdpNettyHost()
-                    // 自定义Udp消息处理业务
-                    .ReplaceMsgIdHandler<JT808MsgIdUdpCustomHandler>()
-                    .Builder()
                     .AddJT808WebApiNettyHost()
                     .Builder();
             //webapi客户端调用
