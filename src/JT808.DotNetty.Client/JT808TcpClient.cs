@@ -4,20 +4,16 @@ using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using DotNetty.Transport.Libuv;
 using JT808.DotNetty.Client.Handlers;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using System.Threading.Tasks;
 using JT808.DotNetty.Client.Metadata;
 using JT808.DotNetty.Client.Codecs;
 using JT808.DotNetty.Client.Services;
-using JT808.Protocol.Interfaces;
+using JT808.Protocol;
 
 namespace JT808.DotNetty.Client
 {

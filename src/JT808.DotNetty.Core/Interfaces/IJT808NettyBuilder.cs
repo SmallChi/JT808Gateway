@@ -11,6 +11,7 @@ namespace JT808.DotNetty.Core.Interfaces
     {
         IJT808Builder JT808Builder { get; }
         IJT808NettyBuilder ReplaceSessionPublishing<T>() where T : IJT808SessionPublishing;
+        IJT808NettyBuilder ReplaceMsgProducer<T>() where T : IJT808MsgProducer;
         IJT808Builder Builder();
     }
 }

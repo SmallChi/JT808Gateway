@@ -9,6 +9,7 @@ using JT808.DotNetty.Abstractions.Enums;
 using JT808.Protocol.Interfaces;
 using JT808.Protocol.Exceptions;
 using JT808.DotNetty.Core.Session;
+using JT808.DotNetty.Abstractions;
 
 namespace JT808.DotNetty.Tcp.Handlers
 {
@@ -25,13 +26,17 @@ namespace JT808.DotNetty.Tcp.Handlers
 
         private readonly JT808Serializer JT808Serializer;
 
+        private readonly IJT808MsgProducer JT808MsgProducer;
+
         public JT808TcpServerHandler(
+            IJT808MsgProducer jT808MsgProducer,
             IJT808Config jT808Config,
             ILoggerFactory loggerFactory,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
             JT808SessionManager jT808SessionManager)
         {
             this.jT808SessionManager = jT808SessionManager;
+            this.JT808MsgProducer = jT808MsgProducer;
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.JT808Serializer = jT808Config.GetSerializer();
             logger = loggerFactory.CreateLogger<JT808TcpServerHandler>();
@@ -51,6 +56,7 @@ namespace JT808.DotNetty.Tcp.Handlers
                     logger.LogTrace($"accept package success count=>{jT808AtomicCounterService.MsgSuccessCount.ToString()},accept msg=>{ByteBufferUtil.HexDump(msg)}");
                 }
                 jT808SessionManager.TryAdd(jT808HeaderPackage.Header.TerminalPhoneNo,ctx.Channel);
+                JT808MsgProducer.ProduceAsync(jT808HeaderPackage.Header.TerminalPhoneNo, msg);
             }
             catch (JT808Exception ex)
             {

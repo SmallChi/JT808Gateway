@@ -9,6 +9,7 @@ using JT808.DotNetty.Core;
 using JT808.DotNetty.Abstractions.Enums;
 using JT808.Protocol.Interfaces;
 using JT808.DotNetty.Core.Session;
+using JT808.DotNetty.Abstractions;
 
 namespace JT808.DotNetty.Udp.Handlers
 {
@@ -25,12 +26,16 @@ namespace JT808.DotNetty.Udp.Handlers
 
         private readonly JT808Serializer JT808Serializer;
 
+        private readonly IJT808MsgProducer JT808MsgProducer;
+
         public JT808UdpServerHandler(
+            IJT808MsgProducer jT808MsgProducer,
             IJT808Config jT808Config,
             ILoggerFactory loggerFactory,
             JT808AtomicCounterServiceFactory  jT808AtomicCounterServiceFactory,
             JT808SessionManager jT808UdpSessionManager)
         {
+            this.JT808MsgProducer = jT808MsgProducer;
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
             this.jT808UdpSessionManager = jT808UdpSessionManager;
             logger = loggerFactory.CreateLogger<JT808UdpServerHandler>();
@@ -47,6 +52,7 @@ namespace JT808.DotNetty.Udp.Handlers
                 JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg.Buffer);
                 jT808AtomicCounterService.MsgSuccessIncrement();
                 jT808UdpSessionManager.TryAdd(ctx.Channel, msg.Sender, jT808HeaderPackage.Header.TerminalPhoneNo);
+                JT808MsgProducer.ProduceAsync(jT808HeaderPackage.Header.TerminalPhoneNo, msg.Buffer);
                 if (logger.IsEnabled(LogLevel.Trace))
                 {
                     logger.LogTrace($"accept package success count=>{jT808AtomicCounterService.MsgFailCount.ToString()},accept msg=>{ByteBufferUtil.HexDump(msg.Buffer)}");

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using JT808.Protocol;
 
 namespace JT808.DotNetty.Client
 {
@@ -10,6 +11,7 @@ namespace JT808.DotNetty.Client
     {
         public static IServiceCollection AddJT808Client(this IServiceCollection serviceDescriptors)
         {
+            serviceDescriptors.AddJT808Configure();
             serviceDescriptors.AddSingleton<JT808SendAtomicCounterService>();
             serviceDescriptors.AddSingleton<JT808ReceiveAtomicCounterService>();
             serviceDescriptors.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();

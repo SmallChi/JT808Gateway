@@ -6,6 +6,9 @@
 
         public const string SessionOffline = "JT808SessionOffline";
 
+        public const string MsgTopic = "jt808msgdefault";
+        public const string MsgReplyTopic = "jt808msgreplydefault";
+
         public static class JT808WebApiRouteTable
         {
             public const string RouteTablePrefix = "/jt808api";

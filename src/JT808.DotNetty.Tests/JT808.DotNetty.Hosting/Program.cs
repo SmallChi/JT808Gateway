@@ -1,8 +1,6 @@
 ﻿using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Handlers;
-using JT808.DotNetty.Hosting.Handlers;
-using JT808.DotNetty.Hosting.Impls;
 using JT808.DotNetty.Tcp;
 using JT808.DotNetty.Udp;
 using JT808.DotNetty.WebApi;
@@ -55,20 +53,18 @@ namespace JT808.DotNetty.Hosting
                     services.AddJT808Configure()
                             .AddJT808NettyCore(hostContext.Configuration)
                             .AddJT808TcpNettyHost()
-                            .Builder()
-                            .AddJT808UdpNettyHost()
-                            .Builder()
+                            //.AddJT808UdpNettyHost()
                             .AddJT808WebApiNettyHost()
                             .Builder();
                     //webapi客户端调用
-                    services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
-                    {
-                        c.HttpHost = new Uri("http://localhost:828/jt808api/");
-                        c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
-                        c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
-                    });
-                    var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
-                    var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
+                    //services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+                    //{
+                    //    c.HttpHost = new Uri("http://localhost:828/jt808api/");
+                    //    c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+                    //    c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
+                    //});
+                    //var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
+                    //var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
                 });
 
             await serverHostBuilder.RunConsoleAsync();

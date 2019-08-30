@@ -120,6 +120,21 @@ namespace JT808.DotNetty.Core.Session
             }
             return isSuccessed;
         }
+        public void Send(string terminalPhoneNo, byte[] data)
+        {
+            var session = GetSessionByTerminalPhoneNo(terminalPhoneNo);
+            if (session != null)
+            {
+                if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
+                {
+                    session.Channel.WriteAndFlushAsync(new JT808Response(data));
+                }
+                else if (session.TransportProtocolType == JT808TransportProtocolType.udp)
+                {
+                    session.Channel.WriteAndFlushAsync(jT808DatagramPacket.Create(data, ((JT808UdpSession)session).Sender));
+                } 
+            }
+        }
         public bool TrySend(string terminalPhoneNo, IJT808Reply reply, out string message)
         {
             bool isSuccessed;

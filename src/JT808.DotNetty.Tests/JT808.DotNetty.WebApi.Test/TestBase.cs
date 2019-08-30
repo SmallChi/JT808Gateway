@@ -38,9 +38,7 @@ namespace JT808.DotNetty.WebApi.Test
                     services.AddJT808Configure()
                             .AddJT808NettyCore(hostContext.Configuration)
                             .AddJT808TcpNettyHost()
-                            .Builder()
                             .AddJT808UdpNettyHost()
-                            .Builder()
                             .AddJT808WebApiNettyHost();
                 });
             var build = serverHostBuilder.Build();

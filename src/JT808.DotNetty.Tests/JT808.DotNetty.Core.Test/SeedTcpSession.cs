@@ -13,7 +13,7 @@ namespace JT808.DotNetty.Core.Test
     public class SeedTcpSession
     {
         public JT808SessionManager jT80TcpSessionManager = new JT808SessionManager(
-            new JT808SessionPublishingEmptyImpl(),
+            new JT808SessionPublishingEmptyImpl(new LoggerFactory()),
             new LoggerFactory());
 
         public SeedTcpSession()
