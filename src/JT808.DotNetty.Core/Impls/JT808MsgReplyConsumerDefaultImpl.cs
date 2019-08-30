@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using JT808Constants = JT808.DotNetty.Abstractions.JT808Constants;
 
 namespace JT808.DotNetty.Core.Impls
 {
@@ -37,7 +36,7 @@ namespace JT808.DotNetty.Core.Impls
         }
         public CancellationTokenSource Cts =>new CancellationTokenSource();
 
-        public string TopicName => JT808Constants.MsgReplyTopic;
+        public string TopicName => JT808NettyConstants.MsgReplyTopic;
 
         public void Dispose()
         {

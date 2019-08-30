@@ -200,7 +200,7 @@ namespace JT808.DotNetty.Core.Session
                     //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
                     //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
                     //有设备关联上来可以进行通知 例如：使用Redis发布订阅
-                    JT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, jT808TcpSession.TerminalPhoneNo);
+                    JT808SessionPublishing.PublishAsync(JT808NettyConstants.SessionOnline, jT808TcpSession.TerminalPhoneNo);
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace JT808.DotNetty.Core.Session
             //移动很多卡，存储的那个socket地址端口，有效期非常短
             //不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了
             //所以此处采用跟随设备消息下发指令
-            JT808SessionPublishing.PublishAsync(JT808Constants.SessionOnline, terminalPhoneNo);
+            JT808SessionPublishing.PublishAsync(JT808NettyConstants.SessionOnline, terminalPhoneNo);
         }
         public IJT808Session RemoveSession(string terminalPhoneNo)
         {
@@ -254,7 +254,7 @@ namespace JT808.DotNetty.Core.Session
                 }
                 string nos = string.Join(",", terminalPhoneNos);
                 logger.LogInformation($">>>{terminalPhoneNo}-{nos} 1-n Session Remove.");
-                JT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, nos);
+                JT808SessionPublishing.PublishAsync(JT808NettyConstants.SessionOffline, nos);
                 return jT808Session;
             }
             else
@@ -262,7 +262,7 @@ namespace JT808.DotNetty.Core.Session
                 if (Sessions.TryRemove(terminalPhoneNo, out IJT808Session jT808SessionRemove))
                 {
                     logger.LogInformation($">>>{terminalPhoneNo} Session Remove.");
-                    JT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, terminalPhoneNo);
+                    JT808SessionPublishing.PublishAsync(JT808NettyConstants.SessionOffline, terminalPhoneNo);
                     return jT808SessionRemove;
                 }
                 else
@@ -284,7 +284,7 @@ namespace JT808.DotNetty.Core.Session
                 }
                 string nos = string.Join(",", terminalPhoneNos);
                 logger.LogInformation($">>>{nos} Channel Remove.");
-                JT808SessionPublishing.PublishAsync(JT808Constants.SessionOffline, nos);
+                JT808SessionPublishing.PublishAsync(JT808NettyConstants.SessionOffline, nos);
             }
         }
         public IEnumerable<IJT808Session> GetAll()

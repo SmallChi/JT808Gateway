@@ -127,22 +127,22 @@ namespace JT808.DotNetty.WebApi.Handlers
 
         protected virtual void InitCommontRoute()
         {
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.UnificationSend, UnificationSend);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo, RemoveSessionByTerminalPhoneNo);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.UnificationSend, UnificationSend);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo, RemoveSessionByTerminalPhoneNo);
         }
 
         protected virtual void InitTcpRoute()
         {
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.GetTcpAtomicCounter, GetTcpAtomicCounter);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.GetTcpAtomicCounter, GetTcpAtomicCounter);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
             
 
         }
 
         protected virtual void InitUdpRoute()
         {
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.GetUdpAtomicCounter, GetUdpAtomicCounter);
-            CreateRoute(JT808Constants.JT808WebApiRouteTable.SessionUdpGetAll, GetUdpSessionAll);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.GetUdpAtomicCounter, GetUdpAtomicCounter);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.SessionUdpGetAll, GetUdpSessionAll);
         }
     }
 }

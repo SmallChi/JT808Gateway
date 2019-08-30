@@ -10,7 +10,7 @@ namespace JT808.DotNetty.Core.Impls
     internal class JT808MsgProducerDefaultImpl : IJT808MsgProducer
     {
         private readonly JT808MsgService JT808MsgService;
-        public string TopicName => JT808Constants.MsgTopic;
+        public string TopicName => JT808NettyConstants.MsgTopic;
         public JT808MsgProducerDefaultImpl(JT808MsgService jT808MsgService)
         {
             JT808MsgService = jT808MsgService;

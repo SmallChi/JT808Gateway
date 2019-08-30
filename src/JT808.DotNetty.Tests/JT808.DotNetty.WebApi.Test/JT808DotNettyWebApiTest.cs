@@ -16,7 +16,7 @@ namespace JT808.DotNetty.WebApi.Test
         {
             HttpApi.Register<IJT808DotNettyWebApi>().ConfigureHttpApiConfig(c =>
             {
-                c.HttpHost = new Uri("http://127.0.0.1:12828" + JT808Constants.JT808WebApiRouteTable.RouteTablePrefix + "/");
+                c.HttpHost = new Uri("http://127.0.0.1:12828" + JT808NettyConstants.JT808WebApiRouteTable.RouteTablePrefix + "/");
                 c.LoggerFactory = new LoggerFactory();
             });
             var api = HttpApi.Resolve<IJT808DotNettyWebApi>();

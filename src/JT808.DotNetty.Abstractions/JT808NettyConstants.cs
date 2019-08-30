@@ -1,6 +1,6 @@
 ﻿namespace JT808.DotNetty.Abstractions
 {
-    public static class JT808Constants
+    public static class JT808NettyConstants
     {
         public const string SessionOnline= "JT808SessionOnline";
 
