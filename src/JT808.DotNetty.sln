@@ -37,6 +37,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleServer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.CleintBenchmark", "JT808.DotNetty.CleintBenchmark\JT808.DotNetty.CleintBenchmark.csproj", "{C2B1A0F4-2C49-45DA-9F48-7A016FC6E9E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.Kafka", "JT808.DotNetty.Kafka\JT808.DotNetty.Kafka.csproj", "{A51A0B4A-8F7F-4827-A783-B30456FE768A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.RabbitMQ", "JT808.DotNetty.RabbitMQ\JT808.DotNetty.RabbitMQ.csproj", "{27BB3FFD-E723-439C-9ACB-9532F38A5B38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,14 @@ Global
 		{C2B1A0F4-2C49-45DA-9F48-7A016FC6E9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2B1A0F4-2C49-45DA-9F48-7A016FC6E9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2B1A0F4-2C49-45DA-9F48-7A016FC6E9E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51A0B4A-8F7F-4827-A783-B30456FE768A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51A0B4A-8F7F-4827-A783-B30456FE768A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51A0B4A-8F7F-4827-A783-B30456FE768A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51A0B4A-8F7F-4827-A783-B30456FE768A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27BB3FFD-E723-439C-9ACB-9532F38A5B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27BB3FFD-E723-439C-9ACB-9532F38A5B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27BB3FFD-E723-439C-9ACB-9532F38A5B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27BB3FFD-E723-439C-9ACB-9532F38A5B38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

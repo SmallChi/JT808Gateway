@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\SharedProperties.props" />
+  <PropertyGroup>
+    <PackageId>JT808.DotNetty.RabbitMQ</PackageId>
+    <Product>JT808.DotNetty.RabbitMQ</Product>
+    <Description>基于RabbitMQ的JT808消息发布与订阅</Description>
+    <PackageReleaseNotes>基于RabbitMQ的JT808消息发布与订阅</PackageReleaseNotes>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
