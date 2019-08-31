@@ -13,9 +13,21 @@ namespace JT808.DotNetty.Core.Codecs
         {
             if (!message.Content.IsReadable()) return;
             IByteBuffer byteBuffer = message.Content;
-            byte[] buffer = new byte[byteBuffer.ReadableBytes];
-            byteBuffer.ReadBytes(buffer);
-            output.Add(new JT808UdpPackage(buffer, message.Sender));
+            //过滤掉非808标准包
+            //不包括头尾标识
+            //（消息 ID ）2+（消息体属性）2+（终端手机号）6+（消息流水号）2+（检验码 ）1
+            if (byteBuffer.ReadableBytes < 12)
+            {
+                byte[] buffer = new byte[byteBuffer.ReadableBytes];
+                byteBuffer.ReadBytes(buffer, 0, byteBuffer.ReadableBytes);
+                return;
+            }
+            else
+            {
+                byte[] buffer = new byte[byteBuffer.ReadableBytes];
+                byteBuffer.ReadBytes(buffer);
+                output.Add(new JT808UdpPackage(buffer, message.Sender));
+            }
         }
     }
 }

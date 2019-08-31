@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\SharedProperties.props" />
   <PropertyGroup>
     <PackageId>JT808.DotNetty.Kafka</PackageId>
@@ -6,8 +6,5 @@
     <Description>基于Kafka的JT808消息发布与订阅</Description>
     <PackageReleaseNotes>基于Kafka的JT808消息发布与订阅</PackageReleaseNotes>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
-  </ItemGroup>
 
 </Project>

@@ -53,7 +53,7 @@ namespace JT808.DotNetty.Hosting
                     services.AddJT808Configure()
                             .AddJT808NettyCore(hostContext.Configuration)
                             .AddJT808TcpNettyHost()
-                            //.AddJT808UdpNettyHost()
+                            .AddJT808UdpNettyHost()
                             .AddJT808WebApiNettyHost()
                             .Builder();
                     //webapi客户端调用

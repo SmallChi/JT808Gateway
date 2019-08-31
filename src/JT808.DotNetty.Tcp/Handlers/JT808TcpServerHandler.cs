@@ -2,11 +2,9 @@
 using DotNetty.Transport.Channels;
 using JT808.Protocol;
 using System;
-using JT808.DotNetty.Core;
 using Microsoft.Extensions.Logging;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Abstractions.Enums;
-using JT808.Protocol.Interfaces;
 using JT808.Protocol.Exceptions;
 using JT808.DotNetty.Core.Session;
 using JT808.DotNetty.Abstractions;
@@ -39,6 +37,7 @@ namespace JT808.DotNetty.Tcp.Handlers
             this.JT808MsgProducer = jT808MsgProducer;
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.JT808Serializer = jT808Config.GetSerializer();
+            jT808Config.SkipCRCCode = true;
             logger = loggerFactory.CreateLogger<JT808TcpServerHandler>();
         }
 
@@ -50,11 +49,11 @@ namespace JT808.DotNetty.Tcp.Handlers
                 //要是一定要解析到数据体可以在JT808MsgIdHandlerBase类中根据具体的消息，
                 //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>
                 JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg);
-                jT808AtomicCounterService.MsgSuccessIncrement();
                 if (logger.IsEnabled(LogLevel.Trace))
                 {
                     logger.LogTrace($"accept package success count=>{jT808AtomicCounterService.MsgSuccessCount.ToString()},accept msg=>{ByteBufferUtil.HexDump(msg)}");
                 }
+                jT808AtomicCounterService.MsgSuccessIncrement();
                 jT808SessionManager.TryAdd(jT808HeaderPackage.Header.TerminalPhoneNo,ctx.Channel);
                 JT808MsgProducer.ProduceAsync(jT808HeaderPackage.Header.TerminalPhoneNo, msg);
             }
