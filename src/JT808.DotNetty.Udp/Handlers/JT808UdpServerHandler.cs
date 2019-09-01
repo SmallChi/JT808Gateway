@@ -38,7 +38,6 @@ namespace JT808.DotNetty.Udp.Handlers
             this.jT808UdpSessionManager = jT808UdpSessionManager;
             logger = loggerFactory.CreateLogger<JT808UdpServerHandler>();
             JT808Serializer = jT808Config.GetSerializer();
-            jT808Config.SkipCRCCode = true;
         }
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, JT808UdpPackage msg)

@@ -37,7 +37,6 @@ namespace JT808.DotNetty.Tcp.Handlers
             this.JT808MsgProducer = jT808MsgProducer;
             this.jT808AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.JT808Serializer = jT808Config.GetSerializer();
-            jT808Config.SkipCRCCode = true;
             logger = loggerFactory.CreateLogger<JT808TcpServerHandler>();
         }
 
