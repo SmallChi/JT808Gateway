@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\JT808.DotNetty.Kafka\JT808.DotNetty.Kafka.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj" />

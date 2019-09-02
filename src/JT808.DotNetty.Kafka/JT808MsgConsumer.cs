@@ -21,7 +21,7 @@ namespace JT808.DotNetty.Kafka
         public string TopicName { get; }
 
         public JT808MsgConsumer(
-            IOptions<JT808ConsumerConfig> consumerConfigAccessor,
+            IOptions<JT808MsgConsumerConfig> consumerConfigAccessor,
             ILoggerFactory loggerFactory)
         {
             consumer = new ConsumerBuilder<string, byte[]>(consumerConfigAccessor.Value).Build();

@@ -9,23 +9,24 @@ using Xunit;
 
 namespace JT808.DotNetty.Kafka.Test
 {
-    public class JT808MsgConsumerTest: JT808BaseTest
+    public class JT808SessionConsumerTest : JT808BaseTest
     {
-        public JT808MsgConsumerConfig JT808ConsumerConfig = new JT808MsgConsumerConfig
+
+        public JT808SessionConsumerConfig JT808ConsumerConfig = new JT808SessionConsumerConfig
         {
-            GroupId= "JT808Msg.test",
-            TopicName = "JT808Msg",
+            GroupId= "JT808Session.test",
+            TopicName = "JT808Session",
             BootstrapServers = BootstrapServers
         };
         [Fact]
         public void Test1()
         {
-            using (IJT808MsgConsumer JT808MsgConsumer = new JT808MsgConsumer(JT808ConsumerConfig, new LoggerFactory()))
+            using (IJT808SessionConsumer JT808MsgConsumer = new JT808SessionConsumer(JT808ConsumerConfig, new LoggerFactory()))
             {
                 JT808MsgConsumer.Subscribe();
                 JT808MsgConsumer.OnMessage(item => 
                 {
-                    Debug.WriteLine($"{item.TerminalNo}-{item.Data.Length}");
+                    Debug.WriteLine($"{item.TerminalNo}-{item.Notice}");
                 });
                 Thread.Sleep(30000);
                 JT808MsgConsumer.Unsubscribe();

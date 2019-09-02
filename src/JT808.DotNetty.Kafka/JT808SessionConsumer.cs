@@ -10,26 +10,26 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Kafka
 {
-    public class JT808MsgReplyConsumer : IJT808MsgReplyConsumer
+    public class JT808SessionConsumer : IJT808SessionConsumer
     {
         public CancellationTokenSource Cts => new CancellationTokenSource();
 
-        private readonly IConsumer<string, byte[]> consumer;
+        private readonly IConsumer<string, string> consumer;
 
         private readonly ILogger logger;
 
         public string TopicName { get; }
 
-        public JT808MsgReplyConsumer(
-            IOptions<JT808MsgReplyConsumerConfig> consumerConfigAccessor,
+        public JT808SessionConsumer(
+            IOptions<JT808SessionConsumerConfig> consumerConfigAccessor,
             ILoggerFactory loggerFactory)
         {
-            consumer = new ConsumerBuilder<string, byte[]>(consumerConfigAccessor.Value).Build();
+            consumer = new ConsumerBuilder<string, string>(consumerConfigAccessor.Value).Build();
             TopicName = consumerConfigAccessor.Value.TopicName;
-            logger = loggerFactory.CreateLogger("JT808MsgReplyConsumer");
+            logger = loggerFactory.CreateLogger("JT808SessionConsumer");
         }
 
-        public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
+        public void OnMessage(Action<(string Notice, string TerminalNo)> callback)
         {
             Task.Run(() =>
             {

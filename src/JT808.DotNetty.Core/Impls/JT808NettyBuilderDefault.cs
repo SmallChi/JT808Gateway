@@ -23,22 +23,10 @@ namespace JT808.DotNetty.Core.Impls
             return JT808Builder;
         }
 
-        public IJT808NettyBuilder ReplaceSessionPublishing<T>() where T : IJT808SessionPublishing
-        {
-            JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808SessionPublishing), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
-
-        public IJT808NettyBuilder ReplaceMsgProducer<T>() where T : IJT808MsgProducer
-        {
-            JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgProducer), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
-
-        public IJT808NettyBuilder ReplaceMsgReplyConsumer<T>() where T : IJT808MsgReplyConsumer
-        {
-            JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgReplyConsumer), typeof(T), ServiceLifetime.Singleton));
-            return this;
-        }
+        //public IJT808NettyBuilder ReplaceSessionPublishing<T>() where T : IJT808SessionPublishing
+        //{
+        //    JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808SessionPublishing), typeof(T), ServiceLifetime.Singleton));
+        //    return this;
+        //}
     }
 }

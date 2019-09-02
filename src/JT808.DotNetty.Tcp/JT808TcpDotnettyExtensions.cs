@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Runtime.CompilerServices;
 using JT808.DotNetty.Core.Interfaces;
+using JT808.DotNetty.Abstractions;
 
 [assembly: InternalsVisibleTo("JT808.DotNetty.Tcp.Test")]
 

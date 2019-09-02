@@ -35,13 +35,12 @@
 
 |接口名称|接口说明|使用场景|
 |:------:|:------|:------|
-| IJT808SessionPublishing| 会话通知（在线/离线）| 有些超长待机的设备，不会实时保持连接，那么通过平台下发的命令是无法到达的，这时候就需要设备一上线，就即时通知服务去处理，然后在即时的下发消息到设备。|
+| IJT808SessionProducer| 会话通知（在线/离线）数据生产接口| 有些超长待机的设备，不会实时保持连接，那么通过平台下发的命令是无法到达的，这时候就需要设备一上线，就即时通知服务去处理，然后在即时的下发消息到设备。|
+| IJT808SessionConsumer| 会话通知（在线/离线）数据消费接口| -|
 | IJT808MsgProducer| 数据生产接口| 网关将接收到的数据发送到队列|
 | IJT808MsgConsumer| 数据消费接口| 将数据进行对应的消息业务处理(例：设备流量统计、第三方平台数据转发、消息日志等) |
 | IJT808MsgReplyProducer| 应答数据生产接口|将生产的数据解析为对应的消息Id应答发送到队列 |
 | IJT808MsgReplyConsumer| 应答数据消费接口| 将接收到的应答数据下发给设备|
-
-> 只要实现IJT808SessionPublishing接口的任意一款MQ都能实现该功能。
 
 > 使用物联网卡通过udp下发指令时，存储的那个socket地址端口，有效期非常短,不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了,所以此处采用跟随设备消息下发指令。
 
@@ -81,21 +80,26 @@ static async Task Main(string[] args)
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddJT808Configure()
                     .AddJT808NettyCore(hostContext.Configuration)
-                    //自定义会话通知（在线/离线）使用异步方式
-                    //.ReplaceSessionPublishing<CustomJT808SessionPublishing>()
                     .AddJT808TcpNettyHost()
                     .AddJT808UdpNettyHost()
                     .AddJT808WebApiNettyHost()
+                    //扩展webapi JT808MsgIdHttpHandlerBase
+                    //.ReplaceMsgIdHandler<JT808MsgIdHttpCustomHandler>()
                     .Builder();
-            //webapi客户端调用
-            services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
-            {
-                c.HttpHost = new Uri("http://localhost:828/jt808api/");
-                c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
-                c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
-            });
-            var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
-            var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
+                    //添加kafka插件
+                    //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                    //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                    //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                    //.Builder();
+                    //webapi客户端调用
+                    //services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+                    //{
+                    //    c.HttpHost = new Uri("http://localhost:828/jt808api/");
+                    //    c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+                    //    c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
+                    //});
+                    //var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
+                    //var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
         });
 
     await serverHostBuilder.RunConsoleAsync();

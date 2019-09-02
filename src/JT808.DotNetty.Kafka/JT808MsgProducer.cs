@@ -14,7 +14,7 @@ namespace JT808.DotNetty.Kafka
 
         private readonly IProducer<string, byte[]> producer;
         public JT808MsgProducer(
-          IOptions<JT808ProducerConfig> producerConfigAccessor)
+          IOptions<JT808MsgProducerConfig> producerConfigAccessor)
         {
             producer = new ProducerBuilder<string, byte[]>(producerConfigAccessor.Value).Build();
             TopicName = producerConfigAccessor.Value.TopicName;

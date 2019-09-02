@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Kafka
 {
-    public class JT808MsgReplyProducer : IJT808MsgProducer
+    public class JT808MsgReplyProducer : IJT808MsgReplyProducer
     {
         public string TopicName { get;}
 
         private IProducer<string, byte[]> producer;
         public JT808MsgReplyProducer(
-          IOptions<JT808ProducerConfig> producerConfigAccessor)
+          IOptions<JT808MsgReplyProducerConfig> producerConfigAccessor)
         {
             producer = new ProducerBuilder<string, byte[]>(producerConfigAccessor.Value).Build();
             TopicName = producerConfigAccessor.Value.TopicName;

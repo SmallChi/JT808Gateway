@@ -65,7 +65,7 @@ namespace JT808.DotNetty.Core
             nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionService, JT808SessionService>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgProducer, JT808MsgProducerDefaultImpl>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionProducer, JT808SessionProducerDefaultImpl>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808MsgService>();
             nettyBuilder.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
             return nettyBuilder;
@@ -93,7 +93,7 @@ namespace JT808.DotNetty.Core
             nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgProducer, JT808MsgProducerDefaultImpl>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumerDefaultImpl>();
             nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808MsgService>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionPublishing, JT808SessionPublishingEmptyImpl>();
+            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionProducer, JT808SessionProducerDefaultImpl>();
             nettyBuilder.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
             return nettyBuilder;
         }

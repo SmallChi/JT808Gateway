@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebApiClient.Extensions.DependencyInjection;
+using JT808.DotNetty.Kafka;
 
 namespace JT808.DotNetty.Hosting
 {
@@ -55,7 +56,14 @@ namespace JT808.DotNetty.Hosting
                             .AddJT808TcpNettyHost()
                             .AddJT808UdpNettyHost()
                             .AddJT808WebApiNettyHost()
+                            //扩展webapi JT808MsgIdHttpHandlerBase
+                            //.ReplaceMsgIdHandler<JT808MsgIdHttpCustomHandler>()
                             .Builder();
+                            //添加kafka插件
+                            //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                            //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                            //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                            //.Builder();
                     //webapi客户端调用
                     //services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
                     //{
