@@ -41,9 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Kafka", "JT8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.Kafka.Test", "JT808.DotNetty.Tests\JT808.DotNetty.Kafka.Test\JT808.DotNetty.Kafka.Test.csproj", "{50A94BD5-5CDF-4777-AE4C-80BA769AEDAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.RabbitMQ", "JT808.DotNetty.RabbitMQ\JT808.DotNetty.RabbitMQ.csproj", "{BE8F9C65-2F03-4E8A-88D2-0F846D871473}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.RabbitMQ.Test", "JT808.DotNetty.Tests\JT808.DotNetty.RabbitMQ.Test\JT808.DotNetty.RabbitMQ.Test.csproj", "{D3CA0D73-1CCF-41BA-88D8-5BE50515CA64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.RabbitMQ.Test", "JT808.DotNetty.Tests\JT808.DotNetty.RabbitMQ.Test\JT808.DotNetty.RabbitMQ.Test.csproj", "{D3CA0D73-1CCF-41BA-88D8-5BE50515CA64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,10 +117,6 @@ Global
 		{50A94BD5-5CDF-4777-AE4C-80BA769AEDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50A94BD5-5CDF-4777-AE4C-80BA769AEDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50A94BD5-5CDF-4777-AE4C-80BA769AEDAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE8F9C65-2F03-4E8A-88D2-0F846D871473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE8F9C65-2F03-4E8A-88D2-0F846D871473}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE8F9C65-2F03-4E8A-88D2-0F846D871473}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE8F9C65-2F03-4E8A-88D2-0F846D871473}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D3CA0D73-1CCF-41BA-88D8-5BE50515CA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3CA0D73-1CCF-41BA-88D8-5BE50515CA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3CA0D73-1CCF-41BA-88D8-5BE50515CA64}.Release|Any CPU.ActiveCfg = Release|Any CPU

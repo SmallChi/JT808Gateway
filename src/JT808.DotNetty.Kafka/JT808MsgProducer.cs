@@ -25,14 +25,13 @@ namespace JT808.DotNetty.Kafka
             producer.Dispose();
         }
 
-        public Task ProduceAsync(string terminalNo, byte[] data)
+        public async Task ProduceAsync(string terminalNo, byte[] data)
         {
-            producer.ProduceAsync(TopicName, new Message<string, byte[]>
+            await producer.ProduceAsync(TopicName, new Message<string, byte[]>
             {
                 Key = terminalNo,
                 Value = data
             });
-            return Task.CompletedTask;
         }
     }
 }

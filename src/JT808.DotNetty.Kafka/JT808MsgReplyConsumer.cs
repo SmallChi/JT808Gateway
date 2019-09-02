@@ -25,6 +25,7 @@ namespace JT808.DotNetty.Kafka
             ILoggerFactory loggerFactory)
         {
             consumer = new ConsumerBuilder<string, byte[]>(consumerConfigAccessor.Value).Build();
+            TopicName = consumerConfigAccessor.Value.TopicName;
             logger = loggerFactory.CreateLogger("JT808MsgReplyConsumer");
         }
 
