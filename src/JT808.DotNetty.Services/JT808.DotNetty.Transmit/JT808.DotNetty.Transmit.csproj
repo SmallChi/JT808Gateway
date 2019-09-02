@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\SharedProperties.props" />
+  <PropertyGroup>
+    <PackageId>JT808.DotNetty.Transmit</PackageId>
+    <Product>JT808.DotNetty.Transmit</Product>
+    <Description>基于DotNetty实现的JT808数据转发服务</Description>
+    <PackageReleaseNotes>基于DotNetty实现的JT808数据转发服务</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+    <PackageReference Include="Polly" Version="7.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

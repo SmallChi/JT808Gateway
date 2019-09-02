@@ -22,11 +22,5 @@ namespace JT808.DotNetty.Core.Impls
         {
             return JT808Builder;
         }
-
-        //public IJT808NettyBuilder ReplaceSessionPublishing<T>() where T : IJT808SessionPublishing
-        //{
-        //    JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808SessionPublishing), typeof(T), ServiceLifetime.Singleton));
-        //    return this;
-        //}
     }
 }
