@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using JT808.Protocol;
 using JT808.Protocol.MessageBody;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,8 @@ namespace JT808.DotNetty.SimpleClient
                     options.AddConsole();
                     options.SetMinimumLevel(LogLevel.Trace);
                 });
-                services.AddJT808Client();
+                services.AddJT808Configure()
+                        .AddJT808Client();
                 services.AddHostedService<UpService>();
             });
             await serverHostBuilder.RunConsoleAsync();

@@ -37,9 +37,7 @@ namespace JT808.DotNetty.Transmit
         public Task StartAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Subscribe();
-            jT808MsgConsumer.OnMessage(item=> {
-                 jT808DotNettyTransmitService.SendAsync(item.TerminalNo,item.Data);
-            });
+            jT808MsgConsumer.OnMessage(jT808DotNettyTransmitService.SendAsync);
             return Task.CompletedTask;
         }
 

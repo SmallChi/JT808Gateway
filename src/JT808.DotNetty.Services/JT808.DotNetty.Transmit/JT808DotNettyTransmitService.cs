@@ -28,7 +28,7 @@ namespace JT808.DotNetty.Transmit
             this.optionsMonitor = optionsMonitor;
             InitialDispatcherClient();
         }
-        public void SendAsync(string terminalNo,byte[] data)
+        public void SendAsync((string TerminalNo, byte[] Data) parameter)
         {
             if (optionsMonitor.CurrentValue.DataTransfer != null)
             {
@@ -40,11 +40,11 @@ namespace JT808.DotNetty.Transmit
                         {
                             if (allClientChannel.Open)
                             {
-                                if (logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Debug))
+                                if (logger.IsEnabled(LogLevel.Debug))
                                 {
                                     logger.LogDebug($"转发所有数据到该网关{item.Host}");
                                 }
-                                allClientChannel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
+                                allClientChannel.WriteAndFlushAsync(Unpooled.WrappedBuffer(parameter.Data));
                             }
                             else
                             {
@@ -58,24 +58,24 @@ namespace JT808.DotNetty.Transmit
                     }
                     else
                     {
-                        if (item.TerminalNos.Contains(terminalNo) && channeldic.TryGetValue($"{terminalNo}_{item.Host}", out var clientChannel))
+                        if (item.TerminalNos.Contains(parameter.TerminalNo) && channeldic.TryGetValue($"{parameter.TerminalNo}_{item.Host}", out var clientChannel))
                         {
                             try
                             {
                                 if (clientChannel.Open)
                                 {
                                     if (logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Debug))
-                                        logger.LogDebug($"转发{terminalNo}到该网关{item.Host}");
-                                    clientChannel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
+                                        logger.LogDebug($"转发{parameter.TerminalNo}到该网关{item.Host}");
+                                    clientChannel.WriteAndFlushAsync(Unpooled.WrappedBuffer(parameter.Data));
                                 }
                                 else
                                 {
-                                    logger.LogError($"{item.Host},{terminalNo}链接已关闭");
+                                    logger.LogError($"{item.Host},{parameter.TerminalNo}链接已关闭");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                logger.LogError($"{item.Host},{terminalNo}发送数据出现异常：{ex}");
+                                logger.LogError($"{item.Host},{parameter.TerminalNo}发送数据出现异常：{ex}");
                             }
                         }
                     }

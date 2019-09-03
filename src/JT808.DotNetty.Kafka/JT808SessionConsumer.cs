@@ -49,17 +49,14 @@ namespace JT808.DotNetty.Kafka
                     catch (ConsumeException ex)
                     {
                         logger.LogError(ex, TopicName);
-                        Thread.Sleep(1000);
                     }
                     catch (OperationCanceledException ex)
                     {
                         logger.LogError(ex, TopicName);
-                        Thread.Sleep(1000);
                     }
                     catch (Exception ex)
                     {
                         logger.LogError(ex, TopicName);
-                        Thread.Sleep(1000);
                     }
                 }
             }, Cts.Token);

@@ -1,4 +1,5 @@
 ﻿using JT808.DotNetty.Abstractions;
+using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -7,17 +8,21 @@ namespace JT808.DotNetty.Kafka
 {
     public static class JT808ClientKafkaExtensions
     {
+        public static IJT808ClientBuilder AddJT808ClientKafka(this IJT808Builder builder)
+        {
+            return new JT808ClientBuilderDefault(builder);
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="serviceDescriptors"></param>
         /// <param name="configuration">GetSection("JT808MsgConsumerConfig")</param>
         /// <returns></returns>
-        public static IServiceCollection AddJT808ClientKafkaMsgConsumer(this IServiceCollection serviceDescriptors, IConfiguration configuration)
+        public static IJT808ClientBuilder AddMsgConsumer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
         {
-            serviceDescriptors.Configure<JT808MsgConsumerConfig>(configuration.GetSection("JT808MsgConsumerConfig"));
-            serviceDescriptors.TryAddSingleton<IJT808MsgConsumer, JT808MsgConsumer>();
-            return serviceDescriptors;
+            jT808ClientBuilder.JT808Builder.Services.Configure<JT808MsgConsumerConfig>(configuration.GetSection("JT808MsgConsumerConfig"));
+            jT808ClientBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgConsumer, JT808MsgConsumer>();
+            return jT808ClientBuilder;
         }
         /// <summary>
         /// 
@@ -25,11 +30,11 @@ namespace JT808.DotNetty.Kafka
         /// <param name="serviceDescriptors"></param>
         /// <param name="configuration">GetSection("JT808MsgReplyProducerConfig")</param>
         /// <returns></returns>
-        public static IServiceCollection AddJT808ClientKafkaMsgReplyProducer(this IServiceCollection serviceDescriptors, IConfiguration configuration)
+        public static IJT808ClientBuilder AddMsgReplyProducer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
         {
-            serviceDescriptors.Configure<JT808MsgReplyProducerConfig>(configuration.GetSection("JT808MsgReplyProducerConfig"));
-            serviceDescriptors.TryAddSingleton<IJT808MsgReplyProducer, JT808MsgReplyProducer>();
-            return serviceDescriptors;
+            jT808ClientBuilder.JT808Builder.Services.Configure<JT808MsgReplyProducerConfig>(configuration.GetSection("JT808MsgReplyProducerConfig"));
+            jT808ClientBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyProducer, JT808MsgReplyProducer>();
+            return jT808ClientBuilder;
         }
         /// <summary>
         /// 
@@ -37,11 +42,11 @@ namespace JT808.DotNetty.Kafka
         /// <param name="serviceDescriptors"></param>
         /// <param name="configuration">GetSection("JT808SessionConsumerConfig")</param>
         /// <returns></returns>
-        public static IServiceCollection AddJT808ClientKafkaSessionConsumer(this IServiceCollection serviceDescriptors, IConfiguration configuration)
+        public static IJT808ClientBuilder AddSessionConsumer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
         {
-            serviceDescriptors.Configure<JT808SessionConsumerConfig>(configuration.GetSection("JT808SessionConsumerConfig"));
-            serviceDescriptors.TryAddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
-            return serviceDescriptors;
+            jT808ClientBuilder.JT808Builder.Services.Configure<JT808SessionConsumerConfig>(configuration.GetSection("JT808SessionConsumerConfig"));
+            jT808ClientBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
+            return jT808ClientBuilder;
         }
     }
 }

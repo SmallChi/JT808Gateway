@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using JT808.Protocol;
 using JT808.DotNetty.Client;
 using JT808.DotNetty.CleintBenchmark.Configs;
 using JT808.DotNetty.CleintBenchmark.Services;
@@ -39,7 +40,8 @@ namespace JT808.DotNetty.CleintBenchmark
                 services.Configure<ClientBenchmarkOptions>(hostContext.Configuration.GetSection("ClientBenchmarkOptions"));
                 services.AddSingleton<ILoggerFactory, LoggerFactory>();
                 services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-                services.AddJT808Client();
+                services.AddJT808Configure()
+                        .AddJT808Client();
                 services.AddHostedService<CleintBenchmarkHostedService>();
                 services.AddHostedService<CleintBenchmarkReportHostedService>();
             });

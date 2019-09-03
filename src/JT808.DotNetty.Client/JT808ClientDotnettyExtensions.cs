@@ -9,15 +9,14 @@ namespace JT808.DotNetty.Client
 {
     public static  class JT808ClientDotnettyExtensions
     {
-        public static IServiceCollection AddJT808Client(this IServiceCollection serviceDescriptors)
+        public static IJT808Builder AddJT808Client(this IJT808Builder  jT808Builder)
         {
-            serviceDescriptors.AddJT808Configure();
-            serviceDescriptors.AddSingleton<JT808SendAtomicCounterService>();
-            serviceDescriptors.AddSingleton<JT808ReceiveAtomicCounterService>();
-            serviceDescriptors.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
-            serviceDescriptors.AddSingleton<JT808ReportService>();
-            serviceDescriptors.AddHostedService<JT808ReportHostedService>();
-            return serviceDescriptors;
+            jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
+            jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
+            jT808Builder.Services.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
+            jT808Builder.Services.AddSingleton<JT808ReportService>();
+            jT808Builder.Services.AddHostedService<JT808ReportHostedService>();
+            return jT808Builder;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DotNetty.Transport.Channels;
+﻿using DotNetty.Buffers;
+using DotNetty.Transport.Channels;
 using JT808.DotNetty.Abstractions;
 using JT808.DotNetty.Abstractions.Enums;
 using JT808.DotNetty.Core.Interfaces;
@@ -96,7 +97,7 @@ namespace JT808.DotNetty.Core.Session
                 {
                     if(session.TransportProtocolType== JT808TransportProtocolType.tcp)
                     {
-                        session.Channel.WriteAndFlushAsync(new JT808Response(data));
+                        session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
                         isSuccessed = true;
                         message = "ok";
                     }
@@ -120,14 +121,14 @@ namespace JT808.DotNetty.Core.Session
             }
             return isSuccessed;
         }
-        public void Send(string terminalPhoneNo, byte[] data)
+        internal void Send(string terminalPhoneNo, byte[] data)
         {
             var session = GetSessionByTerminalPhoneNo(terminalPhoneNo);
             if (session != null)
             {
                 if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
                 {
-                    session.Channel.WriteAndFlushAsync(new JT808Response(data));
+                    session.Channel.WriteAndFlushAsync(Unpooled.WrappedBuffer(data));
                 }
                 else if (session.TransportProtocolType == JT808TransportProtocolType.udp)
                 {
