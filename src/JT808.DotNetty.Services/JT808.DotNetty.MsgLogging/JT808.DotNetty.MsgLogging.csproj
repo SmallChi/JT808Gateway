@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\SharedProperties.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
   <PropertyGroup>
     <PackageId>JT808.DotNetty.MsgLogging</PackageId>
     <Product>JT808.DotNetty.MsgLogging</Product>

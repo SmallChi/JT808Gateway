@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\SharedProperties.props" />
+
   <PropertyGroup>
-    <PackageId>JT808.DotNetty.ReplyMessage</PackageId>
-    <Product>JT808.DotNetty.ReplyMessage</Product>
-    <Description>基于JT808消息应答服务</Description>
-    <PackageReleaseNotes>基于JT808消息应答服务</PackageReleaseNotes>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>JT808.DotNetty.MsgIdHandler</PackageId>
+    <Product>JT808.DotNetty.MsgIdHandler</Product>
+    <Description>基于JT808消息业务处理程序服务</Description>
+    <PackageReleaseNotes>基于JT808消息业务处理程序服务</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
@@ -18,7 +21,8 @@
   <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>
+      </PackagePath>
     </None>
   </ItemGroup>
 </Project>
