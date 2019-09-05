@@ -1,0 +1,29 @@
+﻿{
+  "JT808MsgProducerConfig": {
+    "TopicName": "JT808Msg",
+    "BootstrapServers": "127.0.0.1:9092"
+  },
+  "JT808MsgConsumerConfig": {
+    "TopicName": "JT808Msg",
+    "GroupId": "msg-group",
+    "BootstrapServers": "127.0.0.1:9092"
+  },
+  "JT808MsgReplyProducerConfig": {
+    "TopicName": "JT808MsgReply",
+    "BootstrapServers": "127.0.0.1:9093"
+  },
+  "JT808MsgReplyConsumerConfig": {
+    "TopicName": "JT808MsgReply",
+    "GroupId": "msgreply-group",
+    "BootstrapServers": "127.0.0.1:9093"
+  },
+  "JT808SessionProducerConfig": {
+    "TopicName": "JT808Session",
+    "BootstrapServers": "127.0.0.1:9094"
+  },
+  "JT808SessionConsumerConfig": {
+    "TopicName": "JT808Session",
+    "GroupId": "session-group",
+    "BootstrapServers": "127.0.0.1:9094"
+  }
+}
