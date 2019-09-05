@@ -2,6 +2,7 @@
 using JT808.DotNetty.Abstractions;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
+using JT808.Protocol.Extensions;
 
 namespace JT808.DotNetty.Traffic
 {
@@ -22,6 +23,7 @@ namespace JT808.DotNetty.Traffic
         {
             jT808MsgConsumer.Subscribe();
             jT808MsgConsumer.OnMessage((item)=> {
+                string str = item.Data.ToHexString();
                 jT808DotNettyTrafficService.Processor(item.TerminalNo, item.Data.Length);
             });
             return Task.CompletedTask;

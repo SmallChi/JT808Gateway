@@ -39,6 +39,18 @@ namespace JT808.DotNetty.Kafka
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="jT808NettyBuilder"></param>
+        /// <param name="configuration">GetSection("JT808MsgReplyConsumerConfig")</param>
+        /// <returns></returns>
+        public static IJT808ClientBuilder AddMsgReplyConsumer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
+        {
+            jT808ClientBuilder.JT808Builder.Services.Configure<JT808MsgReplyConsumerConfig>(configuration.GetSection("JT808MsgReplyConsumerConfig"));
+            jT808ClientBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgReplyConsumer), typeof(JT808MsgReplyConsumer), ServiceLifetime.Singleton));
+            return jT808ClientBuilder;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="serviceDescriptors"></param>
         /// <param name="configuration">GetSection("JT808SessionConsumerConfig")</param>
         /// <returns></returns>

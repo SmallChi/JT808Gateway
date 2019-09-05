@@ -28,7 +28,7 @@ namespace JT808.DotNetty.ReplyMessage
         public static IJT808ClientBuilder AddInprocJT808ReplyMessage<TReplyMessageService>(this IJT808ClientBuilder jT808ClientBuilder)
             where TReplyMessageService : JT808DotNettyReplyMessageService
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<TReplyMessageService>();
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808DotNettyReplyMessageService,TReplyMessageService>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808DotNettyReplyMessageHostedService>();
             return jT808ClientBuilder;
         }
@@ -41,7 +41,7 @@ namespace JT808.DotNetty.ReplyMessage
         public static IJT808ClientBuilder AddShareJT808ReplyMessage<TReplyMessageService>(this IJT808ClientBuilder jT808ClientBuilder)
             where TReplyMessageService : JT808DotNettyReplyMessageService
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<TReplyMessageService>();
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808DotNettyReplyMessageService, TReplyMessageService>();
             return jT808ClientBuilder;
         }
         /// <summary>

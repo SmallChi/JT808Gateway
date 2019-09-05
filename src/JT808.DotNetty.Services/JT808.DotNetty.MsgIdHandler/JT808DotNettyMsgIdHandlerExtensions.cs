@@ -6,7 +6,7 @@ using System.Text;
 
 namespace JT808.DotNetty.MsgIdHandler
 {
-    public static class IJT808DotNettyMsgIdHandlerExtensions
+    public static class JT808DotNettyMsgIdHandlerExtensions
     {
         public static IJT808ClientBuilder AddJT808MsgIdHandler<TJT808DotNettyMsgIdHandler>(this IJT808ClientBuilder jT808ClientBuilder)
             where TJT808DotNettyMsgIdHandler: IJT808DotNettyMsgIdHandler

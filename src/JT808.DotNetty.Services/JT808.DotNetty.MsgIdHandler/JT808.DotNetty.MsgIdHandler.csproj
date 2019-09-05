@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
+    <ProjectReference Include="..\..\JT808.DotNetty.Kafka\JT808.DotNetty.Kafka.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\LICENSE">

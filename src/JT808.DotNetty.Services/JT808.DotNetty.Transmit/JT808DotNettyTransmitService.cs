@@ -28,7 +28,7 @@ namespace JT808.DotNetty.Transmit
             this.optionsMonitor = optionsMonitor;
             InitialDispatcherClient();
         }
-        public void SendAsync((string TerminalNo, byte[] Data) parameter)
+        public void Send((string TerminalNo, byte[] Data) parameter)
         {
             if (optionsMonitor.CurrentValue.DataTransfer != null)
             {

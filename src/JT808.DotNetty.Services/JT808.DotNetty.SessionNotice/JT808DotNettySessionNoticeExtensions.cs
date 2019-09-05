@@ -29,7 +29,7 @@ namespace JT808.DotNetty.SessionNotice
         public static IJT808ClientBuilder AddInprocJT808SessionNotice<TSessionNoticeService>(this IJT808ClientBuilder jT808ClientBuilder)
            where TSessionNoticeService : JT808DotNettySessionNoticeService
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<TSessionNoticeService>();
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808DotNettySessionNoticeService,TSessionNoticeService>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808DotNettySessionNoticeHostedService>();
             return jT808ClientBuilder;
         }
@@ -43,7 +43,7 @@ namespace JT808.DotNetty.SessionNotice
         public static IJT808ClientBuilder AddShareJT808SessionNotice<TSessionNoticeService>(this IJT808ClientBuilder jT808ClientBuilder)
           where TSessionNoticeService : JT808DotNettySessionNoticeService
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<TSessionNoticeService>();
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808DotNettySessionNoticeService, TSessionNoticeService>();
             return jT808ClientBuilder;
         }
 
