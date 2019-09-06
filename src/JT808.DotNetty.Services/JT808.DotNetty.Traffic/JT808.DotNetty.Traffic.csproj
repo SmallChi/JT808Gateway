@@ -1,9 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\..\Version.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup>
+    <LangVersion>7.3</LangVersion>
+    <Copyright>Copyright 2018.</Copyright>
+    <Authors>SmallChi(Koike)</Authors>
+    <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
+    <licenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</licenseUrl>
+    <license>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</license>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>$(JT808DotNettyPackageVersion)</Version>
+    <SignAssembly>false</SignAssembly>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>JT808.DotNetty.Traffic</PackageId>
     <Product>JT808.DotNetty.Traffic</Product>
     <Description>基于JT808设备流量统计服务</Description>
@@ -20,9 +30,6 @@
     <ProjectReference Include="..\..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <None Include="..\..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

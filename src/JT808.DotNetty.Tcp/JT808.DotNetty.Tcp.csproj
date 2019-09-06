@@ -1,6 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\SharedProperties.props" />
-  <PropertyGroup> 
+  <Import Project="..\Version.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <Copyright>Copyright 2018.</Copyright>
+    <Authors>SmallChi(Koike)</Authors>
+    <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
+    <licenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</licenseUrl>
+    <license>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</license>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>$(JT808DotNettyPackageVersion)</Version>
+    <SignAssembly>false</SignAssembly>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>JT808.DotNetty.Tcp</PackageId>
     <Product>JT808.DotNetty.Tcp</Product>
     <Description>基于DotNetty实现的JT808DotNetty的Tcp服务</Description>
@@ -16,5 +29,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JT808.DotNetty.Core\JT808.DotNetty.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
