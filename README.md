@@ -66,6 +66,12 @@
 | Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
 | Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
 | Install-Package JT808.DotNetty.Client | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Client.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Client.svg) |
+| Install-Package JT808.DotNetty.Transmit | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Transmit.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Transmit.svg) |
+| Install-Package JT808.DotNetty.Traffic | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Traffic.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Traffic.svg)|
+| Install-Package JT808.DotNetty.SessionNotice | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.SessionNotice.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.SessionNotice.svg)|
+| Install-Package JT808.DotNetty.ReplyMessage | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.ReplyMessage.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.ReplyMessage.svg)|
+| Install-Package JT808.DotNetty.MsgLogging | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.MsgLogging.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgLogging.svg)|
+| Install-Package JT808.DotNetty.MsgIdHandler | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.MsgIdHandler.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgIdHandler.svg)|
 | Install-Package JT808.DotNetty.Kafka | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
 | Install-Package JT808.DotNetty.RabbitMQ | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
 
