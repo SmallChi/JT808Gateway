@@ -59,12 +59,12 @@
 
 | Package Name          | Version                                            | Downloads                                           |
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Install-Package JT808.DotNetty.Abstractions | ![JT808](https://img.shields.io/nuget/vpre/JT808.DotNetty.Abstractions.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Abstractions.svg) |
-| Install-Package JT808.DotNetty.Core | ![JT808](https://img.shields.io/nuget/vpre/JT808.DotNetty.Core.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
-| Install-Package JT808.DotNetty.Tcp | ![JT808](https://img.shields.io/nuget/vpre/JT808.DotNetty.Tcp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Tcp.svg) |
-| Install-Package JT808.DotNetty.Udp | ![JT808](https://img.shields.io/nuget/vpre/JT808.DotNetty.Udp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Udp.svg) |
-| Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/vpre/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
-| Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/vpre/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
+| Install-Package JT808.DotNetty.Abstractions | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Abstractions.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Abstractions.svg) |
+| Install-Package JT808.DotNetty.Core | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Core.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
+| Install-Package JT808.DotNetty.Tcp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Tcp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Tcp.svg) |
+| Install-Package JT808.DotNetty.Udp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Udp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Udp.svg) |
+| Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
+| Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
 | Install-Package JT808.DotNetty.Client | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Client.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Client.svg) |
 | Install-Package JT808.DotNetty.Transmit | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Transmit.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Transmit.svg) |
 | Install-Package JT808.DotNetty.Traffic | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Traffic.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Traffic.svg)|
