@@ -22,12 +22,12 @@ namespace JT808.DotNetty.WebApiClientTool
         [HttpPost("Tcp/Session/RemoveByTerminalPhoneNo")]
         ITask<JT808ResultDto<bool>> RemoveTcpSessionByTerminalPhoneNo([JsonContent] string terminalPhoneNo);
         /// <summary>
-        /// 基于Tcp的统一下发信息
+        /// 统一下发信息
         /// </summary>
         /// <param name="jT808UnificationSendRequestDto"></param>
         /// <returns></returns>
-        [HttpPost("Tcp/UnificationSend")]
-        ITask<JT808ResultDto<bool>> UnificationTcpSend([JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
+        [HttpPost("/UnificationSend")]
+        ITask<JT808ResultDto<bool>> UnificationSend([JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
         /// <summary>
         /// 获取Tcp包计数器
         /// </summary>
@@ -53,13 +53,6 @@ namespace JT808.DotNetty.WebApiClientTool
         /// <returns></returns>
         [HttpPost("Udp/Session/RemoveByTerminalPhoneNo")]
         ITask<JT808ResultDto<bool>> RemoveUdpSessionByTerminalPhoneNo([JsonContent] string terminalPhoneNo);
-        /// <summary>
-        /// /基于Udp的统一下发信息
-        /// </summary>
-        /// <param name="jT808UnificationSendRequestDto"></param>
-        /// <returns></returns>
-        [HttpPost("Udp/UnificationSend")]
-        ITask<JT808ResultDto<bool>> UnificationUdpSend([JsonContent]JT808UnificationSendRequestDto jT808UnificationSendRequestDto);
         /// <summary>
         /// 获取Udp包计数器
         /// </summary>
