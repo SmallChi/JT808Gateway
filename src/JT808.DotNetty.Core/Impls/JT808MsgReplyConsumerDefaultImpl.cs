@@ -47,7 +47,7 @@ namespace JT808.DotNetty.Core.Impls
         {
             Task.Run(() =>
             {
-                foreach(var item in JT808MsgService.MsgQueue.GetConsumingEnumerable(Cts.Token))
+                foreach(var item in JT808MsgService.MsgQueue.GetConsumingEnumerable())
                 {
                     try
                     {
@@ -57,7 +57,7 @@ namespace JT808.DotNetty.Core.Impls
                             var buffer = func(package);
                             if (buffer != null)
                             {
-                                callback((item.TerminalNo, item.Data));
+                                callback((item.TerminalNo, buffer));
                             }
                         }
                     }
