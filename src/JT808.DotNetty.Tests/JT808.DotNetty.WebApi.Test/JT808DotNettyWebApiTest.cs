@@ -31,7 +31,7 @@ namespace JT808.DotNetty.WebApi.Test
         [TestMethod]
         public void UnificationUdpSendTest()
         {
-            var result = jT808DotNettyWebApi.UnificationUdpSend(new Abstractions.Dtos.JT808UnificationSendRequestDto {
+            var result = jT808DotNettyWebApi.UnificationSend(new Abstractions.Dtos.JT808UnificationSendRequestDto {
                  TerminalPhoneNo= "123456789014",
                  Data=new byte[] {1,2,3,4}
             }).GetAwaiter().GetResult();
@@ -58,7 +58,7 @@ namespace JT808.DotNetty.WebApi.Test
         [TestMethod]
         public void UnificationTcpSendTest()
         {
-            var result = jT808DotNettyWebApi.UnificationTcpSend(new Abstractions.Dtos.JT808UnificationSendRequestDto
+            var result = jT808DotNettyWebApi.UnificationSend(new Abstractions.Dtos.JT808UnificationSendRequestDto
             {
                 TerminalPhoneNo = "123456789002",
                 Data = new byte[] { 1, 2, 3, 4 }
