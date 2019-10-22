@@ -40,7 +40,7 @@ namespace JT808.DotNetty.Kafka
         public static IJT808NettyBuilder AddJT808ServerKafkaSessionProducer(this IJT808NettyBuilder jT808NettyBuilder, IConfiguration configuration)
         {
             jT808NettyBuilder.JT808Builder.Services.Configure<JT808SessionProducerConfig>(configuration.GetSection("JT808SessionProducerConfig"));
-            jT808NettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionProducer, JT808SessionProducer>();
+            jT808NettyBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808SessionProducer), typeof(JT808SessionProducer), ServiceLifetime.Singleton));
             return jT808NettyBuilder;
         }
     }
