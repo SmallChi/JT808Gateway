@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
+using System.IO;
 using System.Net;
 
 namespace JT808.Gateway.SimpleServer
@@ -31,17 +32,17 @@ namespace JT808.Gateway.SimpleServer
                     configLogging.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
                     configLogging.SetMinimumLevel(LogLevel.Trace);
                 })
-
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                    //.ConfigureKestrel(options =>
-                    //{
-                    //    options.Listen(IPAddress.Any, 5001, listenOptions =>
-                    //    {
-                    //        listenOptions.Protocols = HttpProtocols.Http2;
-                    //    });
-                    //})
+                    .ConfigureKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 5001, listenOptions =>
+                        {
+                            listenOptions.Protocols = HttpProtocols.Http2;
+                            listenOptions.UseHttps($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs", "test.cer")}", "");
+                        });
+                    })
                     .Configure(app =>
                     {
                         app.UseRouting();
@@ -53,7 +54,7 @@ namespace JT808.Gateway.SimpleServer
                 })
                 .ConfigureServices((hostContext,services) =>
                 {
-                    services.Configure<KestrelServerOptions>(hostContext.Configuration.GetSection("Kestrel"));
+                    //services.Configure<KestrelServerOptions>(hostContext.Configuration.GetSection("Kestrel"));
                     services.AddGrpc();
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));

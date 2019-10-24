@@ -32,8 +32,8 @@ namespace JT808.Gateway.SimpleClient.Services
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Task.Run(() => {
-                while (!cancellationToken.IsCancellationRequested)
-                {
+                //while (!cancellationToken.IsCancellationRequested)
+                //{
                     Thread.Sleep(1000 * 10);
                     var result1 = client.GetTcpAtomicCounter(new Empty());
                     var result2 = client.GetUdpAtomicCounter(new Empty());
@@ -55,7 +55,7 @@ namespace JT808.Gateway.SimpleClient.Services
                     logger.LogDebug(JsonSerializer.Serialize(result4));
                     logger.LogDebug(JsonSerializer.Serialize(result5));
                     logger.LogDebug(JsonSerializer.Serialize(result6));
-                }  
+                //}  
             }, cancellationToken);  
             return Task.CompletedTask;
         }

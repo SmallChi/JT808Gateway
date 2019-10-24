@@ -36,7 +36,7 @@ namespace JT808.Gateway.Services
             {
                 resultDto.Data = null;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message =ex.Message;
             }
             return resultDto;
         }
@@ -59,7 +59,7 @@ namespace JT808.Gateway.Services
             {
                 resultDto.Data = null;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }
@@ -84,13 +84,13 @@ namespace JT808.Gateway.Services
             {
                 resultDto.Data = false;
                 resultDto.Code = 500;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             catch (Exception ex)
             {
                 resultDto.Data = false;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }

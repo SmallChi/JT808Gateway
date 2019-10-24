@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <Copyright>Copyright 2018.</Copyright>
+    <Authors>SmallChi(Koike)</Authors>
+    <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
+    <licenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</licenseUrl>
+    <license>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</license>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.0-preview1</Version>
+    <SignAssembly>false</SignAssembly>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>JT808.Gateway.Kafka</PackageId>
+    <Product>JT808.Gateway.Kafka</Product>
+    <Description>基于Kafka的JT808消息发布与订阅</Description>
+    <PackageReleaseNotes>基于Kafka的JT808消息发布与订阅</PackageReleaseNotes>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JT808.Gateway\JT808.Gateway.csproj" />
+  </ItemGroup>
+
+</Project>

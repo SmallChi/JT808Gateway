@@ -37,7 +37,7 @@ namespace JT808.Gateway.Services
             {
                 resultDto.Data = false;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }

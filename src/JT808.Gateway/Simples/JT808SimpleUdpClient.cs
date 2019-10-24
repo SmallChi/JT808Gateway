@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JT808.DotNetty.Core
+namespace JT808.Gateway.Simples
 {
     internal class JT808SimpleUdpClient
     {

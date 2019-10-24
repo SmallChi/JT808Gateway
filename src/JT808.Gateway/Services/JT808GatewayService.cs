@@ -35,15 +35,18 @@ namespace JT808.Gateway.Services
         {
             var result = jT808SessionService.GetTcpAll();
             TcpSessionInfoReply reply = new TcpSessionInfoReply();
-            foreach(var item in result.Data)
+            if (result.Data != null)
             {
-                reply.TcpSessions.Add(new SessionInfo
+                foreach (var item in result.Data)
                 {
-                     LastActiveTime= item.LastActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                     StartTime= item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                     RemoteAddressIP= item.RemoteAddressIP,
-                     TerminalPhoneNo=item.TerminalPhoneNo
-                });
+                    reply.TcpSessions.Add(new SessionInfo
+                    {
+                        LastActiveTime = item.LastActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        RemoteAddressIP = item.RemoteAddressIP,
+                        TerminalPhoneNo = item.TerminalPhoneNo
+                    });
+                }
             }
             return Task.FromResult(reply);
         }
@@ -58,15 +61,18 @@ namespace JT808.Gateway.Services
         {
             var result = jT808SessionService.GetUdpAll();
             UdpSessionInfoReply reply = new UdpSessionInfoReply();
-            foreach (var item in result.Data)
+            if (result.Data != null)
             {
-                reply.UdpSessions.Add(new SessionInfo
+                foreach (var item in result.Data)
                 {
-                    LastActiveTime = item.LastActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    RemoteAddressIP = item.RemoteAddressIP,
-                    TerminalPhoneNo = item.TerminalPhoneNo
-                });
+                    reply.UdpSessions.Add(new SessionInfo
+                    {
+                        LastActiveTime = item.LastActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        RemoteAddressIP = item.RemoteAddressIP,
+                        TerminalPhoneNo = item.TerminalPhoneNo
+                    });
+                }
             }
             return Task.FromResult(reply);
         }
