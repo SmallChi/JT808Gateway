@@ -44,7 +44,7 @@ namespace JT808.Gateway.SimpleClient
                   services.AddJT808Configure()
                           .AddJT808Client();
                   services.AddHostedService<UpService>();
-                  services.AddHostedService<GrpcClientService>();
+                  //services.AddHostedService<GrpcClientService>();
               });
             await serverHostBuilder.RunConsoleAsync();
         }
