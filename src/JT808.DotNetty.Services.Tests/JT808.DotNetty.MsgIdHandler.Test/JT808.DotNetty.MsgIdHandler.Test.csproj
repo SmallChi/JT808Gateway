@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\JT808.DotNetty.Kafka\JT808.DotNetty.Kafka.csproj" />
     <ProjectReference Include="..\..\JT808.DotNetty.Services\JT808.DotNetty.MsgIdHandler\JT808.DotNetty.MsgIdHandler.csproj" />
   </ItemGroup>
 

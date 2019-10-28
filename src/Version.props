@@ -1,5 +1,5 @@
 ﻿<Project>
 	<PropertyGroup>
-	    <JT808DotNettyPackageVersion>2.2.1-preview1</JT808DotNettyPackageVersion>
+	    <JT808DotNettyPackageVersion>2.2.1</JT808DotNettyPackageVersion>
 	</PropertyGroup>
 </Project>
