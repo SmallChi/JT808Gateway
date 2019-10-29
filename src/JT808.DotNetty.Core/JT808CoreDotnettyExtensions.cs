@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("JT808.DotNetty.Core.Test")]
 [assembly: InternalsVisibleTo("JT808.DotNetty.Tcp.Test")]
 [assembly: InternalsVisibleTo("JT808.DotNetty.Udp.Test")]
-[assembly: InternalsVisibleTo("JT808.DotNetty.WebApi.Test")]
+[assembly: InternalsVisibleTo("JT808.DotNetty.WebApiTest")]
 [assembly: InternalsVisibleTo("JT808.DotNetty.Tcp")]
 [assembly: InternalsVisibleTo("JT808.DotNetty.Udp")]
 [assembly: InternalsVisibleTo("JT808.DotNetty.WebApi")]

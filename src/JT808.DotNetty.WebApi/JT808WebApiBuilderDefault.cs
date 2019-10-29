@@ -22,6 +22,12 @@ namespace JT808.DotNetty.WebApi
             return Instance;
         }
 
+        public IJT808WebApiNettyBuilder ReplaceAuthorization<T>() where T : IJT808WebApiAuthorization
+        {
+            Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808WebApiAuthorization), typeof(T), ServiceLifetime.Singleton));
+            return this;
+        }
+
         public IJT808WebApiNettyBuilder ReplaceMsgIdHandler<T>() where T : JT808MsgIdHttpHandlerBase
         {
             Instance.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(JT808MsgIdHttpHandlerBase), typeof(T), ServiceLifetime.Singleton));

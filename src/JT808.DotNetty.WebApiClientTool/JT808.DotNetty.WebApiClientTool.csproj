@@ -19,9 +19,12 @@
     <Description>JT808DotNetty的WebApiClient客户端调用工具</Description>
     <PackageReleaseNotes>JT808DotNetty的WebApiClient客户端调用工具</PackageReleaseNotes>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>JT808.DotNetty.WebApiClientTool.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebApiClient.JIT" Version="1.1.0" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />

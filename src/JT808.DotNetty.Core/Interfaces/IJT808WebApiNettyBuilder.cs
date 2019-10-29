@@ -11,5 +11,6 @@ namespace JT808.DotNetty.Core.Interfaces
         IJT808NettyBuilder Instance { get; }
         IJT808NettyBuilder Builder();
         IJT808WebApiNettyBuilder ReplaceMsgIdHandler<T>() where T : JT808MsgIdHttpHandlerBase;
+        IJT808WebApiNettyBuilder ReplaceAuthorization<T>() where T : IJT808WebApiAuthorization;
     }
 }

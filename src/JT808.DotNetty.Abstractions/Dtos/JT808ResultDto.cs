@@ -22,6 +22,7 @@ namespace JT808.DotNetty.Abstractions.Dtos
     {
         public const int Ok = 200;
         public const int Empty = 201;
+        public const int AuthFail = 401;
         public const int NotFound = 404;
         public const int Fail = 400;
         public const int Error = 500;

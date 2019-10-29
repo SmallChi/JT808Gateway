@@ -77,6 +77,17 @@ namespace JT808.DotNetty.Core.Handlers
             return new JT808HttpResponse(json);
         }
 
+        public JT808HttpResponse AuthFailHttpResponse()
+        {
+            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808ResultDto<string>()
+            {
+                Code = JT808ResultCode.AuthFail,
+                Message = "token认证失败",
+                Data = "token认证失败"
+            }));
+            return new JT808HttpResponse(json);
+        }
+
         public JT808HttpResponse ErrorHttpResponse(Exception ex)
         {
             byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808ResultDto<string>()

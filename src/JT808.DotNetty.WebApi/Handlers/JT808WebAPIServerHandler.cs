@@ -3,6 +3,7 @@ using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using JT808.DotNetty.Core.Handlers;
+using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
 using Microsoft.Extensions.Logging;
 using System;
@@ -25,11 +26,13 @@ namespace JT808.DotNetty.WebApi.Handlers
         private static readonly AsciiString ServerEntity = HttpHeaderNames.Server;
         private readonly JT808MsgIdHttpHandlerBase  jT808MsgIdHttpHandlerBase;
         private readonly ILogger<JT808WebAPIServerHandler> logger;
-
+        private readonly IJT808WebApiAuthorization jT808WebApiAuthorization;
         public JT808WebAPIServerHandler(
+            IJT808WebApiAuthorization jT808WebApiAuthorization,
             JT808MsgIdHttpHandlerBase jT808MsgIdHttpHandlerBase,
             ILoggerFactory loggerFactory)
         {
+            this.jT808WebApiAuthorization = jT808WebApiAuthorization;
             this.jT808MsgIdHttpHandlerBase = jT808MsgIdHttpHandlerBase;
             logger = loggerFactory.CreateLogger<JT808WebAPIServerHandler>();
         }
@@ -42,9 +45,13 @@ namespace JT808.DotNetty.WebApi.Handlers
                 logger.LogDebug($"Content:{msg.Content.ToString(Encoding.UTF8)}");
             }
             JT808HttpResponse jT808HttpResponse = null;
+            if (!jT808WebApiAuthorization.Authorization(msg, out var principal))
+            {
+                jT808HttpResponse = jT808MsgIdHttpHandlerBase.AuthFailHttpResponse();
+            }
             if (jT808MsgIdHttpHandlerBase.HandlerDict.TryGetValue(msg.Uri,out var funcHandler))
             {
-                jT808HttpResponse = funcHandler( new JT808HttpRequest() { Json = msg.Content.ToString(Encoding.UTF8)});
+                jT808HttpResponse = funcHandler(new JT808HttpRequest(){ Json = msg.Content.ToString(Encoding.UTF8)});
             }
             else
             {

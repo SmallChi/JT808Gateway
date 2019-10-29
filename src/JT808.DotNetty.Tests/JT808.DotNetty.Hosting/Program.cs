@@ -18,7 +18,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WebApiClient.Extensions.DependencyInjection;
 using JT808.DotNetty.Kafka;
 
 namespace JT808.DotNetty.Hosting
@@ -59,20 +58,20 @@ namespace JT808.DotNetty.Hosting
                             //扩展webapi JT808MsgIdHttpHandlerBase
                             //.ReplaceMsgIdHandler<JT808MsgIdHttpCustomHandler>()
                             .Builder();
-                            //添加kafka插件
-                            //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
-                            //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                            //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
-                            //.Builder();
-                    //webapi客户端调用
-                    //services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+                    //添加kafka插件
+                    //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                    //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                    //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                    //.Builder();
+                    //使用微软自带的webapi客户端
+                    //services.AddHttpClient("jt808webapi", c =>
                     //{
-                    //    c.HttpHost = new Uri("http://localhost:828/jt808api/");
-                    //    c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
-                    //    c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
-                    //});
-                    //var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
-                    //var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
+                    //    c.BaseAddress = new Uri("http://localhost:828/");
+                    //    c.DefaultRequestHeaders.Add("token", "123456);
+                    //})
+                    //.AddTypedClient<JT808HttpClient>();
+                    //var client = services.BuildServiceProvider().GetRequiredService<JT808HttpClient>();
+                    //var result = client.GetTcpAtomicCounter();
                 });
 
             await serverHostBuilder.RunConsoleAsync();
