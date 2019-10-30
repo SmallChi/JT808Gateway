@@ -21,5 +21,13 @@ namespace JT808.DotNetty.Udp
             jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808UdpServerHost>();
             return jT808NettyBuilder;
         }
+
+        internal static IServiceCollection AddJT808UdpNettyHostTest(this IServiceCollection  serviceDescriptors)
+        {
+            serviceDescriptors.TryAddSingleton<IJT808DatagramPacket, JT808DatagramPacketImpl>();
+            serviceDescriptors.TryAddScoped<JT808UdpDecoder>();
+            serviceDescriptors.TryAddScoped<JT808UdpServerHandler>();
+            return serviceDescriptors;
+        }
     }
 }

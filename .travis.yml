@@ -1,0 +1,21 @@
+language: csharp
+solution: JT808.DotNetty.sln
+dotnet: 3.0.100
+os: linux
+mono: none
+dist: trusty2
+script:
+ - dotnet restore src/JT808.DotNetty.sln
+ - dotnet build src/JT808.DotNetty.Tests/JT808.DotNetty.Core.Test/JT808.DotNetty.Core.Test.csproj
+ - dotnet test src/JT808.DotNetty.Tests/JT808.DotNetty.Core.Test/JT808.DotNetty.Core.Test.csproj
+ - dotnet build src/JT808.DotNetty.Tests/JT808.DotNetty.Tcp.Test/JT808.DotNetty.Tcp.Test.csproj
+ - dotnet test src/JT808.DotNetty.Tests/JT808.DotNetty.Tcp.Test/JT808.DotNetty.Tcp.Test.csproj
+ - dotnet build src/JT808.DotNetty.Tests/JT808.DotNetty.Udp.Test/JT808.DotNetty.Udp.Test.csproj
+ - dotnet test src/JT808.DotNetty.Tests/JT808.DotNetty.Udp.Test/JT808.DotNetty.Udp.Test.csproj
+ - dotnet build src/JT808.DotNetty.Tests/JT808.DotNetty.Udp.Test/JT808.DotNetty.Udp.Test.csproj
+ - dotnet test src/JT808.DotNetty.Tests/JT808.DotNetty.WebApi.Test/JT808.DotNetty.WebApi.Test.csproj
+after_success:
+ - echo successful build!
+branches:
+  only:
+    - master

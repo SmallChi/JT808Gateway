@@ -49,13 +49,16 @@ namespace JT808.DotNetty.WebApi.Handlers
             {
                 jT808HttpResponse = jT808MsgIdHttpHandlerBase.AuthFailHttpResponse();
             }
-            if (jT808MsgIdHttpHandlerBase.HandlerDict.TryGetValue(msg.Uri,out var funcHandler))
-            {
-                jT808HttpResponse = funcHandler(new JT808HttpRequest(){ Json = msg.Content.ToString(Encoding.UTF8)});
-            }
             else
             {
-                jT808HttpResponse = jT808MsgIdHttpHandlerBase.NotFoundHttpResponse();
+                if (jT808MsgIdHttpHandlerBase.HandlerDict.TryGetValue(msg.Uri, out var funcHandler))
+                {
+                    jT808HttpResponse = funcHandler(new JT808HttpRequest() { Json = msg.Content.ToString(Encoding.UTF8) });
+                }
+                else
+                {
+                    jT808HttpResponse = jT808MsgIdHttpHandlerBase.NotFoundHttpResponse();
+                }
             }
             if (jT808HttpResponse != null)
             {

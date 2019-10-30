@@ -61,7 +61,7 @@ namespace JT808.DotNetty.Core.Impls
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
 
                     }

@@ -21,5 +21,13 @@ namespace JT808.DotNetty.WebApi
             jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808WebAPIServerHost>();
             return new JT808WebApiBuilderDefault(jT808NettyBuilder);
         }
+
+        internal static IServiceCollection  AddJT808WebApiNettyHostTest(this IServiceCollection  serviceDescriptors)
+        {
+            serviceDescriptors.TryAddSingleton<JT808MsgIdHttpHandlerBase, JT808MsgIdDefaultWebApiHandler>();
+            serviceDescriptors.TryAddSingleton<IJT808WebApiAuthorization, JT808AuthorizationDefault>();
+            serviceDescriptors.TryAddScoped<JT808WebAPIServerHandler>();
+            return serviceDescriptors;
+        }
     }
 }

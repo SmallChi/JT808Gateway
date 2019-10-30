@@ -1,7 +1,9 @@
 ﻿using JT808.DotNetty.Abstractions.Dtos;
+using JT808.DotNetty.Core;
 using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Session;
 using System;
+using System.Text.Json;
 
 namespace JT808.DotNetty.Internal
 {
@@ -37,7 +39,7 @@ namespace JT808.DotNetty.Internal
             {
                 resultDto.Data = false;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }

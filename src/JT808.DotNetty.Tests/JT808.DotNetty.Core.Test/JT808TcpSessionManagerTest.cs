@@ -1,47 +1,34 @@
 ﻿using DotNetty.Transport.Channels.Embedded;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JT808.DotNetty.Core.Impls;
 using System.Threading;
-
+using Xunit;
 
 namespace JT808.DotNetty.Core.Test
 {
-    [TestClass]
     public class JT808SessionManagerTest: SeedTcpSession
     {
-        [TestMethod]
-        public void Test1()
+        [Fact]
+        public void AddTest()
         {
             var no = "test150";
             var channel = new EmbeddedChannel(new JT808DefaultChannelId());
             jT80TcpSessionManager.TryAdd(no,channel);
-            Thread.Sleep(1000);
             jT80TcpSessionManager.Heartbeat(no);
+            Assert.NotNull(jT80TcpSessionManager.GetTcpSessionByTerminalPhoneNo(no));
         }
 
-        [TestMethod]
-        public void Test2()
+        [Fact]
+        public void RemoveTest()
         {
             var no = "test151";
             var channel = new EmbeddedChannel(new JT808DefaultChannelId());
             jT80TcpSessionManager.TryAdd(no, channel);
             var sessionInfo = jT80TcpSessionManager.RemoveSession(no);
-            Assert.AreEqual(no, sessionInfo.TerminalPhoneNo);
+            Assert.Equal(no, sessionInfo.TerminalPhoneNo);
         }
 
-        [TestMethod]
-        public void Test3()
-        {
-            var realSessionInfos = jT80TcpSessionManager.GetAll();
-        }
-
-        [TestMethod]
-        public void Test4()
-        {
-            var realSessionCount = jT80TcpSessionManager.SessionCount;
-        }
-
-        [TestMethod]
-        public void Test5()
+        [Fact]
+        public void OneChannelToManyDeviceTest1()
         {
             //转发过来的数据 1:n 一个通道对应多个设备
             var no = "test1";
@@ -56,13 +43,14 @@ namespace JT808.DotNetty.Core.Test
             jT80TcpSessionManager.TryAdd(no3,channel);
             jT80TcpSessionManager.TryAdd(no4,channel);
             var removeSession = jT80TcpSessionManager.RemoveSession(no);
-            Assert.AreEqual(no, removeSession.TerminalPhoneNo);
-            Assert.AreEqual(channel, removeSession.Channel);
-            Assert.AreEqual(channel.Id, removeSession.Channel.Id);
+            Assert.Equal(no, removeSession.TerminalPhoneNo);
+            Assert.Equal(channel, removeSession.Channel);
+            Assert.Equal(1,channel.Id.CompareTo(removeSession.Channel.Id));
         }
 
-        [TestMethod]
-        public void Test6()
+
+        [Fact]
+        public void OneChannelToManyDeviceTest2()
         {
             //转发过来的数据 1:n 一个通道对应多个设备
             var no = "test61";
@@ -78,6 +66,9 @@ namespace JT808.DotNetty.Core.Test
             jT80TcpSessionManager.TryAdd(no3,channel2);
             jT80TcpSessionManager.TryAdd(no4,channel2);
             jT80TcpSessionManager.RemoveSessionByChannel(channel1);
+            Assert.Null(jT80TcpSessionManager.GetTcpSessionByTerminalPhoneNo(no));
+            Assert.Null(jT80TcpSessionManager.GetTcpSessionByTerminalPhoneNo(no1));
+            Assert.Null(jT80TcpSessionManager.GetTcpSessionByTerminalPhoneNo(no2));
         }
     }
 }

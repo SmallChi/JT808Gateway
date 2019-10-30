@@ -8,88 +8,81 @@ using System.Text;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using JT808.Protocol.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JT808.DotNetty.Core.Session;
+using JT808.DotNetty.Abstractions.Dtos;
+using JT808.Protocol.MessageBody;
+using Xunit;
+using System.Linq;
+using JT808.DotNetty.Core.Codecs;
+using DotNetty.Buffers;
 
 namespace JT808.DotNetty.Tcp.Test
 {
-    [TestClass]
-    public class JT808SessionServiceTest:TestBase,IDisposable
+    public class JT808SessionServiceTest:TestBase
     {
-        static IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6565);
-
-        JT808SimpleTcpClient SimpleTcpClient1;
-        JT808SimpleTcpClient SimpleTcpClient2;
-        JT808SimpleTcpClient SimpleTcpClient3;
-        JT808SimpleTcpClient SimpleTcpClient4;
-        JT808SimpleTcpClient SimpleTcpClient5;
+        List<string> TNos = new List<string> {
+                "123456789001",
+                "123456789002",
+                "123456789003",
+                "123456789004",
+                "123456789005"
+        };
 
         public JT808SessionServiceTest()
         {
-            SimpleTcpClient1 = new JT808SimpleTcpClient(endPoint);
-            SimpleTcpClient2 = new JT808SimpleTcpClient(endPoint);
-            SimpleTcpClient3 = new JT808SimpleTcpClient(endPoint);
-            SimpleTcpClient4 = new JT808SimpleTcpClient(endPoint);
-            SimpleTcpClient5 = new JT808SimpleTcpClient(endPoint);
-            // 心跳会话包
-            JT808Package jT808Package1 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789001");
-            SimpleTcpClient1.WriteAsync(JT808Serializer.Serialize(jT808Package1));
-
-            // 心跳会话包
-            JT808Package jT808Package2 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789002");
-            SimpleTcpClient2.WriteAsync(JT808Serializer.Serialize(jT808Package2));
-
-            // 心跳会话包
-            JT808Package jT808Package3 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789003");
-            SimpleTcpClient3.WriteAsync(JT808Serializer.Serialize(jT808Package3));
-
-            // 心跳会话包
-            JT808Package jT808Package4 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789004");
-            SimpleTcpClient4.WriteAsync(JT808Serializer.Serialize(jT808Package4));
-
-            // 心跳会话包
-            JT808Package jT808Package5 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789005");
-            SimpleTcpClient5.WriteAsync(JT808Serializer.Serialize(jT808Package5));
-            Thread.Sleep(1000);
+            SeedSession(TNos.ToArray());
         }
 
-        public void Dispose()
-        {
-            SimpleTcpClient1.Down();
-            SimpleTcpClient2.Down();
-            SimpleTcpClient3.Down();
-            SimpleTcpClient4.Down();
-            SimpleTcpClient5.Down();
-        }
-
-        [TestMethod]
-        public void Test1()
+        [Fact]
+        public void GetTcpAllTest()
         {
             IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
             var result = jT808SessionServiceDefaultImpl.GetTcpAll();
-            Thread.Sleep(5000);
+            var tons = result.Data.Select(s => s.TerminalPhoneNo).ToList();
+            foreach (var item in TNos)
+            {
+                Assert.Contains(item, tons);
+            }
+            Assert.Equal(JT808ResultCode.Ok, result.Code);
         }
 
-        [TestMethod]
-        public void Test2()
+        [Fact]
+        public void RemoveByTerminalPhoneNoTest()
         {
+            string tno = "123456789006";
             IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
-            var result1 = jT808SessionServiceDefaultImpl.GetTcpAll();
-            var result2 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo("123456789001");
-            var result3 = jT808SessionServiceDefaultImpl.GetTcpAll();
+            SeedSession(tno);
+            var result1 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo(tno);
+            Assert.Equal(JT808ResultCode.Ok, result1.Code);
+            Assert.True(result1.Data);
+            var result2 = jT808SessionServiceDefaultImpl.GetTcpAll();
+            Assert.Equal(JT808ResultCode.Ok, result2.Code);
+            Assert.DoesNotContain(tno, result2.Data.Select(s => s.TerminalPhoneNo));
         }
 
-        [TestMethod]
-        public void Test3()
+        [Fact]
+        public void SendTest()
         {
-            // 判断通道是否关闭
-            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
-            JT808SessionManager jT808TcpSessionManager = ServiceProvider.GetService<JT808SessionManager>();
-            var result1 = jT808SessionServiceDefaultImpl.GetTcpAll();
-            SimpleTcpClient1.Down();
-            Thread.Sleep(5000);
-            var session = jT808TcpSessionManager.GetSessionByTerminalPhoneNo("123456789001");
-            Thread.Sleep(100000);
+            //"126 131 0 0 13 18 52 86 120 144 1 0 11 5 115 109 97 108 108 99 104 105 32 53 49 56 24 126"
+            var jT808UnificationSendService = ServiceProvider.GetService<IJT808UnificationSendService>();
+            string no = "123456789001";
+            // 文本信息包
+            JT808Package jT808Package2 = JT808.Protocol.Enums.JT808MsgId.文本信息下发.Create(no, new JT808_0x8300
+            {
+                TextFlag = 5,
+                TextInfo = "smallchi 518"
+            });
+            var data = JT808Serializer.Serialize(jT808Package2);
+            JT808ResultDto<bool> jt808Result = jT808UnificationSendService.Send(no, data);
+            Assert.Equal(JT808ResultCode.Ok, jt808Result.Code);
+            Assert.True(jt808Result.Data);
+            if (Channels.TryGetValue(no, out var channel))
+            {
+                var package = channel.ReadOutbound<IByteBuffer>();
+                byte[] recevie = new byte[package.Capacity];
+                package.ReadBytes(recevie);
+                Assert.Equal(data, recevie);
+            }
         }
     }
 }

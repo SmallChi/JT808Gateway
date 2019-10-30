@@ -3,16 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.Core.Test
+namespace JT808.DotNetty.Core.Impls
 {
-    public class JT808DefaultChannelId : IChannelId
+    /// <summary>
+    /// 仅测试用
+    /// </summary>
+    internal class JT808DefaultChannelId : IChannelId
     {
-        private string Id {
-            get
-            {
-                return Guid.NewGuid().ToString("N");
-            }
+        public JT808DefaultChannelId() 
+        {
+            Id= Guid.NewGuid().ToString("N");
         }
+        public JT808DefaultChannelId(string id) 
+        {
+            Id = id;
+        }
+        private string Id { get;}
 
         public string AsLongText()
         {

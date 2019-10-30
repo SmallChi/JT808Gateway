@@ -12,7 +12,7 @@
 
  [玩一玩压力测试](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/README.md)
 
-[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)
+[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)[![Build Status](https://travis-ci.org/SmallChi/JT808DotNetty.svg?branch=master)](https://travis-ci.org/SmallChi/JT808DotNetty)
 
 ## 新网关的优势：
 
@@ -108,15 +108,15 @@ static async Task Main(string[] args)
                     //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
                     //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
                     //.Builder();
-                    //webapi客户端调用
-                    //services.AddHttpApi<IJT808DotNettyWebApi>().ConfigureHttpApiConfig((c, p) =>
+                    //使用微软自带的webapi客户端
+                    //services.AddHttpClient("jt808webapi", c =>
                     //{
-                    //    c.HttpHost = new Uri("http://localhost:828/jt808api/");
-                    //    c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
-                    //    c.LoggerFactory = p.GetRequiredService<ILoggerFactory>();
-                    //});
-                    //var client = services.BuildServiceProvider().GetRequiredService<IJT808DotNettyWebApi>();
-                    //var result = client.GetTcpAtomicCounter().InvokeAsync().Result;
+                    //    c.BaseAddress = new Uri("http://localhost:828/");
+                    //    c.DefaultRequestHeaders.Add("token", "123456);
+                    //})
+                    //.AddTypedClient<JT808HttpClient>();
+                    //var client = services.BuildServiceProvider().GetRequiredService<JT808HttpClient>();
+                    //var result = client.GetTcpAtomicCounter();
         });
 
     await serverHostBuilder.RunConsoleAsync();

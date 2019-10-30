@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using JT808.DotNetty.Abstractions.Dtos;
 using JT808.DotNetty.Core.Metadata;
-using Newtonsoft.Json;
 
 namespace JT808.DotNetty.Core.Handlers
 {
@@ -42,7 +42,7 @@ namespace JT808.DotNetty.Core.Handlers
 
         protected JT808HttpResponse CreateJT808HttpResponse(dynamic dynamicObject)
         {
-            byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dynamicObject));
+            byte[] data = JsonSerializer.SerializeToUtf8Bytes(dynamicObject);
             return new JT808HttpResponse()
             {
                 Data = data
@@ -51,51 +51,51 @@ namespace JT808.DotNetty.Core.Handlers
 
         public JT808HttpResponse DefaultHttpResponse()
         {
-            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808DefaultResultDto()));
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(new JT808DefaultResultDto());
             return new JT808HttpResponse(json);
         }
 
         public JT808HttpResponse EmptyHttpResponse()
         {
-            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808ResultDto<string>()
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(new JT808ResultDto<string>()
             {
                 Code = JT808ResultCode.Empty,
                 Message = "内容为空",
                 Data = "Content Empty"
-            }));
+            });
             return new JT808HttpResponse(json);
         }
 
         public JT808HttpResponse NotFoundHttpResponse()
         {
-            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808ResultDto<string>()
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(new JT808ResultDto<string>()
             {
                 Code = JT808ResultCode.NotFound,
                 Message = "没有该服务",
                 Data = "没有该服务"
-            }));
+            });
             return new JT808HttpResponse(json);
         }
 
         public JT808HttpResponse AuthFailHttpResponse()
         {
-            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808ResultDto<string>()
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(new JT808ResultDto<string>()
             {
                 Code = JT808ResultCode.AuthFail,
                 Message = "token认证失败",
                 Data = "token认证失败"
-            }));
+            });
             return new JT808HttpResponse(json);
         }
 
         public JT808HttpResponse ErrorHttpResponse(Exception ex)
         {
-            byte[] json = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new JT808ResultDto<string>()
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(new JT808ResultDto<string>()
             {
                 Code = JT808ResultCode.Error,
-                Message = JsonConvert.SerializeObject(ex),
+                Message = ex.StackTrace,
                 Data = ex.Message
-            }));
+            });
             return new JT808HttpResponse(json);
         }
     }

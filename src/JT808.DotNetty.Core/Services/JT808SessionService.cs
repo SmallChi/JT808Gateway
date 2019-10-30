@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
 using JT808.DotNetty.Abstractions.Dtos;
@@ -35,7 +36,7 @@ namespace JT808.DotNetty.Core.Services
             {
                 resultDto.Data = null;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }
@@ -58,7 +59,7 @@ namespace JT808.DotNetty.Core.Services
             {
                 resultDto.Data = null;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }
@@ -75,21 +76,27 @@ namespace JT808.DotNetty.Core.Services
                     {
                         session.Channel.CloseAsync();
                     }
+                    resultDto.Code = JT808ResultCode.Ok;
+                    resultDto.Data = true;
                 }
-                resultDto.Code = JT808ResultCode.Ok;
-                resultDto.Data = true;
+                else
+                {
+                    resultDto.Code = JT808ResultCode.Empty;
+                    resultDto.Data = false;
+                    resultDto.Message = "Session Empty";
+                }
             }
             catch (AggregateException ex)
             {
                 resultDto.Data = false;
                 resultDto.Code = 500;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             catch (Exception ex)
             {
                 resultDto.Data = false;
                 resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+                resultDto.Message = ex.Message;
             }
             return resultDto;
         }

@@ -6,7 +6,7 @@ using JT808.DotNetty.Core.Interfaces;
 using JT808.DotNetty.Core.Metadata;
 using JT808.DotNetty.Core.Services;
 using JT808.DotNetty.Internal;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace JT808.DotNetty.WebApi.Handlers
 {
@@ -120,7 +120,8 @@ namespace JT808.DotNetty.WebApi.Handlers
             {
                 return EmptyHttpResponse();
             }
-            JT808UnificationSendRequestDto jT808UnificationSendRequestDto = JsonConvert.DeserializeObject<JT808UnificationSendRequestDto>(request.Json);
+
+            JT808UnificationSendRequestDto jT808UnificationSendRequestDto = JsonSerializer.Deserialize<JT808UnificationSendRequestDto>(request.Json);
             var result = jT808UnificationSendService.Send(jT808UnificationSendRequestDto.TerminalPhoneNo, jT808UnificationSendRequestDto.Data);
             return CreateJT808HttpResponse(result);
         }
@@ -135,8 +136,6 @@ namespace JT808.DotNetty.WebApi.Handlers
         {
             CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.GetTcpAtomicCounter, GetTcpAtomicCounter);
             CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
-            
-
         }
 
         protected virtual void InitUdpRoute()

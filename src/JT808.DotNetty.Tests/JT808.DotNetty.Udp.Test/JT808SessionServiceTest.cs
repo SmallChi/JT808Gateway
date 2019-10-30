@@ -8,86 +8,88 @@ using System.Text;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using JT808.Protocol.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JT808.DotNetty.Core.Session;
+using JT808.DotNetty.Abstractions.Dtos;
+using Xunit;
+using DotNetty.Transport.Channels.Embedded;
+using Microsoft.Extensions.Logging;
+using JT808.DotNetty.Core.Codecs;
+using JT808.DotNetty.Udp.Handlers;
+using JT808.Protocol.MessageBody;
+using System.Linq;
+using DotNetty.Transport.Channels.Sockets;
+using DotNetty.Buffers;
 
 namespace JT808.DotNetty.Udp.Test
 {
-    [TestClass]
-    public class JT808SessionServiceTest:TestBase,IDisposable
+    public class JT808SessionServiceTest:TestBase
     {
-        static IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 818);
-        JT808SimpleUdpClient SimpleUdpClient1;
-        JT808SimpleUdpClient SimpleUdpClient2;
-        JT808SimpleUdpClient SimpleUdpClient3;
-        JT808SimpleUdpClient SimpleUdpClient4;
-        JT808SimpleUdpClient SimpleUdpClient5;
-
-        public void Dispose()
-        {
-            SimpleUdpClient1.Down();
-            SimpleUdpClient2.Down();
-            SimpleUdpClient3.Down();
-            SimpleUdpClient4.Down();
-            SimpleUdpClient5.Down();
-        }
-
+        List<string> TNos = new List<string> {
+                "123456789001",
+                "123456789002",
+                "123456789003",
+                "123456789004",
+                "123456789005"
+        };
         public JT808SessionServiceTest()
         {
-            SimpleUdpClient1 = new JT808SimpleUdpClient(endPoint);
-            SimpleUdpClient2 = new JT808SimpleUdpClient(endPoint);
-            SimpleUdpClient3 = new JT808SimpleUdpClient(endPoint);
-            SimpleUdpClient4 = new JT808SimpleUdpClient(endPoint);
-            SimpleUdpClient5 = new JT808SimpleUdpClient(endPoint);
             // 心跳会话包
             JT808Package jT808Package1 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789001");
-            SimpleUdpClient1.WriteAsync(JT808Serializer.Serialize(jT808Package1));
-
-            // 心跳会话包
-            JT808Package jT808Package2 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789002");
-            SimpleUdpClient2.WriteAsync(JT808Serializer.Serialize(jT808Package2));
-
-            // 心跳会话包
-            JT808Package jT808Package3 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789003");
-            SimpleUdpClient3.WriteAsync(JT808Serializer.Serialize(jT808Package3));
-
-            // 心跳会话包
-            JT808Package jT808Package4 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789004");
-            SimpleUdpClient4.WriteAsync(JT808Serializer.Serialize(jT808Package4));
-
-            // 心跳会话包
-            JT808Package jT808Package5 = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create("123456789005");
-            SimpleUdpClient5.WriteAsync(JT808Serializer.Serialize(jT808Package5));
-            Thread.Sleep(1000);
+            var ch1 = CreateEmbeddedChannel();
+            ch1.WriteInbound(JT808Serializer.Serialize(jT808Package1));
+            SeedSession(TNos.ToArray());
         }
 
-        [TestMethod]
-        public void Test1()
+        [Fact]
+        public void GetUdpAllTest()
         {
             IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
             var result = jT808SessionServiceDefaultImpl.GetUdpAll();
+            var tons = result.Data.Select(s => s.TerminalPhoneNo).ToList();
+            foreach (var item in TNos)
+            {
+                Assert.Contains(item, tons);
+            }
+            Assert.Equal(JT808ResultCode.Ok, result.Code);
         }
 
-        [TestMethod]
-        public void Test2()
+        [Fact]
+        public void RemoveByTerminalPhoneNoTest()
         {
+            string tno = "123456789006";
             IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
-            var result1 = jT808SessionServiceDefaultImpl.GetUdpAll();
-            var result2 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo("123456789001");
-            var result3 = jT808SessionServiceDefaultImpl.GetUdpAll();
+            SeedSession(tno);
+            var result1 = jT808SessionServiceDefaultImpl.RemoveByTerminalPhoneNo(tno);
+            Assert.Equal(JT808ResultCode.Ok, result1.Code);
+            Assert.True(result1.Data);
+            var result2 = jT808SessionServiceDefaultImpl.GetUdpAll();
+            Assert.Equal(JT808ResultCode.Ok, result2.Code);
+            Assert.DoesNotContain(tno, result2.Data.Select(s=>s.TerminalPhoneNo));
         }
 
-        [TestMethod]
-        public void Test3()
+        [Fact]
+        public void SendTest()
         {
-            // 判断通道是否关闭
-            IJT808SessionService jT808SessionServiceDefaultImpl = ServiceProvider.GetService<IJT808SessionService>();
-            JT808SessionManager jT808UdpSessionManager = ServiceProvider.GetService<JT808SessionManager>();
-            var result1 = jT808SessionServiceDefaultImpl.GetUdpAll();
-            SimpleUdpClient1.Down();
-            var session = jT808UdpSessionManager.GetSessionByTerminalPhoneNo("123456789001");
-            var result3 = jT808UdpSessionManager.GetUdpAll();
-            Thread.Sleep(100000);
+            //"126 131 0 0 13 18 52 86 120 144 1 0 11 5 115 109 97 108 108 99 104 105 32 53 49 56 24 126"
+            var jT808UnificationSendService = ServiceProvider.GetService<IJT808UnificationSendService>();
+            string no = "123456789001";
+            // 文本信息包
+            JT808Package jT808Package2 = JT808.Protocol.Enums.JT808MsgId.文本信息下发.Create(no, new JT808_0x8300
+            {
+                TextFlag = 5,
+                TextInfo = "smallchi 518"
+            });
+            var data = JT808Serializer.Serialize(jT808Package2);
+            JT808ResultDto<bool> jt808Result = jT808UnificationSendService.Send(no, data);
+            Assert.Equal(JT808ResultCode.Ok, jt808Result.Code);
+            Assert.True(jt808Result.Data);
+            if(Channels.TryGetValue(no,out var channel))
+            {
+                var package = channel.ReadOutbound<DatagramPacket>();
+                byte[] recevie = new byte[package.Content.Capacity];
+                package.Content.ReadBytes(recevie);
+                Assert.Equal(data, recevie);
+            }
         }
     }
 }

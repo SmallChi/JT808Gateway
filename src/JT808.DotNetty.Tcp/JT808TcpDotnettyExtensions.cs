@@ -21,5 +21,15 @@ namespace JT808.DotNetty.Tcp
             jT808NettyBuilder.JT808Builder.Services.AddHostedService<JT808TcpServerHost>();
             return jT808NettyBuilder;
         }
+
+        internal static IServiceCollection AddJT808TcpNettyHostTest(this IServiceCollection  serviceDescriptors)
+        {
+            serviceDescriptors.TryAddScoped<JT808TcpConnectionHandler>();
+            serviceDescriptors.TryAddScoped<JT808TcpEncoder>();
+            serviceDescriptors.TryAddScoped<JT808TcpDecoder>();
+            serviceDescriptors.TryAddScoped<JT808TcpServerHandler>();
+            serviceDescriptors.AddHostedService<JT808TcpServerHost>();
+            return serviceDescriptors;
+        }
     }
 }
