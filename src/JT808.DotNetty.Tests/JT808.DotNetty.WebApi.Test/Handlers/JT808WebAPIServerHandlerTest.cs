@@ -121,6 +121,23 @@ namespace JT808.DotNetty.WebApi.Test.Handlers
             Assert.Equal(1, result.Data.MsgFailCount);
             Assert.Equal(JT808ResultCode.Ok, result.Code);
         }
+
+        [Fact]
+        public void UriTest1()
+        {
+            string uri = JT808NettyConstants.JT808WebApiRouteTable.SessionTcpGetAll +"? token=123456";
+            var uriSpan = uri.AsSpan();
+            var index = uriSpan.IndexOf('?');
+            var result = uriSpan.Slice(0, index).ToString();
+            Assert.Equal(JT808NettyConstants.JT808WebApiRouteTable.SessionTcpGetAll, result);
+        }
+
+        [Fact]
+        public void UriTest2()
+        {
+            var index = JT808NettyConstants.JT808WebApiRouteTable.SessionTcpGetAll.IndexOf('?');
+            Assert.Equal(-1, index);
+        }
     }
 
     public static class WebExt

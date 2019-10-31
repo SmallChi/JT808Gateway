@@ -51,7 +51,14 @@ namespace JT808.DotNetty.WebApi.Handlers
             }
             else
             {
-                if (jT808MsgIdHttpHandlerBase.HandlerDict.TryGetValue(msg.Uri, out var funcHandler))
+                var uriSpan = msg.Uri.AsSpan();
+                var index = uriSpan.IndexOf('?');
+                string uri = msg.Uri;
+                if (index > 0)
+                {
+                    uri = uriSpan.Slice(0, index).ToString();
+                }
+                if (jT808MsgIdHttpHandlerBase.HandlerDict.TryGetValue(uri, out var funcHandler))
                 {
                     jT808HttpResponse = funcHandler(new JT808HttpRequest() { Json = msg.Content.ToString(Encoding.UTF8) });
                 }
@@ -77,7 +84,6 @@ namespace JT808.DotNetty.WebApi.Handlers
             headers.Set(ContentLengthEntity, contentLength);
             // Close the non-keep-alive connection after the write operation is done.
             ctx.WriteAndFlushAsync(response);
-            ctx.CloseAsync();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
