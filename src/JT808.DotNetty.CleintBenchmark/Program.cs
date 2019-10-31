@@ -43,7 +43,6 @@ namespace JT808.DotNetty.CleintBenchmark
                 services.AddJT808Configure()
                         .AddJT808Client();
                 services.AddHostedService<CleintBenchmarkHostedService>();
-                services.AddHostedService<CleintBenchmarkReportHostedService>();
             });
             await serverHostBuilder.RunConsoleAsync();
         }

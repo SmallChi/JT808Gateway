@@ -6,9 +6,9 @@ using System.Text;
 
 namespace JT808.DotNetty.Client
 {
-    public class DeviceConfig
+    public class JT808DeviceConfig
     {
-        public DeviceConfig(string terminalPhoneNo, string tcpHost,int tcpPort)
+        public JT808DeviceConfig(string terminalPhoneNo, string tcpHost,int tcpPort)
         {
             TerminalPhoneNo = terminalPhoneNo;
             TcpHost = tcpHost;

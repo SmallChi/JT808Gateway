@@ -20,7 +20,7 @@ namespace JT808.DotNetty.SimpleClient.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            JT808TcpClient client1 = jT808TcpClientFactory.Create(new DeviceConfig("12345678910", "127.0.0.1", 808));
+            JT808TcpClient client1 = jT808TcpClientFactory.Create(new JT808DeviceConfig("12345678910", "127.0.0.1", 808));
             //1.终端注册
             client1.Send(new JT808_0x0100()
             {

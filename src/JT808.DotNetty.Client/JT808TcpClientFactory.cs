@@ -9,7 +9,7 @@ namespace JT808.DotNetty.Client
 {
     public interface IJT808TcpClientFactory : IDisposable
     {
-        JT808TcpClient Create(DeviceConfig deviceConfig);
+        JT808TcpClient Create(JT808DeviceConfig deviceConfig);
 
         List<JT808TcpClient> GetAll();
     }
@@ -26,7 +26,7 @@ namespace JT808.DotNetty.Client
             this.serviceProvider = serviceProvider;
         }
 
-        public JT808TcpClient Create(DeviceConfig deviceConfig)
+        public JT808TcpClient Create(JT808DeviceConfig deviceConfig)
         {
             if(dict.TryGetValue(deviceConfig.TerminalPhoneNo,out var client))
             {

@@ -25,11 +25,11 @@ namespace JT808.DotNetty.Client
 
         private bool disposed = false;
 
-        public DeviceConfig DeviceConfig { get; private set; }
+        public JT808DeviceConfig DeviceConfig { get; private set; }
 
         public ILoggerFactory LoggerFactory { get; private set; }
 
-        public JT808TcpClient(DeviceConfig deviceConfig, IServiceProvider serviceProvider)
+        public JT808TcpClient(JT808DeviceConfig deviceConfig, IServiceProvider serviceProvider)
         {
             DeviceConfig = deviceConfig;
             LoggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
