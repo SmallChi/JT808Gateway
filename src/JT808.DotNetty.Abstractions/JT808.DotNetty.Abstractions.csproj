@@ -20,7 +20,7 @@
     <PackageReleaseNotes>基于DotNetty实现的JT808DotNetty的抽象库</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JT808" Version="2.1.8" />
+    <PackageReference Include="JT808" Version="2.2.1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />

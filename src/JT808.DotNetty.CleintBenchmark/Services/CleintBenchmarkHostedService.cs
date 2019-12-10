@@ -1,5 +1,7 @@
 ﻿using JT808.DotNetty.CleintBenchmark.Configs;
 using JT808.DotNetty.Client;
+using JT808.Protocol.Enums;
+using JT808.Protocol.Extensions;
 using JT808.Protocol.MessageBody;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -54,7 +56,7 @@ namespace JT808.DotNetty.CleintBenchmark.Services
                     int Lng = new Random(1000).Next(100000, 180000);
                     while (!cts.IsCancellationRequested)
                     {
-                        client.Send(new JT808_0x0200()
+                        client.Send(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo,new JT808_0x0200()
                         {
                             Lat = lat,
                             Lng = Lng,
@@ -64,7 +66,7 @@ namespace JT808.DotNetty.CleintBenchmark.Services
                             AlarmFlag = 5,
                             Altitude = 50,
                             StatusFlag = 10
-                        });
+                        }));
                         Thread.Sleep(clientBenchmarkOptions.Interval);
                     }
                 }, i,cts.Token);

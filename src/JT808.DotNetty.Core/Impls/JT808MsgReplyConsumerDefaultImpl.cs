@@ -15,15 +15,19 @@ namespace JT808.DotNetty.Core.Impls
     internal class JT808MsgReplyConsumerDefaultImpl : IJT808MsgReplyConsumer
     {
         private readonly JT808MsgService JT808MsgService;
+
         private readonly JT808Serializer JT808Serializer;
-        private Dictionary<ushort, Func<JT808HeaderPackage, byte[]>> HandlerDict;
+
+        private Dictionary<ushort, MsgIdMethodDelegate> HandlerDict;
+
+        private delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package);
         public JT808MsgReplyConsumerDefaultImpl(
                 IJT808Config jT808Config,
                 JT808MsgService jT808MsgService)
         {
             JT808MsgService = jT808MsgService;
             this.JT808Serializer = jT808Config.GetSerializer();
-            HandlerDict = new Dictionary<ushort, Func<JT808HeaderPackage, byte[]>> {
+            HandlerDict = new Dictionary<ushort, MsgIdMethodDelegate> {
                 {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
                 {JT808MsgId.终端鉴权.ToUInt16Value(), Msg0x0102},
                 {JT808MsgId.终端心跳.ToUInt16Value(), Msg0x0002},
@@ -97,12 +101,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0002(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+            if(request.Version== JT808Version.JTT2019)
             {
-                MsgId = request.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
         }
         /// <summary>
         /// 终端注销
@@ -111,12 +127,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0003(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+            if (request.Version == JT808Version.JTT2019)
             {
-                MsgId = request.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
         }
         /// <summary>
         /// 终端注册
@@ -125,12 +153,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0100(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.终端注册应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8100()
+            if (request.Version == JT808Version.JTT2019)
             {
-                Code = "J" + request.Header.TerminalPhoneNo,
-                JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.终端注册应答.Create_终端注册应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8100()
+                {
+                    Code = "J" + request.Header.TerminalPhoneNo,           
+                    JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
+                    AckMsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.终端注册应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8100()
+                {
+                    Code = "J" + request.Header.TerminalPhoneNo,
+                    JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
+                    AckMsgNum = request.Header.MsgNum
+                }));
+            }
         }
         /// <summary>
         /// 终端鉴权
@@ -139,12 +179,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0102(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+            if (request.Version == JT808Version.JTT2019)
             {
-                MsgId = request.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
         }
         /// <summary>
         /// 位置信息汇报
@@ -153,12 +205,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0200(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+            if (request.Version == JT808Version.JTT2019)
             {
-                MsgId = request.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
         }
         /// <summary>
         /// 定位数据批量上传
@@ -167,12 +231,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0704(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+            if (request.Version == JT808Version.JTT2019)
             {
-                MsgId = request.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
         }
         /// <summary>
         /// 数据上行透传
@@ -181,12 +257,24 @@ namespace JT808.DotNetty.Core.Impls
         /// <returns></returns>
         public byte[] Msg0x0900(JT808HeaderPackage request)
         {
-            return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+            if (request.Version == JT808Version.JTT2019)
             {
-                MsgId = request.Header.MsgId,
-                JT808PlatformResult = JT808PlatformResult.成功,
-                MsgNum = request.Header.MsgNum
-            }));
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
+            else
+            {
+                return JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                {
+                    AckMsgId = request.Header.MsgId,
+                    JT808PlatformResult = JT808PlatformResult.成功,
+                    MsgNum = request.Header.MsgNum
+                }));
+            }
         }
     }
 }

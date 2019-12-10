@@ -1,5 +1,7 @@
 ﻿using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
+using JT808.Protocol.Enums;
+using JT808.Protocol.Extensions;
 using JT808.Protocol.MessageBody;
 using Microsoft.Extensions.Logging;
 using System;
@@ -77,7 +79,14 @@ namespace JT808.DotNetty.Client.Handlers
                 {
                     string channelId = context.Channel.Id.AsShortText();
                     logger.LogInformation($"{idleStateEvent.State.ToString()}>>>{channelId}");
-                    jT808TcpClient.Send(new JT808_0x0002());
+                    if(jT808TcpClient.DeviceConfig.Version== JT808Version.JTT2019)
+                    {
+                        jT808TcpClient.Send(JT808MsgId.终端心跳.Create2019(jT808TcpClient.DeviceConfig.TerminalPhoneNo,new JT808_0x0002()));
+                    }
+                    else
+                    {
+                        jT808TcpClient.Send(JT808MsgId.终端心跳.Create(jT808TcpClient.DeviceConfig.TerminalPhoneNo, new JT808_0x0002()));
+                    }
                 }
             }
             base.UserEventTriggered(context, evt);
@@ -87,7 +96,6 @@ namespace JT808.DotNetty.Client.Handlers
         {
             string channelId = context.Channel.Id.AsShortText();
             logger.LogError(exception,$"{channelId} {exception.Message}" );
-
             context.CloseAsync();
         }
     }

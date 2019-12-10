@@ -47,7 +47,7 @@ namespace JT808.DotNetty.Udp.Handlers
                 //解析到头部,然后根据具体的消息Id通过队列去进行消费
                 //要是一定要解析到数据体可以在JT808MsgIdHandlerBase类中根据具体的消息，
                 //解析具体的消息体，具体调用JT808Serializer.Deserialize<T>
-                JT808HeaderPackage jT808HeaderPackage = JT808Serializer.Deserialize<JT808HeaderPackage>(msg.Buffer);
+                JT808HeaderPackage jT808HeaderPackage = JT808Serializer.HeaderDeserialize(msg.Buffer);
                 if (logger.IsEnabled(LogLevel.Trace))
                 {
                     logger.LogTrace($"accept package success count=>{jT808AtomicCounterService.MsgFailCount.ToString()},accept msg=>{ByteBufferUtil.HexDump(msg.Buffer)}");

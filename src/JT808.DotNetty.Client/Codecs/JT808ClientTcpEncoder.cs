@@ -1,12 +1,10 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Codecs;
-using System.Collections.Generic;
 using JT808.Protocol;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 using JT808.DotNetty.Client.Metadata;
 using JT808.DotNetty.Client.Services;
-using JT808.Protocol.Interfaces;
 
 namespace JT808.DotNetty.Client.Codecs
 {
@@ -31,7 +29,7 @@ namespace JT808.DotNetty.Client.Codecs
             {
                 try
                 {
-                    var sendData = JT808Serializer.Serialize(message.Package, message.MinBufferSize);
+                    var sendData = JT808Serializer.Serialize(message.Package, minBufferSize:message.MinBufferSize);
                     output.WriteBytes(sendData);
                     jT808SendAtomicCounterService.MsgSuccessIncrement();
                 }

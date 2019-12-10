@@ -128,13 +128,11 @@ static async Task Main(string[] args)
 
 ## 举个栗子2
 
-1.拉取JT808子模块
+1.打开项目进行还原编译生成
 
-2.打开项目进行还原编译生成
+2.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
 
-3.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
-
-4.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
+3.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
 
 如图所示：
 ![demo2](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo2.png)
