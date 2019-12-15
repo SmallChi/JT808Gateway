@@ -51,7 +51,7 @@ namespace JT808.DotNetty.CleintBenchmark.Services
             {
                 taskFactory.StartNew((item) => 
                 {
-                    var client = jT808TcpClientFactory.Create(new JT808DeviceConfig(((int)item+1).ToString(), clientBenchmarkOptions.IP, clientBenchmarkOptions.Port));
+                    var client = jT808TcpClientFactory.Create(new JT808DeviceConfig(((int)item+1+ clientBenchmarkOptions.DeviceTemplate).ToString(), clientBenchmarkOptions.IP, clientBenchmarkOptions.Port));
                     int lat = new Random(1000).Next(100000, 180000);
                     int Lng = new Random(1000).Next(100000, 180000);
                     while (!cts.IsCancellationRequested)
