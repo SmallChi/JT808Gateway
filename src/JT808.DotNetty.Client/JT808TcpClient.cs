@@ -14,6 +14,7 @@ using JT808.DotNetty.Client.Metadata;
 using JT808.DotNetty.Client.Codecs;
 using JT808.DotNetty.Client.Services;
 using JT808.Protocol;
+using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Client
 {
@@ -57,7 +58,10 @@ namespace JT808.DotNetty.Client
                    channel.Pipeline.AddLast("jt808TcpClientConnection", new JT808TcpClientConnectionHandler(this));
                    channel.Pipeline.AddLast("jt808TcpService", new JT808TcpClientHandler(jT808ReceiveAtomicCounterService,this));
                }));
-            clientChannel = bootstrap.ConnectAsync(IPAddress.Parse(DeviceConfig.TcpHost), DeviceConfig.TcpPort).Result;
+            Task.Run(async () =>
+            {
+                clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse(DeviceConfig.TcpHost), DeviceConfig.TcpPort);
+            });
         }
 
         public async void Send(JT808ClientRequest request)

@@ -23,10 +23,6 @@ namespace JT808.DotNetty.CleintBenchmark.Services
 
         private readonly IJT808TcpClientFactory jT808TcpClientFactory;
 
-        private CancellationTokenSource cts=new CancellationTokenSource();
-
-        private TaskFactory taskFactory;
-
         public CleintBenchmarkHostedService(
             ILoggerFactory loggerFactory,
             IJT808TcpClientFactory jT808TcpClientFactory,
@@ -35,7 +31,6 @@ namespace JT808.DotNetty.CleintBenchmark.Services
             this.jT808TcpClientFactory = jT808TcpClientFactory;
             clientBenchmarkOptions = clientBenchmarkOptionsAccessor.Value;
             logger = loggerFactory.CreateLogger("CleintBenchmarkHostedService");
-            taskFactory = new TaskFactory();
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -44,39 +39,50 @@ namespace JT808.DotNetty.CleintBenchmark.Services
             ThreadPool.GetMaxThreads(out var maxWorkerThreads, out var maxCompletionPortThreads);
             logger.LogInformation($"GetMinThreads:{minWorkerThreads}-{minCompletionPortThreads}");
             logger.LogInformation($"GetMaxThreads:{maxWorkerThreads}-{maxCompletionPortThreads}");
-            //ThreadPool.SetMaxThreads(20, 20);
-            //ThreadPool.GetMaxThreads(out var setMaxWorkerThreads, out var setMaxCompletionPortThreads);
-            //logger.LogInformation($"SetMaxThreads:{setMaxWorkerThreads}-{setMaxCompletionPortThreads}");
+            //先建立连接
             for (int i=0;i< clientBenchmarkOptions.DeviceCount; i++)
             {
-                taskFactory.StartNew((item) => 
-                {
-                    var client = jT808TcpClientFactory.Create(new JT808DeviceConfig(((int)item+1+ clientBenchmarkOptions.DeviceTemplate).ToString(), clientBenchmarkOptions.IP, clientBenchmarkOptions.Port));
-                    int lat = new Random(1000).Next(100000, 180000);
-                    int Lng = new Random(1000).Next(100000, 180000);
-                    while (!cts.IsCancellationRequested)
-                    {
-                        client.Send(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo,new JT808_0x0200()
-                        {
-                            Lat = lat,
-                            Lng = Lng,
-                            GPSTime = DateTime.Now,
-                            Speed = 50,
-                            Direction = 30,
-                            AlarmFlag = 5,
-                            Altitude = 50,
-                            StatusFlag = 10
-                        }));
-                        Thread.Sleep(clientBenchmarkOptions.Interval);
-                    }
-                }, i,cts.Token);
+                var client = jT808TcpClientFactory.Create(new JT808DeviceConfig((i+1+ clientBenchmarkOptions.DeviceTemplate).ToString(), 
+                    clientBenchmarkOptions.IP, 
+                    clientBenchmarkOptions.Port));
             }
+
+            ThreadPool.QueueUserWorkItem((state) =>
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    Parallel.ForEach(jT808TcpClientFactory.GetAll(), new ParallelOptions { MaxDegreeOfParallelism = 100 }, (item) =>
+                    {
+                        try
+                        {
+                            int lat = new Random(1000).Next(100000, 180000);
+                            int Lng = new Random(1000).Next(100000, 180000);
+                            item.Send(JT808MsgId.位置信息汇报.Create(item.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            {
+                                Lat = lat,
+                                Lng = Lng,
+                                GPSTime = DateTime.Now,
+                                Speed = 50,
+                                Direction = 30,
+                                AlarmFlag = 5,
+                                Altitude = 50,
+                                StatusFlag = 10
+                            }));
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogError(ex, "");
+                        }
+                    });
+                    Thread.Sleep(clientBenchmarkOptions.Interval);
+                }
+            });
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            cts.Cancel();
+            jT808TcpClientFactory.Dispose();
             logger.LogInformation("StopAsync...");
             return Task.CompletedTask;
         }
