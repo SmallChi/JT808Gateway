@@ -2,7 +2,7 @@
 
 基于DotNetty封装的JT808DotNetty支持TCP/UDP通用消息业务处理
 
-基于Pipeline封装的JT808DotNetty支持TCP/UDP通用消息业务处理
+基于Pipeline封装的JT808Pipeline支持TCP/UDP通用消息业务处理
 
 [了解JT808协议进这边](https://github.com/SmallChi/JT808)
 
@@ -81,6 +81,7 @@
 
 | Package Name          | Version                                            | Downloads                                           |
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
+| Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
 | Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
 | Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
 
@@ -133,7 +134,7 @@ static async Task Main(string[] args)
 ```
 
 如图所示：
-![demo1](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo1.png)
+![demo1](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/dotnetty/demo1.png)
 
 ## 举个栗子2
 
@@ -144,4 +145,4 @@ static async Task Main(string[] args)
 3.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
 
 如图所示：
-![demo2](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/demo2.png)
+![demo2](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/dotnetty/demo2.png)
