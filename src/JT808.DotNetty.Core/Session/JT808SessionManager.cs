@@ -294,11 +294,11 @@ namespace JT808.DotNetty.Core.Session
         }
         public IEnumerable<JT808TcpSession> GetTcpAll()
         {
-            return Sessions.Select(s => (JT808TcpSession)s.Value).Where(w => w.TransportProtocolType == JT808TransportProtocolType.tcp).ToList();
+            return Sessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.tcp).Select(s => (JT808TcpSession)s.Value).ToList();
         }
         public IEnumerable<JT808UdpSession> GetUdpAll()
         {
-            return Sessions.Select(s => (JT808UdpSession)s.Value).Where(w => w.TransportProtocolType == JT808TransportProtocolType.udp).ToList();
+            return Sessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.udp).Select(s => (JT808UdpSession)s.Value).ToList();
         }
     }
 }

@@ -64,14 +64,14 @@ namespace JT808.DotNetty.Client
             });
         }
 
-        public async void Send(JT808ClientRequest request)
+        public  void Send(JT808ClientRequest request)
         {
             if (disposed) return;
             if (clientChannel == null) throw new NullReferenceException("Channel is empty.");
             if (request == null) throw new ArgumentNullException("JT808ClientRequest Parameter is empty.");
             if (clientChannel.Active && clientChannel.Open)
             {
-                await clientChannel.WriteAndFlushAsync(request);
+                 clientChannel.WriteAndFlushAsync(request);
             }
         }
 

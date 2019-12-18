@@ -71,7 +71,7 @@ namespace JT808.DotNetty.CleintBenchmark.Services
                         }
                         catch (Exception ex)
                         {
-                            logger.LogError(ex, "");
+                            logger.LogError(ex.Message);
                         }
                     });
                     Thread.Sleep(clientBenchmarkOptions.Interval);
