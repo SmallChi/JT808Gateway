@@ -1,6 +1,8 @@
-﻿# JT808DotNetty
+﻿# JT808Gateway
 
-基于DotNetty封装的JT808DotNetty支持TCP/UDP通用消息业务处理 
+基于DotNetty封装的JT808DotNetty支持TCP/UDP通用消息业务处理
+
+基于Pipeline封装的JT808DotNetty支持TCP/UDP通用消息业务处理
 
 [了解JT808协议进这边](https://github.com/SmallChi/JT808)
 
@@ -14,7 +16,7 @@
 
 [![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)[![Build Status](https://travis-ci.org/SmallChi/JT808DotNetty.svg?branch=master)](https://travis-ci.org/SmallChi/JT808DotNetty)
 
-## 新网关的优势：
+## 新网关的优势
 
 1. 跨平台
 2. 借助 .NET Core模块化的思想
@@ -55,7 +57,7 @@
 |Traffic|流量统计服务 |由于运营商sim卡查询流量滞后，通过流量统计服务可以实时准确的统计设备流量，可以最优配置设备的流量大小，以节省成本
 |Transmit| 原包转发服务|该服务可以将设备上报原始数据转发到第三方，支持全部转发，指定终端号转发|
 
-## NuGet安装
+## 基于DotNetty的NuGet安装
 
 | Package Name          | Version                                            | Downloads                                           |
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
@@ -74,6 +76,13 @@
 | Install-Package JT808.DotNetty.MsgIdHandler | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.MsgIdHandler.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgIdHandler.svg)|
 | Install-Package JT808.DotNetty.Kafka | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
 | Install-Package JT808.DotNetty.RabbitMQ | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
+
+## 基于Pipeline的NuGet安装
+
+| Package Name          | Version                                            | Downloads                                           |
+| --------------------- | -------------------------------------------------- | --------------------------------------------------- |
+| Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
+| Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
 
 ## 举个栗子1
 
