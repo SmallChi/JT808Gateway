@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
-    <PackageReference Include="CSRedisCore" Version="3.2.0" />
+    <PackageReference Include="CSRedisCore" Version="3.2.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />

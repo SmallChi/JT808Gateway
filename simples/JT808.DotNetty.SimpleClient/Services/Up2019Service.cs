@@ -24,6 +24,7 @@ namespace JT808.DotNetty.SimpleClient.Services
         {
             string sim = "22222222222";
             JT808TcpClient client1 = jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808, JT808Version.JTT2019));
+            Thread.Sleep(5000);
             //1.终端注册
             client1.Send(JT808MsgId.终端注册.Create2019(sim, new JT808_0x0100()
             {
