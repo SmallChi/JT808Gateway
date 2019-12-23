@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
 using JT808.Gateway.Configs.Kafka;
-using JT808.Gateway.PubSub;
+using JT808.Gateway.Abstractions;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace JJT808.Gateway.Kafka
             producer.Dispose();
         }
 
-        public async Task ProduceAsync(string terminalNo, byte[] data)
+        public async ValueTask ProduceAsync(string terminalNo, byte[] data)
         {
             await producer.ProduceAsync(TopicName, new Message<string, byte[]>
             {

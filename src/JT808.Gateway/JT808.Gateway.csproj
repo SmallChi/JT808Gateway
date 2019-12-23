@@ -7,6 +7,10 @@
     <Authors>SmallChi(Koike)</Authors>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <SignAssembly>false</SignAssembly>
+    <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
+    <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
+    <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>基于Pipeline实现的JT808Gateway的网络库</Description>

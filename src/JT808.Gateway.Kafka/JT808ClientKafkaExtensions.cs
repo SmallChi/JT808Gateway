@@ -1,6 +1,6 @@
 ﻿using JJT808.Gateway.Kafka;
 using JT808.Gateway.Configs.Kafka;
-using JT808.Gateway.PubSub;
+using JT808.Gateway.Abstractions;
 using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

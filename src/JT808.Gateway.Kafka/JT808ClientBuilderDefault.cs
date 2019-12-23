@@ -1,4 +1,5 @@
-﻿using JT808.Protocol;
+﻿using JT808.Gateway.Abstractions;
+using JT808.Protocol;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
