@@ -60,7 +60,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0001(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0001(JT808HeaderPackage request)
         {
             return null;
         }
@@ -69,7 +69,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0002(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0002(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -95,7 +95,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0003(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0003(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -121,7 +121,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0100(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0100(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -147,7 +147,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0102(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0102(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -173,7 +173,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0200(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0200(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -199,7 +199,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0704(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0704(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -225,7 +225,7 @@ namespace JT808.DotNetty.ReplyMessage
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x0900(JT808HeaderPackage request)
+        public virtual byte[] Msg0x0900(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
