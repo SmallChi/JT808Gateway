@@ -14,7 +14,6 @@ namespace JT808.DotNetty.Client
             TerminalPhoneNo = terminalPhoneNo;
             TcpHost = tcpHost;
             TcpPort = tcpPort;
-            MsgSNDistributed = new JT808ClientMsgSNDistributedImpl();
             Version = version;
         }
         public JT808Version Version { get; private set; }

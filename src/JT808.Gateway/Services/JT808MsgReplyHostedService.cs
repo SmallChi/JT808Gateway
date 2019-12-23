@@ -1,4 +1,6 @@
-﻿using JT808.Gateway.PubSub;
+﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Configurations;
+using JT808.Gateway.Enums;
 using JT808.Gateway.Session;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -14,28 +16,36 @@ namespace JT808.Gateway.Services
         private readonly JT808SessionManager JT808SessionManager;
 
         private readonly IJT808MsgReplyConsumer JT808MsgReplyConsumer;
-
+        private readonly JT808Configuration Configuration;
         public JT808MsgReplyHostedService(
+            JT808Configuration  jT808Configuration,
             IJT808MsgReplyConsumer jT808MsgReplyConsumer,
             JT808SessionManager jT808SessionManager)
         {
             JT808MsgReplyConsumer = jT808MsgReplyConsumer;
             JT808SessionManager = jT808SessionManager;
+            Configuration = jT808Configuration;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            JT808MsgReplyConsumer.OnMessage(item => 
+            if(Configuration.MessageQueueType== JT808MessageQueueType.InMemory)
             {
-                JT808SessionManager.Send(item.TerminalNo, item.Data);
-            });
-            JT808MsgReplyConsumer.Subscribe();
+                JT808MsgReplyConsumer.OnMessage(item =>
+                {
+                    JT808SessionManager.TrySendBySessionId(item.TerminalNo, item.Data);
+                });
+                JT808MsgReplyConsumer.Subscribe();
+            }
             return Task.CompletedTask;    
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            JT808MsgReplyConsumer.Unsubscribe();
+            if (Configuration.MessageQueueType == JT808MessageQueueType.InMemory)
+            {
+                JT808MsgReplyConsumer.Unsubscribe();
+            }
             return Task.CompletedTask;
         }
     }

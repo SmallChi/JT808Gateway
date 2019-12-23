@@ -1,11 +1,14 @@
-﻿using JT808.Gateway.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using JT808.Gateway.Enums;
+﻿using System;
+using System.Linq;
 using JT808.Gateway.GrpcService;
 using Grpc.Core;
 using System.Threading.Tasks;
+using JT808.Gateway.Abstractions.Enums;
+using JT808.Gateway.Session;
+using Microsoft.Extensions.DependencyInjection;
+using static Grpc.Core.Metadata;
+using Microsoft.Extensions.Options;
+using JT808.Gateway.Configurations;
 
 namespace JT808.Gateway.Services
 {
@@ -15,76 +18,98 @@ namespace JT808.Gateway.Services
 
         private readonly JT808AtomicCounterService jT808UdpAtomicCounterService;
 
-        private readonly IJT808SessionService jT808SessionService;
+        private readonly JT808SessionManager jT808SessionManager;
 
-        private readonly IJT808UnificationSendService jT808UnificationSendService;
+        private readonly IOptionsMonitor<JT808Configuration> ConfigurationOptionsMonitor;
 
         public JT808GatewayService(
-            IJT808UnificationSendService jT808UnificationSendService,
-            IJT808SessionService jT808SessionService,
+            IOptionsMonitor<JT808Configuration> configurationOptionsMonitor,
+            JT808SessionManager jT808SessionManager,
             JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory
             )
         {
-            this.jT808UnificationSendService = jT808UnificationSendService;
-            this.jT808SessionService = jT808SessionService;
+            this.jT808SessionManager = jT808SessionManager;
+            this.ConfigurationOptionsMonitor = configurationOptionsMonitor;
             this.jT808TcpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             this.jT808UdpAtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
         }
 
+        public JT808GatewayService(IServiceProvider serviceProvider)
+        {
+            this.jT808SessionManager = serviceProvider.GetRequiredService<JT808SessionManager>();
+            this.jT808TcpAtomicCounterService = serviceProvider.GetRequiredService<JT808AtomicCounterServiceFactory>().Create(JT808TransportProtocolType.tcp);
+            this.jT808UdpAtomicCounterService = serviceProvider.GetRequiredService<JT808AtomicCounterServiceFactory>().Create(JT808TransportProtocolType.udp);
+            this.ConfigurationOptionsMonitor = serviceProvider.GetRequiredService<IOptionsMonitor<JT808Configuration>>();
+        }
+
         public override Task<TcpSessionInfoReply> GetTcpSessionAll(Empty request, ServerCallContext context)
         {
-            var result = jT808SessionService.GetTcpAll();
+            Auth(context);
+            var result = jT808SessionManager.GetTcpAll();
             TcpSessionInfoReply reply = new TcpSessionInfoReply();
-            if (result.Data != null)
+            foreach (var item in result)
             {
-                foreach (var item in result.Data)
+                reply.TcpSessions.Add(new SessionInfo
                 {
-                    reply.TcpSessions.Add(new SessionInfo
-                    {
-                        LastActiveTime = item.LastActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        RemoteAddressIP = item.RemoteAddressIP,
-                        TerminalPhoneNo = item.TerminalPhoneNo
-                    });
-                }
-            }
+                    LastActiveTime = item.ActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    RemoteAddressIP = item.RemoteEndPoint.ToString(),
+                    TerminalPhoneNo = item.TerminalPhoneNo
+                });
+            }     
             return Task.FromResult(reply);
         }
 
         public override Task<SessionRemoveReply> RemoveSessionByTerminalPhoneNo(SessionRemoveRequest request, ServerCallContext context)
         {
-            var result = jT808SessionService.RemoveByTerminalPhoneNo(request.TerminalPhoneNo);
-            return Task.FromResult(new SessionRemoveReply { Success = result.Data });
+            Auth(context);
+            try
+            {
+                jT808SessionManager.RemoveByTerminalPhoneNo(request.TerminalPhoneNo);
+                return Task.FromResult(new SessionRemoveReply { Success = true });
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(new SessionRemoveReply { Success = false });
+            }
         }
 
         public override Task<UdpSessionInfoReply> GetUdpSessionAll(Empty request, ServerCallContext context)
         {
-            var result = jT808SessionService.GetUdpAll();
+            Auth(context);
+            var result = jT808SessionManager.GetUdpAll();
             UdpSessionInfoReply reply = new UdpSessionInfoReply();
-            if (result.Data != null)
+            foreach (var item in result)
             {
-                foreach (var item in result.Data)
+                reply.UdpSessions.Add(new SessionInfo
                 {
-                    reply.UdpSessions.Add(new SessionInfo
-                    {
-                        LastActiveTime = item.LastActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        RemoteAddressIP = item.RemoteAddressIP,
-                        TerminalPhoneNo = item.TerminalPhoneNo
-                    });
-                }
+                    LastActiveTime = item.ActiveTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    StartTime = item.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    RemoteAddressIP = item.RemoteEndPoint.ToString(),
+                    TerminalPhoneNo = item.TerminalPhoneNo
+                });
             }
+          
             return Task.FromResult(reply);
         }
 
         public override Task<UnificationSendReply> UnificationSend(UnificationSendRequest request, ServerCallContext context)
         {
-            var result = jT808UnificationSendService.Send(request.TerminalPhoneNo, request.Data.ToByteArray());
-            return Task.FromResult(new UnificationSendReply { Success = result.Data });
+            Auth(context);
+            try
+            {
+                var flag = jT808SessionManager.TrySendByTerminalPhoneNo(request.TerminalPhoneNo, request.Data.ToByteArray());
+                return Task.FromResult(new UnificationSendReply { Success = flag });
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(new UnificationSendReply { Success = false });
+            }
         }
 
         public override Task<TcpAtomicCounterReply> GetTcpAtomicCounter(Empty request, ServerCallContext context)
         {
+            Auth(context);
             TcpAtomicCounterReply reply = new TcpAtomicCounterReply();
             reply.MsgFailCount=jT808TcpAtomicCounterService.MsgFailCount;
             reply.MsgSuccessCount=jT808TcpAtomicCounterService.MsgSuccessCount;
@@ -93,10 +118,27 @@ namespace JT808.Gateway.Services
 
         public override Task<UdpAtomicCounterReply> GetUdpAtomicCounter(Empty request, ServerCallContext context)
         {
+            Auth(context);
             UdpAtomicCounterReply reply = new UdpAtomicCounterReply();
             reply.MsgFailCount = jT808UdpAtomicCounterService.MsgFailCount;
             reply.MsgSuccessCount = jT808UdpAtomicCounterService.MsgSuccessCount;
             return Task.FromResult(reply);
+        }
+
+        private void Auth(ServerCallContext context)
+        {
+            Entry tokenEntry = context.RequestHeaders.FirstOrDefault(w => w.Key == "token");
+            if (tokenEntry != null)
+            {
+                if(tokenEntry.Value != ConfigurationOptionsMonitor.CurrentValue.WebApiToken)
+                {
+                    throw new Grpc.Core.RpcException(new Status(StatusCode.Unauthenticated, "token error"));
+                }
+            }
+            else
+            {
+                throw new Grpc.Core.RpcException(new Status(StatusCode.Unauthenticated,"token empty"));
+            }
         }
     }
 }

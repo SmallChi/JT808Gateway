@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using JT808.Protocol;
 using JT808.DotNetty.Client;
 using JT808.DotNetty.CleintBenchmark.Configs;
-using JT808.DotNetty.CleintBenchmark.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using JT808.DotNetty.CleintBenchmark.Services;
 
 namespace JT808.DotNetty.CleintBenchmark
 {
@@ -21,6 +23,31 @@ namespace JT808.DotNetty.CleintBenchmark
             {
                 config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            })
+            .ConfigureWebHostDefaults(webBuilder => 
+            {
+                webBuilder.Configure(app =>
+                {
+                    app.UseRouting();
+                    app.UseCors("Domain");
+                    app.UseStaticFiles();
+                    app.UseDefaultFiles("/index.html");
+                    app.UseEndpoints(endpoints =>
+                    {
+                        endpoints.MapControllers();
+                    });
+                })
+                .ConfigureServices((hostContext, services) => 
+                {
+                    services.AddControllers();
+                    services.AddCors(options =>
+                        options.AddPolicy("Domain", builder =>
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .AllowAnyOrigin()));
+
+                });
             })
             .ConfigureLogging((context, logging) =>
             {

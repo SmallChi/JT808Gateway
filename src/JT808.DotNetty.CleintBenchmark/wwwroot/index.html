@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>收发查看</title>
+    <script src="https://unpkg.com/dayjs"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/echarts.min.js"></script>
+</head>
+
+<body>
+    <div id="tcpContainer" style="text-align:center;margin:20px auto;width:80%;height: 300px;"></div>
+    <div id="connContainer" style="text-align:center;margin:20px auto;width:80%;height: 300px;"></div>
+    <script type="text/javascript">
+        var tcpDom = document.getElementById("tcpContainer");
+        var connDom = document.getElementById("connContainer");
+        var tcpChart = echarts.init(tcpDom);
+        var connChart = echarts.init(connDom);
+        var sendData=[];
+        var receiveData=[];
+        var onlineData=[];
+        var offlineData=[];
+        var timeData=[];
+        var tcpOption = {
+            title: {
+                text: 'TCP收发数'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    animation: true
+                }
+            },
+            legend: {
+                data:['发送总次数','接收总次数']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: timeData
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: true
+                }
+            },
+            series: [{
+                name: '发送总次数',
+                type: 'line',
+                color: "blue",
+                data: sendData
+            },{
+                name: '接收总次数',
+                type: 'line',
+                color: "red",
+                data: receiveData
+            }]
+        };
+        var connOption = {
+            title: {
+                text: 'TCP连接数'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    animation: true
+                }
+            },
+            legend: {
+                data:['tcp在线数','tcp离线数']
+            },
+            xAxis: {
+                type: 'category', 
+                boundaryGap: false,
+                data: timeData
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: true
+                }
+            },
+            series: [{
+                name: 'tcp在线数',
+                type: 'line',
+                color: "blue",
+                data: onlineData
+            },{
+                name: 'tcp离线数',
+                type: 'line',
+                color: "red",
+                data: offlineData
+            }]
+        };
+        setInterval(function () {
+            axios.post('http://localhost:5000/JT808WebApi/QueryReport')
+            .then((response) => {
+                    if (response.data) {
+                        if(sendData.length>16){
+                            sendData.shift();
+                            receiveData.shift();
+                            onlineData.shift();
+                            offlineData.shift();
+                            timeData.shift();
+                        }
+                        //console.log(response.data);
+                        timeData.push(dayjs(response.data.currentDate).format('HH:mm:ss'));
+                        sendData.push(response.data.sendTotalCount);
+                        receiveData.push(response.data.receiveTotalCount);
+                        onlineData.push(response.data.onlineConnections);
+                        offlineData.push(response.data.offlineConnections);
+                        tcpChart.setOption({
+                            series: [{
+                                data: sendData
+                            },{
+                                data: receiveData
+                            }],
+                            xAxis:[{
+                                data: timeData
+                            }]
+                        });
+                        connChart.setOption({
+                            series: [{
+                                data: onlineData
+                            },{
+                                data: offlineData
+                            }],
+                            xAxis:[{
+                                data: timeData
+                            }]
+                        });
+                    } else {
+                        alert("没有数据");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error); 
+                });
+        }, 1000);
+        if (tcpOption && typeof tcpOption === "object") {
+            tcpChart.setOption(tcpOption, true);
+        }
+        if (connOption && typeof connOption === "object") {
+            connChart.setOption(connOption, true);
+        }
+    </script>
+</body>
+
+</html>

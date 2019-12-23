@@ -1,4 +1,4 @@
-﻿using JT808.Gateway.Enums;
+﻿using JT808.Gateway.Abstractions.Enums;
 using System;
 using System.Collections.Concurrent;
 

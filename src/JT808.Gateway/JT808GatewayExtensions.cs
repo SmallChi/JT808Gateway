@@ -1,54 +1,75 @@
-﻿using JT808.Gateway;
+﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Configurations;
-using JT808.Gateway.Impls;
-using JT808.Gateway.Interfaces;
-using JT808.Gateway.PubSub;
+using JT808.Gateway.Internal;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using System;
 using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("JT808.Gateway.TestHosting")]
 [assembly: InternalsVisibleTo("JT808.Gateway.Test")]
-
 namespace JT808.Gateway
 {
-    public static class JT808GatewayExtensions
+    public static partial class JT808GatewayExtensions
     {
-        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder, IConfiguration configuration)
+        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder)
         {
-            IJT808GatewayBuilder nettyBuilder = new JT808GatewayBuilderDefault(jt808Builder);
-            nettyBuilder.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationSendService, JT808UnificationSendService>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionService, JT808SessionService>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgProducer, JT808MsgProducerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionProducer, JT808SessionProducerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808MsgService>();
-            nettyBuilder.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
-            return nettyBuilder;
+            IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
+            server.JT808Builder.Services.TryAddSingleton<JT808Configuration>();
+            server.AddJT808Core();
+            return server;
         }
 
-        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder, Action<JT808Configuration> jt808Options)
+        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder,Action<JT808Configuration> config)
         {
-            IJT808GatewayBuilder nettyBuilder = new JT808GatewayBuilderDefault(jt808Builder);
-            nettyBuilder.JT808Builder.Services.Configure(jt808Options);
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808UnificationSendService, JT808UnificationSendService>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionService, JT808SessionService>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgProducer, JT808MsgProducerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<JT808MsgService>();
-            nettyBuilder.JT808Builder.Services.TryAddSingleton<IJT808SessionProducer, JT808SessionProducerDefaultImpl>();
-            nettyBuilder.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
-            return nettyBuilder;
+            IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
+            server.JT808Builder.Services.Configure(config);
+            server.AddJT808Core();
+            return server;
+        }
+
+        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder, IConfiguration  configuration)
+        {
+            IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
+            server.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));
+            server.AddJT808Core();
+            return server;
+        }
+
+        public static IJT808GatewayBuilder AddTcp(this IJT808GatewayBuilder config)
+        {
+            config.JT808Builder.Services.AddHostedService<JT808TcpServer>();
+            config.JT808Builder.Services.AddHostedService<JT808TcpReceiveTimeoutHostedService>();
+            return config;
+        }
+
+        public static IJT808GatewayBuilder AddUdp(this IJT808GatewayBuilder config)
+        {
+            config.JT808Builder.Services.AddHostedService<JT808UdpServer>();
+            config.JT808Builder.Services.AddHostedService<JT808UdpReceiveTimeoutHostedService>();
+            return config;
+        }
+
+        public static IJT808GatewayBuilder AddGrpc(this IJT808GatewayBuilder config)
+        {
+            config.JT808Builder.Services.AddHostedService<JT808GrpcServer>();
+            return config;
+        }
+
+        private static IJT808GatewayBuilder AddJT808Core(this IJT808GatewayBuilder config)
+        {
+            config.JT808Builder.Services.TryAddSingleton<JT808Configuration>();
+            config.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
+            config.JT808Builder.Services.TryAddSingleton<IJT808MsgProducer, JT808MsgProducerDefault>();
+            config.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumerDefault>();
+            config.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
+            config.JT808Builder.Services.TryAddSingleton<JT808MsgService>();
+            config.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
+            return config;
         }
     }
 }
