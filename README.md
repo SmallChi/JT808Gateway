@@ -27,12 +27,6 @@
 
 ![design_model](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/design_model.png)
 
-## 基于WebApi的消息业务处理程序（JT808.DotNetty.WebApi）
-
-通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdHttpHandlerBase去实现自定义的WebApi接口服务。
-
-[WebApi公共接口服务](https://github.com/SmallChi/JT808DotNetty/blob/master/api/README.md)
-
 ## 集成接口功能（JT808.DotNetty.Abstractions）
 
 |接口名称|接口说明|使用场景|
@@ -57,6 +51,14 @@
 |Traffic|流量统计服务 |由于运营商sim卡查询流量滞后，通过流量统计服务可以实时准确的统计设备流量，可以最优配置设备的流量大小，以节省成本
 |Transmit| 原包转发服务|该服务可以将设备上报原始数据转发到第三方，支持全部转发，指定终端号转发|
 
+## 基于WebApi的消息业务处理程序（JT808.DotNetty.WebApi）
+
+通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdHttpHandlerBase去实现自定义的WebApi接口服务。
+
+## 基于GRPC的消息业务处理程序
+
+[GRPC协议](https://github.com/SmallChi/JT808Gateway/blob/master/src/JT808.Gateway.Abstractions/Protos/JT808Gateway.proto)
+
 ## 基于DotNetty的NuGet安装
 
 | Package Name          | Version                                            | Downloads                                           |
@@ -77,13 +79,19 @@
 | Install-Package JT808.DotNetty.Kafka | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
 | Install-Package JT808.DotNetty.RabbitMQ | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
 
-## 基于Pipeline的NuGet安装
+## 基于core 3.1 Pipeline的NuGet安装
 
 | Package Name          | Version                                            | Downloads                                           |
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
 | Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
 | Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
 | Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
+| Install-Package JT808.Gateway.Transmit | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
+| Install-Package JT808.Gateway.Traffic | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
+| Install-Package JT808.Gateway.SessionNotice | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
+| Install-Package JT808.Gateway.ReplyMessage | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)|
+| Install-Package JT808.Gateway.MsgLogging | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
+| Install-Package JT808.Gateway.MsgIdHandler | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
 
 ## 举个栗子1
 
@@ -137,6 +145,41 @@ static async Task Main(string[] args)
 ![demo1](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/dotnetty/demo1.png)
 
 ## 举个栗子2
+
+``` 1
+static async Task Main(string[] args)
+{
+    var serverHostBuilder = new HostBuilder()
+        .ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{ hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        })
+        .ConfigureLogging((context, logging) =>
+        {
+            Console.WriteLine($"Environment.OSVersion.Platform:{Environment.OSVersion.Platform.ToString()}");
+            NLog.LogManager.LoadConfiguration($"Configs/nlog.{Environment.OSVersion.Platform.ToString()}.config");
+            logging.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
+            logging.SetMinimumLevel(LogLevel.Trace);
+        })
+        .ConfigureServices((hostContext, services) =>
+        {
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddJT808Configure()
+                    .AddJT808Gateway()  
+                    .AddTcp()
+                    .AddUdp()
+                    .AddGrpc();
+            //services.AddHostedService<CallGrpcClientJob>();
+        });
+
+    await serverHostBuilder.RunConsoleAsync();
+}
+```
+
+## 举个栗子3
 
 1.打开项目进行还原编译生成
 

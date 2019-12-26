@@ -25,8 +25,6 @@ namespace JT808.Gateway
     {
         private Socket server;
 
-        private const byte beginAndEndMark = 0x7e;
-
         private readonly ILogger Logger;
 
         private readonly JT808SessionManager SessionManager;
@@ -160,13 +158,13 @@ namespace JT808.Gateway
             SequenceReader<byte> seqReader = new SequenceReader<byte>(buffer);
             if (seqReader.TryPeek(out byte beginMark))
             {
-                if (beginMark != beginAndEndMark) throw new ArgumentException("Not JT808 Packages.");
+                if (beginMark != JT808Package.BeginFlag) throw new ArgumentException("Not JT808 Packages.");
             }
             byte mark = 0;
             long totalConsumed = 0;
             while (!seqReader.End)
             {
-                if (seqReader.IsNext(beginAndEndMark, advancePast: true))
+                if (seqReader.IsNext(JT808Package.BeginFlag, advancePast: true))
                 {
                     if (mark == 1)
                     {

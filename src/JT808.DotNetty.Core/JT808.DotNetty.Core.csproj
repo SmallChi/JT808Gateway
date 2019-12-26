@@ -5,10 +5,10 @@
     <LangVersion>7.3</LangVersion>
     <Copyright>Copyright 2018.</Copyright>
     <Authors>SmallChi(Koike)</Authors>
-    <RepositoryUrl>https://github.com/SmallChi/JT808DotNetty</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/SmallChi/JT808DotNetty</PackageProjectUrl>
-    <licenseUrl>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</licenseUrl>
-    <license>https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE</license>
+    <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
+    <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
+    <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>$(JT808DotNettyPackageVersion)</Version>
     <SignAssembly>false</SignAssembly>

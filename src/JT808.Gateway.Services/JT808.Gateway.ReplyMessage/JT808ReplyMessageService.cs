@@ -1,4 +1,4 @@
-﻿using JT808.DotNetty.Abstractions;
+﻿using JT808.Gateway.Abstractions;
 using JT808.Protocol;
 using JT808.Protocol.Enums;
 using JT808.Protocol.Extensions;
@@ -7,16 +7,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.DotNetty.ReplyMessage
+namespace JT808.Gateway.ReplyMessage
 {
-    public class JT808DotNettyReplyMessageService
+    public class JT808ReplyMessageService
     {
         protected Dictionary<ushort, MsgIdMethodDelegate> HandlerDict { get; }
 
         protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package);
         protected JT808Serializer JT808Serializer { get; }
         protected IJT808MsgReplyProducer JT808MsgReplyProducer { get; }
-        public JT808DotNettyReplyMessageService(
+        public JT808ReplyMessageService(
             IJT808Config jT808Config, 
             IJT808MsgReplyProducer jT808MsgReplyProducer)
         {
