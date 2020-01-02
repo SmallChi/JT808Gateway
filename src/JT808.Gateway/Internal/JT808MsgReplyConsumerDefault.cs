@@ -50,19 +50,22 @@ namespace JT808.Gateway.Internal
         {
             Task.Run(() =>
             {
-                foreach(var item in JT808MsgService.MsgQueue.GetConsumingEnumerable())
+                while (!Cts.IsCancellationRequested)
                 {
                     try
                     {
-                        var package = JT808Serializer.HeaderDeserialize(item.Data);
-                        if (HandlerDict.TryGetValue(package.Header.MsgId, out var func))
+                        if(JT808MsgService.TryRead(out var item))
                         {
-                            var buffer = func(package);
-                            if (buffer != null)
+                            JT808HeaderPackage package = JT808Serializer.HeaderDeserialize(item.Data);
+                            if (HandlerDict.TryGetValue(package.Header.MsgId, out var func))
                             {
-                                callback((item.TerminalNo, buffer));
+                                var buffer = func(package);
+                                if (buffer != null)
+                                {
+                                    callback((item.TerminalNo, buffer));
+                                }
                             }
-                        }
+                        }        
                     }
                     catch
                     {

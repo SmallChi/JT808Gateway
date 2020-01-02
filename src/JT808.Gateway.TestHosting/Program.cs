@@ -7,6 +7,8 @@ using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using NLog.Extensions.Logging;
 using JT808.Gateway.TestHosting.Jobs;
+using JT808.Gateway.Enums;
+using JT808.Gateway.Kafka;
 
 namespace JT808.Gateway.TestHosting
 {
@@ -33,10 +35,23 @@ namespace JT808.Gateway.TestHosting
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
-                            .AddJT808Gateway()
+                            //用于测试网关
+                            .AddJT808DevelopmentGateway()
+                            //用于生产环境
+                            //.AddJT808Gateway(options =>
+                            //{
+                            //    options.TcpPort=8086;
+                            //    options.UdpPort=8086;
+                            //    options.MessageQueueType = JT808MessageQueueType.InPlug;                           
+                            //})
                             .AddTcp()
                             .AddUdp()
-                            .AddGrpc();
+                            .AddGrpc()
+                            //kafka插件
+                            //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                            //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                            //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                            ;
                     //services.AddHostedService<CallGrpcClientJob>();
                 });
 

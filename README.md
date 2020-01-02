@@ -27,7 +27,7 @@
 
 ![design_model](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/design_model.png)
 
-## 集成接口功能（JT808.DotNetty.Abstractions）
+## 集成接口功能
 
 |接口名称|接口说明|使用场景|
 |:------:|:------|:------|
@@ -51,7 +51,7 @@
 |Traffic|流量统计服务 |由于运营商sim卡查询流量滞后，通过流量统计服务可以实时准确的统计设备流量，可以最优配置设备的流量大小，以节省成本
 |Transmit| 原包转发服务|该服务可以将设备上报原始数据转发到第三方，支持全部转发，指定终端号转发|
 
-## 基于WebApi的消息业务处理程序（JT808.DotNetty.WebApi）
+## 基于WebApi的消息业务处理程序
 
 通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdHttpHandlerBase去实现自定义的WebApi接口服务。
 
@@ -86,12 +86,12 @@
 | Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
 | Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
 | Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
-| Install-Package JT808.Gateway.Transmit | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
-| Install-Package JT808.Gateway.Traffic | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
-| Install-Package JT808.Gateway.SessionNotice | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
-| Install-Package JT808.Gateway.ReplyMessage | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)|
-| Install-Package JT808.Gateway.MsgLogging | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
-| Install-Package JT808.Gateway.MsgIdHandler | ![JT808](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
+| Install-Package JT808.Gateway.Transmit | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
+| Install-Package JT808.Gateway.Traffic | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
+| Install-Package JT808.Gateway.SessionNotice | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
+| Install-Package JT808.Gateway.ReplyMessage | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg) | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)|
+| Install-Package JT808.Gateway.MsgLogging | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
+| Install-Package JT808.Gateway.MsgIdHandler | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
 
 ## 举个栗子1
 
@@ -168,10 +168,23 @@ static async Task Main(string[] args)
             services.AddSingleton<ILoggerFactory, LoggerFactory>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddJT808Configure()
-                    .AddJT808Gateway()  
+                    //用于测试网关
+                    .AddJT808DevelopmentGateway()
+                    //用于生产环境
+                    //.AddJT808Gateway(options =>
+                    //{
+                    //    options.TcpPort=8086;
+                    //    options.UdpPort=8086;
+                    //    options.MessageQueueType = JT808MessageQueueType.InPlug;
+                    //})
                     .AddTcp()
                     .AddUdp()
-                    .AddGrpc();
+                    .AddGrpc()
+                    //kafka插件
+                    //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                    //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                    //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                    ;
             //services.AddHostedService<CallGrpcClientJob>();
         });
 

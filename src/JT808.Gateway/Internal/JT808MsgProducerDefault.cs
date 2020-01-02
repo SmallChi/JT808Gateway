@@ -19,10 +19,9 @@ namespace JT808.Gateway.Internal
         {
             
         }
-        public ValueTask ProduceAsync(string terminalNo, byte[] data)
+        public async ValueTask ProduceAsync(string terminalNo, byte[] data)
         {
-            JT808MsgService.MsgQueue.Add((terminalNo, data));
-            return default;
+            await JT808MsgService.WriteAsync(terminalNo, data);
         }
     }
 }
