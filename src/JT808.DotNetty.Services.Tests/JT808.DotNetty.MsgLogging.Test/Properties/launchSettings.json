@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "JT808.DotNetty.MsgLogging.Test": {
+      "commandName": "Project",
+      "commandLineArgs": "ASPNETCORE_ENVIRONMENT=Development",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
