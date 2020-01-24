@@ -1,5 +1,4 @@
-﻿using JT808.Gateway.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -34,10 +33,5 @@ namespace JT808.Gateway.Configurations
         /// Udp 60s检查一次
         /// </summary>
         public int UdpReceiveTimeoutCheckTimeSeconds { get; set; } = 60;
-        /// <summary>
-        /// 队列类型
-        /// 默认内存队列
-        /// </summary>
-        public JT808MessageQueueType MessageQueueType { get; set; } = JT808MessageQueueType.InMemory;
     }
 }

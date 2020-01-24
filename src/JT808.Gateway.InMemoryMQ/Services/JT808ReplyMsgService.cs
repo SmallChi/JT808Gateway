@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace JT808.Gateway.Internal
+namespace JT808.Gateway.InMemoryMQ.Services
 {
-    internal class JT808MsgService
+    public class JT808ReplyMsgService
     {
         private readonly Channel<(string TerminalNo, byte[] Data)> _channel;
 
-        public JT808MsgService()
+        public JT808ReplyMsgService()
         {
             _channel = Channel.CreateUnbounded<(string TerminalNo, byte[] Data)>();
         }

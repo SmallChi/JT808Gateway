@@ -16,14 +16,6 @@ namespace JT808.Gateway
 {
     public static partial class JT808GatewayExtensions
     {
-        public static IJT808GatewayBuilder AddJT808DevelopmentGateway(this IJT808Builder jt808Builder)
-        {
-            IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
-            server.JT808Builder.Services.TryAddSingleton<JT808Configuration>();
-            server.AddJT808Core();
-            return server;
-        }
-
         public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder,Action<JT808Configuration> config)
         {
             IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
@@ -63,10 +55,7 @@ namespace JT808.Gateway
         private static IJT808GatewayBuilder AddJT808Core(this IJT808GatewayBuilder config)
         {
             config.JT808Builder.Services.TryAddSingleton<JT808AtomicCounterServiceFactory>();
-            config.JT808Builder.Services.TryAddSingleton<IJT808MsgProducer, JT808MsgProducerDefault>();
-            config.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumerDefault>();
             config.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
-            config.JT808Builder.Services.TryAddSingleton<JT808MsgService>();
             config.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
             return config;
         }

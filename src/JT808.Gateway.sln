@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.Transmit", "J
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.Traffic", "JT808.Gateway.Services\JT808.Gateway.Traffic\JT808.Gateway.Traffic.csproj", "{8FCC6D65-8A49-4AE7-8B19-F255100849D6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.InMemoryMQ", "JT808.Gateway.InMemoryMQ\JT808.Gateway.InMemoryMQ.csproj", "{F7460E8F-B23E-4407-8802-375DE37BED00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{8FCC6D65-8A49-4AE7-8B19-F255100849D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FCC6D65-8A49-4AE7-8B19-F255100849D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FCC6D65-8A49-4AE7-8B19-F255100849D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7460E8F-B23E-4407-8802-375DE37BED00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7460E8F-B23E-4407-8802-375DE37BED00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7460E8F-B23E-4407-8802-375DE37BED00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7460E8F-B23E-4407-8802-375DE37BED00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

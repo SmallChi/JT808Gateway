@@ -11,7 +11,7 @@ namespace JT808.Gateway.Kafka
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="jT808NettyBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration">GetSection("JT808MsgProducerConfig")</param>
         /// <returns></returns>
         public static IJT808GatewayBuilder AddJT808ServerKafkaMsgProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
@@ -23,7 +23,7 @@ namespace JT808.Gateway.Kafka
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="jT808NettyBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration">GetSection("JT808MsgReplyConsumerConfig")</param>
         /// <returns></returns>
         public static IJT808GatewayBuilder AddJT808ServerKafkaMsgReplyConsumer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
@@ -35,7 +35,7 @@ namespace JT808.Gateway.Kafka
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="jT808NettyBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration">GetSection("JT808SessionProducerConfig")</param>
         /// <returns></returns>
         public static IJT808GatewayBuilder AddJT808ServerKafkaSessionProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)

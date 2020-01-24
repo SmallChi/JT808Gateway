@@ -7,6 +7,7 @@ using JT808.Gateway.GrpcService;
 using JT808.Gateway.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace JT808.Gateway
 {
@@ -18,11 +19,11 @@ namespace JT808.Gateway
         private Server server;
         public JT808GrpcServer(
                 IServiceProvider serviceProvider,
-                JT808Configuration jT808Configuration,
+                IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 ILoggerFactory loggerFactory)
         {
             Logger = loggerFactory.CreateLogger("JT808GrpcServer");
-            Configuration = jT808Configuration;
+            Configuration = jT808ConfigurationAccessor.Value;
             ServiceProvider = serviceProvider;
         }
 

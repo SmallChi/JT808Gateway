@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Enums;
 using JT808.Gateway.Configurations;
-using JT808.Gateway.Enums;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol;
@@ -18,6 +17,7 @@ using JT808.Protocol.Exceptions;
 using JT808.Protocol.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace JT808.Gateway
 {
@@ -38,7 +38,7 @@ namespace JT808.Gateway
         private readonly JT808Configuration Configuration;
 
         public JT808TcpServer(
-                JT808Configuration jT808Configuration,
+                IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 IJT808Config jT808Config,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager,
@@ -50,14 +50,14 @@ namespace JT808.Gateway
                 Serializer = jT808Config.GetSerializer();
                 MsgProducer = jT808MsgProducer;
                 AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
-                Configuration = jT808Configuration;
-                var IPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, jT808Configuration.TcpPort);
+                Configuration = jT808ConfigurationAccessor.Value;
+                var IPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.TcpPort);
                 server = new Socket(IPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
                 server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
                 server.LingerState = new LingerOption(false, 0);
                 server.Bind(IPEndPoint);
-                server.Listen(jT808Configuration.SoBacklog);
+                server.Listen(Configuration.SoBacklog);
             }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -104,6 +104,11 @@ namespace JT808.Gateway
                 catch(OperationCanceledException)
                 {
                     Logger.LogError($"[Receive Timeout]:{session.Client.RemoteEndPoint}");
+                    break;
+                }
+                catch (System.Net.Sockets.SocketException ex)
+                {
+                    Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message}]:{session.Client.RemoteEndPoint}");
                     break;
                 }
                 catch (Exception ex)
@@ -174,16 +179,8 @@ namespace JT808.Gateway
                             AtomicCounterService.MsgSuccessIncrement();
                             if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                             if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
-                            //设直连模式和转发模式的会话如何处理
                             SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
-                            if(Configuration.MessageQueueType == JT808MessageQueueType.InMemory)
-                            {
-                                MsgProducer.ProduceAsync(session.SessionID, package.OriginalData.ToArray());
-                            }
-                            else
-                            {
-                                MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
-                            }
+                            MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());  
                         }
                         catch (JT808Exception ex)
                         {

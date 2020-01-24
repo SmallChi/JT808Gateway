@@ -10,50 +10,52 @@ namespace JT808.Gateway.ReplyMessage
     public static class JT808ReplyMessageExtensions
     {
         /// <summary>
-        /// 独享消息应答服务（不同的消费者实例）
+        /// 消息应答服务（不同的消费者实例）
         /// </summary>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddInprocJT808ReplyMessage(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808ClientBuilder AddJT808InPlugReplyMessage(this IJT808ClientBuilder jT808ClientBuilder)
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageService>();
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
             return jT808ClientBuilder;
         }
         /// <summary>
-        /// 独享消息应答服务（不同的消费者实例）
+        /// 消息应答服务（不同的消费者实例）
         /// </summary>
         /// <typeparam name="TReplyMessageService">自定义消息回复服务</typeparam>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddInprocJT808ReplyMessage<TReplyMessageService>(this IJT808ClientBuilder jT808ClientBuilder)
-            where TReplyMessageService : JT808ReplyMessageService
+        public static IJT808ClientBuilder AddJT808InPlugReplyMessage<TReplyMessageHandler>(this IJT808ClientBuilder jT808ClientBuilder)
+            where TReplyMessageHandler : JT808ReplyMessageHandler
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageService,TReplyMessageService>();
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler, TReplyMessageHandler>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
             return jT808ClientBuilder;
         }
         /// <summary>
-        /// 共享消息应答服务（消费者单实例）
+        /// 消息应答服务（消费者单实例）
         /// </summary>
         /// <typeparam name="TReplyMessageService">自定义消息回复服务</typeparam>
-        /// <param name="jT808ClientBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddShareJT808ReplyMessage<TReplyMessageService>(this IJT808ClientBuilder jT808ClientBuilder)
-            where TReplyMessageService : JT808ReplyMessageService
+        public static IJT808GatewayBuilder AddJT808InMemoryReplyMessage<TReplyMessageHandler>(this IJT808GatewayBuilder jT808GatewayBuilder)
+            where TReplyMessageHandler : JT808ReplyMessageHandler
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageService, TReplyMessageService>();
-            return jT808ClientBuilder;
+            jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler, TReplyMessageHandler>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
+            return jT808GatewayBuilder;
         }
         /// <summary>
-        /// 共享消息应答服务（消费者单实例）
+        /// 消息应答服务（消费者单实例）
         /// </summary>
-        /// <param name="jT808ClientBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddShareJT808ReplyMessage(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808GatewayBuilder AddJT808InMemoryReplyMessage(this IJT808GatewayBuilder jT808GatewayBuilder)
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageService>();
-            return jT808ClientBuilder;
+            jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
+            return jT808GatewayBuilder;
         }
     }
 }

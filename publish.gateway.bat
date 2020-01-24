@@ -1,5 +1,6 @@
 dotnet pack .\src\JT808.Gateway\JT808.Gateway.csproj --no-build --output ../../nupkgs
 dotnet pack .\src\JT808.Gateway.Kafka\JT808.Gateway.Kafka.csproj --no-build --output ../../nupkgs
+dotnet pack .\src\JT808.Gateway.InMemoryMQ\JT808.Gateway.InMemoryMQ.csproj --no-build --output ../../nupkgs
 dotnet pack .\src\JT808.Gateway.Abstractions\JT808.Gateway.Abstractions.csproj --no-build --output ../../nupkgs
 
 echo 'push service pacakge...'

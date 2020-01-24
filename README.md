@@ -14,7 +14,7 @@
 
  [玩一玩压力测试](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/README.md)
 
-[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)[![Build Status](https://travis-ci.org/SmallChi/JT808DotNetty.svg?branch=master)](https://travis-ci.org/SmallChi/JT808DotNetty)
+[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)[![Build Status](https://travis-ci.org/SmallChi/JT808DotNetty.svg?branch=master)](https://travis-ci.org/SmallChi/JT808DotNetty)[![Github Build status](https://github.com/SmallChi/JT808Gateway/workflows/.NET%20Core/badge.svg)]()
 
 ## 新网关的优势
 
@@ -57,7 +57,7 @@
 
 ## 基于GRPC的消息业务处理程序
 
-[GRPC协议](https://github.com/SmallChi/JT808Gateway/blob/master/src/JT808.Gateway.Abstractions/Protos/JT808Gateway.proto)
+[GRPC消息业务处理协议](https://github.com/SmallChi/JT808Gateway/blob/master/src/JT808.Gateway.Abstractions/Protos/JT808Gateway.proto)
 
 ## 基于DotNetty的NuGet安装
 
@@ -86,6 +86,7 @@
 | Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
 | Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
 | Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
+| Install-Package JT808.Gateway.InMemoryMQ| ![JT808.Gateway.InMemoryMQ](https://img.shields.io/nuget/v/JT808.Gateway.InMemoryMQ.svg) | ![JT808.Gateway.InMemoryMQ](https://img.shields.io/nuget/dt/JT808.Gateway.InMemoryMQ.svg) |
 | Install-Package JT808.Gateway.Transmit | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
 | Install-Package JT808.Gateway.Traffic | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
 | Install-Package JT808.Gateway.SessionNotice | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
@@ -168,23 +169,23 @@ static async Task Main(string[] args)
             services.AddSingleton<ILoggerFactory, LoggerFactory>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddJT808Configure()
-                    //用于测试网关
-                    .AddJT808DevelopmentGateway()
-                    //用于生产环境
-                    //.AddJT808Gateway(options =>
-                    //{
-                    //    options.TcpPort=8086;
-                    //    options.UdpPort=8086;
-                    //    options.MessageQueueType = JT808MessageQueueType.InPlug;
-                    //})
-                    .AddTcp()
-                    .AddUdp()
-                    .AddGrpc()
-                    //kafka插件
-                    //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
-                    //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                    //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
-                    ;
+                //.AddJT808Gateway(options =>
+                //{
+                //    options.TcpPort = 808;
+                //    options.UdpPort = 808;
+                //})
+                .AddJT808Gateway(hostContext.Configuration)
+                .AddTcp()
+                .AddUdp()
+                .AddGrpc()
+                //InMemoryMQ
+                .AddJT808ServerInMemoryMQ()
+                .AddJT808InMemoryReplyMessage()
+                //kafka插件
+                //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                ;
             //services.AddHostedService<CallGrpcClientJob>();
         });
 

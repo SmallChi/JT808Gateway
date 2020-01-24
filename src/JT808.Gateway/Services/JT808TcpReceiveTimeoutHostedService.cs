@@ -2,6 +2,7 @@
 using JT808.Gateway.Session;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,14 +19,14 @@ namespace JT808.Gateway.Services
 
         private readonly JT808Configuration Configuration;
         public JT808TcpReceiveTimeoutHostedService(
-                JT808Configuration jT808Configuration,
+                IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager
             )
         {
             SessionManager = jT808SessionManager;
             Logger = loggerFactory.CreateLogger("JT808TcpReceiveTimeout");
-            Configuration = jT808Configuration;
+            Configuration = jT808ConfigurationAccessor.Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

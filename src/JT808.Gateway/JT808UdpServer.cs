@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Enums;
 using JT808.Gateway.Configurations;
-using JT808.Gateway.Enums;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol;
@@ -18,6 +17,7 @@ using JT808.Protocol.Exceptions;
 using JT808.Protocol.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace JT808.Gateway
 {
@@ -40,7 +40,7 @@ namespace JT808.Gateway
         private IPEndPoint LocalIPEndPoint;
 
         public JT808UdpServer(
-                JT808Configuration jT808Configuration,
+                IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 IJT808Config jT808Config,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager,
@@ -52,8 +52,8 @@ namespace JT808.Gateway
                 Serializer = jT808Config.GetSerializer();
                 MsgProducer = jT808MsgProducer;
                 AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
-                Configuration = jT808Configuration;
-                LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, jT808Configuration.UdpPort);
+                Configuration = jT808ConfigurationAccessor.Value;
+                LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.UdpPort);
                 server = new Socket(LocalIPEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
                 server.Bind(LocalIPEndPoint);
             }
@@ -95,20 +95,12 @@ namespace JT808.Gateway
                 AtomicCounterService.MsgSuccessIncrement();
                 if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {receiveMessageFromResult.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
-                //设直连模式和转发模式的会话如何处理
                 string sessionId= SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
                 if (Logger.IsEnabled(LogLevel.Information))
                 {
                     Logger.LogInformation($"[Connected]:{receiveMessageFromResult.RemoteEndPoint}");
                 }
-                if (Configuration.MessageQueueType == JT808MessageQueueType.InMemory)
-                {
-                    MsgProducer.ProduceAsync(sessionId, package.OriginalData.ToArray());
-                }
-                else
-                {
-                    MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
-                }
+                MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
             }
             catch (JT808Exception ex)
             {

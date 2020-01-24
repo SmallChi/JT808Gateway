@@ -23,7 +23,7 @@ namespace JT808.Gateway.Traffic
         {
             jT808MsgConsumer.Subscribe();
             jT808MsgConsumer.OnMessage((item)=> {
-                string str = item.Data.ToHexString();
+                //string str = item.Data.ToHexString();
                 jT808TrafficService.Processor(item.TerminalNo, item.Data.Length);
             });
             return Task.CompletedTask;

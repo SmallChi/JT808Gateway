@@ -1,0 +1,41 @@
+﻿name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@master
+      with:
+        dotnet-version: 3.1.101
+    - name: dotnet info
+      run: dotnet --info
+    - name: dotnet JT808.DotNetty restore
+      run: dotnet restore ./src/JT808.DotNetty.sln
+    - name: dotnet JT808.DotNetty.Core build
+      run: dotnet build ./src/JT808.DotNetty.Tests/JT808.DotNetty.Core.Test/JT808.DotNetty.Core.Test.csproj
+    - name: dotnet JT808.DotNetty.Core test
+      run: dotnet test ./src/JT808.DotNetty.Tests/JT808.DotNetty.Core.Test/JT808.DotNetty.Core.Test.csproj
+    - name: dotnet JT808.DotNetty.Tcp build
+      run: dotnet build ./src/JT808.DotNetty.Tests/JT808.DotNetty.Tcp.Test/JT808.DotNetty.Tcp.Test.csproj
+    - name: dotnet JT808.DotNetty.Tcp test
+      run: dotnet test ./src/JT808.DotNetty.Tests/JT808.DotNetty.Tcp.Test/JT808.DotNetty.Tcp.Test.csproj
+    - name: dotnet JT808.DotNetty.Udp build
+      run: dotnet build ./src/JT808.DotNetty.Tests/JT808.DotNetty.Udp.Test/JT808.DotNetty.Udp.Test.csproj
+    - name: dotnet JT808.DotNetty.Udp test
+      run: dotnet test ./src/JT808.DotNetty.Tests/JT808.DotNetty.Udp.Test/JT808.DotNetty.Udp.Test.csproj
+    - name: dotnet JT808.DotNetty.WebApi build
+      run: dotnet build ./src/JT808.DotNetty.Tests/JT808.DotNetty.WebApi.Test/JT808.DotNetty.WebApi.Test.csproj
+    - name: dotnet JT808.DotNetty.WebApi test
+      run: dotnet test ./src/JT808.DotNetty.Tests/JT808.DotNetty.WebApi.Test/JT808.DotNetty.WebApi.Test.csproj
+    - name: dotnet JT808.Gateway restore
+      run: dotnet restore ./src/JT808.Gateway.sln
+    - name: dotnet JT808.Gateway build
+      run: dotnet build ./src/JT808.Gateway.Test/JT808.Gateway.Test.csproj
+    - name: dotnet test
+      run: dotnet test ./src/JT808.Gateway.Test/JT808.Gateway.Test.csproj

@@ -8,20 +8,20 @@ namespace JT808.Gateway.ReplyMessage
     public class JT808ReplyMessageHostedService : IHostedService
     {
         private readonly IJT808MsgConsumer jT808MsgConsumer;
-        private readonly JT808ReplyMessageService jT808ReplyMessageService;
+        private readonly JT808ReplyMessageHandler jT808ReplyMessageHandler;
 
         public JT808ReplyMessageHostedService(
-            JT808ReplyMessageService jT808ReplyMessageService,
+            JT808ReplyMessageHandler jT808ReplyMessageHandler,
             IJT808MsgConsumer jT808MsgConsumer)
         {
             this.jT808MsgConsumer = jT808MsgConsumer;
-            this.jT808ReplyMessageService = jT808ReplyMessageService;
+            this.jT808ReplyMessageHandler = jT808ReplyMessageHandler;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Subscribe();
-            jT808MsgConsumer.OnMessage(jT808ReplyMessageService.Processor);
+            jT808MsgConsumer.OnMessage(jT808ReplyMessageHandler.Processor);
             return Task.CompletedTask;
         }
 
