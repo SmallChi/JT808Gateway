@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JT808.Gateway.Client\JT808.Gateway.Client.csproj" />
     <ProjectReference Include="..\JT808.Gateway.InMemoryMQ\JT808.Gateway.InMemoryMQ.csproj" />
     <ProjectReference Include="..\JT808.Gateway.Kafka\JT808.Gateway.Kafka.csproj" />
     <ProjectReference Include="..\JT808.Gateway.Services\JT808.Gateway.ReplyMessage\JT808.Gateway.ReplyMessage.csproj" />

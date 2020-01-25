@@ -41,15 +41,11 @@ namespace JT808.DotNetty.Client
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.Group(group);
             bootstrap.Channel<TcpSocketChannel>();
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                bootstrap.Option(ChannelOption.SoReuseport, true);
-            }
             bootstrap
-               .Option(ChannelOption.SoBacklog, 8192)
+               .Option(ChannelOption.Allocator, new PooledByteBufferAllocator())
                .Handler(new ActionChannelInitializer<IChannel>(channel =>
                {
-                   channel.Pipeline.AddLast("jt808TcpBuffer", new DelimiterBasedFrameDecoder(int.MaxValue,
+                   channel.Pipeline.AddLast("jt808TcpBuffer", new DelimiterBasedFrameDecoder(65535,
                         Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.BeginFlag }),
                         Unpooled.CopiedBuffer(new byte[] { JT808.Protocol.JT808Package.EndFlag })));
                    channel.Pipeline.AddLast("systemIdleState", new IdleStateHandler(60, deviceConfig.Heartbeat, 3600));

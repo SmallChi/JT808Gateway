@@ -86,7 +86,7 @@ namespace JT808.Gateway.Test
         [Fact]
         public void Test3()
         {
-            Assert.Throws<Exception>(() => 
+            Assert.Throws<ArgumentException>(() => 
             {
                 var reader = new ReadOnlySequence<byte>(new byte[] { 0, 1, 2, 0x7E });
                 SequenceReader<byte> seqReader = new SequenceReader<byte>(reader);

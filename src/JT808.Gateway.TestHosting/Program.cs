@@ -10,6 +10,7 @@ using JT808.Gateway.TestHosting.Jobs;
 using JT808.Gateway.Kafka;
 using JT808.Gateway.InMemoryMQ;
 using JT808.Gateway.ReplyMessage;
+using JT808.Gateway.Client;
 
 namespace JT808.Gateway.TestHosting
 {
@@ -36,6 +37,7 @@ namespace JT808.Gateway.TestHosting
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
+                            //.AddJT808Client()
                             //.AddJT808Gateway(options =>
                             //{
                             //    options.TcpPort = 808;
@@ -53,7 +55,10 @@ namespace JT808.Gateway.TestHosting
                             //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
                             //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
                             ;
+                    //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();
+                    //客户端测试
+                    //services.AddHostedService<UpJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();
