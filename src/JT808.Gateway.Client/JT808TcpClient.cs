@@ -23,6 +23,7 @@ namespace JT808.Gateway.Client
         private readonly JT808Serializer JT808Serializer;
         private readonly JT808SendAtomicCounterService SendAtomicCounterService;
         private readonly JT808ReceiveAtomicCounterService ReceiveAtomicCounterService;
+        private bool socketState = true;
         public JT808DeviceConfig DeviceConfig { get; }
         public JT808TcpClient(
             JT808DeviceConfig deviceConfig,
@@ -47,32 +48,29 @@ namespace JT808.Gateway.Client
                 return false;
             }
         }
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async void StartAsync(CancellationToken cancellationToken)
         {
-            Task.Run(async () => {
-                await Task.Factory.StartNew(async (state) =>
+            await Task.Factory.StartNew(async (state) =>
+            {
+                var session = (Socket)state;
+                if (Logger.IsEnabled(LogLevel.Information))
                 {
-                    var session = (Socket)state;
-                    if (Logger.IsEnabled(LogLevel.Information))
-                    {
-                        Logger.LogInformation($"[Connected]:{session.LocalEndPoint} to {session.RemoteEndPoint}");
-                    }
-                    var pipe = new Pipe();
-                    Task writing = FillPipeAsync(session, pipe.Writer);
-                    Task reading = ReadPipeAsync(session, pipe.Reader);
-                    await Task.WhenAll(reading, writing);
-                }, clientSocket);
-            }, cancellationToken);
-            return Task.CompletedTask;
+                    Logger.LogInformation($"[Connected]:{session.LocalEndPoint} to {session.RemoteEndPoint}");
+                }
+                var pipe = new Pipe();
+                Task writing = FillPipeAsync(session, pipe.Writer, cancellationToken);
+                Task reading = ReadPipeAsync(session, pipe.Reader);
+                await Task.WhenAll(reading, writing);
+            }, clientSocket);
         }
-        private async Task FillPipeAsync(Socket session, PipeWriter writer)
+        private async Task FillPipeAsync(Socket session, PipeWriter writer, CancellationToken cancellationToken)
         {
             while (true)
             {
                 try
                 {
                     Memory<byte> memory = writer.GetMemory(10240);
-                    int bytesRead = await session.ReceiveAsync(memory, SocketFlags.None);
+                    int bytesRead = await session.ReceiveAsync(memory, SocketFlags.None, cancellationToken);
                     if (bytesRead == 0)
                     {
                         break;
@@ -181,7 +179,7 @@ namespace JT808.Gateway.Client
         public void Send(JT808ClientRequest message)
         {
             if (disposed) return;
-            if (IsOpen)
+            if (IsOpen && socketState)
             {
                 if (message.Package != null)
                 {
@@ -193,7 +191,8 @@ namespace JT808.Gateway.Client
                     }
                     catch (System.Net.Sockets.SocketException ex)
                     {
-                        Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message}]");
+                        socketState = false;
+                        Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message},{DeviceConfig.TerminalPhoneNo}]");
                     }
                     catch (System.Exception ex)
                     {
@@ -202,8 +201,20 @@ namespace JT808.Gateway.Client
                 }
                 else if (message.HexData != null)
                 {
-                    clientSocket.Send(message.HexData);
-                    SendAtomicCounterService.MsgSuccessIncrement();
+                    try
+                    {
+                        clientSocket.Send(message.HexData);
+                        SendAtomicCounterService.MsgSuccessIncrement();
+                    }
+                    catch (System.Net.Sockets.SocketException ex)
+                    {
+                        socketState = false;
+                        Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message},{DeviceConfig.TerminalPhoneNo}]");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Logger.LogError(ex.Message);
+                    }
                 }
             }
         }
@@ -260,7 +271,7 @@ namespace JT808.Gateway.Client
                 if (disposed) return false;
                 if (clientSocket != null)
                 {
-                    return clientSocket.Connected;
+                    return clientSocket.Connected && socketState;
                 }
                 return false;
             } 

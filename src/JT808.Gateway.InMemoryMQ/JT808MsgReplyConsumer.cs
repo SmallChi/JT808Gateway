@@ -28,16 +28,14 @@ namespace JT808.Gateway.InMemoryMQ
 
         public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
         {
-            Task.Run(() =>
+            Task.Run(async() =>
             {
                 while (!Cts.IsCancellationRequested)
                 {
                     try
                     {
-                        if (JT808ReplyMsgService.TryRead(out var item))
-                        {
-                            callback(item);
-                        }
+                       var item= await JT808ReplyMsgService.ReadAsync(Cts.Token);
+                        callback(item);
                     }
                     catch (Exception ex)
                     {

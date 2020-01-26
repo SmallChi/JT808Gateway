@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,8 +24,6 @@ namespace JT808.Gateway.CleintBenchmark.Services
         private readonly ILogger logger;
 
         private readonly IJT808TcpClientFactory jT808TcpClientFactory;
-
-        private ConcurrentQueue<string> failDeviceNoQueue;
 
         public CleintBenchmarkHostedService(
             ILoggerFactory loggerFactory,
@@ -42,49 +41,18 @@ namespace JT808.Gateway.CleintBenchmark.Services
             ThreadPool.GetMaxThreads(out var maxWorkerThreads, out var maxCompletionPortThreads);
             logger.LogInformation($"GetMinThreads:{minWorkerThreads}-{minCompletionPortThreads}");
             logger.LogInformation($"GetMaxThreads:{maxWorkerThreads}-{maxCompletionPortThreads}");
-            //先建立连接
-            failDeviceNoQueue = new ConcurrentQueue<string>();
             for (int i=0;i< clientBenchmarkOptions.DeviceCount; i++)
             {
                 string deviceNo = (i + 1 + clientBenchmarkOptions.DeviceTemplate).ToString();
                 var client = jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo, 
                     clientBenchmarkOptions.IP, 
                     clientBenchmarkOptions.Port), cancellationToken);
-                if (client == null)
-                {
-                    failDeviceNoQueue.Enqueue(deviceNo);
-                }
             }
-            int successCount = clientBenchmarkOptions.DeviceCount - failDeviceNoQueue.Count;
-            logger.LogInformation($"总连接数:{clientBenchmarkOptions.DeviceCount}");
-            logger.LogInformation($"已建立连接数:{successCount}");
-            logger.LogInformation($"失败连接数:{failDeviceNoQueue.Count}");
-            Task.Run(() => {
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    if(failDeviceNoQueue.TryDequeue(out string deviceNo))
-                    {
-                        logger.LogInformation($"尝试重连{deviceNo}...");
-                        var client = jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo,
-                                               clientBenchmarkOptions.IP,
-                                               clientBenchmarkOptions.Port), cancellationToken);
-                        if (client == null)
-                        {
-                            failDeviceNoQueue.Enqueue(deviceNo);
-                        }
-                        Thread.Sleep(1000);
-                    }
-                    else
-                    {
-                        Thread.Sleep(3000);
-                    }
-                }
-            }, cancellationToken);
             ThreadPool.QueueUserWorkItem((state) =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    Parallel.ForEach(jT808TcpClientFactory.GetAll(), new ParallelOptions { MaxDegreeOfParallelism = 100 }, (item) =>
+                    foreach (var item in jT808TcpClientFactory.GetAll())
                     {
                         try
                         {
@@ -106,8 +74,8 @@ namespace JT808.Gateway.CleintBenchmark.Services
                         {
                             logger.LogError(ex.Message);
                         }
-                    });
-                    Thread.Sleep(clientBenchmarkOptions.Interval);
+                    }
+                    Thread.Sleep(100);
                 }
             });
             return Task.CompletedTask;

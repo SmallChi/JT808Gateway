@@ -41,7 +41,7 @@ namespace JT808.Gateway.Client
                 var successed= await jT808TcpClient.ConnectAsync(new IPEndPoint(IPAddress.Parse(deviceConfig.TcpHost), deviceConfig.TcpPort));
                 if (successed)
                 {
-                    await jT808TcpClient.StartAsync(cancellationToken);
+                    jT808TcpClient.StartAsync(cancellationToken);
                     dict.TryAdd(deviceConfig.TerminalPhoneNo, jT808TcpClient);
                     return jT808TcpClient;
                 }

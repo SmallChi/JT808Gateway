@@ -1,4 +1,4 @@
-﻿pm2 start "dotnet JT808.DotNetty.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Production" --max-restarts=1 -n "JT808.DotNetty.CleintBenchmark" -o "/data/pm2Logs/JT808.DotNetty.CleintBenchmark/out.log" -e "/data/pm2Logs/JT808.DotNetty.CleintBenchmark/error.log"
+﻿pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Production" --max-restarts=1 -n "JT808.Gateway.CleintBenchmark" -o "/data/pm2Logs/JT808.Gateway.CleintBenchmark/out.log" -e "/data/pm2Logs/JT808.Gateway.CleintBenchmark/error.log"
 
 
 pm2 start "dotnet JT808.Gateway.TestHosting.dll ASPNETCORE_ENVIRONMENT=Production" --max-restarts=1 -n "JT808.Gateway.808" -o "/data/pm2Logs/JT808.Gateway/out.log" -e "/data/pm2Logs/JT808.Gateway/error.log"

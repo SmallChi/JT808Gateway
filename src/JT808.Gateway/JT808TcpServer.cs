@@ -173,9 +173,11 @@ namespace JT808.Gateway
                 {
                     if (mark == 1)
                     {
+                        ReadOnlySpan<byte> contentSpan=ReadOnlySpan<byte>.Empty;
                         try
                         {
-                            var package = Serializer.HeaderDeserialize(seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan);
+                            contentSpan = seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan;
+                            var package = Serializer.HeaderDeserialize(contentSpan,minBufferSize:10240);
                             AtomicCounterService.MsgSuccessIncrement();
                             if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                             if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
@@ -185,8 +187,8 @@ namespace JT808.Gateway
                         catch (JT808Exception ex)
                         {
                             AtomicCounterService.MsgFailIncrement();
-                            if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Fail Counter]:{AtomicCounterService.MsgFailCount}");
-                            Logger.LogError(ex,$"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode}"); 
+                            if (Logger.IsEnabled(LogLevel.Information)) Logger.LogInformation($"[Atomic Fail Counter]:{AtomicCounterService.MsgFailCount}");
+                            Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{contentSpan.ToArray().ToHexString()}"); 
                         }
                         totalConsumed += (seqReader.Consumed - totalConsumed);
                         if (seqReader.End) break;
