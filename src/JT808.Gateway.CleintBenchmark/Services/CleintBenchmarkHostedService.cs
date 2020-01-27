@@ -75,7 +75,7 @@ namespace JT808.Gateway.CleintBenchmark.Services
                             logger.LogError(ex.Message);
                         }
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(clientBenchmarkOptions.Interval);
                 }
             });
             return Task.CompletedTask;

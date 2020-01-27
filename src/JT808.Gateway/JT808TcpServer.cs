@@ -23,7 +23,7 @@ namespace JT808.Gateway
 {
     public class JT808TcpServer:IHostedService
     {
-        private Socket server;
+        private readonly Socket server;
 
         private readonly ILogger Logger;
 
@@ -101,7 +101,7 @@ namespace JT808.Gateway
                     }
                     writer.Advance(bytesRead);
                 }
-                catch(OperationCanceledException)
+                catch(OperationCanceledException ex)
                 {
                     Logger.LogError($"[Receive Timeout]:{session.Client.RemoteEndPoint}");
                     break;
@@ -111,11 +111,13 @@ namespace JT808.Gateway
                     Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message}]:{session.Client.RemoteEndPoint}");
                     break;
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, $"[Receive Error]:{session.Client.RemoteEndPoint}");
                     break;
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
                 FlushResult result = await writer.FlushAsync();
                 if (result.IsCompleted)
                 {
@@ -144,11 +146,13 @@ namespace JT808.Gateway
                         ReaderBuffer(ref buffer, session,out consumed, out examined);
                     }
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     SessionManager.RemoveBySessionId(session.SessionID);
                     break;
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
                 finally
                 {
                     reader.AdvanceTo(consumed, examined);

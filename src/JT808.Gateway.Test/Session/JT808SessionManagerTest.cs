@@ -108,10 +108,10 @@ namespace JT808.Gateway.Test.Session
             var result3 = jT808SessionManager.TryAdd(session3);
             jT808SessionManager.TryLink(tno2, session3);
             Assert.True(result3);
-            if (jT808SessionManager.TerminalPhoneNoSessions.TryGetValue(tno2,out string sessionid))
+            if (jT808SessionManager.TerminalPhoneNoSessions.TryGetValue(tno2,out var sessionInfo))
             {
                 //实际的通道Id
-                Assert.Equal(session3.SessionID, sessionid);
+                Assert.Equal(session3.SessionID, sessionInfo.SessionID);
             }
             Assert.Equal(3, jT808SessionManager.TotalSessionCount);
             Assert.Equal(3, jT808SessionManager.TerminalPhoneNoSessions.Count);

@@ -23,7 +23,7 @@ namespace JT808.Gateway
 {
     public class JT808UdpServer : IHostedService
     {
-        private Socket server;
+        private readonly Socket server;
 
         private readonly ILogger Logger;
 
@@ -37,7 +37,7 @@ namespace JT808.Gateway
 
         private readonly JT808Configuration Configuration;
 
-        private IPEndPoint LocalIPEndPoint;
+        private readonly IPEndPoint LocalIPEndPoint;
 
         public JT808UdpServer(
                 IOptions<JT808Configuration> jT808ConfigurationAccessor,
@@ -75,10 +75,12 @@ namespace JT808.Gateway
                     {
                         Logger.LogError(ex, "Receive MessageFrom Async");
                     }
-                    catch(Exception ex)
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (Exception ex)
                     {
                         Logger.LogError(ex, $"Received Bytes");
                     }
+#pragma warning restore CA1031 // Do not catch general exception types
                     finally
                     {
                         ArrayPool<byte>.Shared.Return(buffer);
@@ -91,11 +93,11 @@ namespace JT808.Gateway
         {
             try
             {
-                var package = Serializer.HeaderDeserialize(buffer);
+                var package = Serializer.HeaderDeserialize(buffer, minBufferSize: 10240);
                 AtomicCounterService.MsgSuccessIncrement();
                 if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {receiveMessageFromResult.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
-                string sessionId= SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
+                SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
                 if (Logger.IsEnabled(LogLevel.Information))
                 {
                     Logger.LogInformation($"[Connected]:{receiveMessageFromResult.RemoteEndPoint}");
@@ -108,11 +110,13 @@ namespace JT808.Gateway
                 if (Logger.IsEnabled(LogLevel.Information)) Logger.LogInformation($"[Atomic Fail Counter]:{AtomicCounterService.MsgFailCount}");
                 Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{buffer.ToArray().ToHexString()}");
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Fail Counter]:{AtomicCounterService.MsgFailCount}");
                 Logger.LogError(ex, $"[ReaderBuffer]:{ buffer.ToArray().ToHexString()}");
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
         public Task StopAsync(CancellationToken cancellationToken)
         {

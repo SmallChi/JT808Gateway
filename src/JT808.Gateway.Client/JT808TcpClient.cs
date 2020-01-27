@@ -69,7 +69,7 @@ namespace JT808.Gateway.Client
             {
                 try
                 {
-                    Memory<byte> memory = writer.GetMemory(10240);
+                    Memory<byte> memory = writer.GetMemory(80960);
                     int bytesRead = await session.ReceiveAsync(memory, SocketFlags.None, cancellationToken);
                     if (bytesRead == 0)
                     {
@@ -146,7 +146,7 @@ namespace JT808.Gateway.Client
                     {
                         try
                         {
-                            var package = JT808Serializer.HeaderDeserialize(seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan);
+                            var package = JT808Serializer.HeaderDeserialize(seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan,minBufferSize:10240);
                             ReceiveAtomicCounterService.MsgSuccessIncrement();
                             if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{ReceiveAtomicCounterService.MsgSuccessCount}");
                             if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");

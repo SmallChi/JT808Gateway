@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JT808.Gateway.Session
 {
@@ -22,7 +20,7 @@ namespace JT808.Gateway.Session
         private readonly ILogger logger;
         private readonly IJT808SessionProducer JT808SessionProducer;
         public ConcurrentDictionary<string, IJT808Session> Sessions { get; }
-        public ConcurrentDictionary<string, string> TerminalPhoneNoSessions { get; }
+        public ConcurrentDictionary<string, IJT808Session> TerminalPhoneNoSessions { get; }
         public JT808SessionManager(
             IJT808SessionProducer jT808SessionProducer,
             ILoggerFactory loggerFactory
@@ -30,14 +28,14 @@ namespace JT808.Gateway.Session
         {
             JT808SessionProducer = jT808SessionProducer;
             Sessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
-            TerminalPhoneNoSessions = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            TerminalPhoneNoSessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
             logger = loggerFactory.CreateLogger("JT808SessionManager");
         }
 
         public JT808SessionManager(ILoggerFactory loggerFactory)
         {
             Sessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
-            TerminalPhoneNoSessions = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            TerminalPhoneNoSessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
             logger = loggerFactory.CreateLogger("JT808SessionManager");
         }
 
@@ -67,40 +65,44 @@ namespace JT808.Gateway.Session
 
         internal void TryLink(string terminalPhoneNo, IJT808Session session)
         {
-            session.ActiveTime = DateTime.Now;
+            DateTime curretDatetime= DateTime.Now;
+            session.ActiveTime = curretDatetime;
             session.TerminalPhoneNo = terminalPhoneNo;
             Sessions.TryUpdate(session.SessionID, session, session);
-            TerminalPhoneNoSessions.AddOrUpdate(terminalPhoneNo, session.SessionID, (key, oldValue)=> 
+            TerminalPhoneNoSessions.AddOrUpdate(terminalPhoneNo, session, (key, oldValue)=> 
             {
-                if(session.SessionID!= oldValue)
+                if(session.SessionID!= oldValue.SessionID)
                 {
                     //会话通知
                     JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOnline, key);
-                    return session.SessionID;
+                    return session;
+                }
+                else
+                {
+                    oldValue.StartTime = curretDatetime;
                 }
                 return oldValue;
             });
         }
 
-        public string TryLink(string terminalPhoneNo, Socket socket, EndPoint remoteEndPoint)
+        public IJT808Session TryLink(string terminalPhoneNo, Socket socket, EndPoint remoteEndPoint)
         {
-            string sessionId = string.Empty;
-            if(TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo,out sessionId))
+            if (TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo, out IJT808Session currentSession))
             {
-                if (Sessions.TryGetValue(sessionId, out IJT808Session sessionInfo))
+                if (Sessions.TryGetValue(currentSession.SessionID, out IJT808Session sessionInfo))
                 {
                     sessionInfo.ActiveTime = DateTime.Now;
                     sessionInfo.TerminalPhoneNo = terminalPhoneNo;
                     sessionInfo.RemoteEndPoint = remoteEndPoint;
-                    Sessions.TryUpdate(sessionId, sessionInfo, sessionInfo);
+                    Sessions.TryUpdate(currentSession.SessionID, sessionInfo, sessionInfo);
                 }
             }
             else
             {
                 JT808UdpSession session = new JT808UdpSession(socket, remoteEndPoint);
                 Sessions.TryAdd(session.SessionID, session);
-                TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session.SessionID);
-                sessionId = session.SessionID;
+                TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session);
+                currentSession = session;
             }
             //会话通知
             //使用场景：
@@ -108,7 +110,7 @@ namespace JT808.Gateway.Session
             //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
             //有设备关联上来可以进行通知 例如：使用Redis发布订阅
             JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
-            return sessionId;
+            return currentSession;
         }
 
         internal bool TryAdd(IJT808Session session)
@@ -118,24 +120,17 @@ namespace JT808.Gateway.Session
 
         public bool TrySendByTerminalPhoneNo(string terminalPhoneNo, byte[] data)
         {
-            if(TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo,out var sessionid))
+            if(TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo,out var session))
             {
-                if (Sessions.TryGetValue(sessionid, out var session))
+                if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
                 {
-                    if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
-                    {
-                        session.Client.Send(data, SocketFlags.None);
-                    }
-                    else
-                    {
-                        session.Client.SendTo(data, SocketFlags.None, session.RemoteEndPoint);
-                    }
-                    return true;
+                    session.Client.Send(data, SocketFlags.None);
                 }
                 else
                 {
-                    return false;
+                    session.Client.SendTo(data, SocketFlags.None, session.RemoteEndPoint);
                 }
+                return true;
             }
             else
             {
@@ -165,11 +160,11 @@ namespace JT808.Gateway.Session
 
         public void RemoveByTerminalPhoneNo(string terminalPhoneNo)
         {
-            if (TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo, out var removeSessionId))
+            if (TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo, out var removeTerminalPhoneNoSessions))
             {
                 // 处理转发过来的是数据 这时候通道对设备是1对多关系,需要清理垃圾数据
                 //1.用当前会话的通道Id找出通过转发过来的其他设备的终端号
-                var terminalPhoneNos = TerminalPhoneNoSessions.Where(w => w.Value == removeSessionId).Select(s => s.Key).ToList();
+                var terminalPhoneNos = TerminalPhoneNoSessions.Where(w => w.Value.SessionID == removeTerminalPhoneNoSessions.SessionID).Select(s => s.Key).ToList();
                 //2.存在则一个个移除 
                 string tmpTerminalPhoneNo = terminalPhoneNo;
                 if (terminalPhoneNos.Count > 0)
@@ -181,10 +176,10 @@ namespace JT808.Gateway.Session
                     }
                     tmpTerminalPhoneNo = string.Join(",", terminalPhoneNos);
                 }
-                if (Sessions.TryRemove(removeSessionId, out var removeSession))
+                if (Sessions.TryRemove(removeTerminalPhoneNoSessions.SessionID, out var removeSession))
                 {
                     removeSession.Close();
-                    if(logger.IsEnabled(LogLevel.Information))
+                    if (logger.IsEnabled(LogLevel.Information))
                         logger.LogInformation($"[Session Remove]:{terminalPhoneNo}-{tmpTerminalPhoneNo}");
                     JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
                 }
@@ -193,9 +188,9 @@ namespace JT808.Gateway.Session
 
         public void RemoveBySessionId(string sessionId)
         {
-            if(Sessions.TryRemove(sessionId,out var removeSession))
+            if (Sessions.TryRemove(sessionId, out var removeSession))
             {
-                var terminalPhoneNos = TerminalPhoneNoSessions.Where(w => w.Value == sessionId).Select(s => s.Key).ToList();
+                var terminalPhoneNos = TerminalPhoneNoSessions.Where(w => w.Value.SessionID == sessionId).Select(s => s.Key).ToList();
                 if (terminalPhoneNos.Count > 0)
                 {
                     foreach (var item in terminalPhoneNos)
