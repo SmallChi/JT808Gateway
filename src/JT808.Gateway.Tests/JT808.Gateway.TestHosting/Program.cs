@@ -37,23 +37,24 @@ namespace JT808.Gateway.TestHosting
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
-                            //.AddJT808Client()
-                            //.AddJT808Gateway(options =>
-                            //{
-                            //    options.TcpPort = 808;
-                            //    options.UdpPort = 808;
-                            //})                            
-                            .AddJT808Gateway(hostContext.Configuration)
+                            //添加客户端工具
+                            //.AddClient()
+                            //.AddGateway(options =>
+                            ////{
+                            ////    options.TcpPort = 808;
+                            ////    options.UdpPort = 808;
+                            ////})                            
+                            .AddGateway(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp()
                             .AddGrpc()
                             //InMemoryMQ
-                            .AddJT808ServerInMemoryMQ()
-                            .AddJT808InMemoryReplyMessage()
+                            .AddServerInMemoryMQ()
+                            .AddInMemoryReplyMessage()
                             //kafka插件
-                            //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
-                            //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                            //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
+                            //.AddServerKafkaMsgProducer(hostContext.Configuration)
+                            //.AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                            //.AddServerKafkaSessionProducer(hostContext.Configuration)
                             ;
                     //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();

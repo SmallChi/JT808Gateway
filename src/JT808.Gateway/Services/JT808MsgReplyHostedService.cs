@@ -2,6 +2,9 @@
 using JT808.Gateway.Configurations;
 using JT808.Gateway.Session;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +15,7 @@ namespace JT808.Gateway.Services
         private readonly JT808SessionManager JT808SessionManager;
 
         private readonly IJT808MsgReplyConsumer JT808MsgReplyConsumer;
+
         public JT808MsgReplyHostedService(
             IJT808MsgReplyConsumer jT808MsgReplyConsumer,
             JT808SessionManager jT808SessionManager)
@@ -22,9 +26,9 @@ namespace JT808.Gateway.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            JT808MsgReplyConsumer.OnMessage(item =>
+            JT808MsgReplyConsumer.OnMessage(async(item) =>
             {
-                JT808SessionManager.TrySendByTerminalPhoneNo(item.TerminalNo, item.Data);
+                await JT808SessionManager.TrySendByTerminalPhoneNoAsync(item.TerminalNo, item.Data);
             });
             JT808MsgReplyConsumer.Subscribe();
             return Task.CompletedTask;    

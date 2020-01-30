@@ -22,7 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\JT808.Gateway.Client\JT808.Gateway.Client.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\echarts.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

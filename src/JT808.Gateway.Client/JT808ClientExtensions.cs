@@ -10,7 +10,7 @@ namespace JT808.Gateway.Client
 {
     public static  class JT808ClientExtensions
     {
-        public static IJT808Builder AddJT808Client(this IJT808Builder jT808Builder)
+        public static IJT808Builder AddClient(this IJT808Builder jT808Builder)
         {
             jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
             jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
@@ -19,7 +19,7 @@ namespace JT808.Gateway.Client
             jT808Builder.Services.AddHostedService<JT808ReportHostedService>();
             return jT808Builder;
         }
-        public static IJT808Builder AddJT808Client(this IJT808Builder  jT808Builder, IConfiguration Configuration)
+        public static IJT808Builder AddClient(this IJT808Builder  jT808Builder, IConfiguration Configuration)
         {
             jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
             jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
@@ -29,7 +29,7 @@ namespace JT808.Gateway.Client
             return jT808Builder;
         }
 
-        public static IJT808Builder AddJT808Client(this IJT808Builder jT808Builder, Action<JT808ReportOptions> reportOptions)
+        public static IJT808Builder AddClient(this IJT808Builder jT808Builder, Action<JT808ReportOptions> reportOptions)
         {
             jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
             jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();

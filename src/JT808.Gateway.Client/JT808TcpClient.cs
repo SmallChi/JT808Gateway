@@ -176,7 +176,7 @@ namespace JT808.Gateway.Client
                 consumed = buffer.GetPosition(totalConsumed);
             }
         }
-        public void Send(JT808ClientRequest message)
+        public async ValueTask SendAsync(JT808ClientRequest message)
         {
             if (disposed) return;
             if (IsOpen && socketState)
@@ -185,8 +185,9 @@ namespace JT808.Gateway.Client
                 {
                     try
                     {
-                        var sendData = JT808Serializer.SerializeReadOnlySpan(message.Package, minBufferSize: message.MinBufferSize);
-                        clientSocket.Send(sendData);
+                        var sendData = JT808Serializer.Serialize(message.Package, minBufferSize: message.MinBufferSize);
+                        //clientSocket.Send(sendData);
+                        await clientSocket.SendAsync(sendData, SocketFlags.None);
                         SendAtomicCounterService.MsgSuccessIncrement();
                     }
                     catch (System.Net.Sockets.SocketException ex)

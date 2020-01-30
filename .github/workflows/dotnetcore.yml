@@ -36,6 +36,6 @@ jobs:
     - name: dotnet JT808.Gateway restore
       run: dotnet restore ./src/JT808.Gateway.sln
     - name: dotnet JT808.Gateway build
-      run: dotnet build ./src/JT808.Gateway.Test/JT808.Gateway.Test.csproj
+      run: dotnet build ./src/JT808.Gateway.Tests/JT808.Gateway.Test/JT808.Gateway.Test.csproj
     - name: dotnet JT808.Gateway test
-      run: dotnet test ./src/JT808.Gateway.Test/JT808.Gateway.Test.csproj
+      run: dotnet test ./src/JT808.Gateway.Tests/JT808.Gateway.Test/JT808.Gateway.Test.csproj

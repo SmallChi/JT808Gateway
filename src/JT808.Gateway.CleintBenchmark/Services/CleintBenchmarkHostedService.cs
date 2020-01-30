@@ -25,6 +25,8 @@ namespace JT808.Gateway.CleintBenchmark.Services
 
         private readonly IJT808TcpClientFactory jT808TcpClientFactory;
 
+        private TaskFactory taskFactory;
+
         public CleintBenchmarkHostedService(
             ILoggerFactory loggerFactory,
             IJT808TcpClientFactory jT808TcpClientFactory,
@@ -33,6 +35,7 @@ namespace JT808.Gateway.CleintBenchmark.Services
             this.jT808TcpClientFactory = jT808TcpClientFactory;
             clientBenchmarkOptions = clientBenchmarkOptionsAccessor.Value;
             logger = loggerFactory.CreateLogger("CleintBenchmarkHostedService");
+
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -41,24 +44,21 @@ namespace JT808.Gateway.CleintBenchmark.Services
             ThreadPool.GetMaxThreads(out var maxWorkerThreads, out var maxCompletionPortThreads);
             logger.LogInformation($"GetMinThreads:{minWorkerThreads}-{minCompletionPortThreads}");
             logger.LogInformation($"GetMaxThreads:{maxWorkerThreads}-{maxCompletionPortThreads}");
+            taskFactory = new TaskFactory(cancellationToken);
             for (int i=0;i< clientBenchmarkOptions.DeviceCount; i++)
             {
-                string deviceNo = (i + 1 + clientBenchmarkOptions.DeviceTemplate).ToString();
-                var client = jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo, 
-                    clientBenchmarkOptions.IP, 
-                    clientBenchmarkOptions.Port), cancellationToken);
-            }
-            ThreadPool.QueueUserWorkItem((state) =>
-            {
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    foreach (var item in jT808TcpClientFactory.GetAll())
+                taskFactory.StartNew(async (state) => {
+                    string deviceNo = ((int)state + 1 + clientBenchmarkOptions.DeviceTemplate).ToString();
+                    var client = await jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo,
+                        clientBenchmarkOptions.IP,
+                        clientBenchmarkOptions.Port), cancellationToken);
+                    while (!cancellationToken.IsCancellationRequested)
                     {
                         try
                         {
                             int lat = new Random(1000).Next(100000, 180000);
                             int Lng = new Random(1000).Next(100000, 180000);
-                            item.Send(JT808MsgId.位置信息汇报.Create(item.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
                             {
                                 Lat = lat,
                                 Lng = Lng,
@@ -74,10 +74,10 @@ namespace JT808.Gateway.CleintBenchmark.Services
                         {
                             logger.LogError(ex.Message);
                         }
+                        await Task.Delay(clientBenchmarkOptions.Interval);
                     }
-                    Thread.Sleep(clientBenchmarkOptions.Interval);
-                }
-            });
+                }, i);
+            }
             return Task.CompletedTask;
         }
 

@@ -51,7 +51,7 @@ namespace JT808.Gateway.ReplyMessage
         /// </summary>
         /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddJT808InMemoryReplyMessage(this IJT808GatewayBuilder jT808GatewayBuilder)
+        public static IJT808GatewayBuilder AddInMemoryReplyMessage(this IJT808GatewayBuilder jT808GatewayBuilder)
         {
             jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler>();
             jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();

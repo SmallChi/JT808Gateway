@@ -10,7 +10,7 @@ namespace JT808.Gateway.Kafka
 {
     public static class JT808ClientKafkaExtensions
     {
-        public static IJT808ClientBuilder AddJT808ClientKafka(this IJT808Builder builder)
+        public static IJT808ClientBuilder AddClientKafka(this IJT808Builder builder)
         {
             return new JT808ClientBuilderDefault(builder);
         }
@@ -47,7 +47,7 @@ namespace JT808.Gateway.Kafka
         public static IJT808ClientBuilder AddMsgReplyConsumer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
         {
             jT808ClientBuilder.JT808Builder.Services.Configure<JT808MsgReplyConsumerConfig>(configuration.GetSection("JT808MsgReplyConsumerConfig"));
-            jT808ClientBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgReplyConsumer), typeof(JT808MsgReplyConsumer), ServiceLifetime.Singleton));
+            jT808ClientBuilder.JT808Builder.Services.TryAddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumer>();
             return jT808ClientBuilder;
         }
         /// <summary>

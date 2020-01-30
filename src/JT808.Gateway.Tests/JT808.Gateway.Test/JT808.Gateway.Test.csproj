@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JT808.Gateway\JT808.Gateway.csproj" />
+    <ProjectReference Include="..\..\JT808.Gateway\JT808.Gateway.csproj" />
   </ItemGroup>
 
 </Project>

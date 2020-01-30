@@ -21,7 +21,7 @@ using Microsoft.Extensions.Options;
 
 namespace JT808.Gateway
 {
-    public class JT808TcpServer:IHostedService
+    public class JT808TcpServer : IHostedService
     {
         private readonly Socket server;
 
@@ -44,34 +44,38 @@ namespace JT808.Gateway
                 JT808SessionManager jT808SessionManager,
                 IJT808MsgProducer jT808MsgProducer,
                 JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory)
-            {
-                SessionManager = jT808SessionManager;
-                Logger = loggerFactory.CreateLogger("JT808TcpServer");
-                Serializer = jT808Config.GetSerializer();
-                MsgProducer = jT808MsgProducer;
-                AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
-                Configuration = jT808ConfigurationAccessor.Value;
-                var IPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.TcpPort);
-                server = new Socket(IPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
-                server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
-                server.LingerState = new LingerOption(false, 0);
-                server.Bind(IPEndPoint);
-                server.Listen(Configuration.SoBacklog);
-            }
+        {
+            
+            SessionManager = jT808SessionManager;
+            Logger = loggerFactory.CreateLogger("JT808TcpServer");
+            Serializer = jT808Config.GetSerializer();
+            MsgProducer = jT808MsgProducer;
+            AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
+            Configuration = jT808ConfigurationAccessor.Value;
+            var IPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.TcpPort);
+            server = new Socket(IPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
+            server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+            server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveBuffer, Configuration.MiniNumBufferSize);
+            server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendBuffer, Configuration.MiniNumBufferSize);
+            server.LingerState = new LingerOption(false, 0);
+            server.Bind(IPEndPoint);
+            server.Listen(Configuration.SoBacklog);
+        }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"JT808 TCP Server start at {IPAddress.Any}:{Configuration.TcpPort}.");
-            Task.Run(async() => {
+            Task.Factory.StartNew(async () =>
+            {
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     var socket = await server.AcceptAsync();
                     JT808TcpSession jT808TcpSession = new JT808TcpSession(socket);
+                    SessionManager.TryAdd(jT808TcpSession);
                     await Task.Factory.StartNew(async (state) =>
                     {
                         var session = (JT808TcpSession)state;
-                        SessionManager.TryAdd(session);
                         if (Logger.IsEnabled(LogLevel.Information))
                         {
                             Logger.LogInformation($"[Connected]:{session.Client.RemoteEndPoint}");
@@ -86,7 +90,7 @@ namespace JT808.Gateway
             }, cancellationToken);
             return Task.CompletedTask;
         }
-        private  async Task FillPipeAsync(JT808TcpSession session, PipeWriter writer)
+        private async Task FillPipeAsync(JT808TcpSession session, PipeWriter writer)
         {
             while (true)
             {
@@ -101,7 +105,7 @@ namespace JT808.Gateway
                     }
                     writer.Advance(bytesRead);
                 }
-                catch(OperationCanceledException ex)
+                catch (OperationCanceledException ex)
                 {
                     Logger.LogError($"[Receive Timeout]:{session.Client.RemoteEndPoint}");
                     break;
@@ -126,7 +130,7 @@ namespace JT808.Gateway
             }
             writer.Complete();
         }
-        private  async Task ReadPipeAsync(JT808TcpSession session, PipeReader reader)
+        private async Task ReadPipeAsync(JT808TcpSession session, PipeReader reader)
         {
             while (true)
             {
@@ -143,13 +147,13 @@ namespace JT808.Gateway
                     if (result.IsCanceled) break;
                     if (buffer.Length > 0)
                     {
-                        ReaderBuffer(ref buffer, session,out consumed, out examined);
+                        ReaderBuffer(ref buffer, session, out consumed, out examined);
                     }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
-                    SessionManager.RemoveBySessionId(session.SessionID);
+                    Logger.LogError(ex, $"[ReadPipe Error]:{session.Client.RemoteEndPoint}");
                     break;
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
@@ -160,7 +164,7 @@ namespace JT808.Gateway
             }
             reader.Complete();
         }
-        private  void ReaderBuffer(ref ReadOnlySequence<byte> buffer, JT808TcpSession session, out SequencePosition consumed, out SequencePosition examined)
+        private void ReaderBuffer(ref ReadOnlySequence<byte> buffer, JT808TcpSession session, out SequencePosition consumed, out SequencePosition examined)
         {
             consumed = buffer.Start;
             examined = buffer.End;
@@ -177,22 +181,22 @@ namespace JT808.Gateway
                 {
                     if (mark == 1)
                     {
-                        ReadOnlySpan<byte> contentSpan=ReadOnlySpan<byte>.Empty;
+                        ReadOnlySpan<byte> contentSpan = ReadOnlySpan<byte>.Empty;
                         try
                         {
                             contentSpan = seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan;
-                            var package = Serializer.HeaderDeserialize(contentSpan,minBufferSize:10240);
+                            var package = Serializer.HeaderDeserialize(contentSpan, minBufferSize: 10240);
                             AtomicCounterService.MsgSuccessIncrement();
                             if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                             if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
                             SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
-                            MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());  
+                            MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
                         }
                         catch (JT808Exception ex)
                         {
                             AtomicCounterService.MsgFailIncrement();
                             if (Logger.IsEnabled(LogLevel.Information)) Logger.LogInformation($"[Atomic Fail Counter]:{AtomicCounterService.MsgFailCount}");
-                            Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{contentSpan.ToArray().ToHexString()}"); 
+                            Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{contentSpan.ToArray().ToHexString()}");
                         }
                         totalConsumed += (seqReader.Consumed - totalConsumed);
                         if (seqReader.End) break;
@@ -206,7 +210,7 @@ namespace JT808.Gateway
                     seqReader.Advance(1);
                 }
             }
-            if (seqReader.Length== totalConsumed)
+            if (seqReader.Length == totalConsumed)
             {
                 examined = consumed = buffer.End;
             }

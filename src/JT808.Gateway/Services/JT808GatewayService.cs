@@ -93,17 +93,17 @@ namespace JT808.Gateway.Services
             return Task.FromResult(reply);
         }
 
-        public override Task<UnificationSendReply> UnificationSend(UnificationSendRequest request, ServerCallContext context)
+        public override async Task<UnificationSendReply> UnificationSend(UnificationSendRequest request, ServerCallContext context)
         {
             Auth(context);
             try
             {
-                var flag = jT808SessionManager.TrySendByTerminalPhoneNo(request.TerminalPhoneNo, request.Data.ToByteArray());
-                return Task.FromResult(new UnificationSendReply { Success = flag });
+                var flag = await jT808SessionManager.TrySendByTerminalPhoneNoAsync(request.TerminalPhoneNo, request.Data.ToByteArray());
+                return  new UnificationSendReply { Success = flag };
             }
             catch (Exception)
             {
-                return Task.FromResult(new UnificationSendReply { Success = false });
+                return  new UnificationSendReply { Success = false };
             }
         }
 

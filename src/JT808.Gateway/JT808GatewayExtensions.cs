@@ -16,7 +16,7 @@ namespace JT808.Gateway
 {
     public static partial class JT808GatewayExtensions
     {
-        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder,Action<JT808Configuration> config)
+        public static IJT808GatewayBuilder AddGateway(this IJT808Builder jt808Builder,Action<JT808Configuration> config)
         {
             IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
             server.JT808Builder.Services.Configure(config);
@@ -24,7 +24,7 @@ namespace JT808.Gateway
             return server;
         }
 
-        public static IJT808GatewayBuilder AddJT808Gateway(this IJT808Builder jt808Builder, IConfiguration  configuration)
+        public static IJT808GatewayBuilder AddGateway(this IJT808Builder jt808Builder, IConfiguration  configuration)
         {
             IJT808GatewayBuilder server = new JT808GatewayBuilderDefault(jt808Builder);
             server.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));

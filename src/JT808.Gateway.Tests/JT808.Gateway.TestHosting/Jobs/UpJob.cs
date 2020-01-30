@@ -38,7 +38,7 @@ namespace JT808.Gateway.TestHosting.Jobs
                         {
                             int lat = new Random(1000).Next(100000, 180000);
                             int Lng = new Random(1000).Next(100000, 180000);
-                            client.Send(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
                             {
                                 Lat = lat,
                                 Lng = Lng,

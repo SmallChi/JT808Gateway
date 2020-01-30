@@ -12,9 +12,9 @@
 
 [了解JTNE协议进这边](https://github.com/SmallChi/JTNewEnergy)
 
- [玩一玩压力测试](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/README.md)
+ [玩一玩压力测试](https://github.com/SmallChi/JT808Gateway/blob/master/doc/README.md)
 
-[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808DotNetty/blob/master/LICENSE)[![Github Build status](https://github.com/SmallChi/JT808Gateway/workflows/.NET%20Core/badge.svg)]()
+[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE)[![Github Build status](https://github.com/SmallChi/JT808Gateway/workflows/.NET%20Core/badge.svg)]()
 
 ## 新网关的优势
 
@@ -25,7 +25,7 @@
 
 ## 设计模型
 
-![design_model](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/img/design_model.png)
+![design_model](https://github.com/SmallChi/JT808Gateway/blob/master/doc/img/design_model.png)
 
 ## 集成接口功能
 
@@ -85,8 +85,9 @@
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
 | Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
 | Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
-| Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
+| Install-Package JT808.Gateway.Client| ![JT808.Gateway.Client](https://img.shields.io/nuget/v/JT808.Gateway.Client.svg) | ![JT808.Gateway.Client](https://img.shields.io/nuget/dt/JT808.Gateway.Client.svg) |
 | Install-Package JT808.Gateway.InMemoryMQ| ![JT808.Gateway.InMemoryMQ](https://img.shields.io/nuget/v/JT808.Gateway.InMemoryMQ.svg) | ![JT808.Gateway.InMemoryMQ](https://img.shields.io/nuget/dt/JT808.Gateway.InMemoryMQ.svg) |
+| Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
 | Install-Package JT808.Gateway.Transmit | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
 | Install-Package JT808.Gateway.Traffic | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
 | Install-Package JT808.Gateway.SessionNotice | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
@@ -94,106 +95,7 @@
 | Install-Package JT808.Gateway.MsgLogging | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
 | Install-Package JT808.Gateway.MsgIdHandler | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
 
-## 举个栗子1
-
-``` demo1
-static async Task Main(string[] args)
-{
-    var serverHostBuilder = new HostBuilder()
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
-            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-        })
-        .ConfigureLogging((context, logging) =>
-        {
-            logging.AddConsole();  
-            logging.SetMinimumLevel(LogLevel.Trace);
-        })
-        .ConfigureServices((hostContext, services) =>
-        {
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-            services.AddJT808Configure()
-                    .AddJT808NettyCore(hostContext.Configuration)
-                    .AddJT808TcpNettyHost()
-                    .AddJT808UdpNettyHost()
-                    .AddJT808WebApiNettyHost()
-                    //扩展webapi JT808MsgIdHttpHandlerBase
-                    //.ReplaceMsgIdHandler<JT808MsgIdHttpCustomHandler>()
-                    .Builder();
-                    //添加kafka插件
-                    //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
-                    //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                    //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
-                    //.Builder();
-                    //使用微软自带的webapi客户端
-                    //services.AddHttpClient("jt808webapi", c =>
-                    //{
-                    //    c.BaseAddress = new Uri("http://localhost:828/");
-                    //    c.DefaultRequestHeaders.Add("token", "123456);
-                    //})
-                    //.AddTypedClient<JT808HttpClient>();
-                    //var client = services.BuildServiceProvider().GetRequiredService<JT808HttpClient>();
-                    //var result = client.GetTcpAtomicCounter();
-        });
-
-    await serverHostBuilder.RunConsoleAsync();
-}
-```
-
-如图所示：
-![demo1](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/dotnetty/demo1.png)
-
-## 举个栗子2
-
-``` 1
-static async Task Main(string[] args)
-{
-    var serverHostBuilder = new HostBuilder()
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-            config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .AddJsonFile($"appsettings.{ hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-        })
-        .ConfigureLogging((context, logging) =>
-        {
-            Console.WriteLine($"Environment.OSVersion.Platform:{Environment.OSVersion.Platform.ToString()}");
-            NLog.LogManager.LoadConfiguration($"Configs/nlog.{Environment.OSVersion.Platform.ToString()}.config");
-            logging.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
-            logging.SetMinimumLevel(LogLevel.Trace);
-        })
-        .ConfigureServices((hostContext, services) =>
-        {
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-            services.AddJT808Configure()
-                //.AddJT808Gateway(options =>
-                //{
-                //    options.TcpPort = 808;
-                //    options.UdpPort = 808;
-                //})
-                .AddJT808Gateway(hostContext.Configuration)
-                .AddTcp()
-                .AddUdp()
-                .AddGrpc()
-                //InMemoryMQ
-                .AddJT808ServerInMemoryMQ()
-                .AddJT808InMemoryReplyMessage()
-                //kafka插件
-                //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
-                //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
-                ;
-            //services.AddHostedService<CallGrpcClientJob>();
-        });
-
-    await serverHostBuilder.RunConsoleAsync();
-}
-```
-
-## 举个栗子3
+## 举个栗子
 
 1.打开项目进行还原编译生成
 
@@ -202,4 +104,4 @@ static async Task Main(string[] args)
 3.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
 
 如图所示：
-![demo2](https://github.com/SmallChi/JT808DotNetty/blob/master/doc/dotnetty/demo2.png)
+![demo2](https://github.com/SmallChi/JT808Gateway/blob/master/doc/dotnetty/demo2.png)

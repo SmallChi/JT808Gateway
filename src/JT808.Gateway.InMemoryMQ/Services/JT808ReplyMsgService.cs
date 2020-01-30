@@ -20,12 +20,6 @@ namespace JT808.Gateway.InMemoryMQ.Services
         {
             await _channel.Writer.WriteAsync((terminalNo, data));
         }
-
-        public bool TryRead(out (string TerminalNo, byte[] Data) item)
-        {
-            return _channel.Reader.TryRead(out item);
-        }
-
         public async ValueTask<(string TerminalNo, byte[] Data)> ReadAsync(CancellationToken cancellationToken)
         {
             return await _channel.Reader.ReadAsync(cancellationToken);

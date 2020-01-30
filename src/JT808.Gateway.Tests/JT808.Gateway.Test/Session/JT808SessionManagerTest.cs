@@ -158,7 +158,7 @@ namespace JT808.Gateway.Test.Session
                 var session = new JT808TcpSession(new Socket(SocketType.Stream, ProtocolType.Tcp));
                 var result1 = jT808SessionManager.TryAdd(session);
                 jT808SessionManager.TryLink(tno, session);
-                jT808SessionManager.TrySendByTerminalPhoneNo(tno, new byte[] { 0x7e, 0, 0, 0x7e });
+                jT808SessionManager.TrySendByTerminalPhoneNoAsync(tno, new byte[] { 0x7e, 0, 0, 0x7e }).GetAwaiter().GetResult();
             });
         }
 
@@ -180,8 +180,8 @@ namespace JT808.Gateway.Test.Session
             Assert.True(jT808SessionManager.TerminalPhoneNoSessions.ContainsKey(tno1));
             Assert.True(jT808SessionManager.TerminalPhoneNoSessions.ContainsKey(tno2));
             var sessions = jT808SessionManager.GetTcpAll();
-            Assert.Equal(session1.SessionID, sessions[0].SessionID);
-            Assert.Equal(session2.SessionID, sessions[1].SessionID);
+            Assert.Contains(sessions, (item) => item.SessionID == session1.SessionID);
+            Assert.Contains(sessions, (item) => item.SessionID == session2.SessionID);
         }
     }
 }

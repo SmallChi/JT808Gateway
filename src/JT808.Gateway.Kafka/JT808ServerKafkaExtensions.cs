@@ -14,7 +14,7 @@ namespace JT808.Gateway.Kafka
         /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration">GetSection("JT808MsgProducerConfig")</param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddJT808ServerKafkaMsgProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
+        public static IJT808GatewayBuilder AddServerKafkaMsgProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
         {
             jT808GatewayBuilder.JT808Builder.Services.Configure<JT808MsgProducerConfig>(configuration.GetSection("JT808MsgProducerConfig"));
             jT808GatewayBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgProducer), typeof(JT808MsgProducer), ServiceLifetime.Singleton));
@@ -26,7 +26,7 @@ namespace JT808.Gateway.Kafka
         /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration">GetSection("JT808MsgReplyConsumerConfig")</param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddJT808ServerKafkaMsgReplyConsumer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
+        public static IJT808GatewayBuilder AddServerKafkaMsgReplyConsumer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
         {
             jT808GatewayBuilder.JT808Builder.Services.Configure<JT808MsgReplyConsumerConfig>(configuration.GetSection("JT808MsgReplyConsumerConfig"));
             jT808GatewayBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgReplyConsumer), typeof(JT808MsgReplyConsumer), ServiceLifetime.Singleton));
@@ -38,7 +38,7 @@ namespace JT808.Gateway.Kafka
         /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration">GetSection("JT808SessionProducerConfig")</param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddJT808ServerKafkaSessionProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
+        public static IJT808GatewayBuilder AddServerKafkaSessionProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
         {
             jT808GatewayBuilder.JT808Builder.Services.Configure<JT808SessionProducerConfig>(configuration.GetSection("JT808SessionProducerConfig"));
             jT808GatewayBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808SessionProducer), typeof(JT808SessionProducer), ServiceLifetime.Singleton));
