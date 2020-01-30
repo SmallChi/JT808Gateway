@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleClient
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleServer", "JT808.DotNetty.SimpleServer\JT808.DotNetty.SimpleServer.csproj", "{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.Gateway.SimpleServer", "JT808.Gateway.SimpleServer\JT808.Gateway.SimpleServer.csproj", "{98E1CDD0-4D4E-48FE-968E-260F0CD5F4D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleServer", "JT808.Gateway.SimpleServer\JT808.Gateway.SimpleServer.csproj", "{98E1CDD0-4D4E-48FE-968E-260F0CD5F4D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.Gateway.SimpleClient", "JT808.Gateway.SimpleClient\JT808.Gateway.SimpleClient.csproj", "{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleClient", "JT808.Gateway.SimpleClient\JT808.Gateway.SimpleClient.csproj", "{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -63,21 +63,21 @@
 
 | Package Name          | Version                                            | Downloads                                           |
 | --------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Install-Package JT808.DotNetty.Abstractions | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Abstractions.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Abstractions.svg) |
-| Install-Package JT808.DotNetty.Core | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Core.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
-| Install-Package JT808.DotNetty.Tcp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Tcp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Tcp.svg) |
-| Install-Package JT808.DotNetty.Udp | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Udp.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Udp.svg) |
-| Install-Package JT808.DotNetty.WebApi | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
-| Install-Package JT808.DotNetty.WebApiClientTool | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
-| Install-Package JT808.DotNetty.Client | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Client.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Client.svg) |
-| Install-Package JT808.DotNetty.Transmit | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Transmit.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Transmit.svg) |
-| Install-Package JT808.DotNetty.Traffic | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Traffic.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Traffic.svg)|
-| Install-Package JT808.DotNetty.SessionNotice | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.SessionNotice.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.SessionNotice.svg)|
-| Install-Package JT808.DotNetty.ReplyMessage | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.ReplyMessage.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.ReplyMessage.svg)|
-| Install-Package JT808.DotNetty.MsgLogging | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.MsgLogging.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgLogging.svg)|
-| Install-Package JT808.DotNetty.MsgIdHandler | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.MsgIdHandler.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgIdHandler.svg)|
-| Install-Package JT808.DotNetty.Kafka | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
-| Install-Package JT808.DotNetty.RabbitMQ | ![JT808](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
+| Install-Package JT808.DotNetty.Abstractions | ![JT808.DotNetty.Abstractions](https://img.shields.io/nuget/v/JT808.DotNetty.Abstractions.svg) | ![JT808.DotNetty.Abstractions](https://img.shields.io/nuget/dt/JT808.DotNetty.Abstractions.svg) |
+| Install-Package JT808.DotNetty.Core | ![JT808.DotNetty.Core](https://img.shields.io/nuget/v/JT808.DotNetty.Core.svg) | ![JT808.DotNetty.Core](https://img.shields.io/nuget/dt/JT808.DotNetty.Core.svg) |
+| Install-Package JT808.DotNetty.Tcp | ![JT808.DotNetty.Tcp](https://img.shields.io/nuget/v/JT808.DotNetty.Tcp.svg) | ![JT808.DotNetty.Tcp](https://img.shields.io/nuget/dt/JT808.DotNetty.Tcp.svg) |
+| Install-Package JT808.DotNetty.Udp | ![JT808.DotNetty.Udp](https://img.shields.io/nuget/v/JT808.DotNetty.Udp.svg) | ![JT808.DotNetty.Udp](https://img.shields.io/nuget/dt/JT808.DotNetty.Udp.svg) |
+| Install-Package JT808.DotNetty.WebApi | ![JT808.DotNetty.WebApi](https://img.shields.io/nuget/v/JT808.DotNetty.WebApi.svg) | ![JT808.DotNetty.WebApi](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApi.svg) |
+| Install-Package JT808.DotNetty.WebApiClientTool | ![JT808.DotNetty.WebApiClientTool](https://img.shields.io/nuget/v/JT808.DotNetty.WebApiClientTool.svg) | ![JT808.DotNetty.WebApiClientTool](https://img.shields.io/nuget/dt/JT808.DotNetty.WebApiClientTool.svg) |
+| Install-Package JT808.DotNetty.Client | ![JT808.DotNetty.Client](https://img.shields.io/nuget/v/JT808.DotNetty.Client.svg) | ![JT808.DotNetty.Client](https://img.shields.io/nuget/dt/JT808.DotNetty.Client.svg) |
+| Install-Package JT808.DotNetty.Transmit | ![JT808.DotNetty.Transmit](https://img.shields.io/nuget/v/JT808.DotNetty.Transmit.svg) | ![JT808.DotNetty.Transmit](https://img.shields.io/nuget/dt/JT808.DotNetty.Transmit.svg) |
+| Install-Package JT808.DotNetty.Traffic | ![JT808.DotNetty.Traffic](https://img.shields.io/nuget/v/JT808.DotNetty.Traffic.svg) | ![JT808.DotNetty.Traffic](https://img.shields.io/nuget/dt/JT808.DotNetty.Traffic.svg)|
+| Install-Package JT808.DotNetty.SessionNotice | ![JT808.DotNetty.SessionNotice](https://img.shields.io/nuget/v/JT808.DotNetty.SessionNotice.svg) | ![JT808.DotNetty.SessionNotice](https://img.shields.io/nuget/dt/JT808.DotNetty.SessionNotice.svg)|
+| Install-Package JT808.DotNetty.ReplyMessage | ![JT808.DotNetty.ReplyMessage](https://img.shields.io/nuget/v/JT808.DotNetty.ReplyMessage.svg) | ![JT808.DotNetty.ReplyMessage](https://img.shields.io/nuget/dt/JT808.DotNetty.ReplyMessage.svg)|
+| Install-Package JT808.DotNetty.MsgLogging | ![JT808.DotNetty.MsgLogging](https://img.shields.io/nuget/v/JT808.DotNetty.MsgLogging.svg) | ![JT808.DotNetty.MsgLogging](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgLogging.svg)|
+| Install-Package JT808.DotNetty.MsgIdHandler | ![JT808.DotNetty.MsgIdHandler](https://img.shields.io/nuget/v/JT808.DotNetty.MsgIdHandler.svg) | ![JT808.DotNetty.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgIdHandler.svg)|
+| Install-Package JT808.DotNetty.Kafka | ![JT808.DotNetty.Kafka](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808.DotNetty.Kafka](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
+| Install-Package JT808.DotNetty.RabbitMQ | ![JT808.DotNetty.RabbitMQ](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808.DotNetty.RabbitMQ](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
 
 ## 基于core 3.1 Pipeline的NuGet安装
 
@@ -97,10 +97,9 @@
 
 ## 举个栗子
 
-
 ### Pipeline
 
-1.打开/simples/JT808.DotNetty.Simples.sln项目进行还原编译生成
+1.打开/simples/JT808.Simples.sln项目进行还原编译生成
 
 2.进入JT808.Gateway.SimpleServer项目下的Debug目录运行服务端
 
@@ -111,7 +110,7 @@
 
 ### DotNetty
 
-1.打开/simples/JT808.DotNetty.Simples.sln项目进行还原编译生成
+1.打开/simples/JT808.Simples.sln项目进行还原编译生成
 
 2.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
 

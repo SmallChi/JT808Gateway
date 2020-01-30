@@ -24,7 +24,7 @@ namespace JT808.Gateway.SimpleClient.Services
         {
             string sim = "11111111111";
             JT808TcpClient client1 = await jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808), cancellationToken);
-            Thread.Sleep(5000);
+            await Task.Delay(2000);
             //1.终端注册
             await client1.SendAsync(JT808MsgId.终端注册.Create(sim, new JT808_0x0100()
             {
@@ -41,8 +41,8 @@ namespace JT808.Gateway.SimpleClient.Services
             {
                 Code = "1234"
             }));
-            await Task.Run(async() => {
-                while (true)
+            _= Task.Run(async() => {
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     var i = 0;
                     //3.每5秒发一次
@@ -58,9 +58,9 @@ namespace JT808.Gateway.SimpleClient.Services
                         StatusFlag = 10
                     }));
                     i++;
-                    Thread.Sleep(5000);
+                    await Task.Delay(5000);
                 }
-            });
+            }, cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

@@ -24,7 +24,7 @@ namespace JT808.Gateway.SimpleClient.Services
         {
             string sim = "22222222222";
             JT808TcpClient client1 = await jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808, JT808Version.JTT2019), cancellationToken);
-            Thread.Sleep(5000);
+            await Task.Delay(2000);
             //1.终端注册
             await client1.SendAsync(JT808MsgId.终端注册.Create2019(sim, new JT808_0x0100()
             {
@@ -43,7 +43,8 @@ namespace JT808.Gateway.SimpleClient.Services
                 IMEI="123456",
                 SoftwareVersion="v1.0.0"
             }));
-            await Task.Run(async () => {
+            _ = Task.Run(async() =>
+            {
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     var i = 0;
@@ -60,9 +61,9 @@ namespace JT808.Gateway.SimpleClient.Services
                         StatusFlag = 10
                     }));
                     i++;
-                    Thread.Sleep(5000);
+                    await Task.Delay(5000);
                 }
-            },cancellationToken);
+            }, cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

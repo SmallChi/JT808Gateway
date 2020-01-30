@@ -26,10 +26,6 @@ namespace JT808.Gateway.SimpleClient
             {
                 services.AddSingleton<ILoggerFactory, LoggerFactory>();
                 services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-                services.AddLogging(options => {
-                    options.AddConsole();
-                    options.SetMinimumLevel(LogLevel.Trace);
-                });
                 services.AddJT808Configure()
                         .AddClient();
                 services.AddHostedService<UpService>();
