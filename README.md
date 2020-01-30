@@ -97,11 +97,25 @@
 
 ## 举个栗子
 
-1.打开项目进行还原编译生成
+
+### Pipeline
+
+1.打开/simples/JT808.DotNetty.Simples.sln项目进行还原编译生成
+
+2.进入JT808.Gateway.SimpleServer项目下的Debug目录运行服务端
+
+3.进入JT808.Gateway.SimpleClient项目下的Debug目录运行客户端
+
+如图所示：
+![demo3](https://github.com/SmallChi/JT808Gateway/blob/master/doc/img/demo3.png)
+
+### DotNetty
+
+1.打开/simples/JT808.DotNetty.Simples.sln项目进行还原编译生成
 
 2.进入JT808.DotNetty.SimpleServer项目下的Debug目录运行服务端
 
 3.进入JT808.DotNetty.SimpleClient项目下的Debug目录运行客户端
 
 如图所示：
-![demo2](https://github.com/SmallChi/JT808Gateway/blob/master/doc/dotnetty/demo2.png)
+![demo2](https://github.com/SmallChi/JT808Gateway/blob/master/doc/img/demo2.png)
