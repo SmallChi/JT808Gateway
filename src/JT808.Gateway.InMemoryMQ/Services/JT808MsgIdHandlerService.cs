@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.InMemoryMQ.Services
 {
-    public class JT808MsgService: JT808MsgServiceBase
+    public class JT808MsgIdHandlerService: JT808MsgServiceBase
     {
        
     }

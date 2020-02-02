@@ -17,7 +17,7 @@ namespace JT808.Gateway.Transmit
         /// <param name="jT808ClientBuilder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddJT808InPlugTransmit(this IJT808ClientBuilder jT808ClientBuilder,IConfiguration configuration)
+        public static IJT808ClientBuilder AddInPlugTransmit(this IJT808ClientBuilder jT808ClientBuilder,IConfiguration configuration)
         {
             jT808ClientBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
             jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
@@ -30,12 +30,12 @@ namespace JT808.Gateway.Transmit
         /// <param name="jT808GatewayBuilder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        //public static IJT808GatewayBuilder AddJT808InMemoryTransmit(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
-        //{
-        //    jT808GatewayBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
-        //    jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
-        //    jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808TransmitHostedService>();
-        //    return jT808GatewayBuilder;
-        //}
+        public static IJT808GatewayBuilder AddInMemoryTransmit(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
+        {
+            jT808GatewayBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
+            jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808TransmitInMemoryHostedService>();
+            return jT808GatewayBuilder;
+        }
     }
 }

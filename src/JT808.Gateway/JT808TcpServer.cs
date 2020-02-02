@@ -45,7 +45,6 @@ namespace JT808.Gateway
                 IJT808MsgProducer jT808MsgProducer,
                 JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory)
         {
-            
             SessionManager = jT808SessionManager;
             Logger = loggerFactory.CreateLogger("JT808TcpServer");
             Serializer = jT808Config.GetSerializer();
@@ -185,12 +184,17 @@ namespace JT808.Gateway
                         try
                         {
                             contentSpan = seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan;
-                            var package = Serializer.HeaderDeserialize(contentSpan, minBufferSize: 10240);
-                            AtomicCounterService.MsgSuccessIncrement();
-                            if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
-                            if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
-                            SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
-                            MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                            //过滤掉不是808标准包（14）
+                            //（头）1+（消息 ID ）2+（消息体属性）2+（终端手机号）6+（消息流水号）2+（检验码 ）1+（尾）1
+                            if (contentSpan.Length > 14)
+                            {
+                                var package = Serializer.HeaderDeserialize(contentSpan, minBufferSize: 10240);
+                                AtomicCounterService.MsgSuccessIncrement();
+                                if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
+                                if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
+                                SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
+                                MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                            }
                         }
                         catch (JT808Exception ex)
                         {

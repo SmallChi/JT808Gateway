@@ -11,6 +11,13 @@ using JT808.Gateway.Kafka;
 using JT808.Gateway.InMemoryMQ;
 using JT808.Gateway.ReplyMessage;
 using JT808.Gateway.Client;
+using JT808.Gateway.SessionNotice;
+using JT808.Gateway.Abstractions.Enums;
+using JT808.Gateway.MsgIdHandler;
+using JT808.Gateway.MsgLogging;
+using JT808.Gateway.Traffic;
+using JT808.Gateway.Transmit;
+using JT808.Gateway.TestHosting.Impl;
 
 namespace JT808.Gateway.TestHosting
 {
@@ -48,14 +55,26 @@ namespace JT808.Gateway.TestHosting
                             .AddTcp()
                             .AddUdp()
                             .AddGrpc()
-                            //InMemoryMQ
-                            .AddServerInMemoryMQ()
+                            //InMemoryMQ 按需要加载对应的服务
+                            //注意:不需要的就不用add进来了
+                            .AddServerInMemoryMQ(JT808ConsumerType.All)
+                            //方式1
+                            //.AddServerInMemoryMQ(JT808ConsumerType.MsgIdHandlerConsumer| JT808ConsumerType.ReplyMessageConsumer)
+                            //方式2
+                            //.AddServerInMemoryMQ(JT808ConsumerType.MsgIdHandlerConsumer,JT808ConsumerType.ReplyMessageConsumer)
+                            .AddInMemoryTraffic()
+                            .AddInMemoryTransmit(hostContext.Configuration)
+                            .AddInMemoryMsgIdHandler<JT808MsgIdHandler>()
+                            .AddInMemoryMsgLogging<JT808MsgLogging>()
+                            .AddInMemorySessionNotice()
                             .AddInMemoryReplyMessage()
                             //kafka插件
                             //.AddServerKafkaMsgProducer(hostContext.Configuration)
                             //.AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
                             //.AddServerKafkaSessionProducer(hostContext.Configuration)
                             ;
+                    //流量统计
+                    //services.AddHostedService<TrafficJob>();
                     //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();
                     //客户端测试

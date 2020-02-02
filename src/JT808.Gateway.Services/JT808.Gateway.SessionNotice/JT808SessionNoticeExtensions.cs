@@ -14,7 +14,7 @@ namespace JT808.Gateway.SessionNotice
         /// </summary>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddJT808InPlugSessionNotice(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808ClientBuilder AddInPlugSessionNotice(this IJT808ClientBuilder jT808ClientBuilder)
         {
             jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808SessionNoticeHostedService>();
@@ -27,7 +27,7 @@ namespace JT808.Gateway.SessionNotice
         /// <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddJT808InPlugSessionNotice<TSessionNoticeService>(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808ClientBuilder AddInPlugSessionNotice<TSessionNoticeService>(this IJT808ClientBuilder jT808ClientBuilder)
            where TSessionNoticeService : JT808SessionNoticeService
         {
             jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService,TSessionNoticeService>();
@@ -41,7 +41,7 @@ namespace JT808.Gateway.SessionNotice
         /// <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
         /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddJT808InMemorySessionNotice<TSessionNoticeService>(this IJT808GatewayBuilder jT808GatewayBuilder)
+        public static IJT808GatewayBuilder AddInMemorySessionNotice<TSessionNoticeService>(this IJT808GatewayBuilder jT808GatewayBuilder)
           where TSessionNoticeService : JT808SessionNoticeService
         {
             jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService, TSessionNoticeService>();
@@ -54,11 +54,11 @@ namespace JT808.Gateway.SessionNotice
         /// </summary>
         /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        //public static IJT808GatewayBuilder AddJT808InMemorySessionNotice(this IJT808GatewayBuilder jT808GatewayBuilder)
-        //{
-        //    jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService>();
-        //    jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808SessionNoticeHostedService>();
-        //    return jT808GatewayBuilder;
-        //}
+        public static IJT808GatewayBuilder AddInMemorySessionNotice(this IJT808GatewayBuilder jT808GatewayBuilder)
+        {
+            jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808SessionNoticeHostedService>();
+            return jT808GatewayBuilder;
+        }
     }
 }

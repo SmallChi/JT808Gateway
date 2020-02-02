@@ -1,32 +1,25 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
-using JT808.Protocol.Extensions;
 using JT808.Gateway.Abstractions;
-using System;
+using JT808.Gateway.Abstractions.Enums;
 
-namespace JT808.Gateway.Traffic
+namespace JT808.Gateway.InMemoryMQ
 {
-    public class JT808TrafficServiceHostedService : IHostedService
+    public class JT808MsgConsumerInMemoryHostedService : IHostedService
     {
         private readonly IJT808MsgConsumer jT808MsgConsumer;
-        private readonly IJT808Traffic  jT808Traffic;
 
-        public JT808TrafficServiceHostedService(
-            IJT808Traffic jT808Traffic,
+        public JT808MsgConsumerInMemoryHostedService(
             IJT808MsgConsumer jT808MsgConsumer)
         {
             this.jT808MsgConsumer = jT808MsgConsumer;
-            this.jT808Traffic = jT808Traffic;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Subscribe();
-            jT808MsgConsumer.OnMessage((item)=> {
-                //string str = item.Data.ToHexString();
-                jT808Traffic.Increment(item.TerminalNo,DateTime.Now.ToString("yyyyMMdd"), item.Data.Length);
-            });
+            jT808MsgConsumer.OnMessage(null);
             return Task.CompletedTask;
         }
 

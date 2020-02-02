@@ -14,7 +14,7 @@ namespace JT808.Gateway.ReplyMessage
         /// </summary>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddJT808InPlugReplyMessage(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808ClientBuilder AddInPlugReplyMessage(this IJT808ClientBuilder jT808ClientBuilder)
         {
             jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
@@ -26,7 +26,7 @@ namespace JT808.Gateway.ReplyMessage
         /// <typeparam name="TReplyMessageService">自定义消息回复服务</typeparam>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddJT808InPlugReplyMessage<TReplyMessageHandler>(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808ClientBuilder AddInPlugReplyMessage<TReplyMessageHandler>(this IJT808ClientBuilder jT808ClientBuilder)
             where TReplyMessageHandler : JT808ReplyMessageHandler
         {
             jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler, TReplyMessageHandler>();
@@ -39,11 +39,11 @@ namespace JT808.Gateway.ReplyMessage
         /// <typeparam name="TReplyMessageService">自定义消息回复服务</typeparam>
         /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddJT808InMemoryReplyMessage<TReplyMessageHandler>(this IJT808GatewayBuilder jT808GatewayBuilder)
+        public static IJT808GatewayBuilder AddInMemoryReplyMessage<TReplyMessageHandler>(this IJT808GatewayBuilder jT808GatewayBuilder)
             where TReplyMessageHandler : JT808ReplyMessageHandler
         {
             jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler, TReplyMessageHandler>();
-            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageInMemoryHostedService>();
             return jT808GatewayBuilder;
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace JT808.Gateway.ReplyMessage
         public static IJT808GatewayBuilder AddInMemoryReplyMessage(this IJT808GatewayBuilder jT808GatewayBuilder)
         {
             jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808ReplyMessageHandler>();
-            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageInMemoryHostedService>();
             return jT808GatewayBuilder;
         }
     }

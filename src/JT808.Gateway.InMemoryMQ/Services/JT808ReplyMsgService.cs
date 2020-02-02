@@ -7,22 +7,8 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.InMemoryMQ.Services
 {
-    public class JT808ReplyMsgService
+    public class JT808ReplyMsgService: JT808MsgServiceBase
     {
-        private readonly Channel<(string TerminalNo, byte[] Data)> _channel;
-
-        public JT808ReplyMsgService()
-        {
-            _channel = Channel.CreateUnbounded<(string TerminalNo, byte[] Data)>();
-        }
-
-        public async ValueTask WriteAsync(string terminalNo, byte[] data)
-        {
-            await _channel.Writer.WriteAsync((terminalNo, data));
-        }
-        public async ValueTask<(string TerminalNo, byte[] Data)> ReadAsync(CancellationToken cancellationToken)
-        {
-            return await _channel.Reader.ReadAsync(cancellationToken);
-        }
+        
     }
 }
