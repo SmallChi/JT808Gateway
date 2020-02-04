@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Enums;
 using JT808.Gateway.Configurations;
+using JT808.Gateway.Enums;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol;
@@ -23,7 +24,7 @@ namespace JT808.Gateway
 {
     public class JT808TcpServer : IHostedService
     {
-        private readonly Socket server;
+        private Socket server;
 
         private readonly ILogger Logger;
 
@@ -37,6 +38,19 @@ namespace JT808.Gateway
 
         private readonly JT808Configuration Configuration;
 
+        private readonly JT808NormalReplyMessageHandler  JT808NormalReplyMessageHandler;
+
+        private JT808UseType JT808UseType;
+
+        /// <summary>
+        /// 使用队列方式
+        /// </summary>
+        /// <param name="jT808ConfigurationAccessor"></param>
+        /// <param name="jT808Config"></param>
+        /// <param name="loggerFactory"></param>
+        /// <param name="jT808SessionManager"></param>
+        /// <param name="jT808MsgProducer"></param>
+        /// <param name="jT808AtomicCounterServiceFactory"></param>
         public JT808TcpServer(
                 IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 IJT808Config jT808Config,
@@ -51,6 +65,38 @@ namespace JT808.Gateway
             MsgProducer = jT808MsgProducer;
             AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             Configuration = jT808ConfigurationAccessor.Value;
+            JT808UseType = JT808UseType.Queue;
+            InitServer();
+        }
+        /// <summary>
+        /// 使用正常方式
+        /// </summary>
+        /// <param name="jT808ConfigurationAccessor"></param>
+        /// <param name="jT808Config"></param>
+        /// <param name="loggerFactory"></param>
+        /// <param name="jT808SessionManager"></param>
+        /// <param name="replyMessageHandler"></param>
+        /// <param name="jT808AtomicCounterServiceFactory"></param>
+        public JT808TcpServer(
+                IOptions<JT808Configuration> jT808ConfigurationAccessor,
+                IJT808Config jT808Config,
+                ILoggerFactory loggerFactory,
+                JT808SessionManager jT808SessionManager,
+                JT808NormalReplyMessageHandler replyMessageHandler,
+                JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory)
+        {
+            SessionManager = jT808SessionManager;
+            Logger = loggerFactory.CreateLogger("JT808TcpServer");
+            Serializer = jT808Config.GetSerializer();
+            JT808NormalReplyMessageHandler = replyMessageHandler;
+            AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
+            Configuration = jT808ConfigurationAccessor.Value;
+            JT808UseType = JT808UseType.Normal;
+            InitServer();
+        }
+
+        private void InitServer()
+        {
             var IPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.TcpPort);
             server = new Socket(IPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
@@ -193,7 +239,14 @@ namespace JT808.Gateway
                                 if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
                                 SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
-                                MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                                if(JT808UseType== JT808UseType.Normal)
+                                {
+                                    JT808NormalReplyMessageHandler.Processor(package, session);
+                                }
+                                else if(JT808UseType== JT808UseType.Queue)
+                                {
+                                    MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                                }
                             }
                         }
                         catch (JT808Exception ex)

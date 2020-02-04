@@ -13,36 +13,48 @@ namespace JT808.Gateway.Traffic
         /// </summary>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddInPlugTraffic<TIJT808Traffic>(this IJT808ClientBuilder jT808ClientBuilder)
+        public static IJT808ClientBuilder AddTraffic<TIJT808Traffic>(this IJT808ClientBuilder jT808ClientBuilder)
             where TIJT808Traffic:IJT808Traffic
         {
             jT808ClientBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(TIJT808Traffic));
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808TrafficServiceHostedService>();
             return jT808ClientBuilder;
         }
+
         /// <summary>
-        /// 消息流量统计服务（消费者单实例）
+        /// 消息流量统计服务（不同的消费者实例）
         /// </summary>
-        /// <typeparam name="TReplyMessageService"></typeparam>
-        /// <param name="jT808GatewayBuilder"></param>
+        /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddInMemoryTraffic(this IJT808GatewayBuilder jT808GatewayBuilder)
+        public static IJT808ClientBuilder AddTraffic(this IJT808ClientBuilder jT808ClientBuilder)
         {
-            jT808GatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(JT808TrafficDefault));
-            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808TrafficServiceInMemoryHostedService>();
-            return jT808GatewayBuilder;
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(JT808TrafficDefault));
+            jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808TrafficServiceHostedService>();
+            return jT808ClientBuilder;
         }
+
         /// <summary>
-        /// 消息流量统计服务（消费者单实例）
+        /// 消息流量统计服务（不同的消费者实例）
         /// </summary>
-        /// <typeparam name="TReplyMessageService"></typeparam>
-        /// <param name="jT808GatewayBuilder"></param>
+        /// <param name="jT808NormalGatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddInMemoryTraffic<TIJT808Traffic>(this IJT808GatewayBuilder jT808GatewayBuilder)
+        public static IJT808NormalGatewayBuilder AddTraffic<TIJT808Traffic>(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder)
+            where TIJT808Traffic : IJT808Traffic
         {
-            jT808GatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(TIJT808Traffic));
-            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808TrafficServiceInMemoryHostedService>();
-            return jT808GatewayBuilder;
+            jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(TIJT808Traffic));
+            return jT808NormalGatewayBuilder;
+        }
+
+
+        /// <summary>
+        /// 消息流量统计服务（不同的消费者实例）
+        /// </summary>
+        /// <param name="jT808NormalGatewayBuilder"></param>
+        /// <returns></returns>
+        public static IJT808NormalGatewayBuilder AddTraffic(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder)
+        {
+            jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(JT808TrafficDefault));
+            return jT808NormalGatewayBuilder;
         }
     }
 }

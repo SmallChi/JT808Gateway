@@ -1,5 +1,5 @@
-﻿using JT808.Gateway.Abstractions.Enums;
-using JT808.Gateway.Interfaces;
+﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions.Enums;
 using System;
 using System.Net;
 using System.Net.Sockets;

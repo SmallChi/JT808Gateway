@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Enums;
 using JT808.Gateway.Configurations;
+using JT808.Gateway.Enums;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol;
@@ -39,6 +40,10 @@ namespace JT808.Gateway
 
         private readonly IPEndPoint LocalIPEndPoint;
 
+        private readonly JT808NormalReplyMessageHandler JT808NormalReplyMessageHandler;
+
+        private JT808UseType JT808UseType;
+
         public JT808UdpServer(
                 IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 IJT808Config jT808Config,
@@ -53,10 +58,31 @@ namespace JT808.Gateway
                 MsgProducer = jT808MsgProducer;
                 AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
                 Configuration = jT808ConfigurationAccessor.Value;
+                JT808UseType = JT808UseType.Queue;
                 LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.UdpPort);
                 server = new Socket(LocalIPEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
                 server.Bind(LocalIPEndPoint);
             }
+
+        public JT808UdpServer(
+            IOptions<JT808Configuration> jT808ConfigurationAccessor,
+            IJT808Config jT808Config,
+            ILoggerFactory loggerFactory,
+            JT808SessionManager jT808SessionManager,
+            JT808NormalReplyMessageHandler replyMessageHandler,
+            JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory)
+        {
+            SessionManager = jT808SessionManager;
+            Logger = loggerFactory.CreateLogger("JT808UdpServer");
+            Serializer = jT808Config.GetSerializer();
+            JT808NormalReplyMessageHandler = replyMessageHandler;
+            AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.udp);
+            Configuration = jT808ConfigurationAccessor.Value;
+            JT808UseType = JT808UseType.Normal;
+            LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.UdpPort);
+            server = new Socket(LocalIPEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+            server.Bind(LocalIPEndPoint);
+        }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -97,12 +123,19 @@ namespace JT808.Gateway
                 AtomicCounterService.MsgSuccessIncrement();
                 if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {receiveMessageFromResult.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
-                SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
+                var session = SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
                 if (Logger.IsEnabled(LogLevel.Information))
                 {
                     Logger.LogInformation($"[Connected]:{receiveMessageFromResult.RemoteEndPoint}");
                 }
-                MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                if (JT808UseType == JT808UseType.Normal)
+                {
+                    JT808NormalReplyMessageHandler.Processor(package, session);
+                }
+                else if (JT808UseType == JT808UseType.Queue)
+                {
+                    MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                }
             }
             catch (JT808Exception ex)
             {

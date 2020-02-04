@@ -13,7 +13,7 @@ namespace JT808.Gateway.Traffic
         List<(string,long)> GetAll();
     }
 
-    public class JT808TrafficDefault : IJT808Traffic
+    class JT808TrafficDefault : IJT808Traffic
     {
         private ConcurrentDictionary<string, long> dict = new ConcurrentDictionary<string, long>();
 

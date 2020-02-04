@@ -8,10 +8,10 @@ namespace JT808.Gateway.ReplyMessage
     public class JT808ReplyMessageHostedService : IHostedService
     {
         private readonly IJT808MsgConsumer jT808MsgConsumer;
-        private readonly JT808ReplyMessageHandler jT808ReplyMessageHandler;
+        private readonly JT808QueueReplyMessageHandler jT808ReplyMessageHandler;
 
         public JT808ReplyMessageHostedService(
-            JT808ReplyMessageHandler jT808ReplyMessageHandler,
+            JT808QueueReplyMessageHandler jT808ReplyMessageHandler,
             IJT808MsgConsumer jT808MsgConsumer)
         {
             this.jT808MsgConsumer = jT808MsgConsumer;

@@ -1,6 +1,5 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Enums;
-using JT808.Gateway.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;

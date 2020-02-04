@@ -6,14 +6,14 @@
 
 > 注意1：连接数和并发数要区分开；
 > 注意2：阿里云的机器默认有连接数限制(5000)，可以先创建一台，把该装的软件安装好，tcp参数内核调优后，在备份一个系统镜像在玩;
-> 注意3: 使用的是内存队列(InMemoryMQ)进行测试。
+> 注意3: 使用的是网关集成的方式进行测试。
 
 ``` 1
 //使用PM2托管
 
 //服务端
 cd /data/JT808.Gateway
-pm2 start "dotnet JT808.Gateway.TestHosting.dll ASPNETCORE_ENVIRONMENT=Production" --max-restarts=1 -n "JT808.Gateway.808" -o "/data/pm2Logs/JT808.Gateway/out.log" -e "/data/pm2Logs/JT808.Gateway/error.log"
+pm2 start "dotnet JT808.Gateway.ServerBenchmark.dll ASPNETCORE_ENVIRONMENT=Production" --max-restarts=1 -n "JT808.Gateway.808" -o "/data/pm2Logs/JT808.Gateway/out.log" -e "/data/pm2Logs/JT808.Gateway/error.log"
 
 //客户端
 cd /data/JT808Client
@@ -51,8 +51,8 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
   "JT808Configuration": {
     "TcpPort": 808,
     "UdpPort": 808,
-    "MiniNumBufferSize": 80960,
-    "SoBacklog": 102400
+    "MiniNumBufferSize": 102400,
+    "SoBacklog": 204800
   }
 ```
 
@@ -89,8 +89,8 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
   "JT808Configuration": {
     "TcpPort": 808,
     "UdpPort": 808,
-    "MiniNumBufferSize": 80960,
-    "SoBacklog": 102400
+    "MiniNumBufferSize": 102400,
+    "SoBacklog": 204800
   }
 ```
 
@@ -127,8 +127,8 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
   "JT808Configuration": {
     "TcpPort": 808,
     "UdpPort": 808,
-    "MiniNumBufferSize": 80960,
-    "SoBacklog": 102400
+    "MiniNumBufferSize": 102400,
+    "SoBacklog": 204800
   }
 ```
 
@@ -144,6 +144,7 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
 |:-------:|:-------:|:-------:|
 | centos7 | 8c16g | JT808服务端 |
 | centos7 | 8c16g | JT808客户端 |
+| centos7 | 8c16g | JT808客户端 |
 
 > 计算网络增强型 sn1ne ecs.sn1ne.2xlarge 8 vCPU 16 GiB Intel Xeon E5-2682v4 / Intel Xeon(Skylake) Platinum 8163 2.5 GHz 2 Gbps 100 万 PPS
 
@@ -158,12 +159,10 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
     "Interval": 1000,
     "DeviceTemplate": 100000 //需要多台机器同时访问，那么可以根据这个避开重复终端号 100000-200000-300000
   }
-  修改wwwroot下index.html的webapi接口地址
-  127.0.0.1:15004/index.html
 ```
 
 ``` 2
-  "urls": "http://*:15005;",
+  "urls": "http://*:15004;",
   "ClientBenchmarkOptions": {
     "IP": "",
     "Port": 808,
@@ -171,8 +170,6 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
     "Interval": 1000,
     "DeviceTemplate": 200000 //需要多台机器同时访问，那么可以根据这个避开重复终端号 100000-200000-300000
   }
-  修改wwwroot下index.html的webapi接口地址
-  127.0.0.1:15005/index.html
 ```
 
 > 一个进程的线程是有限的，所以分两个进程进行测试
@@ -183,7 +180,7 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
   "JT808Configuration": {
     "TcpPort": 808,
     "UdpPort": 808,
-    "MiniNumBufferSize": 80960,
+    "MiniNumBufferSize": 102400,
     "SoBacklog": 102400
   }
 ```
@@ -192,7 +189,7 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
 
 ![server_network_40k](https://github.com/SmallChi/JT808Gateway/blob/master/doc/pipeline/server_network_40k.png)
 
-> 由于资源被占满了，所以客户端的界面访问不到，但是不影响总体。
+![client_40k](https://github.com/SmallChi/JT808Gateway/blob/master/doc/pipeline/client_40k.png)
 
 ### 60K
 

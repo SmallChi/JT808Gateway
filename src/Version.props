@@ -1,6 +1,6 @@
 ﻿<Project>
 	<PropertyGroup>
 	    <JT808DotNettyPackageVersion>2.3.1</JT808DotNettyPackageVersion>
- 	    <JT808GatewayPackageVersion>1.0.0-preview5</JT808GatewayPackageVersion>
+ 	    <JT808GatewayPackageVersion>1.0.0-preview6</JT808GatewayPackageVersion>
 	</PropertyGroup>
 </Project>

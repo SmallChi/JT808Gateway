@@ -17,25 +17,25 @@ namespace JT808.Gateway.Transmit
         /// <param name="jT808ClientBuilder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808ClientBuilder AddInPlugTransmit(this IJT808ClientBuilder jT808ClientBuilder,IConfiguration configuration)
+        public static IJT808ClientBuilder AddTransmit(this IJT808ClientBuilder jT808ClientBuilder,IConfiguration configuration)
         {
             jT808ClientBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
             jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808TransmitHostedService>();
             return jT808ClientBuilder;
         }
+
         /// <summary>
-        /// 转发服务（消费者单实例）
+        /// 转发服务（不同的消费者实例）
         /// </summary>
-        /// <param name="jT808GatewayBuilder"></param>
+        /// <param name="jT808NormalGatewayBuilder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddInMemoryTransmit(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
+        public static IJT808NormalGatewayBuilder AddTransmit(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder, IConfiguration configuration)
         {
-            jT808GatewayBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
-            jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
-            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808TransmitInMemoryHostedService>();
-            return jT808GatewayBuilder;
+            jT808NormalGatewayBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
+            jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
+            return jT808NormalGatewayBuilder;
         }
     }
 }
