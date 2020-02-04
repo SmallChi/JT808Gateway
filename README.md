@@ -14,7 +14,7 @@
 
  [玩一玩压力测试](https://github.com/SmallChi/JT808Gateway/blob/master/doc/README.md)
 
-[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE)![.NET Core](https://github.com/SmallChi/JT808Gateway/workflows/.NET%20Core/badge.svg)
+[![MIT Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE)![.NET Core](https://github.com/SmallChi/JT808Gateway/workflows/.NET%20Core/badge.svg?branch=master)
 
 ## 新网关的优势
 

@@ -84,7 +84,8 @@ namespace JT808.Gateway.Session
             }
             else
             {
-                if(TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session))
+                session.TerminalPhoneNo = terminalPhoneNo;
+                if (TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session))
                 {
                     //会话通知
                     JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
@@ -104,6 +105,7 @@ namespace JT808.Gateway.Session
             else
             {
                 JT808UdpSession session = new JT808UdpSession(socket, remoteEndPoint);
+                session.TerminalPhoneNo = terminalPhoneNo;
                 Sessions.TryAdd(session.SessionID, session);
                 TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session);
                 currentSession = session;

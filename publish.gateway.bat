@@ -1,6 +1,5 @@
 dotnet pack .\src\JT808.Gateway\JT808.Gateway.csproj -c Release --output nupkgs
 dotnet pack .\src\JT808.Gateway.Kafka\JT808.Gateway.Kafka.csproj -c Release  --output nupkgs
-dotnet pack .\src\JT808.Gateway.InMemoryMQ\JT808.Gateway.InMemoryMQ.csproj -c Release --output nupkgs
 dotnet pack .\src\JT808.Gateway.Abstractions\JT808.Gateway.Abstractions.csproj -c Release --output nupkgs
 dotnet pack .\src\JT808.Gateway.Client\JT808.Gateway.Client.csproj -c Release --output nupkgs
 

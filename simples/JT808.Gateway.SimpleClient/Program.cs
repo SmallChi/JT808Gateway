@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.Hosting;
 using JT808.Gateway.Client;
 using JT808.Gateway.SimpleClient.Services;
+using JT808.Gateway.SimpleClient.Jobs;
 
 namespace JT808.Gateway.SimpleClient
 {
@@ -30,6 +31,7 @@ namespace JT808.Gateway.SimpleClient
                         .AddClient();
                 services.AddHostedService<UpService>();
                 services.AddHostedService<Up2019Service>();
+                services.AddHostedService<CallGrpcClientJob>();
             });
             await serverHostBuilder.RunConsoleAsync();
         }

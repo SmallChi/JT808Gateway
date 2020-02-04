@@ -1,5 +1,4 @@
 ﻿using JT808.Gateway.Abstractions.Enums;
-using JT808.Gateway.InMemoryMQ;
 using JT808.Gateway.ReplyMessage;
 using JT808.Gateway.MsgLogging;
 using JT808.Gateway.Traffic;
@@ -14,6 +13,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using JT808.Gateway.SimpleServer.Impl;
+using JT808.Gateway.SimpleServer.Services;
+using JT808.Gateway.Abstractions;
+using JT808.Gateway.Transmit;
+using JT808.Gateway.SimpleServer.Jobs;
 
 namespace JT808.Gateway.SimpleServer
 {
@@ -36,18 +39,23 @@ namespace JT808.Gateway.SimpleServer
                 {
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+                    //使用内存队列实现会话通知
+                    services.AddSingleton<JT808SessionService>();
+                    services.AddSingleton<IJT808SessionProducer, JT808SessionProducer>();
+                    services.AddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
                     services.AddJT808Configure()                         
-                            .AddGateway(hostContext.Configuration)
+                            .AddNormalGateway(hostContext.Configuration)
+                            .ReplaceNormalReplyMessageHandler<JT808NormalReplyMessageHandlerImpl>()
+                            .AddMsgLogging<JT808MsgLogging>()
+                            .AddTraffic()
+                            .AddSessionNotice()
+                            .AddTransmit(hostContext.Configuration)
                             .AddTcp()
-                            .AddServerInMemoryMQ(JT808ConsumerType.MsgIdHandlerConsumer|
-                                                JT808ConsumerType.ReplyMessageConsumer |
-                                                JT808ConsumerType.MsgLoggingConsumer |
-                                                JT808ConsumerType.ReplyMessageLoggingConsumer)
-                            .AddInMemoryMsgIdHandler<JT808MsgIdHandler>()
-                            .AddInMemoryReplyMessage()
-                            .AddInMemoryMsgLogging<JT808MsgLogging>()
-                            .AddInMemorySessionNotice()
+                            .AddUdp()
+                            .AddGrpc()
                             .Builder();
+                    //流量统计
+                    services.AddHostedService<TrafficJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();
