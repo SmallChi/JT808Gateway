@@ -181,7 +181,7 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
     "TcpPort": 808,
     "UdpPort": 808,
     "MiniNumBufferSize": 102400,
-    "SoBacklog": 102400
+    "SoBacklog": 204800
   }
 ```
 
@@ -232,7 +232,7 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
     "TcpPort": 808,
     "UdpPort": 808,
     "MiniNumBufferSize": 102400,
-    "SoBacklog": 102400
+    "SoBacklog": 204800
   }
 ```
 
@@ -241,82 +241,6 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
 ![server_network_60k](https://github.com/SmallChi/JT808Gateway/blob/master/doc/pipeline/server_network_60k.png)
 
 ![client_60k](https://github.com/SmallChi/JT808Gateway/blob/master/doc/pipeline/client_60k.png)
-
-### 80K
-
-| 操作系统 | 配置 | 使用 |
-|:-------:|:-------:|:-------:|
-| centos7 | 16c24g | JT808服务端 |
-| centos7 | 8c16g | JT808客户端 |
-| centos7 | 8c16g | JT808客户端 |
-| centos7 | 8c16g | JT808客户端 |
-| centos7 | 8c16g | JT808客户端 |
-
-> 计算网络增强型 sn1ne ecs.sn1ne.3xlarge 12 vCPU 24 GiB Intel Xeon E5-2682v4 / Intel Xeon(Skylake) Platinum 8163 2.5 GHz 2.5 Gbps 130 万 PPS
-> 计算网络增强型 sn1ne ecs.sn1ne.2xlarge 8 vCPU 16 GiB Intel Xeon E5-2682v4 / Intel Xeon(Skylake) Platinum 8163 2.5 GHz 2 Gbps 100 万 PPS
-
-客户端1的参数配置appsettings.json
-
-``` 1
-  "ClientBenchmarkOptions": {
-    "IP": "",
-    "Port": 808,
-    "DeviceCount": 20000,
-    "Interval": 1000,
-    "DeviceTemplate": 100000 //需要多台机器同时访问，那么可以根据这个避开重复终端号 100000-200000-300000
-  }
-```
-
-客户端2的参数配置appsettings.json
-
-``` 2
-  "ClientBenchmarkOptions": {
-    "IP": "",
-    "Port": 808,
-    "DeviceCount": 20000,
-    "Interval": 1000,
-    "DeviceTemplate": 200000 //需要多台机器同时访问，那么可以根据这个避开重复终端号 100000-200000-300000
-  }
-```
-
-客户端3的参数配置appsettings.json
-
-``` 3
-  "ClientBenchmarkOptions": {
-    "IP": "",
-    "Port": 808,
-    "DeviceCount": 20000,
-    "Interval": 1000,
-    "DeviceTemplate": 300000 //需要多台机器同时访问，那么可以根据这个避开重复终端号 100000-200000-300000
-  }
-```
-
-客户端3的参数配置appsettings.json
-
-``` 4
-  "ClientBenchmarkOptions": {
-    "IP": "",
-    "Port": 808,
-    "DeviceCount": 20000,
-    "Interval": 1000,
-    "DeviceTemplate": 400000 //需要多台机器同时访问，那么可以根据这个避开重复终端号 100000-200000-300000
-  }
-```
-
-服务器参数配置appsettings.json
-
-``` 1
-  "JT808Configuration": {
-    "TcpPort": 808,
-    "UdpPort": 808,
-    "MiniNumBufferSize": 204800,
-    "SoBacklog": 204800
-  }
-```
-
-![server_proccess_80k](https://github.com/SmallChi/JT808Gateway/blob/master/doc/pipeline/server_proccess_80k.png)
-
-![server_network_80k](https://github.com/SmallChi/JT808Gateway/blob/master/doc/pipeline/server_network_80k.png)
 
 ### 100K
 
@@ -385,7 +309,7 @@ pm2 start "dotnet JT808.Gateway.CleintBenchmark.dll ASPNETCORE_ENVIRONMENT=Produ
   "JT808Configuration": {
     "TcpPort": 808,
     "UdpPort": 808,
-    "MiniNumBufferSize": 204800,
+    "MiniNumBufferSize": 102400,
     "SoBacklog": 204800
   }
 ```

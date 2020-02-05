@@ -9,6 +9,8 @@ using JT808.Gateway.GrpcService;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using JT808.Protocol.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace JT808.Gateway.NormalHosting.Jobs
 {
@@ -19,13 +21,13 @@ namespace JT808.Gateway.NormalHosting.Jobs
         private Grpc.Core.Metadata AuthMetadata;
         public CallGrpcClientJob(
             ILoggerFactory loggerFactory,
-            JT808Configuration configuration)
+            IOptions<JT808Configuration> configurationAccessor)
         {
             Logger = loggerFactory.CreateLogger("CallGrpcClientJob");
-            channel = new Channel($"{configuration.WebApiHost}:{configuration.WebApiPort}",
+            channel = new Channel($"{configurationAccessor.Value.WebApiHost}:{configurationAccessor.Value.WebApiPort}",
                 ChannelCredentials.Insecure);
             AuthMetadata = new Grpc.Core.Metadata();
-            AuthMetadata.Add("token", configuration.WebApiToken);
+            AuthMetadata.Add("token", configurationAccessor.Value.WebApiToken);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -39,6 +41,11 @@ namespace JT808.Gateway.NormalHosting.Jobs
                     {
                         var result1 = jT808GatewayClient.GetTcpAtomicCounter(new Empty(), AuthMetadata);
                         var result2 = jT808GatewayClient.GetTcpSessionAll(new Empty(), AuthMetadata);
+                        var result3 = jT808GatewayClient.UnificationSend(new UnificationSendRequest 
+                        { 
+                           TerminalPhoneNo= "123456789012",
+                           Data=Google.Protobuf.ByteString.CopyFrom("7E02000026123456789012007D02000000010000000200BA7F0E07E4F11C0028003C00001810151010100104000000640202007D01137E".ToHexBytes())
+                        }, AuthMetadata);
                         Logger.LogInformation($"[GetTcpAtomicCounter]:{JsonSerializer.Serialize(result1)}");
                         Logger.LogInformation($"[GetTcpSessionAll]:{JsonSerializer.Serialize(result2)}");
                     }

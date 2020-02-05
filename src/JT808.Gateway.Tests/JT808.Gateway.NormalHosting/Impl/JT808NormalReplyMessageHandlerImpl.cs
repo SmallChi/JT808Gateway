@@ -38,19 +38,26 @@ namespace JT808.Gateway.NormalHosting.Impl
         /// <param name="session"></param>
         public override byte[] Processor(JT808HeaderPackage request, IJT808Session session)
         {
-            //AOP 可以自定义添加一些东西:上下行日志、数据转发
-            logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
-            //流量
-            jT808Traffic.Increment(request.Header.TerminalPhoneNo, DateTime.Now.ToString("yyyyMMdd"), request.OriginalData.Length);
-            var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
-            //转发数据（可同步也可以使用队列进行异步）
-            jT808TransmitService.Send(parameter);
-            //上行日志（可同步也可以使用队列进行异步）
-            jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
             //处理上行消息
-            var down= base.Processor(request, session);
-            //下行日志（可同步也可以使用队列进行异步）
-            jT808MsgLogging.Processor((request.Header.TerminalPhoneNo, down), JT808MsgLoggingType.down);
+            var down = base.Processor(request, session);
+            try
+            {
+                //AOP 可以自定义添加一些东西:上下行日志、
+                logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
+                //流量
+                jT808Traffic.Increment(request.Header.TerminalPhoneNo, DateTime.Now.ToString("yyyyMMdd"), request.OriginalData.Length);
+                var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
+                //上行日志（可同步也可以使用队列进行异步）
+                jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
+                //下行日志（可同步也可以使用队列进行异步）
+                jT808MsgLogging.Processor((request.Header.TerminalPhoneNo, down), JT808MsgLoggingType.down);
+                //转发数据（可同步也可以使用队列进行异步）
+                jT808TransmitService.Send(parameter);
+            }
+            catch (Exception)
+            {
+
+            }
             return down;
         }
 
