@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway.Abstractions" Version="1.0.0-preview6" />
-    <PackageReference Include="JT808.Gateway.Client" Version="1.0.0-preview6" />
+    <PackageReference Include="JT808.Gateway.Abstractions" Version="1.0.0-preview7" />
+    <PackageReference Include="JT808.Gateway.Client" Version="1.0.0-preview7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
