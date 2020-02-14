@@ -46,7 +46,7 @@ namespace JT808.Gateway.NormalHosting
                     services.AddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
                     services.AddJT808Configure()
                             //添加客户端工具
-                            //.AddClient()
+                            .AddClient()
                             //.AddNormalGateway(options =>
                             ////{
                             ////    options.TcpPort = 808;
@@ -66,8 +66,8 @@ namespace JT808.Gateway.NormalHosting
                     services.AddHostedService<TrafficJob>();
                     //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();
-                    //客户端测试
-                    //services.AddHostedService<UpJob>();
+                    //客户端测试  依赖AddClient()服务
+                    services.AddHostedService<UpJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();

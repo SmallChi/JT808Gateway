@@ -20,13 +20,14 @@ namespace JT808.Gateway.Transmit
         public Task StartAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Subscribe();
-            jT808MsgConsumer.OnMessage(jT808TransmitService.Send);
+            jT808MsgConsumer.OnMessage(jT808TransmitService.SendAsync);
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Unsubscribe();
+            jT808TransmitService.Stop();
             return Task.CompletedTask;
         }
     }

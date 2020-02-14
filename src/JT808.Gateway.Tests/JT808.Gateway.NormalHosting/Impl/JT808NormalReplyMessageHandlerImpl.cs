@@ -52,7 +52,7 @@ namespace JT808.Gateway.NormalHosting.Impl
                 //下行日志（可同步也可以使用队列进行异步）
                 jT808MsgLogging.Processor((request.Header.TerminalPhoneNo, down), JT808MsgLoggingType.down);
                 //转发数据（可同步也可以使用队列进行异步）
-                jT808TransmitService.Send(parameter);
+                jT808TransmitService.SendAsync(parameter);
             }
             catch (Exception)
             {

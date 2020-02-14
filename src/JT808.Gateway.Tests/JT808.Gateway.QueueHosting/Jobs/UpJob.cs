@@ -30,7 +30,8 @@ namespace JT808.Gateway.QueueHosting.Jobs
             {
                 await Task.Delay(2 * 1000);
                 var client = await jT808TcpClientFactory.Create(new JT808DeviceConfig("1234567890", "127.0.0.1", 808), cancellationToken);
-                if (client != null)
+                var client1 = await jT808TcpClientFactory.Create(new JT808DeviceConfig("1234567891", "127.0.0.1", 808), cancellationToken);
+                if (client != null && client1!=null)
                 {
                     while (!cancellationToken.IsCancellationRequested)
                     {
@@ -42,6 +43,19 @@ namespace JT808.Gateway.QueueHosting.Jobs
                             {
                                 Lat = lat,
                                 Lng = Lng,
+                                GPSTime = DateTime.Now,
+                                Speed = 50,
+                                Direction = 30,
+                                AlarmFlag = 5,
+                                Altitude = 50,
+                                StatusFlag = 10
+                            }));
+                            int lat1 = new Random(1000).Next(100000, 180000);
+                            int Lng1 = new Random(1000).Next(100000, 180000);
+                            await client1.SendAsync(JT808MsgId.位置信息汇报.Create(client1.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            {
+                                Lat = lat1,
+                                Lng = Lng1,
                                 GPSTime = DateTime.Now,
                                 Speed = 50,
                                 Direction = 30,
