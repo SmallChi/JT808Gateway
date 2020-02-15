@@ -109,6 +109,8 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 
 ### Pipeline
 
+#### 使用网关集成方式
+
 1.打开/simples/JT808.Simples.sln项目进行还原编译生成
 
 2.进入JT808.Gateway.SimpleServer项目下的Debug目录运行服务端
@@ -117,6 +119,21 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 
 如图所示：
 ![demo3](https://github.com/SmallChi/JT808Gateway/blob/master/doc/img/demo3.png)
+
+#### 使用队列方式
+
+1.打开/simples/JT808.Simples.sln项目进行还原编译生成
+
+2.JT808.Gateway.SimpleQueueServer项目下的Debug目录运行服务端
+
+3.JT808.Gateway.SimpleQueueService项目下的Debug目录运行消息处理服务
+
+4.进入JT808.Gateway.SimpleClient项目下的Debug目录运行客户端
+
+> 注意：需要安装kafka和zookeeper
+
+如图所示：
+![demo4](https://github.com/SmallChi/JT808Gateway/blob/master/doc/img/demo4.png)
 
 ### DotNetty
 

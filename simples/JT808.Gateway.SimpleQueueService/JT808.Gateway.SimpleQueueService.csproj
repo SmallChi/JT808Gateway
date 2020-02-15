@@ -1,11 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="JT808.Gateway" Version="1.0.0-preview8" />
+    <PackageReference Include="JT808.Gateway.Kafka" Version="1.0.0-preview8" />
     <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.0.0-preview8" />
     <PackageReference Include="JT808.Gateway.MsgLogging" Version="1.0.0-preview8" />
     <PackageReference Include="JT808.Gateway.ReplyMessage" Version="1.0.0-preview8" />
@@ -17,11 +19,11 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.1" />
   </ItemGroup>
+
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-
+  
 </Project>

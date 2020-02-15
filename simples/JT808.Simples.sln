@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleServer"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleClient", "JT808.Gateway.SimpleClient\JT808.Gateway.SimpleClient.csproj", "{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.Gateway.SimpleQueueServer", "JT808.Gateway.SimpleQueueServer\JT808.Gateway.SimpleQueueServer.csproj", "{8594AC7F-18B4-439D-B58B-1CEFF0833A1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.Gateway.SimpleQueueService", "JT808.Gateway.SimpleQueueService\JT808.Gateway.SimpleQueueService.csproj", "{E2D1CFEF-417A-4C44-BC2E-E5A160602485}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D1CFEF-417A-4C44-BC2E-E5A160602485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D1CFEF-417A-4C44-BC2E-E5A160602485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D1CFEF-417A-4C44-BC2E-E5A160602485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D1CFEF-417A-4C44-BC2E-E5A160602485}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +56,8 @@ Global
 		{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 		{98E1CDD0-4D4E-48FE-968E-260F0CD5F4D3} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 		{09AFAC3E-4E4D-4B51-962D-BF8489D8BEC6} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{E2D1CFEF-417A-4C44-BC2E-E5A160602485} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC0FFCEA-E1EF-4C97-A1C5-F89418B6834B}

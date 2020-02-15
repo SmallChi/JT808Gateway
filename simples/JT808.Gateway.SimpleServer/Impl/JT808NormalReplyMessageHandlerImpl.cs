@@ -46,7 +46,7 @@ namespace JT808.Gateway.SimpleServer.Impl
             //转发数据（可同步也可以使用队列进行异步）
             try
             {
-                jT808TransmitService.Send(parameter);
+                jT808TransmitService.SendAsync(parameter);
             }
             catch (Exception ex)
             {
