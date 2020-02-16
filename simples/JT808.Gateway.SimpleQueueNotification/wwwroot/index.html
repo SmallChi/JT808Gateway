@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT" />
+    <meta http-equiv="Expires" content="-1" />
+    <script type="text/javascript" src="signalr.min.js"></script>
+</head>
+
+<body>
+    <h1>接收消息：</h1>
+    <ul id="msg">
+
+    </ul>
+    <script>
+        var msgDom = document.getElementById("msg");
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:5000/JT808MsgHub?access_token=123456")
+            .build();
+        connection.on("ReceiveMessage", (tno, message) => {
+            msgDom.append("<li>" + tno + "=>" + message + "</li>");
+        });
+        connection.start().catch(err => console.error(err));
+    </script>
+</body>
+
+</html>

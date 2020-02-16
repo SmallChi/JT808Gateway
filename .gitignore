@@ -328,6 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-*.json
 /nupkgs
 /src/JT808.DotNetty.Admin/tools/protoc-gen-grpc-web-1.0.3-windows-x86_64.exe

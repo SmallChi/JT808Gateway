@@ -128,7 +128,10 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 
 3.JT808.Gateway.SimpleQueueService项目下的Debug目录运行消息处理服务
 
-4.进入JT808.Gateway.SimpleClient项目下的Debug目录运行客户端
+4.JT808.Gateway.SimpleQueueNotification项目下的Debug目录运行WebSocket服务
+从浏览器中打开localhost:5000查看数据
+
+5.进入JT808.Gateway.SimpleClient项目下的Debug目录运行客户端
 
 > 注意：需要安装kafka和zookeeper
 
