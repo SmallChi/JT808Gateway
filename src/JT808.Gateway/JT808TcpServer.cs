@@ -249,6 +249,10 @@ namespace JT808.Gateway
                                 }
                             }
                         }
+                        catch (NotImplementedException ex)
+                        {
+                            Logger.LogError(ex.Message);
+                        }
                         catch (JT808Exception ex)
                         {
                             AtomicCounterService.MsgFailIncrement();

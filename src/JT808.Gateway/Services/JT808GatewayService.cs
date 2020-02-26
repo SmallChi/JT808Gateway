@@ -60,6 +60,34 @@ namespace JT808.Gateway.Services
             return Task.FromResult(reply);
         }
 
+        public override Task<SessionInfo> GetTcpSessionByTerminalPhoneNo(SessionRequest request, ServerCallContext context)
+        {
+            Auth(context);
+            var result = jT808SessionManager.GetTcpAll().FirstOrDefault(f=>f.TerminalPhoneNo==request.TerminalPhoneNo);
+            SessionInfo sessionInfo = new SessionInfo();
+            if (result != null)
+            {
+                sessionInfo.LastActiveTime = result.ActiveTime.ToString("yyyy-MM-dd HH:mm:ss");
+                sessionInfo.StartTime = result.StartTime.ToString("yyyy-MM-dd HH:mm:ss");
+                sessionInfo.RemoteAddressIP = result.RemoteEndPoint.ToString();
+                sessionInfo.TerminalPhoneNo = result.TerminalPhoneNo;
+                return Task.FromResult(sessionInfo);
+            }
+            else
+            {
+                throw new Grpc.Core.RpcException(new Status(StatusCode.FailedPrecondition, $"{request.TerminalPhoneNo} not exists"));
+            }
+        }
+
+        public override Task<SessionCountReply> GetTcpSessionCount(Empty request, ServerCallContext context)
+        {
+            Auth(context);
+            return Task.FromResult(new SessionCountReply
+            {
+                Count = jT808SessionManager.TcpSessionCount
+            });
+        }
+
         public override Task<SessionRemoveReply> RemoveSessionByTerminalPhoneNo(SessionRemoveRequest request, ServerCallContext context)
         {
             Auth(context);

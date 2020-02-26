@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,18 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.Kafka" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.MsgLogging" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.ReplyMessage" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.SessionNotice" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.Traffic" Version="1.0.0-preview8" />
-    <PackageReference Include="JT808.Gateway.Transmit" Version="1.0.0-preview8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.1" />
+    <PackageReference Include="JT808.Gateway" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.Kafka" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.MsgLogging" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.ReplyMessage" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.SessionNotice" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.Traffic" Version="1.0.0-preview9" />
+    <PackageReference Include="JT808.Gateway.Transmit" Version="1.0.0-preview9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>

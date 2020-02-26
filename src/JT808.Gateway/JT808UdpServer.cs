@@ -137,6 +137,10 @@ namespace JT808.Gateway
                     MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
                 }
             }
+            catch (NotImplementedException ex)
+            {
+                Logger.LogError(ex.Message);
+            }
             catch (JT808Exception ex)
             {
                 AtomicCounterService.MsgFailIncrement();

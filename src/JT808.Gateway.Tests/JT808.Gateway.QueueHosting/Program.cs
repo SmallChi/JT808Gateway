@@ -7,6 +7,7 @@ using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using NLog.Extensions.Logging;
 using JT808.Gateway.MsgLogging;
+using JT808.Gateway.ReplyMessage;
 using JT808.Gateway.Transmit;
 using JT808.Gateway.Traffic;
 using JT808.Gateway.Abstractions;
@@ -40,8 +41,6 @@ namespace JT808.Gateway.QueueHosting
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
-                            //添加客户端工具
-                            //.AddClient()
                             //.AddQueueGateway(options =>
                             //{
                             //    options.TcpPort = 808;
@@ -54,11 +53,21 @@ namespace JT808.Gateway.QueueHosting
                             .AddTcp()
                             .AddUdp()
                             .AddGrpc()
+                            .Builder()
+                            //添加客户端工具
+                            .AddClient()
+                            //添加客户端服务
+                            .AddClientKafka()
+                            .AddMsgConsumer(hostContext.Configuration)
+                            //添加消息应答服务 
+                            .AddMsgReplyProducer(hostContext.Configuration)
+                            //添加消息应答处理
+                            .AddReplyMessage()
                             ;
                     //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();
                     //客户端测试
-                    //services.AddHostedService<UpJob>();
+                    services.AddHostedService<UpJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();
