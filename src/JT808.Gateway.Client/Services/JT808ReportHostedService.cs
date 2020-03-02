@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -51,7 +51,7 @@ namespace JT808.Gateway.Client.Services
                     OnlineConnections = clients.Where(w => w.IsOpen).Count(),
                     OfflineConnections = clients.Where(w => !w.IsOpen).Count(),
                 };
-                string json = JsonConvert.SerializeObject(report);
+                string json = JsonSerializer.Serialize(report);
                 if (logger.IsEnabled(LogLevel.Debug))
                 {
                     logger.LogDebug(json);
