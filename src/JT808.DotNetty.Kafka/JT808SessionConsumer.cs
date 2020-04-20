@@ -12,7 +12,7 @@ namespace JT808.DotNetty.Kafka
 {
     public class JT808SessionConsumer : IJT808SessionConsumer
     {
-        public CancellationTokenSource Cts => new CancellationTokenSource();
+        public CancellationTokenSource Cts { get; private set; } = new CancellationTokenSource();
 
         private readonly IConsumer<string, string> consumer;
 
