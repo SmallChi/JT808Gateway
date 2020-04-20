@@ -13,7 +13,7 @@ namespace JT808.Gateway.Kafka
 {
     public class JT808MsgConsumer : IJT808MsgConsumer
     {
-        public CancellationTokenSource Cts => new CancellationTokenSource();
+        public CancellationTokenSource Cts { get; private set; } = new CancellationTokenSource();
 
         private readonly IConsumer<string, byte[]> consumer;
 
