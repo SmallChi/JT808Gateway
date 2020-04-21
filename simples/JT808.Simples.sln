@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueService", "JT808.Gateway.SimpleQueueService\JT808.Gateway.SimpleQueueService.csproj", "{E2D1CFEF-417A-4C44-BC2E-E5A160602485}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.Gateway.SimpleQueueNotification", "JT808.Gateway.SimpleQueueNotification\JT808.Gateway.SimpleQueueNotification.csproj", "{163D2EE2-9A62-4E8A-B203-BF147909E89A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueNotification", "JT808.Gateway.SimpleQueueNotification\JT808.Gateway.SimpleQueueNotification.csproj", "{163D2EE2-9A62-4E8A-B203-BF147909E89A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

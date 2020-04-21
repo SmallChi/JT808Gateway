@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.Kafka
 {
-    public class JT808SessionConsumer : IJT808SessionConsumer
+    public sealed class JT808SessionConsumer : IJT808SessionConsumer
     {
+        private bool disposed = false;
         public CancellationTokenSource Cts { get; private set; } = new CancellationTokenSource();
 
         private readonly IConsumer<string, string> consumer;
@@ -35,6 +36,7 @@ namespace JT808.DotNetty.Kafka
             {
                 while (!Cts.IsCancellationRequested)
                 {
+                    if (disposed) return;
                     try
                     {
                         //如果不指定分区，根据kafka的机制会从多个分区中拉取数据
@@ -42,9 +44,9 @@ namespace JT808.DotNetty.Kafka
                         var data = consumer.Consume(Cts.Token);
                         if (logger.IsEnabled(LogLevel.Debug))
                         {
-                            logger.LogDebug($"Topic: {data.Topic} Key: {data.Key} Partition: {data.Partition} Offset: {data.Offset} TopicPartitionOffset:{data.TopicPartitionOffset}");
+                            logger.LogDebug($"Topic: {data.Topic} Key: {data.Message.Key} Partition: {data.Partition} Offset: {data.Offset} TopicPartitionOffset:{data.TopicPartitionOffset}");
                         }
-                        callback((data.Key, data.Value));
+                        callback((data.Message.Key, data.Message.Value));
                     }
                     catch (ConsumeException ex)
                     {
@@ -69,13 +71,32 @@ namespace JT808.DotNetty.Kafka
 
         public void Unsubscribe()
         {
+            if (disposed) return;
             consumer.Unsubscribe();
+            Cts.Cancel();
         }
 
+        private void Dispose(bool disposing)
+        {
+            if (disposed) return;
+            if (disposing)
+            {
+                consumer.Close();
+                consumer.Dispose();
+                Cts.Dispose();
+            }
+            disposed = true;
+        }
+        ~JT808SessionConsumer()
+        {
+            Dispose(false);
+        }
         public void Dispose()
         {
-            consumer.Close();
-            consumer.Dispose();
+            //必须为true
+            Dispose(true);
+            //通知垃圾回收机制不再调用终结器（析构器）
+            GC.SuppressFinalize(this);
         }
     }
 }

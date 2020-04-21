@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.Kafka
 {
-    public class JT808SessionProducer : IJT808SessionProducer
+    public sealed class JT808SessionProducer : IJT808SessionProducer
     {
+        private bool disposed = false;
         public string TopicName { get; }
 
         private readonly IProducer<string, string> producer;
@@ -21,18 +22,35 @@ namespace JT808.Gateway.Kafka
             TopicName = producerConfigAccessor.Value.TopicName;
         }
 
-        public void Dispose()
-        {
-            producer.Dispose();
-        }
-
         public async ValueTask ProduceAsync(string notice,string terminalNo)
         {
+            if (disposed) return;
             await producer.ProduceAsync(TopicName, new Message<string, string>
             {
                 Key = notice,
                 Value = terminalNo
             });
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed) return;
+            if (disposing)
+            {
+                producer.Dispose();
+            }
+            disposed = true;
+        }
+        ~JT808SessionProducer()
+        {
+            Dispose(false);
+        }
+        public void Dispose()
+        {
+            //必须为true
+            Dispose(true);
+            //通知垃圾回收机制不再调用终结器（析构器）
+            GC.SuppressFinalize(this);
         }
     }
 }
