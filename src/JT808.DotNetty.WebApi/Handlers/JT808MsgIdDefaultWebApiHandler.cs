@@ -50,6 +50,20 @@ namespace JT808.DotNetty.WebApi.Handlers
         }
 
         /// <summary>
+        /// 通过终端手机号查询对应会话
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public JT808HttpResponse QueryTcpSessionByTerminalPhoneNo(JT808HttpRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Json))
+            {
+                return EmptyHttpResponse();
+            }
+            return CreateJT808HttpResponse(jT808SessionService.GetTcpAll());
+        }
+
+        /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
         /// <param name="request"></param>
@@ -130,6 +144,7 @@ namespace JT808.DotNetty.WebApi.Handlers
         {
             CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.UnificationSend, UnificationSend);
             CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo, RemoveSessionByTerminalPhoneNo);
+            CreateRoute(JT808NettyConstants.JT808WebApiRouteTable.QueryTcpSessionByTerminalPhoneNo, QueryTcpSessionByTerminalPhoneNo);
         }
 
         protected virtual void InitTcpRoute()

@@ -26,5 +26,11 @@ namespace JT808.DotNetty.Core.Interfaces
         /// <param name="terminalPhoneNo"></param>
         /// <returns></returns>
         JT808ResultDto<bool> RemoveByTerminalPhoneNo(string terminalPhoneNo);
+        /// <summary>
+        /// 通过设备终端号获取对应会话
+        /// </summary>
+        /// <param name="terminalPhoneNo"></param>
+        /// <returns></returns>
+        JT808ResultDto<JT808TcpSessionInfoDto> QueryTcpSessionByTerminalPhoneNo(string terminalPhoneNo);
     }
 }

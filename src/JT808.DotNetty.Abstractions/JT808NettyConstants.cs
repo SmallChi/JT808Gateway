@@ -32,6 +32,10 @@
             /// </summary>
             public static string SessionRemoveByTerminalPhoneNo = $"{RouteTablePrefix}/{SessionPrefix}/RemoveByTerminalPhoneNo";
             /// <summary>
+            /// 会话服务-通过设备终端号查询对应会话
+            /// </summary>
+            public static string QueryTcpSessionByTerminalPhoneNo = $"{RouteTablePrefix}/{SessionPrefix}/QueryTcpSessionByTerminalPhoneNo";
+            /// <summary>
             /// 统一下发信息
             /// </summary>
             public static string UnificationSend = $"{RouteTablePrefix}/UnificationSend";

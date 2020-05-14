@@ -100,5 +100,28 @@ namespace JT808.DotNetty.Core.Services
             }
             return resultDto;
         }
+
+        public JT808ResultDto<JT808TcpSessionInfoDto> QueryTcpSessionByTerminalPhoneNo(string terminalPhoneNo)
+        {
+            JT808ResultDto<JT808TcpSessionInfoDto> resultDto = new JT808ResultDto<JT808TcpSessionInfoDto>();
+            try
+            {
+                resultDto.Data = jT808SessionManager.GetAll().Where(w=>w.TerminalPhoneNo== terminalPhoneNo).Select(s => new JT808TcpSessionInfoDto
+                {
+                    LastActiveTime = s.LastActiveTime,
+                    StartTime = s.StartTime,
+                    TerminalPhoneNo = s.TerminalPhoneNo,
+                    RemoteAddressIP = s.Channel.RemoteAddress.ToString(),
+                }).FirstOrDefault();
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = null;
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.Message;
+            }
+            return resultDto;
+        }
     }
 }

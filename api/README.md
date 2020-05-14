@@ -37,6 +37,7 @@
 |请求Url|请求方式|说明|
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Tcp/Session/GetAll| GET| 基于Tcp管理会话服务-获取会话集合|
+| 127.0.0.1:828/jt808api/Tcp/Session/QueryTcpSessionByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号查询对应会话|
 | 127.0.0.1:828/jt808api/Tcp/Session/RemoveByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号移除对应会话|
 | 127.0.0.1:828/jt808api/Tcp/GetAtomicCounter| GET| 基于Tcp消息包计数服务|
 

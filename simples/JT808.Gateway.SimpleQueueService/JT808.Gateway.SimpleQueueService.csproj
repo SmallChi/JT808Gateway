@@ -6,18 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.Kafka" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.MsgLogging" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.ReplyMessage" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.SessionNotice" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.Traffic" Version="1.0.0" />
-    <PackageReference Include="JT808.Gateway.Transmit" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.3" />
+    <PackageReference Include="JT808.Gateway" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.Kafka" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.MsgLogging" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.ReplyMessage" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.SessionNotice" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.Traffic" Version="1.0.1" />
+    <PackageReference Include="JT808.Gateway.Transmit" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
