@@ -57,21 +57,21 @@ namespace JT808.DotNetty.Hosting
                             .AddJT808WebApiNettyHost()
                             //扩展webapi JT808MsgIdHttpHandlerBase
                             //.ReplaceMsgIdHandler<JT808MsgIdHttpCustomHandler>()
+                            .Builder()
+                            //添加kafka插件
+                            .AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
+                            .AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                            .AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
                             .Builder();
-                    //添加kafka插件
-                    //.AddJT808ServerKafkaMsgProducer(hostContext.Configuration)
-                    //.AddJT808ServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                    //.AddJT808ServerKafkaSessionProducer(hostContext.Configuration)
-                    //.Builder();
-                    //使用微软自带的webapi客户端
-                    //services.AddHttpClient("jt808webapi", c =>
-                    //{
-                    //    c.BaseAddress = new Uri("http://localhost:828/");
-                    //    c.DefaultRequestHeaders.Add("token", "123456);
-                    //})
-                    //.AddTypedClient<JT808HttpClient>();
-                    //var client = services.BuildServiceProvider().GetRequiredService<JT808HttpClient>();
-                    //var result = client.GetTcpAtomicCounter();
+                        //使用微软自带的webapi客户端
+                        //services.AddHttpClient("jt808webapi", c =>
+                        //{
+                        //    c.BaseAddress = new Uri("http://localhost:828/");
+                        //    c.DefaultRequestHeaders.Add("token", "123456);
+                        //})
+                        //.AddTypedClient<JT808HttpClient>();
+                        //var client = services.BuildServiceProvider().GetRequiredService<JT808HttpClient>();
+                        //var result = client.GetTcpAtomicCounter();
                 });
 
             await serverHostBuilder.RunConsoleAsync();

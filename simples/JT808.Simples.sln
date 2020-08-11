@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueNotification", "JT808.Gateway.SimpleQueueNotification\JT808.Gateway.SimpleQueueNotification.csproj", "{163D2EE2-9A62-4E8A-B203-BF147909E89A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.SimpleQueueServer", "JT808.DotNetty.SimpleQueueServer\JT808.DotNetty.SimpleQueueServer.csproj", "{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT808.DotNetty.SimpleQueueService", "JT808.DotNetty.SimpleQueueService\JT808.DotNetty.SimpleQueueService.csproj", "{90E1F1C9-A953-4341-9792-9E2AF4471B68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,14 @@ Global
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +77,8 @@ Global
 		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 		{E2D1CFEF-417A-4C44-BC2E-E5A160602485} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC0FFCEA-E1EF-4C97-A1C5-F89418B6834B}

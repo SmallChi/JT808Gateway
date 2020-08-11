@@ -47,6 +47,7 @@ namespace JT808.DotNetty.Tcp
             bossGroup = new DispatcherEventLoopGroup();
             workerGroup = new WorkerEventLoopGroup(bossGroup, configuration.EventLoopCount);
             serverBufferAllocator = new PooledByteBufferAllocator();
+            //serverBufferAllocator = new UnpooledByteBufferAllocator();
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.Group(bossGroup, workerGroup);
             bootstrap.Channel<TcpServerChannel>();

@@ -46,6 +46,7 @@ namespace JT808.DotNetty.Tcp.Handlers
             string channelId = context.Channel.Id.AsShortText();
             if (logger.IsEnabled(LogLevel.Debug))
                 logger.LogDebug($">>>{ channelId } The client disconnects from the server.");
+            base.ChannelInactive(context);
             base.CloseAsync(context);
         }
 

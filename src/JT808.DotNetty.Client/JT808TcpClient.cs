@@ -42,7 +42,7 @@ namespace JT808.DotNetty.Client
             bootstrap.Group(group);
             bootstrap.Channel<TcpSocketChannel>();
             bootstrap
-               .Option(ChannelOption.Allocator, new PooledByteBufferAllocator())
+               .Option(ChannelOption.Allocator, new UnpooledByteBufferAllocator())
                .Handler(new ActionChannelInitializer<IChannel>(channel =>
                {
                    channel.Pipeline.AddLast("jt808TcpBuffer", new DelimiterBasedFrameDecoder(65535,

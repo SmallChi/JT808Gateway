@@ -16,7 +16,7 @@ namespace JT808.DotNetty.MsgIdHandler.Test
     {
         public readonly ILogger<JT808DotNettyMsgIdHandlerDefaultImpl> logger;
         public JT808DotNettyMsgIdHandlerDefaultImpl(ILoggerFactory loggerFactory,
-                                                                        IServiceProvider serviceProvider) {
+                                                    IServiceProvider serviceProvider) {
             logger = loggerFactory.CreateLogger<JT808DotNettyMsgIdHandlerDefaultImpl>();
             Task.Run(()=> {
                 while (true)

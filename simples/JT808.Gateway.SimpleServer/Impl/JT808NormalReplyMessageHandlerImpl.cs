@@ -3,6 +3,7 @@ using JT808.Gateway.MsgLogging;
 using JT808.Gateway.Traffic;
 using JT808.Gateway.Transmit;
 using JT808.Protocol;
+using JT808.Protocol.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,8 @@ namespace JT808.Gateway.SimpleServer.Impl
         /// <param name="session"></param>
         public override byte[] Msg0x0200(JT808HeaderPackage request, IJT808Session session)
         {
-            logger.LogDebug("重写自带Msg0x0200的消息");
+            //logger.LogDebug("重写自带Msg0x0200的消息");
+            logger.LogDebug($"重写自带Msg0x0200的消息{request.Header.TerminalPhoneNo}-{request.OriginalData.ToArray().ToHexString()}");   
             return base.Msg0x0200(request, session);
         }
 
