@@ -9,7 +9,6 @@ namespace JT808.Gateway.Configurations
         public int TcpPort { get; set; } = 808;
         public int UdpPort { get; set; } = 808;
         public int WebApiPort { get; set; } = 828;
-        public string WebApiHost{ get; set; } = "localhost";
         /// <summary>
         /// WebApi 默认token 123456 
         /// </summary>

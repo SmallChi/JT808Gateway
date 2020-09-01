@@ -60,7 +60,6 @@ namespace JT808.Gateway.NormalHosting
                             .AddTransmit(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp()
-                            .AddGrpc()
                             ;
                     //流量统计
                     services.AddHostedService<TrafficJob>();

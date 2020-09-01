@@ -52,7 +52,6 @@ namespace JT808.Gateway.QueueHosting
                             .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp()
-                            .AddGrpc()
                             .Builder()
                             //添加客户端工具
                             .AddClient()

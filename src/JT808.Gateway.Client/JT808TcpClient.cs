@@ -15,8 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace JT808.Gateway.Client
 {
+
     public class JT808TcpClient:IDisposable
     {
+        //todo: 客户端的断线重连
+        //todo: 客户端的消息处理handler
         private bool disposed = false;
         private Socket clientSocket;
         private readonly ILogger Logger;

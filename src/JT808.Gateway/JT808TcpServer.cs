@@ -34,8 +34,6 @@ namespace JT808.Gateway
 
         private readonly JT808Serializer Serializer;
 
-        private readonly JT808AtomicCounterService AtomicCounterService;
-
         private readonly JT808Configuration Configuration;
 
         private readonly JT808NormalReplyMessageHandler  JT808NormalReplyMessageHandler;
@@ -56,14 +54,12 @@ namespace JT808.Gateway
                 IJT808Config jT808Config,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager,
-                IJT808MsgProducer jT808MsgProducer,
-                JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory)
+                IJT808MsgProducer jT808MsgProducer)
         {
             SessionManager = jT808SessionManager;
             Logger = loggerFactory.CreateLogger("JT808TcpServer");
             Serializer = jT808Config.GetSerializer();
             MsgProducer = jT808MsgProducer;
-            AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             Configuration = jT808ConfigurationAccessor.Value;
             JT808UseType = JT808UseType.Queue;
             InitServer();
@@ -82,14 +78,12 @@ namespace JT808.Gateway
                 IJT808Config jT808Config,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager,
-                JT808NormalReplyMessageHandler replyMessageHandler,
-                JT808AtomicCounterServiceFactory jT808AtomicCounterServiceFactory)
+                JT808NormalReplyMessageHandler replyMessageHandler)
         {
             SessionManager = jT808SessionManager;
             Logger = loggerFactory.CreateLogger("JT808TcpServer");
             Serializer = jT808Config.GetSerializer();
             JT808NormalReplyMessageHandler = replyMessageHandler;
-            AtomicCounterService = jT808AtomicCounterServiceFactory.Create(JT808TransportProtocolType.tcp);
             Configuration = jT808ConfigurationAccessor.Value;
             JT808UseType = JT808UseType.Normal;
             InitServer();
@@ -235,8 +229,6 @@ namespace JT808.Gateway
                             if (contentSpan.Length > 14)
                             {
                                 var package = Serializer.HeaderDeserialize(contentSpan, minBufferSize: 10240);
-                                AtomicCounterService.MsgSuccessIncrement();
-                                if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{AtomicCounterService.MsgSuccessCount}");
                                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
                                 SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
                                 if(JT808UseType== JT808UseType.Normal)
@@ -255,8 +247,6 @@ namespace JT808.Gateway
                         }
                         catch (JT808Exception ex)
                         {
-                            AtomicCounterService.MsgFailIncrement();
-                            if (Logger.IsEnabled(LogLevel.Information)) Logger.LogInformation($"[Atomic Fail Counter]:{AtomicCounterService.MsgFailCount}");
                             Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{contentSpan.ToArray().ToHexString()}");
                         }
                         totalConsumed += (seqReader.Consumed - totalConsumed);
