@@ -10,7 +10,9 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Security.Principal;
 using System.Text;
@@ -62,14 +64,19 @@ namespace JT808.Gateway
                 Logger.LogWarning(ex, $"{ex.Message}:使用cmd命令[netsh http add urlacl url=http://*:{Configuration.WebApiPort}/ user=Everyone]");
             }
             Logger.LogInformation($"JT808 Http Server start at {IPAddress.Any}:{Configuration.WebApiPort}.");
-            Task.Factory.StartNew(async() => 
+            Task.Factory.StartNew(async () =>
             {
                 while (listener.IsListening)
                 {
                     var context = await listener.GetContextAsync();
                     try
                     {
-                        if (authorization.Authorization(context,out var principal))
+                        if (context.Request.RawUrl.StartsWith("/favicon.ico"))
+                        {
+                            context.Http404();
+                            continue;
+                        }
+                        if (authorization.Authorization(context, out var principal))
                         {
                             await ProcessRequestAsync(context, principal);
                         }
@@ -90,18 +97,37 @@ namespace JT808.Gateway
 
         private async ValueTask ProcessRequestAsync(HttpListenerContext context, IPrincipal principal)
         {
-            if(context.Request.RawUrl.StartsWith("/favicon.ico"))
+            var router = MsgIdDefaultWebApiHandler.HandlerDict.FirstOrDefault(f => context.Request.RawUrl.StartsWith(f.Key));
+            if (router.Key == null)
             {
                 context.Http404();
                 return;
             }
-            var uri = new Uri(context.Request.RawUrl);
-            //todo: 处理对应的handler
-            string url = uri.AbsolutePath;
-            var queryParams = uri.Query.Substring(1, uri.Query.Length - 1).Split('&');
-            if (queryParams.Length < 2) {
-                context.Http404();
-                return;
+            if(context.Request.HttpMethod == HttpMethod.Get.Method)
+            {
+                var index = context.Request.Url.AbsoluteUri.IndexOf('?');
+                if (index > 0)
+                {
+                    var uriParamStr = context.Request.Url.AbsoluteUri.Substring(index + 1).ToString();
+                    await context.HttpSend(router.Value(uriParamStr));
+                }
+                else
+                {
+                    await context.HttpSend(router.Value(""));
+                }
+            }
+            else if(context.Request.HttpMethod == HttpMethod.Post.Method)
+            {
+                string json = string.Empty;
+                using (var reader = new StreamReader(context.Request.InputStream,context.Request.ContentEncoding))
+                {
+                    json = reader.ReadToEnd();
+                }
+                await context.HttpSend(router.Value(json));
+            }
+            else
+            {
+                context.Http405();
             }
         }
 

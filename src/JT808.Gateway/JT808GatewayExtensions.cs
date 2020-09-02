@@ -1,4 +1,5 @@
 ﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Authorization;
 using JT808.Gateway.Configurations;
 using JT808.Gateway.Enums;
 using JT808.Gateway.Handlers;
@@ -77,6 +78,7 @@ namespace JT808.Gateway
 
         public static IJT808GatewayBuilder AddHttp(this IJT808GatewayBuilder config)
         {
+            config.JT808Builder.Services.AddSingleton<IJT808Authorization, JT808AuthorizationDefault>();
             config.JT808Builder.Services.AddSingleton<JT808MsgIdDefaultWebApiHandler>();
             config.JT808Builder.Services.AddHostedService<JT808HttpServer>();
             return config;
@@ -85,6 +87,7 @@ namespace JT808.Gateway
         public static IJT808GatewayBuilder AddHttp<TJT808MsgIdDefaultWebApiHandler>(this IJT808GatewayBuilder config)
             where TJT808MsgIdDefaultWebApiHandler: JT808MsgIdDefaultWebApiHandler
         {
+            config.JT808Builder.Services.AddSingleton<IJT808Authorization, JT808AuthorizationDefault>();
             config.JT808Builder.Services.AddSingleton(typeof(JT808MsgIdDefaultWebApiHandler),typeof(TJT808MsgIdDefaultWebApiHandler));
             config.JT808Builder.Services.AddHostedService<JT808HttpServer>();
             return config;

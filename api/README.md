@@ -18,12 +18,6 @@
 
 [基于Udp管理会话服务](#udp_session)
 
-## 4.消息包计数服务
-
-[基于Tcp消息包计数服务](#tcp_counter)
-
-[基于Udp消息包计数服务](#udp_counter)
-
 ## 接口请求对照表
 
 ### 公共接口请求
@@ -39,7 +33,6 @@
 | 127.0.0.1:828/jt808api/Tcp/Session/GetAll| GET| 基于Tcp管理会话服务-获取会话集合|
 | 127.0.0.1:828/jt808api/Tcp/Session/QueryTcpSessionByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号查询对应会话|
 | 127.0.0.1:828/jt808api/Tcp/Session/RemoveByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号移除对应会话|
-| 127.0.0.1:828/jt808api/Tcp/GetAtomicCounter| GET| 基于Tcp消息包计数服务|
 
 ### 基于Udp接口请求
 
@@ -47,7 +40,6 @@
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Udp/Session/GetAll| GET| 基于Udp管理会话服务-获取会话集合|
 | 127.0.0.1:828/jt808api/Udp/Session/RemoveByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号移除对应会话|
-| 127.0.0.1:828/jt808api/Udp/GetAtomicCounter| GET| 基于Udp消息包计数服务|
 
 ### 统一对象返回 JT808ResultDto\<T>
 
@@ -238,57 +230,5 @@
     "Message":"",
     "Code":200,
     "Data":true
-}
-```
-
-### <span id="tcp_counter">基于Tcp消息包计数服务</span>
-
-请求地址：Tcp/GetAtomicCounter
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|------|:------:|:------|
-| MsgSuccessCount| long| 消息包成功数|
-| MsgFailCount| long| 消息包失败数|
-
-返回结果：
-
-``` counter
-{
-    "Message":"",
-    "Code":200,
-    "Data":{
-        "MsgSuccessCount":10000,
-        "MsgFailCount":0
-    }
-}
-```
-
-### <span id="udp_counter">基于Udp消息包计数服务</span>
-
-请求地址：Udp/GetAtomicCounter
-
-请求方式：GET
-
-返回数据：
-
-|属性|数据类型|参数说明|
-|------|:------:|:------|
-| MsgSuccessCount| long| 消息包成功数|
-| MsgFailCount| long| 消息包失败数|
-
-返回结果：
-
-``` counter
-{
-    "Message":"",
-    "Code":200,
-    "Data":{
-        "MsgSuccessCount":1000,
-        "MsgFailCount":0
-    }
 }
 ```

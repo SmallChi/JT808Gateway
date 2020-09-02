@@ -53,20 +53,21 @@ namespace JT808.Gateway.NormalHosting
                             ////    options.UdpPort = 808;
                             ////})                            
                             .AddNormalGateway(hostContext.Configuration)
-                            .ReplaceNormalReplyMessageHandler<JT808NormalReplyMessageHandlerImpl>()
-                            .AddMsgLogging<JT808MsgLogging>()
-                            .AddTraffic()
-                            .AddSessionNotice()
-                            .AddTransmit(hostContext.Configuration)
+                            //.ReplaceNormalReplyMessageHandler<JT808NormalReplyMessageHandlerImpl>()
+                            //.AddMsgLogging<JT808MsgLogging>()
+                            //.AddTraffic()
+                            //.AddSessionNotice()
+                            //.AddTransmit(hostContext.Configuration)
                             .AddTcp()
-                            .AddUdp()
+                            //.AddUdp()
+                            .AddHttp()
                             ;
                     //流量统计
-                    services.AddHostedService<TrafficJob>();
+                    //services.AddHostedService<TrafficJob>();
                     //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();
                     //客户端测试  依赖AddClient()服务
-                    services.AddHostedService<UpJob>();
+                    //services.AddHostedService<UpJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();

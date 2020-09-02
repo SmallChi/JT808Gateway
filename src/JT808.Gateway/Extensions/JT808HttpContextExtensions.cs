@@ -46,6 +46,15 @@ namespace JT808.Gateway.Extensions
             context.Response.Close();
         }
 
+        public static void Http405(this HttpListenerContext context)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+            context.Response.KeepAlive = false;
+            context.Response.ContentType = jsonType;
+            context.Response.OutputStream.Close();
+            context.Response.Close();
+        }
+
         public static async ValueTask Http500(this HttpListenerContext context)
         {
             byte[] b = Encoding.UTF8.GetBytes("inner error");

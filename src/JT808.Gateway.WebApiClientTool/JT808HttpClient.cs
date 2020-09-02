@@ -25,7 +25,7 @@ namespace JT808.Gateway.WebApiClientTool
         public async ValueTask<JT808ResultDto<List<JT808TcpSessionInfoDto>>> GetTcpSessionAll()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpGetAll);
-            var response =  HttpClient.SendAsync(request).Result;
+            var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
             var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<List<JT808TcpSessionInfoDto>>>(data);
@@ -41,7 +41,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo);
             request.Content = new StringContent(terminalPhoneNo);
-            var response =  HttpClient.SendAsync(request).Result;
+            var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
             var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<bool>>(data);
@@ -57,7 +57,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.UnificationSend);
             request.Content = new StringContent(JsonSerializer.Serialize(jT808UnificationSendRequestDto));
-            var response = HttpClient.SendAsync(request).Result;
+            var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
             var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<bool>>(data);
@@ -71,7 +71,7 @@ namespace JT808.Gateway.WebApiClientTool
         public async ValueTask<JT808ResultDto<List<JT808UdpSessionInfoDto>>> GetUdpSessionAll()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpGetAll);
-            var response = HttpClient.SendAsync(request).Result;
+            var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
             var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<List<JT808UdpSessionInfoDto>>>(data);
