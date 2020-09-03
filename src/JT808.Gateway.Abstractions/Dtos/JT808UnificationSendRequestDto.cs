@@ -6,6 +6,6 @@
     public class JT808UnificationSendRequestDto
     {
         public string TerminalPhoneNo { get; set; }
-        public string Data { get; set; }
+        public string HexData { get; set; }
     }
 }

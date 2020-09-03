@@ -30,8 +30,7 @@ namespace JT808.Gateway.Test
             Assert.Equal("123456", token);
             Assert.Equal("http://localhost/", uri);
             serviceDescriptors.AddJT808WebApiClientTool(builder.Build());
-        }
-
+        }        
         [Fact(DisplayName = "使用postman测试")]
         public void Test2()
         {
@@ -43,8 +42,42 @@ namespace JT808.Gateway.Test
             //http://127.0.0.1:828/jt808api/Tcp/Session/RemoveByTerminalPhoneNo
             //123456789
             ///http://127.0.0.1:828/jt808api/UnificationSend
-            //{"TerminalPhoneNo":"123456789","Data":"7e 01 02 7e"}
-            //{"TerminalPhoneNo":"123456789","Data":"7e01027e"}
+            //{"TerminalPhoneNo":"123456789","HexData":"7e 01 02 7e"}
+            //{"TerminalPhoneNo":"123456789","HexData":"7e01027e"}
+            //UDP
+            //http://127.0.0.1:828/jt808api/Udp/Session/GetAll
+            //http://127.0.0.1:828/jt808api/Udp/Session/RemoveUdpByTerminalPhoneNo
+            //123456789
+            //http://127.0.0.1:828/jt808api/Udp/Session/QueryUdpSessionByTerminalPhoneNo
         }
+
+        [Fact]
+        public void Test3()
+        {
+            IServiceCollection serviceDescriptors = new ServiceCollection();
+            serviceDescriptors.AddSingleton<A>();
+
+            IServiceProvider aa = serviceDescriptors.BuildServiceProvider();
+            IServiceCollection sc= aa.GetRequiredService<IServiceCollection>();
+            sc.AddSingleton<B>();
+
+            IServiceProvider aa1 = serviceDescriptors.BuildServiceProvider();
+            B b = aa.GetRequiredService<B>();
+        }
+    }
+
+    public class A
+    {
+
+    }
+
+    public class B
+    {
+
+    }
+
+    public class C
+    {
+
     }
 }

@@ -46,7 +46,7 @@ namespace JT808.Gateway.QueueHosting
                             //    options.TcpPort = 808;
                             //    options.UdpPort = 808;
                             //})
-                            .AddQueueGateway(hostContext.Configuration)
+                            .AddGateway(hostContext.Configuration)
                             .AddServerKafkaMsgProducer(hostContext.Configuration)
                             .AddServerKafkaSessionProducer(hostContext.Configuration)
                             .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
@@ -61,14 +61,13 @@ namespace JT808.Gateway.QueueHosting
                             //添加消息应答服务 
                             .AddMsgReplyProducer(hostContext.Configuration)
                             //添加消息应答处理
-                            .AddReplyMessage()
+                            //.AddReplyMessage()
                             ;
                     //grpc客户端调用
                     //services.AddHostedService<CallGrpcClientJob>();
                     //客户端测试
                     services.AddHostedService<UpJob>();
                 });
-
             await serverHostBuilder.RunConsoleAsync();
         }
     }

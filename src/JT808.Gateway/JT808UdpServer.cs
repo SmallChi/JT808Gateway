@@ -8,10 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using JT808.Gateway.Abstractions;
-using JT808.Gateway.Abstractions.Enums;
 using JT808.Gateway.Configurations;
-using JT808.Gateway.Enums;
-using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol;
 using JT808.Protocol.Exceptions;
@@ -30,49 +27,26 @@ namespace JT808.Gateway
 
         private readonly JT808SessionManager SessionManager;
 
-        private readonly IJT808MsgProducer MsgProducer;
-
         private readonly JT808Serializer Serializer;
 
         private readonly JT808Configuration Configuration;
 
         private readonly IPEndPoint LocalIPEndPoint;
 
-        private readonly JT808NormalReplyMessageHandler JT808NormalReplyMessageHandler;
-
-        private JT808UseType JT808UseType;
+        private readonly JT808MessageHandler MessageHandler;
 
         public JT808UdpServer(
                 IOptions<JT808Configuration> jT808ConfigurationAccessor,
                 IJT808Config jT808Config,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager,
-                IJT808MsgProducer jT808MsgProducer)
-            {
-                SessionManager = jT808SessionManager;
-                Logger = loggerFactory.CreateLogger("JT808UdpServer");
-                Serializer = jT808Config.GetSerializer();
-                MsgProducer = jT808MsgProducer;
-                Configuration = jT808ConfigurationAccessor.Value;
-                JT808UseType = JT808UseType.Queue;
-                LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.UdpPort);
-                server = new Socket(LocalIPEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
-                server.Bind(LocalIPEndPoint);
-            }
-
-        public JT808UdpServer(
-            IOptions<JT808Configuration> jT808ConfigurationAccessor,
-            IJT808Config jT808Config,
-            ILoggerFactory loggerFactory,
-            JT808SessionManager jT808SessionManager,
-            JT808NormalReplyMessageHandler replyMessageHandler)
+                JT808MessageHandler messageHandler)
         {
             SessionManager = jT808SessionManager;
             Logger = loggerFactory.CreateLogger("JT808UdpServer");
             Serializer = jT808Config.GetSerializer();
-            JT808NormalReplyMessageHandler = replyMessageHandler;
             Configuration = jT808ConfigurationAccessor.Value;
-            JT808UseType = JT808UseType.Normal;
+            MessageHandler = messageHandler;
             LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.UdpPort);
             server = new Socket(LocalIPEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
             server.Bind(LocalIPEndPoint);
@@ -120,14 +94,7 @@ namespace JT808.Gateway
                 {
                     Logger.LogInformation($"[Connected]:{receiveMessageFromResult.RemoteEndPoint}");
                 }
-                if (JT808UseType == JT808UseType.Normal)
-                {
-                    JT808NormalReplyMessageHandler.Processor(package, session);
-                }
-                else if (JT808UseType == JT808UseType.Queue)
-                {
-                    MsgProducer.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
-                }
+                MessageHandler.Processor(package, session);
             }
             catch (NotImplementedException ex)
             {

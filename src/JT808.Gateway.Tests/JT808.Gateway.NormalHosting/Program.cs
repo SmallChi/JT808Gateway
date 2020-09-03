@@ -52,7 +52,7 @@ namespace JT808.Gateway.NormalHosting
                             ////    options.TcpPort = 808;
                             ////    options.UdpPort = 808;
                             ////})                            
-                            .AddNormalGateway(hostContext.Configuration)
+                            .AddGateway(hostContext.Configuration)
                             //.ReplaceNormalReplyMessageHandler<JT808NormalReplyMessageHandlerImpl>()
                             //.AddMsgLogging<JT808MsgLogging>()
                             //.AddTraffic()

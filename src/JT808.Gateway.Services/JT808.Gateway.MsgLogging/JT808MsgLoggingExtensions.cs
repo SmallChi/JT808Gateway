@@ -17,7 +17,7 @@ namespace JT808.Gateway.MsgLogging
             return jT808ClientBuilder;
         }
 
-        public static IJT808NormalGatewayBuilder AddMsgLogging<TJT808MsgLogging>(this IJT808NormalGatewayBuilder  jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddMsgLogging<TJT808MsgLogging>(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
             where TJT808MsgLogging : IJT808MsgLogging
         {
             jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808MsgLogging), typeof(TJT808MsgLogging));

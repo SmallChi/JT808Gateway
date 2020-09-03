@@ -4,18 +4,21 @@
         <name>JT808.Gateway.WebApiClientTool</name>
     </assembly>
     <members>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetTcpSessionAll">
+        <member name="T:JT808.Gateway.WebApiClientTool.JT808HttpClient">
             <summary>
-            会话服务集合
+            
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveByTerminalPhoneNo(System.String)">
+        <member name="P:JT808.Gateway.WebApiClientTool.JT808HttpClient.HttpClient">
             <summary>
-            会话服务-通过设备终端号移除对应会话
+            
             </summary>
-            <param name="terminalPhoneNo"></param>
-            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            
+            </summary>
+            <param name="httpClient"></param>
         </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.UnificationSend(JT808.Gateway.Abstractions.Dtos.JT808UnificationSendRequestDto)">
             <summary>
@@ -24,10 +27,66 @@
             <param name="jT808UnificationSendRequestDto"></param>
             <returns></returns>
         </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetTcpSessionAll">
+            <summary>
+            会话服务集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryTcpSessionByTerminalPhoneNo(System.String)">
+            <summary>
+            会话服务-通过设备终端号查询对应会话信息
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveTcpByTerminalPhoneNo(System.String)">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetUdpSessionAll">
             <summary>
             会话服务集合
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryUdpSessionByTerminalPhoneNo(System.String)">
+            <summary>
+            会话服务-通过设备终端号查询对应会话信息
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveUdpByTerminalPhoneNo(System.String)">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JT808.Gateway.WebApiClientTool.JT808HttpClientExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClientExtensions.AddJT808WebApiClientTool(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Uri,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="serviceDescriptors"></param>
+            <param name="webapiUri"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClientExtensions.AddJT808WebApiClientTool(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="serviceDescriptors"></param>
+            <param name="configuration"></param>
             <returns></returns>
         </member>
     </members>

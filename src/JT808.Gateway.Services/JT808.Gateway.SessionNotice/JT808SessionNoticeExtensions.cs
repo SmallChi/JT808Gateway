@@ -40,7 +40,7 @@ namespace JT808.Gateway.SessionNotice
         /// </summary>
         /// <param name="jT808NormalGatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808NormalGatewayBuilder AddSessionNotice(this IJT808NormalGatewayBuilder  jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddSessionNotice(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
         {
             jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService>();
             jT808NormalGatewayBuilder.JT808Builder.Services.AddHostedService<JT808SessionNoticeHostedService>();
@@ -53,7 +53,7 @@ namespace JT808.Gateway.SessionNotice
         /// <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
         /// <param name="jT808NormalGatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808NormalGatewayBuilder AddSessionNotice<TSessionNoticeService>(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddSessionNotice<TSessionNoticeService>(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
            where TSessionNoticeService : JT808SessionNoticeService
         {
             jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService, TSessionNoticeService>();

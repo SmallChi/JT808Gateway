@@ -32,7 +32,7 @@ namespace JT808.Gateway.ServerBenchmark
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()                          
-                            .AddNormalGateway(hostContext.Configuration)
+                            .AddGateway(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp();
                 });

@@ -8,14 +8,16 @@ using System.Text;
 
 namespace JT808.Gateway.Abstractions
 {
-    public  class JT808NormalReplyMessageHandler
+    /// <summary>
+    /// 通用消息处理程序
+    /// </summary>
+    public class JT808MessageHandler
     {
         protected Dictionary<ushort, MsgIdMethodDelegate> HandlerDict { get; }
 
         protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package, IJT808Session session);
         protected JT808Serializer JT808Serializer { get; }
-        public JT808NormalReplyMessageHandler(
-            IJT808Config jT808Config)
+        public JT808MessageHandler(IJT808Config jT808Config)
         {
             this.JT808Serializer = jT808Config.GetSerializer();
             HandlerDict = new Dictionary<ushort, MsgIdMethodDelegate> {
@@ -40,9 +42,8 @@ namespace JT808.Gateway.Abstractions
                 {JT808MsgId.CAN总线数据上传.ToUInt16Value(),Msg0x0705 },           
             };
         }
-
         /// <summary>
-        /// 
+        /// 消息处理
         /// </summary>
         /// <param name="request">请求数据</param>
         /// <param name="session">当前会话</param>
@@ -53,11 +54,12 @@ namespace JT808.Gateway.Abstractions
             {
                 return func(request, session);
             }
-            else
-            {
-                //处理不了的消息统一回复通用应答
-                return CommonReply(request, session);
-            }
+            return default;
+            //else
+            //{
+            //    //处理不了的消息统一回复通用应答
+            //    return CommonReply(request, session);
+            //}
         }
         /// <summary>
         /// 终端通用应答
@@ -85,7 +87,7 @@ namespace JT808.Gateway.Abstractions
                     JT808PlatformResult = JT808PlatformResult.成功,
                     MsgNum = request.Header.MsgNum
                 }));
-                session.SendAsync(data);
+                session.Send(data);
                 return data;
             }
             else
@@ -96,7 +98,7 @@ namespace JT808.Gateway.Abstractions
                     JT808PlatformResult = JT808PlatformResult.成功,
                     MsgNum = request.Header.MsgNum
                 }));
-                session.SendAsync(data);
+                session.Send(data);
                 return data;
             }
         }
@@ -122,7 +124,7 @@ namespace JT808.Gateway.Abstractions
             {
                  Time=DateTime.Now
             }));
-            session.SendAsync(data);
+            session.Send(data);
             return data;
         }
         /// <summary>
@@ -161,7 +163,7 @@ namespace JT808.Gateway.Abstractions
                     JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
                     AckMsgNum = request.Header.MsgNum
                 }));
-                session.SendAsync(data);
+                session.Send(data);
                 return data;
             }
             else
@@ -172,7 +174,7 @@ namespace JT808.Gateway.Abstractions
                     JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
                     AckMsgNum = request.Header.MsgNum
                 }));
-                session.SendAsync(data);
+                session.Send(data);
                 return data;
             }
         }

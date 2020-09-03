@@ -225,7 +225,7 @@ namespace JT808.Gateway.Handlers
             try
             {
                 JT808UnificationSendRequestDto jT808UnificationSendRequestDto = JsonSerializer.Deserialize<JT808UnificationSendRequestDto>(json);
-                resultDto.Data = JT808SessionManager.TrySendByTerminalPhoneNoAsync(jT808UnificationSendRequestDto.TerminalPhoneNo, jT808UnificationSendRequestDto.Data.ToHexBytes())
+                resultDto.Data = JT808SessionManager.TrySendByTerminalPhoneNoAsync(jT808UnificationSendRequestDto.TerminalPhoneNo, jT808UnificationSendRequestDto.HexData.ToHexBytes())
                                                 .GetAwaiter()
                                                 .GetResult();
                 resultDto.Code = JT808ResultCode.Ok;

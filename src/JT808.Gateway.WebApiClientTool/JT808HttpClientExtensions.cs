@@ -6,8 +6,18 @@ using System.Text;
 
 namespace JT808.Gateway.WebApiClientTool
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class JT808HttpClientExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceDescriptors"></param>
+        /// <param name="webapiUri"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public static IServiceCollection AddJT808WebApiClientTool(this IServiceCollection serviceDescriptors, Uri webapiUri,string token)
         {
             serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
@@ -20,6 +30,12 @@ namespace JT808.Gateway.WebApiClientTool
             return serviceDescriptors;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceDescriptors"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddJT808WebApiClientTool(this IServiceCollection serviceDescriptors, IConfiguration configuration)
         {
             serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>

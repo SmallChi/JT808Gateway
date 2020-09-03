@@ -38,7 +38,7 @@ namespace JT808.Gateway.Traffic
         /// </summary>
         /// <param name="jT808NormalGatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808NormalGatewayBuilder AddTraffic<TIJT808Traffic>(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddTraffic<TIJT808Traffic>(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
             where TIJT808Traffic : IJT808Traffic
         {
             jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(TIJT808Traffic));
@@ -51,7 +51,7 @@ namespace JT808.Gateway.Traffic
         /// </summary>
         /// <param name="jT808NormalGatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808NormalGatewayBuilder AddTraffic(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddTraffic(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
         {
             jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(JT808TrafficDefault));
             return jT808NormalGatewayBuilder;

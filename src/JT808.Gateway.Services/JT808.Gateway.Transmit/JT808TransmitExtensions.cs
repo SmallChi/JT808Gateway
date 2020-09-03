@@ -31,7 +31,7 @@ namespace JT808.Gateway.Transmit
         /// <param name="jT808NormalGatewayBuilder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808NormalGatewayBuilder AddTransmit(this IJT808NormalGatewayBuilder jT808NormalGatewayBuilder, IConfiguration configuration)
+        public static IJT808GatewayBuilder AddTransmit(this IJT808GatewayBuilder jT808NormalGatewayBuilder, IConfiguration configuration)
         {
             jT808NormalGatewayBuilder.JT808Builder.Services.Configure<RemoteServerOptions>(configuration.GetSection("RemoteServerOptions"));
             jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton<JT808TransmitService>();
