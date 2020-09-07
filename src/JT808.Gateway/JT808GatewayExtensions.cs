@@ -1,6 +1,6 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Authorization;
-using JT808.Gateway.Configurations;
+using JT808.Gateway.Abstractions.Configurations;
 using JT808.Gateway.Handlers;
 using JT808.Gateway.Internal;
 using JT808.Gateway.Services;

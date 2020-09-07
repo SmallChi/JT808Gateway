@@ -1,5 +1,5 @@
 ﻿using JT808.Gateway.Abstractions;
-using JT808.Gateway.Configurations;
+using JT808.Gateway.Abstractions.Configurations;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;

@@ -50,34 +50,5 @@ namespace JT808.Gateway.Test
             //123456789
             //http://127.0.0.1:828/jt808api/Udp/Session/QueryUdpSessionByTerminalPhoneNo
         }
-
-        [Fact]
-        public void Test3()
-        {
-            IServiceCollection serviceDescriptors = new ServiceCollection();
-            serviceDescriptors.AddSingleton<A>();
-
-            IServiceProvider aa = serviceDescriptors.BuildServiceProvider();
-            IServiceCollection sc= aa.GetRequiredService<IServiceCollection>();
-            sc.AddSingleton<B>();
-
-            IServiceProvider aa1 = serviceDescriptors.BuildServiceProvider();
-            B b = aa.GetRequiredService<B>();
-        }
-    }
-
-    public class A
-    {
-
-    }
-
-    public class B
-    {
-
-    }
-
-    public class C
-    {
-
     }
 }

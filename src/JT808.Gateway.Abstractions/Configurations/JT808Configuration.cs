@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT808.Gateway.Configurations
+namespace JT808.Gateway.Abstractions.Configurations
 {
     public class JT808Configuration
     {
@@ -19,7 +19,7 @@ namespace JT808.Gateway.Configurations
         /// Tcp读超时 
         /// 默认10分钟检查一次
         /// </summary>
-        public int TcpReaderIdleTimeSeconds { get; set; } = 60*10;
+        public int TcpReaderIdleTimeSeconds { get; set; } = 60 * 10;
         /// <summary>
         /// Tcp 60s检查一次
         /// </summary>
@@ -32,5 +32,9 @@ namespace JT808.Gateway.Configurations
         /// Udp 60s检查一次
         /// </summary>
         public int UdpReceiveTimeoutCheckTimeSeconds { get; set; } = 60;
+        /// <summary>
+        /// 网关不做消息业务处理，往队列发送
+        /// </summary>
+        public List<uint> FilterMsgIdHandlerForQueue { get; set; }
     }
 }

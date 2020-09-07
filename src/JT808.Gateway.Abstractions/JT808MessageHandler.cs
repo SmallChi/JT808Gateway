@@ -5,6 +5,9 @@ using JT808.Protocol.MessageBody;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using JT808.Gateway.Abstractions.Configurations;
 
 namespace JT808.Gateway.Abstractions
 {
@@ -17,9 +20,19 @@ namespace JT808.Gateway.Abstractions
 
         protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package, IJT808Session session);
         protected JT808Serializer JT808Serializer { get; }
-        public JT808MessageHandler(IJT808Config jT808Config)
+
+        protected IJT808MsgProducer MsgProducer;
+
+        protected IOptionsMonitor<JT808Configuration> JT808ConfigurationOptionsMonitor;
+
+        public JT808MessageHandler(
+            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
+            IJT808MsgProducer msgProducer,
+            IJT808Config jT808Config)
         {
             this.JT808Serializer = jT808Config.GetSerializer();
+            this.MsgProducer = msgProducer;
+            this.JT808ConfigurationOptionsMonitor = jT808ConfigurationOptionsMonitor;
             HandlerDict = new Dictionary<ushort, MsgIdMethodDelegate> {
                 {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
                 {JT808MsgId.终端鉴权.ToUInt16Value(), Msg0x0102},
@@ -39,9 +52,16 @@ namespace JT808.Gateway.Abstractions
                 {JT808MsgId.摄像头立即拍摄命令.ToUInt16Value(),Msg0x8801 },
                 {JT808MsgId.多媒体数据上传.ToUInt16Value(),Msg0x0801 },
                 {JT808MsgId.多媒体事件信息上传.ToUInt16Value(),Msg0x0800 },
-                {JT808MsgId.CAN总线数据上传.ToUInt16Value(),Msg0x0705 },           
+                {JT808MsgId.CAN总线数据上传.ToUInt16Value(),Msg0x0705 },
             };
         }
+
+        public JT808MessageHandler(IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor
+            , IJT808Config jT808Config) : this(jT808ConfigurationOptionsMonitor, null, jT808Config)
+        {
+
+        }
+
         /// <summary>
         /// 消息处理
         /// </summary>
@@ -52,15 +72,38 @@ namespace JT808.Gateway.Abstractions
         {
             if (HandlerDict.TryGetValue(request.Header.MsgId, out var func))
             {
-                return func(request, session);
+                if (JT808ConfigurationOptionsMonitor.CurrentValue.FilterMsgIdHandlerForQueue != null)
+                {
+                    // 网关不做消息业务处理，往队列发送
+                    if (JT808ConfigurationOptionsMonitor.CurrentValue.FilterMsgIdHandlerForQueue.Contains(request.Header.MsgId))
+                    {
+                        if (MsgProducer != null)
+                        {
+                            MsgProducer.ProduceAsync(request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
+                        }
+                        return default;
+                    }
+                    else
+                    {
+                        return func(request, session);
+                    }
+                }
+                else
+                {
+                    return func(request, session);
+                }
             }
-            return default;
-            //else
-            //{
-            //    //处理不了的消息统一回复通用应答
-            //    return CommonReply(request, session);
-            //}
+            else
+            {
+                //处理不了的消息Id统一发队列
+                if (MsgProducer != null)
+                {
+                    MsgProducer.ProduceAsync(request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
+                }
+                return default;
+            }
         }
+
         /// <summary>
         /// 终端通用应答
         /// 平台无需回复
@@ -122,7 +165,7 @@ namespace JT808.Gateway.Abstractions
         {
             byte[] data = JT808Serializer.Serialize(JT808MsgId.查询服务器时间应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8004()
             {
-                 Time=DateTime.Now
+                Time = DateTime.Now
             }));
             session.Send(data);
             return data;

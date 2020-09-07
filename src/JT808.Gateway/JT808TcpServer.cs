@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using JT808.Gateway.Abstractions;
-using JT808.Gateway.Configurations;
+using JT808.Gateway.Abstractions.Configurations;
 using JT808.Gateway.Session;
 using JT808.Protocol;
 using JT808.Protocol.Exceptions;
