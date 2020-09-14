@@ -1,32 +1,35 @@
 ﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions.Configurations;
 using JT808.Gateway.MsgLogging;
 using JT808.Gateway.Traffic;
 using JT808.Gateway.Transmit;
 using JT808.Protocol;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JT808.Gateway.NormalHosting.Impl
 {
-    public class JT808NormalReplyMessageHandlerImpl : JT808NormalReplyMessageHandler
+    public class JT808CustomMessageHandlerImpl : JT808MessageHandler
     {
         private readonly ILogger logger;
-        private readonly IJT808Traffic jT808Traffic;
+        //private readonly IJT808Traffic jT808Traffic;
         private readonly IJT808MsgLogging jT808MsgLogging;
-        private readonly JT808TransmitService jT808TransmitService;
-        public JT808NormalReplyMessageHandlerImpl(
-            JT808TransmitService jT808TransmitService,
+        //private readonly JT808TransmitService jT808TransmitService;
+        public JT808CustomMessageHandlerImpl(
+            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
+            //JT808TransmitService jT808TransmitService,
             IJT808MsgLogging jT808MsgLogging,
-            IJT808Traffic jT808Traffic,
+            //IJT808Traffic jT808Traffic,
             ILoggerFactory  loggerFactory,
-            IJT808Config jT808Config) : base(jT808Config)
+            IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor, jT808Config)
         {
-            this.jT808TransmitService = jT808TransmitService;
-            this.jT808Traffic = jT808Traffic;
+            //this.jT808TransmitService = jT808TransmitService;
+            //this.jT808Traffic = jT808Traffic;
             this.jT808MsgLogging = jT808MsgLogging;
-            logger =loggerFactory.CreateLogger("JT808NormalReplyMessageHandlerImpl");
+            logger =loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
             //添加自定义消息
             HandlerDict.Add(0x9999, Msg0x9999);
         }
@@ -45,14 +48,14 @@ namespace JT808.Gateway.NormalHosting.Impl
                 //AOP 可以自定义添加一些东西:上下行日志、
                 logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
                 //流量
-                jT808Traffic.Increment(request.Header.TerminalPhoneNo, DateTime.Now.ToString("yyyyMMdd"), request.OriginalData.Length);
+                //jT808Traffic.Increment(request.Header.TerminalPhoneNo, DateTime.Now.ToString("yyyyMMdd"), request.OriginalData.Length);
                 var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
-                //上行日志（可同步也可以使用队列进行异步）
-                jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
-                //下行日志（可同步也可以使用队列进行异步）
+                ////上行日志（可同步也可以使用队列进行异步）
+                //jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
+                ////下行日志（可同步也可以使用队列进行异步）
                 jT808MsgLogging.Processor((request.Header.TerminalPhoneNo, down), JT808MsgLoggingType.down);
-                //转发数据（可同步也可以使用队列进行异步）
-                jT808TransmitService.SendAsync(parameter);
+                ////转发数据（可同步也可以使用队列进行异步）
+                //jT808TransmitService.SendAsync(parameter);
             }
             catch (Exception)
             {

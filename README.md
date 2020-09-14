@@ -55,9 +55,9 @@
 
 通过继承JT808.DotNetty.Core.Handlers.JT808MsgIdHttpHandlerBase去实现自定义的WebApi接口服务。
 
-## 基于GRPC的消息业务处理程序
+通过继承JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler去实现自定义的WebApi接口服务。
 
-[GRPC消息业务处理协议](https://github.com/SmallChi/JT808Gateway/blob/master/src/JT808.Gateway.Abstractions/Protos/JT808Gateway.proto)
+[接口文档](https://github.com/SmallChi/JT808Gateway/tree/master/api)
 
 ## 基于core 3.1 Pipeline
 
@@ -70,18 +70,19 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 
 ### Pipeline的NuGet安装
 
-| Package Name          | Version                                            | Downloads                                           |
-| --------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
-| Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
-| Install-Package JT808.Gateway.Client| ![JT808.Gateway.Client](https://img.shields.io/nuget/v/JT808.Gateway.Client.svg) | ![JT808.Gateway.Client](https://img.shields.io/nuget/dt/JT808.Gateway.Client.svg) |
-| Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) | ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
-| Install-Package JT808.Gateway.Transmit | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
-| Install-Package JT808.Gateway.Traffic | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
-| Install-Package JT808.Gateway.SessionNotice | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
-| Install-Package JT808.Gateway.ReplyMessage | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg) | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)|
-| Install-Package JT808.Gateway.MsgLogging | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
-| Install-Package JT808.Gateway.MsgIdHandler | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
+| Package Name | Version| Preview  Version| Downloads |
+| --- | --- | --- | --- |
+| Install-Package JT808.Gateway.Abstractions| ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/v/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/vpre/JT808.Gateway.Abstractions.svg) | ![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg)|![JT808.Gateway.Abstractions](https://img.shields.io/nuget/dt/JT808.Gateway.Abstractions.svg) |
+| Install-Package JT808.Gateway | ![JT808.Gateway](https://img.shields.io/nuget/v/JT808.Gateway.svg) | ![JT808.Gateway](https://img.shields.io/nuget/vpre/JT808.Gateway.svg)|![JT808.Gateway](https://img.shields.io/nuget/dt/JT808.Gateway.svg) |
+| Install-Package JT808.Gateway.WebApiClientTool | ![JT808.Gateway.WebApiClientTool](https://img.shields.io/nuget/v/JT808.Gateway.WebApiClientTool.svg) | ![JT808.Gateway.WebApiClientTool](https://img.shields.io/nuget/vpre/JT808.Gateway.WebApiClientTool.svg)|![JT808.Gateway.WebApiClientTool](https://img.shields.io/nuget/dt/JT808.Gateway.WebApiClientTool.svg) |
+| Install-Package JT808.Gateway.Client| ![JT808.Gateway.Client](https://img.shields.io/nuget/v/JT808.Gateway.Client.svg) |![JT808.Gateway.Client](https://img.shields.io/nuget/vpre/JT808.Gateway.Client.svg) |![JT808.Gateway.Client](https://img.shields.io/nuget/dt/JT808.Gateway.Client.svg) |
+| Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) |![JT808.Gateway.Kafka](https://img.shields.io/nuget/vpre/JT808.Gateway.Kafka.svg)| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
+| Install-Package JT808.Gateway.Transmit | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) |![JT808.Gateway.Transmit](https://img.shields.io/nuget/vpre/JT808.Gateway.Transmit.svg)| ![JT808.Gateway.Transmit](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
+| Install-Package JT808.Gateway.Traffic | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/vpre/JT808.Gateway.Traffic.svg)|![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
+| Install-Package JT808.Gateway.SessionNotice | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) |![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/vpre/JT808.Gateway.SessionNotice.svg)| ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
+| Install-Package JT808.Gateway.ReplyMessage | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg) |![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/vpre/JT808.Gateway.ReplyMessage.svg) | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)|
+| Install-Package JT808.Gateway.MsgLogging | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgLogging.svg)|![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
+| Install-Package JT808.Gateway.MsgIdHandler | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) |![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgIdHandler.svg)| ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
 
 ## 基于DotNetty
 
@@ -103,7 +104,6 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 | Install-Package JT808.DotNetty.MsgLogging | ![JT808.DotNetty.MsgLogging](https://img.shields.io/nuget/v/JT808.DotNetty.MsgLogging.svg) | ![JT808.DotNetty.MsgLogging](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgLogging.svg)|
 | Install-Package JT808.DotNetty.MsgIdHandler | ![JT808.DotNetty.MsgIdHandler](https://img.shields.io/nuget/v/JT808.DotNetty.MsgIdHandler.svg) | ![JT808.DotNetty.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.DotNetty.MsgIdHandler.svg)|
 | Install-Package JT808.DotNetty.Kafka | ![JT808.DotNetty.Kafka](https://img.shields.io/nuget/v/JT808.DotNetty.Kafka.svg) | ![JT808.DotNetty.Kafka](https://img.shields.io/nuget/dt/JT808.DotNetty.Kafka.svg) |
-| Install-Package JT808.DotNetty.RabbitMQ | ![JT808.DotNetty.RabbitMQ](https://img.shields.io/nuget/v/JT808.DotNetty.RabbitMQ.svg) | ![JT808.DotNetty.RabbitMQ](https://img.shields.io/nuget/dt/JT808.DotNetty.RabbitMQ.svg) |
 
 ## 举个栗子
 

@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Impl\JT808NormalReplyMessageHandlerImpl.cs" />
     <Compile Remove="Jobs\CallGrpcClientJob.cs" />
   </ItemGroup>
 

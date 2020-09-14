@@ -54,12 +54,7 @@ namespace JT808.Gateway
         //    return server;
         //}
 
-        //public static IJT808NormalGatewayBuilder ReplaceNormalReplyMessageHandler<TJT808NormalReplyMessageHandler>(this IJT808NormalGatewayBuilder config)
-        //    where TJT808NormalReplyMessageHandler : JT808NormalReplyMessageHandler
-        //{
-        //    config.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(JT808NormalReplyMessageHandler),typeof(TJT808NormalReplyMessageHandler), ServiceLifetime.Singleton));
-        //    return config;
-        //}
+
 
         public static IJT808GatewayBuilder AddGateway(this IJT808Builder jT808Builder, Action<JT808Configuration> config)
         {
@@ -75,6 +70,13 @@ namespace JT808.Gateway
             jT808GatewayBuilderDefault.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));
             jT808GatewayBuilderDefault.AddJT808Core();
             return jT808GatewayBuilderDefault;
+        }
+
+        public static IJT808GatewayBuilder ReplaceMessageHandler<TJT808MessageHandler>(this IJT808GatewayBuilder config)
+            where TJT808MessageHandler : JT808MessageHandler
+        {
+            config.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(JT808MessageHandler), typeof(TJT808MessageHandler), ServiceLifetime.Singleton));
+            return config;
         }
 
         public static IJT808GatewayBuilder AddTcp(this IJT808GatewayBuilder config)
@@ -110,7 +112,8 @@ namespace JT808.Gateway
 
         private static IJT808GatewayBuilder AddJT808Core(this IJT808GatewayBuilder config)
         {
-            config.JT808Builder.Services.TryAddSingleton<JT808SessionManager>();
+            config.JT808Builder.Services.AddSingleton<JT808MessageHandler>();
+            config.JT808Builder.Services.AddSingleton<JT808SessionManager>();
             return config;
         }
     }

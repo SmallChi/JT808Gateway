@@ -4,12 +4,95 @@
         <name>JT808.Gateway.Abstractions</name>
     </assembly>
     <members>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.WebApiToken">
+            <summary>
+            WebApi 默认token 123456 
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.TcpReaderIdleTimeSeconds">
+            <summary>
+            Tcp读超时 
+            默认10分钟检查一次
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.TcpReceiveTimeoutCheckTimeSeconds">
+            <summary>
+            Tcp 60s检查一次
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.UdpReaderIdleTimeSeconds">
+            <summary>
+            Udp读超时
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.UdpReceiveTimeoutCheckTimeSeconds">
+            <summary>
+            Udp 60s检查一次
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.FilterMsgIdHandlerForQueue">
+            <summary>
+            网关不做消息业务处理，往队列发送
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808TcpSessionInfoDto.LastActiveTime">
+            <summary>
+            最后上线时间
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808TcpSessionInfoDto.StartTime">
+            <summary>
+            上线时间
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808TcpSessionInfoDto.TerminalPhoneNo">
+            <summary>
+            终端手机号
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808TcpSessionInfoDto.RemoteAddressIP">
+            <summary>
+            远程ip地址
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808UdpSessionInfoDto.LastActiveTime">
+            <summary>
+            最后上线时间
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808UdpSessionInfoDto.StartTime">
+            <summary>
+            上线时间
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808UdpSessionInfoDto.TerminalPhoneNo">
+            <summary>
+            终端手机号
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808UdpSessionInfoDto.RemoteAddressIP">
+            <summary>
+            远程ip地址
+            </summary>
+        </member>
+        <member name="T:JT808.Gateway.Abstractions.Dtos.JT808UnificationSendRequestDto">
+            <summary>
+            统一下发请求参数
+            </summary>
+        </member>
         <member name="T:JT808.Gateway.Abstractions.Enums.JT808TransportProtocolType">
             <summary>
             传输协议类型
             </summary>
         </member>
         <member name="M:JT808.Gateway.Abstractions.IJT808MsgProducer.ProduceAsync(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="terminalNo">设备终端号</param>
+            <param name="data">808 hex data</param>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.IJT808MsgReplyLoggingProducer.ProduceAsync(System.String,System.Byte[])">
             <summary>
             
             </summary>
@@ -38,15 +121,55 @@
             会话通知（在线/离线）
             </summary>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Processor(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpGetAll">
             <summary>
-            
+            基于Tcp的会话服务集合
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.QueryTcpSessionByTerminalPhoneNo">
+            <summary>
+            会话服务-通过设备终端号查询对应会话
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.UnificationSend">
+            <summary>
+            统一下发信息
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpGetAll">
+            <summary>
+            基于Udp的虚拟会话服务集合
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.RemoveUdpByTerminalPhoneNo">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.QueryUdpSessionByTerminalPhoneNo">
+            <summary>
+            会话服务-通过设备终端号查询对应会话
+            </summary>
+        </member>
+        <member name="T:JT808.Gateway.Abstractions.JT808MessageHandler">
+            <summary>
+            通用消息处理程序
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Processor(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+            <summary>
+            消息处理
             </summary>
             <param name="request">请求数据</param>
             <param name="session">当前会话</param>
             <returns>应答消息数据</returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0001(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0001(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端通用应答
             平台无需回复
@@ -55,21 +178,21 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.CommonReply(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.CommonReply(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             平台通用应答
             </summary>
             <param name="request"></param>
             <param name="session"></param>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0002(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0002(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端心跳
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0004(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0004(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             查询服务器时间
             2019版本
@@ -78,7 +201,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x8003(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8003(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             服务器补传分包请求
             </summary>
@@ -86,7 +209,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0005(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0005(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端补传分包请求
             </summary>
@@ -94,7 +217,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0100(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0100(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端注册
             </summary>
@@ -102,7 +225,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0003(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0003(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端注销
             </summary>
@@ -110,7 +233,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0102(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0102(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端鉴权
             </summary>
@@ -118,7 +241,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0104(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0104(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             查询终端参数应答
             </summary>
@@ -126,7 +249,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0107(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0107(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             查询终端属性应答
             </summary>
@@ -134,7 +257,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0108(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0108(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             终端升级结果应答
             </summary>
@@ -142,7 +265,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0200(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0200(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             位置信息汇报
             </summary>
@@ -150,7 +273,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0201(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0201(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             位置信息查询应答
             </summary>
@@ -158,7 +281,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x8204(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8204(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             链路检测
             2019版本
@@ -167,7 +290,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0500(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0500(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             车辆控制应答
             </summary>
@@ -175,7 +298,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0704(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0704(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             定位数据批量上传
             </summary>
@@ -183,7 +306,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0705(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0705(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             CAN总线数据上传
             </summary>
@@ -191,7 +314,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0800(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0800(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             多媒体事件信息上传
             </summary>
@@ -199,7 +322,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0801(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0801(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             多媒体数据上传
             </summary>
@@ -207,7 +330,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x8801(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8801(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             摄像头立即拍摄命令
             </summary>
@@ -215,7 +338,7 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808NormalReplyMessageHandler.Msg0x0900(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0900(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
             <summary>
             数据上行透传
             </summary>
@@ -223,621 +346,10 @@
             <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0001(JT808.Protocol.JT808HeaderPackage)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MsgIdHttpHandlerBase.#ctor">
             <summary>
-            终端通用应答
-            平台无需回复
-            实现自己的业务
+            初始化消息处理业务
             </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.CommonReply(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            平台通用应答
-            </summary>
-            <param name="request"></param>
-            <param name="session"></param>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0002(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            终端心跳
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0004(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            查询服务器时间
-            2019版本
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x8003(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            服务器补传分包请求
-            </summary>
-            <param name="request"></param>
-            <param name="session"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0005(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            终端补传分包请求
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0100(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            终端注册
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0003(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            终端注销
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0102(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            终端鉴权
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0104(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            查询终端参数应答
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0107(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            查询终端属性应答
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0108(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            终端升级结果应答
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0200(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            位置信息汇报
-            </summary>
-            <param name="request"></param>
-            <param name="session"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0201(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            位置信息查询应答
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x8204(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            链路检测
-            2019版本
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0500(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            车辆控制应答
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0704(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            定位数据批量上传
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0705(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            CAN总线数据上传
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0800(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            多媒体事件信息上传
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0801(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            多媒体数据上传
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x8801(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            摄像头立即拍摄命令
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808QueueReplyMessageHandler.Msg0x0900(JT808.Protocol.JT808HeaderPackage)">
-            <summary>
-            数据上行透传
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="F:JT808.Gateway.Enums.JT808UseType.Normal">
-            <summary>
-            使用正常方式
-            </summary>
-        </member>
-        <member name="F:JT808.Gateway.Enums.JT808UseType.Queue">
-            <summary>
-            使用队列方式
-            </summary>
-        </member>
-        <member name="T:JT808.Gateway.GrpcService.JT808GatewayReflection">
-            <summary>Holder for reflection information generated from Protos/JT808Gateway.proto</summary>
-        </member>
-        <member name="P:JT808.Gateway.GrpcService.JT808GatewayReflection.Descriptor">
-            <summary>File descriptor for Protos/JT808Gateway.proto</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.TcpSessionInfoReply.TcpSessionsFieldNumber">
-            <summary>Field number for the "TcpSessions" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionRequest.TerminalPhoneNoFieldNumber">
-            <summary>Field number for the "TerminalPhoneNo" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionCountReply.CountFieldNumber">
-            <summary>Field number for the "Count" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.UdpSessionInfoReply.UdpSessionsFieldNumber">
-            <summary>Field number for the "UdpSessions" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionInfo.StartTimeFieldNumber">
-            <summary>Field number for the "StartTime" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionInfo.LastActiveTimeFieldNumber">
-            <summary>Field number for the "LastActiveTime" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionInfo.TerminalPhoneNoFieldNumber">
-            <summary>Field number for the "TerminalPhoneNo" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionInfo.RemoteAddressIPFieldNumber">
-            <summary>Field number for the "RemoteAddressIP" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionRemoveRequest.TerminalPhoneNoFieldNumber">
-            <summary>Field number for the "TerminalPhoneNo" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.SessionRemoveReply.SuccessFieldNumber">
-            <summary>Field number for the "Success" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.UnificationSendRequest.TerminalPhoneNoFieldNumber">
-            <summary>Field number for the "TerminalPhoneNo" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.UnificationSendRequest.DataFieldNumber">
-            <summary>Field number for the "Data" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.UnificationSendReply.SuccessFieldNumber">
-            <summary>Field number for the "Success" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.TcpAtomicCounterReply.MsgSuccessCountFieldNumber">
-            <summary>Field number for the "MsgSuccessCount" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.TcpAtomicCounterReply.MsgFailCountFieldNumber">
-            <summary>Field number for the "MsgFailCount" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.UdpAtomicCounterReply.MsgSuccessCountFieldNumber">
-            <summary>Field number for the "MsgSuccessCount" field.</summary>
-        </member>
-        <member name="F:JT808.Gateway.GrpcService.UdpAtomicCounterReply.MsgFailCountFieldNumber">
-            <summary>Field number for the "MsgFailCount" field.</summary>
-        </member>
-        <member name="P:JT808.Gateway.GrpcService.JT808Gateway.Descriptor">
-            <summary>Service descriptor</summary>
-        </member>
-        <member name="T:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase">
-            <summary>Base class for server-side implementations of JT808Gateway</summary>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.GetTcpSessionAll(JT808.Gateway.GrpcService.Empty,Grpc.Core.ServerCallContext)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.GetTcpSessionCount(JT808.Gateway.GrpcService.Empty,Grpc.Core.ServerCallContext)">
-            <summary>
-            会话服务-获取会话总数
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.GetTcpSessionByTerminalPhoneNo(JT808.Gateway.GrpcService.SessionRequest,Grpc.Core.ServerCallContext)">
-            <summary>
-            会话服务-通过设备终端号获取当前会话信息
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.RemoveSessionByTerminalPhoneNo(JT808.Gateway.GrpcService.SessionRemoveRequest,Grpc.Core.ServerCallContext)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.UnificationSend(JT808.Gateway.GrpcService.UnificationSendRequest,Grpc.Core.ServerCallContext)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.GetTcpAtomicCounter(JT808.Gateway.GrpcService.Empty,Grpc.Core.ServerCallContext)">
-            <summary>
-            获取Tcp包计数器
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.GetUdpSessionAll(JT808.Gateway.GrpcService.Empty,Grpc.Core.ServerCallContext)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase.GetUdpAtomicCounter(JT808.Gateway.GrpcService.Empty,Grpc.Core.ServerCallContext)">
-            <summary>
-            获取Udp包计数器
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="T:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient">
-            <summary>Client for JT808Gateway</summary>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.#ctor(Grpc.Core.ChannelBase)">
-            <summary>Creates a new client for JT808Gateway</summary>
-            <param name="channel">The channel to use to make remote calls.</param>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.#ctor(Grpc.Core.CallInvoker)">
-            <summary>Creates a new client for JT808Gateway that uses a custom <c>CallInvoker</c>.</summary>
-            <param name="callInvoker">The callInvoker to use to make remote calls.</param>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.#ctor">
-            <summary>Protected parameterless constructor to allow creation of test doubles.</summary>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.#ctor(Grpc.Core.ClientBase.ClientBaseConfiguration)">
-            <summary>Protected constructor to allow creation of configured clients.</summary>
-            <param name="configuration">The client configuration.</param>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionAll(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionAll(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionAllAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionAllAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionCount(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-获取会话总数
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionCount(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-获取会话总数
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionCountAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-获取会话总数
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionCountAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-获取会话总数
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionByTerminalPhoneNo(JT808.Gateway.GrpcService.SessionRequest,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-通过设备终端号获取当前会话信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionByTerminalPhoneNo(JT808.Gateway.GrpcService.SessionRequest,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-通过设备终端号获取当前会话信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionByTerminalPhoneNoAsync(JT808.Gateway.GrpcService.SessionRequest,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-通过设备终端号获取当前会话信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpSessionByTerminalPhoneNoAsync(JT808.Gateway.GrpcService.SessionRequest,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-通过设备终端号获取当前会话信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.RemoveSessionByTerminalPhoneNo(JT808.Gateway.GrpcService.SessionRemoveRequest,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.RemoveSessionByTerminalPhoneNo(JT808.Gateway.GrpcService.SessionRemoveRequest,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.RemoveSessionByTerminalPhoneNoAsync(JT808.Gateway.GrpcService.SessionRemoveRequest,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.RemoveSessionByTerminalPhoneNoAsync(JT808.Gateway.GrpcService.SessionRemoveRequest,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.UnificationSend(JT808.Gateway.GrpcService.UnificationSendRequest,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.UnificationSend(JT808.Gateway.GrpcService.UnificationSendRequest,Grpc.Core.CallOptions)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.UnificationSendAsync(JT808.Gateway.GrpcService.UnificationSendRequest,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.UnificationSendAsync(JT808.Gateway.GrpcService.UnificationSendRequest,Grpc.Core.CallOptions)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpAtomicCounter(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            获取Tcp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpAtomicCounter(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            获取Tcp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpAtomicCounterAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            获取Tcp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetTcpAtomicCounterAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            获取Tcp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpSessionAll(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpSessionAll(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpSessionAllAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpSessionAllAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            会话服务-获取会话服务集合
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpAtomicCounter(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            获取Udp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpAtomicCounter(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            获取Udp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The response received from the server.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpAtomicCounterAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.Metadata,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
-            <summary>
-            获取Udp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-            <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-            <param name="cancellationToken">An optional token for canceling the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.GetUdpAtomicCounterAsync(JT808.Gateway.GrpcService.Empty,Grpc.Core.CallOptions)">
-            <summary>
-            获取Udp包计数器
-            </summary>
-            <param name="request">The request to send to the server.</param>
-            <param name="options">The options for the call.</param>
-            <returns>The call object.</returns>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayClient.NewInstance(Grpc.Core.ClientBase.ClientBaseConfiguration)">
-            <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.BindService(JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase)">
-            <summary>Creates service definition that can be registered with a server</summary>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="M:JT808.Gateway.GrpcService.JT808Gateway.BindService(Grpc.Core.ServiceBinderBase,JT808.Gateway.GrpcService.JT808Gateway.JT808GatewayBase)">
-            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
-            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
-            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
     </members>
 </doc>

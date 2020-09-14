@@ -46,15 +46,10 @@ namespace JT808.Gateway.NormalHosting
                     services.AddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
                     services.AddJT808Configure()
                             //添加客户端工具
-                            .AddClient()
-                            //.AddNormalGateway(options =>
-                            ////{
-                            ////    options.TcpPort = 808;
-                            ////    options.UdpPort = 808;
-                            ////})
+                            //.AddClient()
                             .AddGateway(hostContext.Configuration)
-                            //.ReplaceNormalReplyMessageHandler<JT808NormalReplyMessageHandlerImpl>()
-                            //.AddMsgLogging<JT808MsgLogging>()
+                            .ReplaceMessageHandler<JT808CustomMessageHandlerImpl>()
+                            .AddMsgLogging<JT808MsgLogging>()
                             //.AddTraffic()
                             //.AddSessionNotice()
                             //.AddTransmit(hostContext.Configuration)
