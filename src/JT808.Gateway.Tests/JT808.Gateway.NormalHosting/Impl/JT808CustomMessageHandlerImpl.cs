@@ -16,23 +16,32 @@ namespace JT808.Gateway.NormalHosting.Impl
     {
         private readonly ILogger logger;
         //private readonly IJT808Traffic jT808Traffic;
-        private readonly IJT808MsgLogging jT808MsgLogging;
         //private readonly JT808TransmitService jT808TransmitService;
+        private readonly IJT808MsgLogging jT808MsgLogging;
+        private readonly IJT808MsgReplyProducer MsgReplyProducer;
+
         public JT808CustomMessageHandlerImpl(
-            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
-            //JT808TransmitService jT808TransmitService,
+            ILoggerFactory loggerFactory,
+            IJT808MsgReplyProducer msgReplyProducer,
             IJT808MsgLogging jT808MsgLogging,
-            //IJT808Traffic jT808Traffic,
-            ILoggerFactory  loggerFactory,
-            IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor, jT808Config)
+            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
+            IJT808MsgProducer msgProducer,
+            IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
+            IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor,
+                msgProducer, 
+                msgReplyLoggingProducer, 
+                jT808Config)
         {
+            MsgReplyProducer = msgReplyProducer;
             //this.jT808TransmitService = jT808TransmitService;
             //this.jT808Traffic = jT808Traffic;
             this.jT808MsgLogging = jT808MsgLogging;
-            logger =loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
+            logger = loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
             //添加自定义消息
             HandlerDict.Add(0x9999, Msg0x9999);
         }
+
+
 
         /// <summary>
         /// 重写消息处理器
@@ -72,7 +81,10 @@ namespace JT808.Gateway.NormalHosting.Impl
         public override byte[] Msg0x0200(JT808HeaderPackage request, IJT808Session session)
         {
             logger.LogDebug("重写自带Msg0x0200的消息");
-            return base.Msg0x0200(request, session);
+            var data = base.Msg0x0200(request, session);
+            logger.LogDebug("往应答服务发送相同数据进行测试");
+            MsgReplyProducer.ProduceAsync(request.Header.TerminalPhoneNo, data).ConfigureAwait(false);
+            return data;
         }
 
         /// <summary>

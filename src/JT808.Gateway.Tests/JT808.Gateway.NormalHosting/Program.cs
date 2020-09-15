@@ -44,11 +44,15 @@ namespace JT808.Gateway.NormalHosting
                     services.AddSingleton<JT808SessionService>();
                     services.AddSingleton<IJT808SessionProducer, JT808SessionProducer>();
                     services.AddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
+                    //使用内存队列实现应答生产消费
+                    services.AddSingleton<JT808MsgReplyDataService>();
+                    services.AddSingleton<IJT808MsgReplyProducer, JT808MsgReplyProducer>();
                     services.AddJT808Configure()
                             //添加客户端工具
                             //.AddClient()
                             .AddGateway(hostContext.Configuration)
-                            .ReplaceMessageHandler<JT808CustomMessageHandlerImpl>()
+                            .AddMessageHandler<JT808CustomMessageHandlerImpl>()
+                            .AddMsgReplyConsumer<JT808MsgReplyConsumer>()
                             .AddMsgLogging<JT808MsgLogging>()
                             //.AddTraffic()
                             //.AddSessionNotice()
@@ -56,7 +60,7 @@ namespace JT808.Gateway.NormalHosting
                             .AddTcp()
                             //.AddUdp()
                             .AddHttp()
-                            ;
+                            .Register();//必须注册的
                     //流量统计
                     //services.AddHostedService<TrafficJob>();
                     //grpc客户端调用

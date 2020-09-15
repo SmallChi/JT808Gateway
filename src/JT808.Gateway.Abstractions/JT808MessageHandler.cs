@@ -23,15 +23,21 @@ namespace JT808.Gateway.Abstractions
 
         protected IJT808MsgProducer MsgProducer;
 
+        protected IJT808MsgReplyLoggingProducer MsgReplyLoggingProducer;
+
         protected IOptionsMonitor<JT808Configuration> JT808ConfigurationOptionsMonitor;
+
+        protected IJT808Config JT808Config;
 
         public JT808MessageHandler(
             IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
             IJT808MsgProducer msgProducer,
+            IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
             IJT808Config jT808Config)
         {
             this.JT808Serializer = jT808Config.GetSerializer();
             this.MsgProducer = msgProducer;
+            this.MsgReplyLoggingProducer = msgReplyLoggingProducer;
             this.JT808ConfigurationOptionsMonitor = jT808ConfigurationOptionsMonitor;
             HandlerDict = new Dictionary<ushort, MsgIdMethodDelegate> {
                 {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
@@ -54,12 +60,6 @@ namespace JT808.Gateway.Abstractions
                 {JT808MsgId.多媒体事件信息上传.ToUInt16Value(),Msg0x0800 },
                 {JT808MsgId.CAN总线数据上传.ToUInt16Value(),Msg0x0705 },
             };
-        }
-
-        public JT808MessageHandler(IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor
-            , IJT808Config jT808Config) : this(jT808ConfigurationOptionsMonitor, null, jT808Config)
-        {
-
         }
 
         /// <summary>
@@ -85,12 +85,16 @@ namespace JT808.Gateway.Abstractions
                     }
                     else
                     {
-                        return func(request, session);
+                        var data=func(request, session);
+                        MsgReplyLoggingProducer.ProduceAsync(request.Header.TerminalPhoneNo, data);
+                        return data;
                     }
                 }
                 else
                 {
-                    return func(request, session);
+                    var data = func(request, session);
+                    MsgReplyLoggingProducer.ProduceAsync(request.Header.TerminalPhoneNo, data);
+                    return data;
                 }
             }
             else

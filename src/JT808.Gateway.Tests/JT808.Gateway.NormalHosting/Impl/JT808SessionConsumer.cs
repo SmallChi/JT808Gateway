@@ -22,7 +22,7 @@ namespace JT808.Gateway.NormalHosting.Impl
             JT808SessionService jT808SessionService,
             ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger("JT808SessionConsumer");
+            logger = loggerFactory.CreateLogger<JT808SessionConsumer>();
             JT808SessionService = jT808SessionService;
         }
 

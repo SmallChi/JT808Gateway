@@ -19,6 +19,12 @@
     <Product>JT808.Gateway</Product>
     <Version>$(JT808GatewayPackageVersion)</Version>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>JT808.Gateway.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>JT808.Gateway.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Internal\JT808NormalGatewayBuilderDefault.cs" />
     <Compile Remove="Internal\JT808QueueGatewayBuilderDefault.cs" />

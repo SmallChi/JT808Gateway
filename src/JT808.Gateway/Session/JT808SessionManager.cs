@@ -29,14 +29,14 @@ namespace JT808.Gateway.Session
             JT808SessionProducer = jT808SessionProducer;
             Sessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
             TerminalPhoneNoSessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
-            logger = loggerFactory.CreateLogger("JT808SessionManager");
+            logger = loggerFactory.CreateLogger<JT808SessionManager>();
         }
 
         public JT808SessionManager(ILoggerFactory loggerFactory)
         {
             Sessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
             TerminalPhoneNoSessions = new ConcurrentDictionary<string, IJT808Session>(StringComparer.OrdinalIgnoreCase);
-            logger = loggerFactory.CreateLogger("JT808SessionManager");
+            logger = loggerFactory.CreateLogger<JT808SessionManager>();
         }
 
         public int TotalSessionCount
@@ -126,7 +126,7 @@ namespace JT808.Gateway.Session
 
         public async ValueTask<bool> TrySendByTerminalPhoneNoAsync(string terminalPhoneNo, byte[] data)
         {
-            if(TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo,out var session))
+            if (TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo, out var session))
             {
                 if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
                 {

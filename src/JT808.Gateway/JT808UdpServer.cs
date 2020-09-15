@@ -43,7 +43,7 @@ namespace JT808.Gateway
                 JT808MessageHandler messageHandler)
         {
             SessionManager = jT808SessionManager;
-            Logger = loggerFactory.CreateLogger("JT808UdpServer");
+            Logger = loggerFactory.CreateLogger<JT808UdpServer>();
             Serializer = jT808Config.GetSerializer();
             Configuration = jT808ConfigurationAccessor.Value;
             MessageHandler = messageHandler;
@@ -113,7 +113,7 @@ namespace JT808.Gateway
         }
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation("808 Udp Server Stop");
+            Logger.LogInformation("JT808 Udp Server Stop");
             if (server?.Connected ?? false)
                 server.Shutdown(SocketShutdown.Both);
             server?.Close();

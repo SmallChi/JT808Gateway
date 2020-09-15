@@ -28,7 +28,7 @@ namespace JT808.Gateway.Kafka
         {
             consumer = new ConsumerBuilder<string, byte[]>(consumerConfigAccessor.Value).Build();
             TopicName = consumerConfigAccessor.Value.TopicName;
-            logger = loggerFactory.CreateLogger("JT808MsgReplyConsumer");
+            logger = loggerFactory.CreateLogger<JT808MsgReplyConsumer>();
         }
 
         public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)

@@ -230,7 +230,7 @@ namespace JT808.Gateway
         }
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation("808 Tcp Server Stop");
+            Logger.LogInformation("JT808 Tcp Server Stop");
             if (server?.Connected ?? false)
                 server.Shutdown(SocketShutdown.Both);
             server?.Close();
