@@ -11,27 +11,27 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.Kafka
 {
-    public sealed class JT808SessionConsumer : IJT808SessionConsumer
+    public sealed class JT808MsgReplyLoggingConsumer : IJT808MsgReplyLoggingConsumer
     {
         private bool disposed = false;
         public CancellationTokenSource Cts { get; private set; } = new CancellationTokenSource();
 
-        private readonly IConsumer<string, string> consumer;
+        private readonly IConsumer<string, byte[]> consumer;
 
         private readonly ILogger logger;
 
         public string TopicName { get; }
 
-        public JT808SessionConsumer(
-            IOptions<JT808SessionConsumerConfig> consumerConfigAccessor,
+        public JT808MsgReplyLoggingConsumer(
+            IOptions<JT808MsgReplyLoggingConsumerConfig> consumerConfigAccessor,
             ILoggerFactory loggerFactory)
         {
-            consumer = new ConsumerBuilder<string, string>(consumerConfigAccessor.Value).Build();
+            consumer = new ConsumerBuilder<string, byte[]>(consumerConfigAccessor.Value).Build();
             TopicName = consumerConfigAccessor.Value.TopicName;
-            logger = loggerFactory.CreateLogger<JT808SessionConsumer>();
+            logger = loggerFactory.CreateLogger<JT808MsgReplyLoggingConsumer>();
         }
 
-        public void OnMessage(Action<(string Notice, string TerminalNo)> callback)
+        public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
         {
             Task.Run(() =>
             {
@@ -88,7 +88,7 @@ namespace JT808.Gateway.Kafka
             }
             disposed = true;
         }
-        ~JT808SessionConsumer()
+        ~JT808MsgReplyLoggingConsumer()
         {
             Dispose(false);
         }

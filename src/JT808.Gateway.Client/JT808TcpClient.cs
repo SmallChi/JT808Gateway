@@ -36,7 +36,7 @@ namespace JT808.Gateway.Client
             SendAtomicCounterService = serviceProvider.GetRequiredService<JT808SendAtomicCounterService>();
             ReceiveAtomicCounterService = serviceProvider.GetRequiredService<JT808ReceiveAtomicCounterService>();
             JT808Serializer = serviceProvider.GetRequiredService<IJT808Config>().GetSerializer();
-            Logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("JT808TcpClient");
+            Logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<JT808TcpClient>();
         }
         public async ValueTask<bool> ConnectAsync(EndPoint remoteEndPoint)
         {

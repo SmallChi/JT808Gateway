@@ -1,7 +1,6 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Configurations;
 using JT808.Gateway.MsgLogging;
-using JT808.Gateway.Traffic;
 using JT808.Gateway.Transmit;
 using JT808.Protocol;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,6 @@ namespace JT808.Gateway.NormalHosting.Impl
     public class JT808CustomMessageHandlerImpl : JT808MessageHandler
     {
         private readonly ILogger logger;
-        //private readonly IJT808Traffic jT808Traffic;
         //private readonly JT808TransmitService jT808TransmitService;
         private readonly IJT808MsgLogging jT808MsgLogging;
         private readonly IJT808MsgReplyProducer MsgReplyProducer;
@@ -34,7 +32,6 @@ namespace JT808.Gateway.NormalHosting.Impl
         {
             MsgReplyProducer = msgReplyProducer;
             //this.jT808TransmitService = jT808TransmitService;
-            //this.jT808Traffic = jT808Traffic;
             this.jT808MsgLogging = jT808MsgLogging;
             logger = loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
             //添加自定义消息

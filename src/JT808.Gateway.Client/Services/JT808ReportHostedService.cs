@@ -28,7 +28,7 @@ namespace JT808.Gateway.Client.Services
             JT808SendAtomicCounterService jT808SendAtomicCounterService,
             IJT808TcpClientFactory jT808TcpClientFactory)
         {
-            logger = loggerFactory.CreateLogger("JT808ReportHostedService");
+            logger = loggerFactory.CreateLogger<JT808ReportHostedService>();
             jT808ReportOptions = jT808ReportOptionsAccessor;
             jT808ReportOptions.CurrentValue.FileExistsAndCreate();
             this.jT808ReceiveAtomicCounterService = jT808ReceiveAtomicCounterService;

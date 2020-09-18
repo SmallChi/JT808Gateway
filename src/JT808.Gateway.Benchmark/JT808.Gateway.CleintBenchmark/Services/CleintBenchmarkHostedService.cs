@@ -34,7 +34,7 @@ namespace JT808.Gateway.CleintBenchmark.Services
         {
             this.jT808TcpClientFactory = jT808TcpClientFactory;
             clientBenchmarkOptions = clientBenchmarkOptionsAccessor.Value;
-            logger = loggerFactory.CreateLogger("CleintBenchmarkHostedService");
+            logger = loggerFactory.CreateLogger<CleintBenchmarkHostedService>();
 
         }
         public Task StartAsync(CancellationToken cancellationToken)

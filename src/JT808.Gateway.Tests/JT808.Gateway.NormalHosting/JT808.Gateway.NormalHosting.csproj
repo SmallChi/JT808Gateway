@@ -21,7 +21,6 @@
     <ProjectReference Include="..\..\JT808.Gateway.Client\JT808.Gateway.Client.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.MsgLogging\JT808.Gateway.MsgLogging.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.SessionNotice\JT808.Gateway.SessionNotice.csproj" />
-    <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.Traffic\JT808.Gateway.Traffic.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.Transmit\JT808.Gateway.Transmit.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway\JT808.Gateway.csproj" />
   </ItemGroup>

@@ -9,29 +9,17 @@ namespace JT808.Gateway.ReplyMessage
 {
     public static class JT808ReplyMessageExtensions
     {
-        ///// <summary>
-        ///// 消息应答服务（不同的消费者实例）
-        ///// </summary>
-        ///// <param name="jT808ClientBuilder"></param>
-        ///// <returns></returns>
-        //public static IJT808ClientBuilder AddReplyMessage(this IJT808ClientBuilder jT808ClientBuilder)
-        //{
-        //    jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808QueueReplyMessageHandler>();
-        //    jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
-        //    return jT808ClientBuilder;
-        //}
-        ///// <summary>
-        ///// 消息应答服务（不同的消费者实例）
-        ///// </summary>
-        ///// <typeparam name="TReplyMessageService">自定义消息回复服务</typeparam>
-        ///// <param name="jT808ClientBuilder"></param>
-        ///// <returns></returns>
-        //public static IJT808ClientBuilder AddReplyMessage<TReplyMessageHandler>(this IJT808ClientBuilder jT808ClientBuilder)
-        //    where TReplyMessageHandler : JT808QueueReplyMessageHandler
-        //{
-        //    jT808ClientBuilder.JT808Builder.Services.AddSingleton<JT808QueueReplyMessageHandler, TReplyMessageHandler>();
-        //    jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
-        //    return jT808ClientBuilder;
-        //}
+        /// <summary>
+        /// 消息应答服务（不同的消费者实例）
+        /// </summary>
+        /// <param name="jT808ClientBuilder"></param>
+        /// <returns></returns>
+        public static IJT808ClientBuilder AddReplyMessage<TJT808ReplyMessageHandler>(this IJT808ClientBuilder jT808ClientBuilder)
+            where TJT808ReplyMessageHandler : IJT808ReplyMessageHandler
+        {
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton(new ServiceDescriptor(typeof(IJT808ReplyMessageHandler),typeof(TJT808ReplyMessageHandler), ServiceLifetime.Singleton));
+            jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReplyMessageHostedService>();
+            return jT808ClientBuilder;
+        }
     }
 }

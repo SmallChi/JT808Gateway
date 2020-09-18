@@ -12,7 +12,7 @@ namespace JT808.Gateway.NormalHosting.Impl
         private readonly ILogger Logger;
         public JT808MsgLogging(ILoggerFactory loggerFactory)
         {
-            Logger = loggerFactory.CreateLogger("JT808MsgLogging");
+            Logger = loggerFactory.CreateLogger<JT808MsgLogging>();
         }
         public void Processor((string TerminalNo, byte[] Data) parameter, JT808MsgLoggingType jT808MsgLoggingType)
         {

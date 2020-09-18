@@ -25,7 +25,7 @@ namespace JT808.Gateway.Services
             )
         {
             SessionManager = jT808SessionManager;
-            Logger = loggerFactory.CreateLogger("JT808TcpReceiveTimeout");
+            Logger = loggerFactory.CreateLogger<JT808TcpReceiveTimeoutHostedService>();
             Configuration = jT808ConfigurationAccessor.Value;
         }
 

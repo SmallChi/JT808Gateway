@@ -44,5 +44,17 @@ namespace JT808.Gateway.Kafka
             jT808GatewayBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808SessionProducer), typeof(JT808SessionProducer), ServiceLifetime.Singleton));
             return jT808GatewayBuilder;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jT808GatewayBuilder"></param>
+        /// <param name="configuration">GetSection("JT808MsgReplyLoggingProducerConfig")</param>
+        /// <returns></returns>
+        public static IJT808GatewayBuilder AddServerKafkaMsgReplyLoggingProducer(this IJT808GatewayBuilder jT808GatewayBuilder, IConfiguration configuration)
+        {
+            jT808GatewayBuilder.JT808Builder.Services.Configure<JT808MsgReplyLoggingProducerConfig>(configuration.GetSection("JT808MsgReplyLoggingProducerConfig"));
+            jT808GatewayBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgReplyLoggingProducer), typeof(JT808MsgReplyLoggingProducer), ServiceLifetime.Singleton));
+            return jT808GatewayBuilder;
+        }
     }
 }

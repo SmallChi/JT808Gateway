@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JT808.Gateway.Kafka</name>
+    </assembly>
+    <members>
+        <member name="M:JT808.Gateway.Kafka.JT808ClientKafkaExtensions.AddMsgConsumer(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="serviceDescriptors"></param>
+            <param name="configuration">GetSection("JT808MsgConsumerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ClientKafkaExtensions.AddMsgReplyProducer(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="serviceDescriptors"></param>
+            <param name="configuration">GetSection("JT808MsgReplyProducerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ClientKafkaExtensions.AddMsgReplyConsumer(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <param name="configuration">GetSection("JT808MsgReplyConsumerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ClientKafkaExtensions.AddMsgReplyLoggingConsumer(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <param name="configuration">GetSection("JT808MsgReplyLoggingConsumerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ClientKafkaExtensions.AddSessionConsumer(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="serviceDescriptors"></param>
+            <param name="configuration">GetSection("JT808SessionConsumerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ServerKafkaExtensions.AddServerKafkaMsgProducer(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <param name="configuration">GetSection("JT808MsgProducerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ServerKafkaExtensions.AddServerKafkaMsgReplyConsumer(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <param name="configuration">GetSection("JT808MsgReplyConsumerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ServerKafkaExtensions.AddServerKafkaSessionProducer(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <param name="configuration">GetSection("JT808SessionProducerConfig")</param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808ServerKafkaExtensions.AddServerKafkaMsgReplyLoggingProducer(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <param name="configuration">GetSection("JT808MsgReplyLoggingProducerConfig")</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

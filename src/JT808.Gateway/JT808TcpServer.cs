@@ -48,7 +48,7 @@ namespace JT808.Gateway
         {
             MessageHandler = messageHandler;
             SessionManager = jT808SessionManager;
-            Logger = loggerFactory.CreateLogger("JT808TcpServer");
+            Logger = loggerFactory.CreateLogger<JT808TcpServer>();
             Serializer = jT808Config.GetSerializer();
             Configuration = jT808ConfigurationAccessor.Value;
             InitServer();

@@ -29,7 +29,6 @@
     <Compile Remove="Enums\JT808UseType.cs" />
     <Compile Remove="IJT808NormalGatewayBuilder.cs" />
     <Compile Remove="IJT808QueueGatewayBuilder.cs" />
-    <Compile Remove="JT808NormalReplyMessageHandler.cs" />
     <Compile Remove="JT808QueueReplyMessageHandler.cs" />
   </ItemGroup>
   <ItemGroup>

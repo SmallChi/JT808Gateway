@@ -11,7 +11,7 @@ namespace JT808.Gateway.SessionNotice
         protected ILogger logger { get; }
         public JT808SessionNoticeService(ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger("JT808SessionNoticeService");
+            logger = loggerFactory.CreateLogger<JT808SessionNoticeService>();
         }
         public virtual void Processor((string Notice, string TerminalNo) parameter)
         {

@@ -38,13 +38,13 @@ namespace JT808.Gateway.SessionNotice
         /// <summary>
         /// 会话通知服务（不同的消费者实例）
         /// </summary>
-        /// <param name="jT808NormalGatewayBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddSessionNotice(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddSessionNotice(this IJT808GatewayBuilder jT808GatewayBuilder)
         {
-            jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService>();
-            jT808NormalGatewayBuilder.JT808Builder.Services.AddHostedService<JT808SessionNoticeHostedService>();
-            return jT808NormalGatewayBuilder;
+            jT808GatewayBuilder.JT808Builder.Services.AddSingleton<JT808SessionNoticeService>();
+            jT808GatewayBuilder.JT808Builder.Services.AddHostedService<JT808SessionNoticeHostedService>();
+            return jT808GatewayBuilder;
         }
 
         /// <summary>

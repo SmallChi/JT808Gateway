@@ -22,7 +22,7 @@ namespace JT808.Gateway.Transmit
         public JT808TransmitService(ILoggerFactory loggerFactory,
                                     IOptionsMonitor<RemoteServerOptions> optionsMonitor)
         {
-            logger = loggerFactory.CreateLogger("JT808TransmitService");
+            logger = loggerFactory.CreateLogger<JT808TransmitService>();
             this.optionsMonitor = optionsMonitor;
             InitialDispatcherClient();
         }

@@ -9,7 +9,6 @@ using NLog.Extensions.Logging;
 using JT808.Gateway.MsgLogging;
 using JT808.Gateway.ReplyMessage;
 using JT808.Gateway.Transmit;
-using JT808.Gateway.Traffic;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.SessionNotice;
 using JT808.Gateway.Client;

@@ -36,13 +36,13 @@ namespace JT808.Gateway.Traffic
         /// <summary>
         /// 消息流量统计服务（不同的消费者实例）
         /// </summary>
-        /// <param name="jT808NormalGatewayBuilder"></param>
+        /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddTraffic<TIJT808Traffic>(this IJT808GatewayBuilder jT808NormalGatewayBuilder)
+        public static IJT808GatewayBuilder AddTraffic<TIJT808Traffic>(this IJT808GatewayBuilder jT808GatewayBuilder)
             where TIJT808Traffic : IJT808Traffic
         {
-            jT808NormalGatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(TIJT808Traffic));
-            return jT808NormalGatewayBuilder;
+            jT808GatewayBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808Traffic), typeof(TIJT808Traffic));
+            return jT808GatewayBuilder;
         }
 
 

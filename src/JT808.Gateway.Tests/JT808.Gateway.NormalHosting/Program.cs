@@ -9,7 +9,6 @@ using NLog.Extensions.Logging;
 using JT808.Gateway.NormalHosting.Impl;
 using JT808.Gateway.MsgLogging;
 using JT808.Gateway.Transmit;
-using JT808.Gateway.Traffic;
 using JT808.Gateway.NormalHosting.Services;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.SessionNotice;
@@ -54,7 +53,6 @@ namespace JT808.Gateway.NormalHosting
                             .AddMessageHandler<JT808CustomMessageHandlerImpl>()
                             .AddMsgReplyConsumer<JT808MsgReplyConsumer>()
                             .AddMsgLogging<JT808MsgLogging>()
-                            //.AddTraffic()
                             //.AddSessionNotice()
                             //.AddTransmit(hostContext.Configuration)
                             .AddTcp()

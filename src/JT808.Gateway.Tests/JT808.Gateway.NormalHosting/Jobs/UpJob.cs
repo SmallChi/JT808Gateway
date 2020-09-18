@@ -20,7 +20,7 @@ namespace JT808.Gateway.NormalHosting.Jobs
             ILoggerFactory loggerFactory,
             IJT808TcpClientFactory jT808TcpClientFactory)
         {
-            Logger = loggerFactory.CreateLogger("UpJob");
+            Logger = loggerFactory.CreateLogger<UpJob>();
             this.jT808TcpClientFactory = jT808TcpClientFactory;
         }
 
