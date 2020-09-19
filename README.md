@@ -37,6 +37,8 @@
 | IJT808MsgConsumer| 数据消费接口| 将数据进行对应的消息业务处理(例：设备流量统计、第三方平台数据转发、消息日志等) |
 | IJT808MsgReplyProducer| 应答数据生产接口|将生产的数据解析为对应的消息Id应答发送到队列 |
 | IJT808MsgReplyConsumer| 应答数据消费接口| 将接收到的应答数据下发给设备|
+| IJT808MsgReplyLoggingProducer| 网关应答数据日志生产接口|将网关能解析到直接能下发的数据发送到队列|
+| IJT808MsgReplyLoggingConsumer| 网关应答数据日志消费接口|将网关能解析到直接能下发的数据发送到日志系统|
 
 > 使用物联网卡通过udp下发指令时，存储的那个socket地址端口，有效期非常短,不速度快点下发，那个socket地址端口就可能映射到别的对应卡去了,所以此处采用跟随设备消息下发指令。
 
@@ -44,11 +46,11 @@
 
 |服务名称|服务说明|使用场景|
 |:------:|:------|:------|
-|MsgIdHandler| 消息处理服务|从队列中消费设备上报数据，再结合自身的业务场景，将数据进行处理并入库 |
+|MsgIdHandler (v1.0.2新版pipeline)| 消息处理服务|从队列中消费设备上报数据，再结合自身的业务场景，将数据进行处理并入库 |
 |MsgLogging | 消息日志服务|从队列中消费设备上报和平台应答数据，再将数据存入influxdb等数据库中，便于技术和技术支持排查设备与平台交互的原始数据|
 |ReplyMessage| 消息响应服务| 用于响应设备上报消息，以及下发指令信息到设备|
 |SessionNotice| 会话管理服务| 通知设备上线下线，对于udp设备来说，可以在设备上线时，将指令跟随消息下发到设备|
-|Traffic|流量统计服务 |由于运营商sim卡查询流量滞后，通过流量统计服务可以实时准确的统计设备流量，可以最优配置设备的流量大小，以节省成本
+|Traffic (v1.0.2新版pipeline已移出)|流量统计服务 |由于运营商sim卡查询流量滞后，通过流量统计服务可以实时准确的统计设备流量，可以最优配置设备的流量大小，以节省成本
 |Transmit| 原包转发服务|该服务可以将设备上报原始数据转发到第三方，支持全部转发，指定终端号转发|
 
 ## 基于WebApi的消息业务处理程序
@@ -78,11 +80,11 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 | Install-Package JT808.Gateway.Client| ![JT808.Gateway.Client](https://img.shields.io/nuget/v/JT808.Gateway.Client.svg) |![JT808.Gateway.Client](https://img.shields.io/nuget/vpre/JT808.Gateway.Client.svg) |![JT808.Gateway.Client](https://img.shields.io/nuget/dt/JT808.Gateway.Client.svg) |
 | Install-Package JT808.Gateway.Kafka| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/v/JT808.Gateway.Kafka.svg) |![JT808.Gateway.Kafka](https://img.shields.io/nuget/vpre/JT808.Gateway.Kafka.svg)| ![JT808.Gateway.Kafka](https://img.shields.io/nuget/dt/JT808.Gateway.Kafka.svg) |
 | Install-Package JT808.Gateway.Transmit | ![JT808.Gateway.Transmit](https://img.shields.io/nuget/v/JT808.Gateway.Transmit.svg) |![JT808.Gateway.Transmit](https://img.shields.io/nuget/vpre/JT808.Gateway.Transmit.svg)| ![JT808.Gateway.Transmit](https://img.shields.io/nuget/dt/JT808.Gateway.Transmit.svg) |
-| Install-Package JT808.Gateway.Traffic | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/vpre/JT808.Gateway.Traffic.svg)|![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
 | Install-Package JT808.Gateway.SessionNotice | ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/v/JT808.Gateway.SessionNotice.svg) |![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/vpre/JT808.Gateway.SessionNotice.svg)| ![JT808.Gateway.SessionNotice](https://img.shields.io/nuget/dt/JT808.Gateway.SessionNotice.svg)|
 | Install-Package JT808.Gateway.ReplyMessage | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg) |![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/vpre/JT808.Gateway.ReplyMessage.svg) | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)|
 | Install-Package JT808.Gateway.MsgLogging | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg) | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgLogging.svg)|![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)|
-| Install-Package JT808.Gateway.MsgIdHandler | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) |![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgIdHandler.svg)| ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
+| Install-Package JT808.Gateway.MsgIdHandler (v1.0.2新版已移出)| ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg) |![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgIdHandler.svg)| ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)|
+| Install-Package JT808.Gateway.Traffic (v1.0.2新版已移出)| ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg) | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/vpre/JT808.Gateway.Traffic.svg)|![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)|
 
 ## 基于DotNetty
 
