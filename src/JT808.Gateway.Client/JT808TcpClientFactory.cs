@@ -14,6 +14,8 @@ namespace JT808.Gateway.Client
     {
         ValueTask<JT808TcpClient> Create(JT808DeviceConfig deviceConfig, CancellationToken cancellationToken);
 
+        void  Remove(JT808DeviceConfig deviceConfign);
+
         List<JT808TcpClient> GetAll();
     }
 
@@ -55,6 +57,7 @@ namespace JT808.Gateway.Client
             {
                 try
                 {
+                    client.Value.Close();
                     client.Value.Dispose();
                 }
                 catch 
@@ -66,6 +69,22 @@ namespace JT808.Gateway.Client
         public List<JT808TcpClient> GetAll()
         {
             return dict.Values.ToList();
+        }
+
+        public void Remove(JT808DeviceConfig deviceConfig)
+        {
+            if(dict.TryRemove(deviceConfig.TerminalPhoneNo,out var client))
+            {
+                try
+                {
+                    client.Close();
+                    client.Dispose();
+                }
+                catch (Exception)
+                {
+                   
+                }
+            }
         }
     }
 }

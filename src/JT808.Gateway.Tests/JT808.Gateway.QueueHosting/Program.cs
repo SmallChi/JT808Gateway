@@ -54,6 +54,8 @@ namespace JT808.Gateway.QueueHosting
                             .Builder()
                             //添加客户端工具
                             .AddClient()
+                            .AddClientReport()
+                            .Builder()
                             //添加客户端服务
                             .AddClientKafka()
                             .AddMsgConsumer(hostContext.Configuration)

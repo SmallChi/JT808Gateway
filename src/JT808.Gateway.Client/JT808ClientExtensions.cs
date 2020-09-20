@@ -10,33 +10,34 @@ namespace JT808.Gateway.Client
 {
     public static  class JT808ClientExtensions
     {
-        public static IJT808Builder AddClient(this IJT808Builder jT808Builder)
+        public static IJT808ClientBuilder AddClient(this IJT808Builder jT808Builder)
         {
-            jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
-            jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
-            jT808Builder.Services.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
-            jT808Builder.Services.Configure<JT808ReportOptions>((options)=> { });
-            jT808Builder.Services.AddHostedService<JT808ReportHostedService>();
-            return jT808Builder;
-        }
-        public static IJT808Builder AddClient(this IJT808Builder  jT808Builder, IConfiguration Configuration)
-        {
-            jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
-            jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
-            jT808Builder.Services.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
-            jT808Builder.Services.Configure<JT808ReportOptions>(Configuration.GetSection("JT808ReportOptions"));
-            jT808Builder.Services.AddHostedService<JT808ReportHostedService>();
-            return jT808Builder;
+            JT808ClientBuilderDefault jT808ClientBuilderDefault = new JT808ClientBuilderDefault(jT808Builder);
+            jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
+            jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
+            jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
+            return jT808ClientBuilderDefault;
         }
 
-        public static IJT808Builder AddClient(this IJT808Builder jT808Builder, Action<JT808ReportOptions> reportOptions)
+        public static IJT808ClientBuilder AddClientReport(this IJT808ClientBuilder jT808ClientBuilder)
         {
-            jT808Builder.Services.AddSingleton<JT808SendAtomicCounterService>();
-            jT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
-            jT808Builder.Services.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
-            jT808Builder.Services.Configure(reportOptions);
-            jT808Builder.Services.AddHostedService<JT808ReportHostedService>();
-            return jT808Builder;
+            jT808ClientBuilder.JT808Builder.Services.Configure<JT808ReportOptions>((options) => { });
+            jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReportHostedService>();
+            return jT808ClientBuilder;
+        }
+
+        public static IJT808ClientBuilder AddClientReport(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration Configuration)
+        {
+            jT808ClientBuilder.JT808Builder.Services.Configure<JT808ReportOptions>(Configuration.GetSection("JT808ReportOptions"));
+            jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReportHostedService>();
+            return jT808ClientBuilder;
+        }
+
+        public static IJT808ClientBuilder AddClientReport(this IJT808ClientBuilder jT808ClientBuilder, Action<JT808ReportOptions> reportOptions)
+        {
+            jT808ClientBuilder.JT808Builder.Services.Configure(reportOptions);
+            jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808ReportHostedService>();
+            return jT808ClientBuilder;
         }
     }
 }

@@ -19,7 +19,6 @@ namespace JT808.Gateway.Client
     public class JT808TcpClient:IDisposable
     {
         //todo: 客户端的断线重连
-        //todo: 客户端的消息处理handler
         private bool disposed = false;
         private Socket clientSocket;
         private readonly ILogger Logger;
@@ -72,7 +71,7 @@ namespace JT808.Gateway.Client
             {
                 try
                 {
-                    Memory<byte> memory = writer.GetMemory(80960);
+                    Memory<byte> memory = writer.GetMemory(8096);
                     int bytesRead = await session.ReceiveAsync(memory, SocketFlags.None, cancellationToken);
                     if (bytesRead == 0)
                     {
@@ -149,7 +148,7 @@ namespace JT808.Gateway.Client
                     {
                         try
                         {
-                            var package = JT808Serializer.HeaderDeserialize(seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).FirstSpan,minBufferSize:10240);
+                            var package = JT808Serializer.HeaderDeserialize(seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).ToArray(),minBufferSize:8096);
                             ReceiveAtomicCounterService.MsgSuccessIncrement();
                             if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{ReceiveAtomicCounterService.MsgSuccessCount}");
                             if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");

@@ -68,7 +68,8 @@ namespace JT808.Gateway.CleintBenchmark
                 services.AddSingleton<ILoggerFactory, LoggerFactory>();
                 services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                 services.AddJT808Configure()
-                        .AddClient();
+                        .AddClient()
+                        .AddClientReport();
                 services.AddHostedService<CleintBenchmarkHostedService>();
             });
             await serverHostBuilder.RunConsoleAsync();
