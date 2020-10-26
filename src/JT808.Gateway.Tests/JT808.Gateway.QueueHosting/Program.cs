@@ -14,6 +14,7 @@ using JT808.Gateway.SessionNotice;
 using JT808.Gateway.Client;
 using JT808.Gateway.QueueHosting.Jobs;
 using JT808.Gateway.Kafka;
+using JT808.Gateway.WebApiClientTool;
 
 namespace JT808.Gateway.QueueHosting
 {
@@ -40,18 +41,6 @@ namespace JT808.Gateway.QueueHosting
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
-                            //.AddQueueGateway(options =>
-                            //{
-                            //    options.TcpPort = 808;
-                            //    options.UdpPort = 808;
-                            //})
-                            .AddGateway(hostContext.Configuration)
-                            .AddServerKafkaMsgProducer(hostContext.Configuration)
-                            .AddServerKafkaSessionProducer(hostContext.Configuration)
-                            .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
-                            .AddTcp()
-                            .AddUdp()
-                            .Builder()
                             //添加客户端工具
                             .AddClient()
                             .AddClientReport()
@@ -61,11 +50,20 @@ namespace JT808.Gateway.QueueHosting
                             .AddMsgConsumer(hostContext.Configuration)
                             //添加消息应答服务 
                             .AddMsgReplyProducer(hostContext.Configuration)
+                            .Builder()
                             //添加消息应答处理
-                            //.AddReplyMessage()
-                            ;
-                    //grpc客户端调用
-                    //services.AddHostedService<CallGrpcClientJob>();
+                            //.AddReplyMessage();
+                            .AddGateway(hostContext.Configuration)
+                            .AddServerKafkaMsgProducer(hostContext.Configuration)
+                            .AddServerKafkaSessionProducer(hostContext.Configuration)
+                            .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
+                            .AddTcp()
+                            .AddUdp()
+                            .AddHttp()
+                            .Register();//必须注册的
+                    services.AddJT808WebApiClientTool(hostContext.Configuration);
+                    //httpclient客户端调用
+                    services.AddHostedService<CallHttpClientJob>();
                     //客户端测试
                     services.AddHostedService<UpJob>();
                 });

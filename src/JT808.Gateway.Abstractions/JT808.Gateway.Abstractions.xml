@@ -106,6 +106,14 @@
             <param name="terminalNo">设备终端号</param>
             <param name="data">808 hex data</param>
         </member>
+        <member name="M:JT808.Gateway.Abstractions.IJT808ReplyMessageHandler.Processor(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="TerminalNo">请求数据</param>
+            <param name="Data">当前会话</param>
+            <returns>应答消息数据</returns>
+        </member>
         <member name="P:JT808.Gateway.Abstractions.IJT808Session.TerminalPhoneNo">
             <summary>
             终端手机号

@@ -14,6 +14,7 @@ using JT808.Gateway.Abstractions;
 using JT808.Gateway.SessionNotice;
 using JT808.Gateway.Client;
 using JT808.Gateway.NormalHosting.Jobs;
+using JT808.Gateway.WebApiClientTool;
 
 namespace JT808.Gateway.NormalHosting
 {
@@ -48,23 +49,23 @@ namespace JT808.Gateway.NormalHosting
                     services.AddSingleton<IJT808MsgReplyProducer, JT808MsgReplyProducer>();
                     services.AddJT808Configure()
                             //添加客户端工具
-                            //.AddClient()
+                            .AddClient()
+                            .Builder()
                             .AddGateway(hostContext.Configuration)
                             .AddMessageHandler<JT808CustomMessageHandlerImpl>()
                             .AddMsgReplyConsumer<JT808MsgReplyConsumer>()
                             .AddMsgLogging<JT808MsgLogging>()
-                            //.AddSessionNotice()
-                            //.AddTransmit(hostContext.Configuration)
+                            .AddSessionNotice()
+                            .AddTransmit(hostContext.Configuration)
                             .AddTcp()
-                            //.AddUdp()
+                            .AddUdp()
                             .AddHttp()
                             .Register();//必须注册的
-                    //流量统计
-                    //services.AddHostedService<TrafficJob>();
-                    //grpc客户端调用
-                    //services.AddHostedService<CallGrpcClientJob>();
+                    services.AddJT808WebApiClientTool(hostContext.Configuration);
+                    //httpclient客户端调用
+                    services.AddHostedService<CallHttpClientJob>();
                     //客户端测试  依赖AddClient()服务
-                    //services.AddHostedService<UpJob>();
+                    services.AddHostedService<UpJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();

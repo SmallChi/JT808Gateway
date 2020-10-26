@@ -26,7 +26,7 @@
     <DocumentationFile>JT808.Gateway.Kafka.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="1.5.1" />
+    <PackageReference Include="Confluent.Kafka" Version="1.5.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace JT808.Gateway.NormalHosting.Impl
     public class JT808CustomMessageHandlerImpl : JT808MessageHandler
     {
         private readonly ILogger logger;
-        //private readonly JT808TransmitService jT808TransmitService;
+        private readonly JT808TransmitService jT808TransmitService;
         private readonly IJT808MsgLogging jT808MsgLogging;
         private readonly IJT808MsgReplyProducer MsgReplyProducer;
 
@@ -25,13 +25,14 @@ namespace JT808.Gateway.NormalHosting.Impl
             IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
             IJT808MsgProducer msgProducer,
             IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
+            JT808TransmitService jT808TransmitService,
             IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor,
                 msgProducer, 
                 msgReplyLoggingProducer, 
                 jT808Config)
         {
             MsgReplyProducer = msgReplyProducer;
-            //this.jT808TransmitService = jT808TransmitService;
+            this.jT808TransmitService = jT808TransmitService;
             this.jT808MsgLogging = jT808MsgLogging;
             logger = loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
             //添加自定义消息
@@ -53,15 +54,13 @@ namespace JT808.Gateway.NormalHosting.Impl
             {
                 //AOP 可以自定义添加一些东西:上下行日志、
                 logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
-                //流量
-                //jT808Traffic.Increment(request.Header.TerminalPhoneNo, DateTime.Now.ToString("yyyyMMdd"), request.OriginalData.Length);
                 var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
-                ////上行日志（可同步也可以使用队列进行异步）
-                //jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
-                ////下行日志（可同步也可以使用队列进行异步）
+                //上行日志（可同步也可以使用队列进行异步）
+                jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
+                //下行日志（可同步也可以使用队列进行异步）
                 jT808MsgLogging.Processor((request.Header.TerminalPhoneNo, down), JT808MsgLoggingType.down);
-                ////转发数据（可同步也可以使用队列进行异步）
-                //jT808TransmitService.SendAsync(parameter);
+                //转发数据（可同步也可以使用队列进行异步）
+                jT808TransmitService.SendAsync(parameter);
             }
             catch (Exception)
             {

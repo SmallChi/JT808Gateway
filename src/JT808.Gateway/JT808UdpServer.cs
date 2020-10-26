@@ -65,6 +65,10 @@ namespace JT808.Gateway
                         SocketReceiveMessageFromResult result = await server.ReceiveMessageFromAsync(segment, SocketFlags.None, LocalIPEndPoint);
                         ReaderBuffer(buffer.AsSpan(0, result.ReceivedBytes), server, result);
                     }
+                    catch(System.ObjectDisposedException ex)
+                    {
+                        //Logger.LogInformation("Socket Received Bytes Close");
+                    }
                     catch(AggregateException ex)
                     {
                         Logger.LogError(ex, "Receive MessageFrom Async");

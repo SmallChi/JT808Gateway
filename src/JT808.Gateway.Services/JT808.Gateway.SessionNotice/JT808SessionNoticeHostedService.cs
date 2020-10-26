@@ -1,6 +1,4 @@
 ﻿using System.Threading.Tasks;
-using JT808.Protocol;
-using JT808.Protocol.Interfaces;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using JT808.Gateway.Abstractions;

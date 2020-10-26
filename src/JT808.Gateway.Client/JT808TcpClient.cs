@@ -225,20 +225,15 @@ namespace JT808.Gateway.Client
         public void Close()
         {
             if (disposed) return;
-            var socket = clientSocket;
-            if (socket == null)
-                return;
-            if (Interlocked.CompareExchange(ref clientSocket, null, socket) == socket)
+            if (clientSocket == null) return;
+            try
             {
-                try
-                {
-                    clientSocket.Shutdown(SocketShutdown.Both);
-                }
-                finally
-                {
-                    clientSocket.Close();
-                }
+                clientSocket?.Shutdown(SocketShutdown.Both);
             }
+            finally
+            {
+                clientSocket?.Close();
+            }          
         }
 
         private void Dispose(bool disposing)
