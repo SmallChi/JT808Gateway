@@ -15,6 +15,7 @@ using JT808.Gateway.Client;
 using JT808.Gateway.QueueHosting.Jobs;
 using JT808.Gateway.Kafka;
 using JT808.Gateway.WebApiClientTool;
+using JT808.Gateway.QueueHosting.Impl;
 
 namespace JT808.Gateway.QueueHosting
 {
@@ -48,12 +49,14 @@ namespace JT808.Gateway.QueueHosting
                             //添加客户端服务
                             .AddClientKafka()
                             .AddMsgConsumer(hostContext.Configuration)
-                            //添加消息应答服务 
+                            //添加消息应答生产者
                             .AddMsgReplyProducer(hostContext.Configuration)
+                            //添加消息应答服务并实现消息应答处理
+                            .AddReplyMessage<JT808ReplyMessageHandlerImpl>()
                             .Builder()
                             //添加消息应答处理
-                            //.AddReplyMessage();
                             .AddGateway(hostContext.Configuration)
+                            .AddMessageHandler<JT808CustomMessageHandlerImpl>()
                             .AddServerKafkaMsgProducer(hostContext.Configuration)
                             .AddServerKafkaSessionProducer(hostContext.Configuration)
                             .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)

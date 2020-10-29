@@ -35,6 +35,6 @@ namespace JT808.Gateway.Abstractions.Configurations
         /// <summary>
         /// 网关不做消息业务处理，往队列发送
         /// </summary>
-        public List<uint> FilterMsgIdHandlerForQueue { get; set; }
+        public List<uint> FilterMsgIdHandlerForQueue { get; set; } = new List<uint>();
     }
 }

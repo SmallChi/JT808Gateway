@@ -17,7 +17,7 @@ namespace JT808.Gateway.Kafka
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serviceDescriptors"></param>
+        /// <param name="jT808ClientBuilder"></param>
         /// <param name="configuration">GetSection("JT808MsgConsumerConfig")</param>
         /// <returns></returns>
         public static IJT808ClientBuilder AddMsgConsumer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
@@ -29,7 +29,7 @@ namespace JT808.Gateway.Kafka
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serviceDescriptors"></param>
+        /// <param name="jT808ClientBuilder"></param>
         /// <param name="configuration">GetSection("JT808MsgReplyProducerConfig")</param>
         /// <returns></returns>
         public static IJT808ClientBuilder AddMsgReplyProducer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)
@@ -65,7 +65,7 @@ namespace JT808.Gateway.Kafka
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serviceDescriptors"></param>
+        /// <param name="jT808ClientBuilder"></param>
         /// <param name="configuration">GetSection("JT808SessionConsumerConfig")</param>
         /// <returns></returns>
         public static IJT808ClientBuilder AddSessionConsumer(this IJT808ClientBuilder jT808ClientBuilder, IConfiguration configuration)

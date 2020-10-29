@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using JT808.Gateway.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace JT808.Gateway.ReplyMessage
 {
@@ -9,20 +10,37 @@ namespace JT808.Gateway.ReplyMessage
     {
         private IJT808MsgConsumer jT808MsgConsumer;
         private IJT808ReplyMessageHandler jT808ReplyMessageHandler;
-
+        private IJT808MsgReplyProducer jT808MsgReplyProducer;
+        private ILogger logger;
         public JT808ReplyMessageHostedService(
+            ILoggerFactory loggerFactory,
             IJT808ReplyMessageHandler jT808ReplyMessageHandler,
+            IJT808MsgReplyProducer jT808MsgReplyProducer,
             IJT808MsgConsumer jT808MsgConsumer)
         {
             this.jT808MsgConsumer = jT808MsgConsumer;
+            this.jT808MsgReplyProducer = jT808MsgReplyProducer;
             this.jT808ReplyMessageHandler = jT808ReplyMessageHandler;
+            this.logger = loggerFactory.CreateLogger<JT808ReplyMessageHostedService>();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Subscribe();
-            jT808MsgConsumer.OnMessage((Message)=> {
-                jT808ReplyMessageHandler.Processor(Message.TerminalNo, Message.Data);
+            jT808MsgConsumer.OnMessage(async (Message) =>
+            {
+                try
+                {
+                    var data = jT808ReplyMessageHandler.Processor(Message.TerminalNo, Message.Data);
+                    if (data != null)
+                    {
+                        await jT808MsgReplyProducer.ProduceAsync(Message.TerminalNo, data);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    logger.LogError(ex, "");
+                }
             });
             return Task.CompletedTask;
         }

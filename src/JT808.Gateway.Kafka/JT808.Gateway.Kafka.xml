@@ -8,7 +8,7 @@
             <summary>
             
             </summary>
-            <param name="serviceDescriptors"></param>
+            <param name="jT808ClientBuilder"></param>
             <param name="configuration">GetSection("JT808MsgConsumerConfig")</param>
             <returns></returns>
         </member>
@@ -16,7 +16,7 @@
             <summary>
             
             </summary>
-            <param name="serviceDescriptors"></param>
+            <param name="jT808ClientBuilder"></param>
             <param name="configuration">GetSection("JT808MsgReplyProducerConfig")</param>
             <returns></returns>
         </member>
@@ -40,7 +40,7 @@
             <summary>
             
             </summary>
-            <param name="serviceDescriptors"></param>
+            <param name="jT808ClientBuilder"></param>
             <param name="configuration">GetSection("JT808SessionConsumerConfig")</param>
             <returns></returns>
         </member>
