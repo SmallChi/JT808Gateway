@@ -24,7 +24,10 @@ namespace JT808.Gateway.Client
         /// 心跳时间（秒）
         /// </summary>
         public int Heartbeat { get; set; } = 30;
-
+        /// <summary>
+        /// 自动重连 默认true
+        /// </summary>
+        public bool AutoReconnection { get; set; } = true;
         public IJT808MsgSNDistributed MsgSNDistributed { get; }
     }
 }

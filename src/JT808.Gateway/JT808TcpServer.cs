@@ -62,7 +62,7 @@ namespace JT808.Gateway
             server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
             server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveBuffer, Configuration.MiniNumBufferSize);
             server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendBuffer, Configuration.MiniNumBufferSize);
-            server.LingerState = new LingerOption(false, 0);
+            server.LingerState = new LingerOption(true, 0);
             server.Bind(IPEndPoint);
             server.Listen(Configuration.SoBacklog);
         }
@@ -201,11 +201,11 @@ namespace JT808.Gateway
                         }
                         catch (NotImplementedException ex)
                         {
-                            Logger.LogError(ex.Message);
+                            Logger.LogError(ex.Message,$"{session.Client.RemoteEndPoint}");
                         }
                         catch (JT808Exception ex)
                         {
-                            Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{contentSpan.ToArray().ToHexString()}");
+                            Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{contentSpan.ToArray().ToHexString()},{session.Client.RemoteEndPoint}");
                         }
                         totalConsumed += (seqReader.Consumed - totalConsumed);
                         if (seqReader.End) break;

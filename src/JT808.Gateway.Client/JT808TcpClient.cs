@@ -12,21 +12,24 @@ using JT808.Protocol.Extensions;
 using JT808.Gateway.Client.Services;
 using JT808.Gateway.Client.Metadata;
 using Microsoft.Extensions.DependencyInjection;
+using JT808.Gateway.Client.Internal;
 
 namespace JT808.Gateway.Client
 {
 
     public class JT808TcpClient:IDisposable
     {
-        //todo: 客户端的断线重连
+        //todo: 客户端心跳时间
         private bool disposed = false;
         private Socket clientSocket;
         private readonly ILogger Logger;
         private readonly JT808Serializer JT808Serializer;
         private readonly JT808SendAtomicCounterService SendAtomicCounterService;
         private readonly JT808ReceiveAtomicCounterService ReceiveAtomicCounterService;
+        private readonly JT808RetryBlockingCollection RetryBlockingCollection;
         private bool socketState = true;
         public JT808DeviceConfig DeviceConfig { get; }
+        private IJT808MessageProducer producer;
         public JT808TcpClient(
             JT808DeviceConfig deviceConfig,
             IServiceProvider serviceProvider)
@@ -36,6 +39,8 @@ namespace JT808.Gateway.Client
             ReceiveAtomicCounterService = serviceProvider.GetRequiredService<JT808ReceiveAtomicCounterService>();
             JT808Serializer = serviceProvider.GetRequiredService<IJT808Config>().GetSerializer();
             Logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<JT808TcpClient>();
+            producer = serviceProvider.GetRequiredService<IJT808MessageProducer>();
+            RetryBlockingCollection = serviceProvider.GetRequiredService<JT808RetryBlockingCollection>();
         }
         public async ValueTask<bool> ConnectAsync(EndPoint remoteEndPoint)
         {
@@ -47,6 +52,8 @@ namespace JT808.Gateway.Client
             }
             catch (Exception e)
             {
+                Logger.LogError(e, "ConnectAsync Error");
+                RetryBlockingCollection.RetryBlockingCollection.Add(DeviceConfig);
                 return false;
             }
         }
@@ -63,6 +70,7 @@ namespace JT808.Gateway.Client
                 Task writing = FillPipeAsync(session, pipe.Writer, cancellationToken);
                 Task reading = ReadPipeAsync(session, pipe.Reader);
                 await Task.WhenAll(reading, writing);
+                RetryBlockingCollection.RetryBlockingCollection.Add(DeviceConfig);
             }, clientSocket);
         }
         private async Task FillPipeAsync(Socket session, PipeWriter writer, CancellationToken cancellationToken)
@@ -78,6 +86,11 @@ namespace JT808.Gateway.Client
                         break;
                     }
                     writer.Advance(bytesRead);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    Logger.LogError($"[Receive Timeout]:{session.RemoteEndPoint}");
+                    break;
                 }
                 catch (System.Net.Sockets.SocketException ex)
                 {
@@ -148,10 +161,15 @@ namespace JT808.Gateway.Client
                     {
                         try
                         {
-                            var package = JT808Serializer.HeaderDeserialize(seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).ToArray(),minBufferSize:8096);
+                            var data = seqReader.Sequence.Slice(totalConsumed, seqReader.Consumed - totalConsumed).ToArray();
+                            var package = JT808Serializer.Deserialize(data, minBufferSize: 8096);
+                            if (producer != null)
+                            {
+                                producer.ProduceAsync(package);
+                            }
                             ReceiveAtomicCounterService.MsgSuccessIncrement();
                             if (Logger.IsEnabled(LogLevel.Debug)) Logger.LogDebug($"[Atomic Success Counter]:{ReceiveAtomicCounterService.MsgSuccessCount}");
-                            if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
+                            if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.RemoteEndPoint}]:{data.ToHexString()}");
                         }
                         catch (JT808Exception ex)
                         {
@@ -178,9 +196,9 @@ namespace JT808.Gateway.Client
                 consumed = buffer.GetPosition(totalConsumed);
             }
         }
-        public async ValueTask SendAsync(JT808ClientRequest message)
+        public async ValueTask<bool> SendAsync(JT808ClientRequest message)
         {
-            if (disposed) return;
+            if (disposed) return false;
             if (IsOpen && socketState)
             {
                 if (message.Package != null)
@@ -188,38 +206,44 @@ namespace JT808.Gateway.Client
                     try
                     {
                         var sendData = JT808Serializer.Serialize(message.Package, minBufferSize: message.MinBufferSize);
-                        //clientSocket.Send(sendData);
                         await clientSocket.SendAsync(sendData, SocketFlags.None);
                         SendAtomicCounterService.MsgSuccessIncrement();
+                        return true;
                     }
                     catch (System.Net.Sockets.SocketException ex)
                     {
                         socketState = false;
                         Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message},{DeviceConfig.TerminalPhoneNo}]");
+                        return false;
                     }
                     catch (System.Exception ex)
                     {
                         Logger.LogError(ex.Message);
+                        return false;
                     }
                 }
                 else if (message.HexData != null)
                 {
                     try
                     {
-                        clientSocket.Send(message.HexData);
+                        await clientSocket.SendAsync(message.HexData, SocketFlags.None);
                         SendAtomicCounterService.MsgSuccessIncrement();
+                        return true;
                     }
                     catch (System.Net.Sockets.SocketException ex)
                     {
                         socketState = false;
                         Logger.LogError($"[{ex.SocketErrorCode.ToString()},{ex.Message},{DeviceConfig.TerminalPhoneNo}]");
+                        return false;
                     }
                     catch (System.Exception ex)
                     {
                         Logger.LogError(ex.Message);
+                        return false;
                     }
                 }
             }
+            return false;
         }
 
         public void Close()
