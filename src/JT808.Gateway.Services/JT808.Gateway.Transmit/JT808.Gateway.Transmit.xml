@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JT808.Gateway.Transmit</name>
+    </assembly>
+    <members>
+        <member name="M:JT808.Gateway.Transmit.JT808TransmitExtensions.AddTransmit(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            转发服务（不同的消费者实例）
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Transmit.JT808TransmitExtensions.AddTransmit(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            转发服务（不同的消费者实例）
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Transmit.JT808TransmitService.InitRemoteServsers">
+            <summary>
+            初始化远程服务器
+            </summary>
+            <param name="bootstrap"></param>
+            <param name="remoteServers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Transmit.JT808TransmitService.DelRemoteServsers(System.Collections.Generic.List{System.String})">
+            <summary>
+            动态删除远程服务器
+            </summary>
+            <param name="lastRemoteServers"></param>
+        </member>
+        <member name="M:JT808.Gateway.Transmit.JT808TransmitService.AddRemoteServsers(System.Collections.Generic.List{System.String})">
+            <summary>
+            动态添加远程服务器
+            </summary>
+            <param name="bootstrap"></param>
+            <param name="lastRemoteServers"></param>
+        </member>
+    </members>
+</doc>

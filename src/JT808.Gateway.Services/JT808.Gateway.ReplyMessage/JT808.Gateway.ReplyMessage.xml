@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JT808.Gateway.ReplyMessage</name>
+    </assembly>
+    <members>
+        <member name="M:JT808.Gateway.ReplyMessage.JT808ReplyMessageExtensions.AddReplyMessage``1(JT808.Gateway.Abstractions.IJT808ClientBuilder)">
+            <summary>
+            消息应答服务
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

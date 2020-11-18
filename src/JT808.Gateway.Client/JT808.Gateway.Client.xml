@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JT808.Gateway.Client</name>
+    </assembly>
+    <members>
+        <member name="T:JT808.Gateway.Client.IJT808MessageProducer">
+            <summary>
+            消息数据包
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Client.JT808DeviceConfig.Heartbeat">
+            <summary>
+            心跳时间（秒）
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Client.JT808DeviceConfig.AutoReconnection">
+            <summary>
+            自动重连 默认true
+            </summary>
+        </member>
+        <member name="T:JT808.Gateway.Client.Metadata.JT808AtomicCounter">
+            <summary>
+            
+            <see cref="!:Grpc.Core.Internal"/>
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Client.Metadata.JT808ClientRequest.MinBufferSize">
+            <summary>
+            根据实际情况适当调整包的大小
+            </summary>
+        </member>
+        <member name="T:JT808.Gateway.Client.Services.JT808ReceiveAtomicCounterService">
+            <summary>
+            接收计数包服务
+            </summary>
+        </member>
+        <member name="T:JT808.Gateway.Client.Services.JT808SendAtomicCounterService">
+            <summary>
+            发送计数包服务
+            </summary>
+        </member>
+    </members>
+</doc>

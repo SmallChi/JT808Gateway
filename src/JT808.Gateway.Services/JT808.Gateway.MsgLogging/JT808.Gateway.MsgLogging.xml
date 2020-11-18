@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JT808.Gateway.MsgLogging</name>
+    </assembly>
+    <members>
+        <member name="T:JT808.Gateway.MsgLogging.IJT808MsgLogging">
+            <summary>
+            808数据上下行日志接口
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.MsgLogging.JT808MsgLoggingType.up">
+            <summary>
+            数据上行
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.MsgLogging.JT808MsgLoggingType.down">
+            <summary>
+            数据下行
+            </summary>
+        </member>
+    </members>
+</doc>
