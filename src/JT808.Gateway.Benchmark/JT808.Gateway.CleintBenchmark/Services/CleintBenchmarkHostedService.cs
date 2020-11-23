@@ -58,17 +58,20 @@ namespace JT808.Gateway.CleintBenchmark.Services
                         {
                             int lat = new Random(1000).Next(100000, 180000);
                             int Lng = new Random(1000).Next(100000, 180000);
-                            await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            if (client != null)
                             {
-                                Lat = lat,
-                                Lng = Lng,
-                                GPSTime = DateTime.Now,
-                                Speed = 50,
-                                Direction = 30,
-                                AlarmFlag = 5,
-                                Altitude = 50,
-                                StatusFlag = 10
-                            }));
+                                await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                                {
+                                    Lat = lat,
+                                    Lng = Lng,
+                                    GPSTime = DateTime.Now,
+                                    Speed = 50,
+                                    Direction = 30,
+                                    AlarmFlag = 5,
+                                    Altitude = 50,
+                                    StatusFlag = 10
+                                }));
+                            }
                         }
                         catch (Exception ex)
                         {

@@ -150,19 +150,8 @@ namespace JT808.Gateway
         public static IJT808GatewayBuilder AddMsgReplyConsumer<TJT808MsgReplyConsumer>(this IJT808GatewayBuilder config)
              where TJT808MsgReplyConsumer : IJT808MsgReplyConsumer
         {
-            config.JT808Builder.Services.Add(new ServiceDescriptor(typeof(IJT808MsgReplyConsumer), typeof(TJT808MsgReplyConsumer), ServiceLifetime.Singleton));
+            config.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MsgReplyConsumer), typeof(TJT808MsgReplyConsumer), ServiceLifetime.Singleton));
             return config;
-        }
-        /// <summary>
-        /// 必须注册的
-        /// </summary>
-        /// <param name="config"></param>
-        public static void Register(this IJT808GatewayBuilder config)
-        {
-            if(config.JT808Builder.Services.Where(s => s.ServiceType == typeof(IJT808MsgReplyConsumer)).Count() > 0)
-            {
-                config.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
-            }
         }
         /// <summary>
         /// 添加公共模块
@@ -175,6 +164,8 @@ namespace JT808.Gateway
             config.JT808Builder.Services.AddSingleton<JT808SessionManager>();
             config.JT808Builder.Services.AddSingleton<IJT808MsgProducer, JT808MsgProducer_Empty>();
             config.JT808Builder.Services.AddSingleton<IJT808MsgReplyLoggingProducer, JT808MsgReplyLoggingProducer_Empty>();
+            config.JT808Builder.Services.AddSingleton<IJT808MsgReplyConsumer, JT808MsgReplyConsumer_Empry>();
+            config.JT808Builder.Services.AddHostedService<JT808MsgReplyHostedService>();
             return config;
         }
     }

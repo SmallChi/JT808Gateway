@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\axios.min.js" />
+    <Content Remove="wwwroot\day.js" />
     <Content Remove="wwwroot\echarts.min.js" />
     <Content Remove="wwwroot\index.html" />
+    <Content Remove="wwwroot\signalr.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,12 +27,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\LICENSE" Pack="true" PackagePath="" />
+    <None Include="wwwroot\axios.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\day.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\echarts.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="wwwroot\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\signalr.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

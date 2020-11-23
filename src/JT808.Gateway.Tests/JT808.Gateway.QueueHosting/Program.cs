@@ -62,8 +62,7 @@ namespace JT808.Gateway.QueueHosting
                             .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp()
-                            .AddHttp()
-                            .Register();//必须注册的
+                            .AddHttp();
                     services.AddJT808WebApiClientTool(hostContext.Configuration);
                     //httpclient客户端调用
                     services.AddHostedService<CallHttpClientJob>();

@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <title>收发查看</title>
-    <script src="https://unpkg.com/dayjs"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/day.js"></script>
+    <script src="/axios.min.js"></script>
     <script src="/echarts.min.js"></script>
+    <script src="/signalr.min.js"></script>
 </head>
 
 <body>
@@ -96,51 +97,98 @@
                 data: offlineData
             }]
         };
-        setInterval(function () {
-            axios.post('http://localhost:5000/JT808WebApi/QueryReport')
-            .then((response) => {
-                    if (response.data) {
-                        if(sendData.length>16){
-                            sendData.shift();
-                            receiveData.shift();
-                            onlineData.shift();
-                            offlineData.shift();
-                            timeData.shift();
-                        }
-                        //console.log(response.data);
-                        timeData.push(dayjs(response.data.currentDate).format('HH:mm:ss'));
-                        sendData.push(response.data.sendTotalCount);
-                        receiveData.push(response.data.receiveTotalCount);
-                        onlineData.push(response.data.onlineConnections);
-                        offlineData.push(response.data.offlineConnections);
-                        tcpChart.setOption({
-                            series: [{
-                                data: sendData
-                            },{
-                                data: receiveData
-                            }],
-                            xAxis:[{
-                                data: timeData
-                            }]
-                        });
-                        connChart.setOption({
-                            series: [{
-                                data: onlineData
-                            },{
-                                data: offlineData
-                            }],
-                            xAxis:[{
-                                data: timeData
-                            }]
-                        });
-                    } else {
-                        alert("没有数据");
-                    }
-                })
-                .catch((error) => {
-                    console.log(error); 
-                });
-        }, 1000);
+        //setInterval(function () {
+        //    axios.post('/JT808WebApi/QueryReport')
+        //    .then((response) => {
+        //            if (response.data) {
+        //                if(sendData.length>16){
+        //                    sendData.shift();
+        //                    receiveData.shift();
+        //                    onlineData.shift();
+        //                    offlineData.shift();
+        //                    timeData.shift();
+        //                }
+        //                //console.log(response.data);
+        //                timeData.push(dayjs(response.data.currentDate).format('HH:mm:ss'));
+        //                sendData.push(response.data.sendTotalCount);
+        //                receiveData.push(response.data.receiveTotalCount);
+        //                onlineData.push(response.data.onlineConnections);
+        //                offlineData.push(response.data.offlineConnections);
+        //                tcpChart.setOption({
+        //                    series: [{
+        //                        data: sendData
+        //                    },{
+        //                        data: receiveData
+        //                    }],
+        //                    xAxis:[{
+        //                        data: timeData
+        //                    }]
+        //                });
+        //                connChart.setOption({
+        //                    series: [{
+        //                        data: onlineData
+        //                    },{
+        //                        data: offlineData
+        //                    }],
+        //                    xAxis:[{
+        //                        data: timeData
+        //                    }]
+        //                });
+        //            } else {
+        //                alert("没有数据");
+        //            }
+        //        })
+        //        .catch((error) => {
+        //            console.log(error); 
+        //        });
+        //}, 1000);
+        this.signalrInfo = {};
+        //todo:根据底图动态切换皮肤 第二版再搞
+        this.signalrInfo.conn = new signalR.HubConnectionBuilder()
+            .withUrl("/ReportHub")
+            .withAutomaticReconnect({
+                nextRetryDelayInMilliseconds: retryContext => {
+                    return 8000;
+                }
+            })
+            .build();
+        this.signalrInfo.conn.on("ReceiveMessage", (key, message) => {
+            message = JSON.parse(message);
+            //console.debug("ReceiveMessage",key, message);
+            if (sendData.length > 16) {
+                sendData.shift();
+                receiveData.shift();
+                onlineData.shift();
+                offlineData.shift();
+                timeData.shift();
+            }
+            timeData.push(dayjs(message.CurrentDate).format('HH:mm:ss'));
+            sendData.push(message.SendTotalCount);
+            receiveData.push(message.ReceiveTotalCount);
+            onlineData.push(message.OnlineConnections);
+            offlineData.push(message.OfflineConnections);
+            tcpChart.setOption({
+                series: [{
+                    data: sendData
+                }, {
+                    data: receiveData
+                }],
+                xAxis: [{
+                    data: timeData
+                }]
+            });
+            connChart.setOption({
+                series: [{
+                    data: onlineData
+                }, {
+                    data: offlineData
+                }],
+                xAxis: [{
+                    data: timeData
+                }]
+            });
+        });
+        this.signalrInfo.conn.start().catch(err => console.error(err));
         if (tcpOption && typeof tcpOption === "object") {
             tcpChart.setOption(tcpOption, true);
         }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using JT808.Gateway.Client;
 using JT808.Gateway.CleintBenchmark.Configs;
 using JT808.Gateway.CleintBenchmark.Services;
+using JT808.Gateway.CleintBenchmark.Hubs;
 
 namespace JT808.Gateway.CleintBenchmark
 {
@@ -31,14 +32,17 @@ namespace JT808.Gateway.CleintBenchmark
                     app.UseRouting();
                     app.UseCors("Domain");
                     app.UseStaticFiles();
-                    app.UseDefaultFiles("/index.html");
+                    app.UseDefaultFiles();
+                    app.UseFileServer();
                     app.UseEndpoints(endpoints =>
                     {
+                        endpoints.MapHub<ReportHub>("/ReportHub");
                         endpoints.MapControllers();
                     });
                 })
                 .ConfigureServices((hostContext, services) => 
                 {
+  
                     services.AddControllers();
                     services.AddCors(options =>
                         options.AddPolicy("Domain", builder =>
@@ -46,6 +50,7 @@ namespace JT808.Gateway.CleintBenchmark
                                .AllowAnyMethod()
                                .AllowAnyHeader()
                                .AllowAnyOrigin()));
+                    services.AddSignalR();
 
                 });
             })
@@ -71,6 +76,7 @@ namespace JT808.Gateway.CleintBenchmark
                         .AddClient()
                         .AddClientReport();
                 services.AddHostedService<CleintBenchmarkHostedService>();
+                services.AddHostedService<QueryReportHostedService>();
             });
             await serverHostBuilder.RunConsoleAsync();
         }

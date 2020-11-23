@@ -143,12 +143,6 @@
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.JT808GatewayExtensions.Register(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
-            <summary>
-            必须注册的
-            </summary>
-            <param name="config"></param>
-        </member>
         <member name="M:JT808.Gateway.JT808GatewayExtensions.AddJT808Core(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
             <summary>
             添加公共模块
