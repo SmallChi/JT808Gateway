@@ -46,11 +46,17 @@ namespace JT808.Gateway.Client
             producer = serviceProvider.GetRequiredService<IJT808MessageProducer>();
             RetryBlockingCollection = serviceProvider.GetRequiredService<JT808RetryBlockingCollection>();
         }
-        public async ValueTask<bool> ConnectAsync(EndPoint remoteEndPoint)
+        public async ValueTask<bool> ConnectAsync()
         {
+            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(DeviceConfig.TcpHost), DeviceConfig.TcpPort);
             clientSocket = new Socket(remoteEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             try
             {
+                if (!string.IsNullOrEmpty(DeviceConfig.LocalIPAddress))
+                {
+                    IPAddress localIPAddress = IPAddress.Parse(DeviceConfig.LocalIPAddress);
+                    clientSocket.Bind(new IPEndPoint(localIPAddress, DeviceConfig.LocalPort));
+                }
                 await clientSocket.ConnectAsync(remoteEndPoint);
                 await Task.Factory.StartNew(async()=> {
                     while (!heartbeatCTS.IsCancellationRequested)

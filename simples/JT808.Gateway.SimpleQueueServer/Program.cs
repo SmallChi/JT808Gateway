@@ -29,14 +29,13 @@ namespace JT808.Gateway.SimpleQueueServer
                     services.AddSingleton<ILoggerFactory, LoggerFactory>();
                     services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()
-                            .AddQueueGateway(hostContext.Configuration)
+                            .AddGateway(hostContext.Configuration)
                             .AddServerKafkaMsgProducer(hostContext.Configuration)
                             .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
                             .AddServerKafkaSessionProducer(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp()
-                            .AddGrpc()
-                            .Builder();
+                            .AddHttp();
                 });
 
             await serverHostBuilder.RunConsoleAsync();

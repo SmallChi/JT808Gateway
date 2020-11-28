@@ -1,33 +1,33 @@
 ﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions.Configurations;
 using JT808.Gateway.MsgLogging;
-using JT808.Gateway.Traffic;
 using JT808.Gateway.Transmit;
 using JT808.Protocol;
 using JT808.Protocol.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JT808.Gateway.SimpleServer.Impl
 {
-    public class JT808NormalReplyMessageHandlerImpl : JT808NormalReplyMessageHandler
+    public class JT808MessageHandlerImpl : JT808MessageHandler
     {
         private readonly ILogger logger;
-        private readonly IJT808Traffic jT808Traffic;
         private readonly IJT808MsgLogging jT808MsgLogging;
         private readonly JT808TransmitService jT808TransmitService;
-        public JT808NormalReplyMessageHandlerImpl(
+
+        public JT808MessageHandlerImpl(
+            ILoggerFactory loggerFactory,
             JT808TransmitService jT808TransmitService,
             IJT808MsgLogging jT808MsgLogging,
-            IJT808Traffic jT808Traffic,
-            ILoggerFactory  loggerFactory,
-            IJT808Config jT808Config) : base(jT808Config)
+            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor, IJT808MsgProducer msgProducer, IJT808MsgReplyLoggingProducer msgReplyLoggingProducer, IJT808Config jT808Config) 
+            : base(jT808ConfigurationOptionsMonitor, msgProducer, msgReplyLoggingProducer, jT808Config)
         {
             this.jT808TransmitService = jT808TransmitService;
-            this.jT808Traffic = jT808Traffic;
             this.jT808MsgLogging = jT808MsgLogging;
-            logger =loggerFactory.CreateLogger("JT808NormalReplyMessageHandlerImpl");
+            logger = loggerFactory.CreateLogger<JT808MessageHandlerImpl>();
             //添加自定义消息
             HandlerDict.Add(0x9999, Msg0x9999);
         }
@@ -41,8 +41,6 @@ namespace JT808.Gateway.SimpleServer.Impl
         {
             //AOP 可以自定义添加一些东西:上下行日志、数据转发
             logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
-            //流量
-            jT808Traffic.Increment(request.Header.TerminalPhoneNo, DateTime.Now.ToString("yyyyMMdd"), request.OriginalData.Length);
             var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
             //转发数据（可同步也可以使用队列进行异步）
             try

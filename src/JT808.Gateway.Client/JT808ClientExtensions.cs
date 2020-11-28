@@ -20,6 +20,7 @@ namespace JT808.Gateway.Client
             jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<JT808ReceiveAtomicCounterService>();
             jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<IJT808TcpClientFactory, JT808TcpClientFactory>();
             jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<IJT808MessageProducer, JT808MessageProducerEmpty>();
+            jT808ClientBuilderDefault.JT808Builder.Services.AddHostedService<JT808RetryClientHostedService>();
             return jT808ClientBuilderDefault;
         }
 
@@ -27,12 +28,6 @@ namespace JT808.Gateway.Client
             where TJT808MessageProducer: IJT808MessageProducer
         {
             jT808ClientBuilder.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808MessageProducer), typeof(TJT808MessageProducer), ServiceLifetime.Singleton));
-            return jT808ClientBuilder;
-        }
-
-        public static IJT808ClientBuilder AddClientRetry(this IJT808ClientBuilder jT808ClientBuilder)
-        {
-            jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808RetryClientHostedService>();
             return jT808ClientBuilder;
         }
         

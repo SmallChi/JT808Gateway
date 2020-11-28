@@ -51,7 +51,9 @@ namespace JT808.Gateway.CleintBenchmark.Services
                     string deviceNo = ((int)state + 1 + clientBenchmarkOptions.DeviceTemplate).ToString();
                     var client = await jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo,
                         clientBenchmarkOptions.IP,
-                        clientBenchmarkOptions.Port), cancellationToken);
+                        clientBenchmarkOptions.Port, 
+                        clientBenchmarkOptions.LocalIPAddress, 
+                        clientBenchmarkOptions.LocalPort + (int)state + 1), cancellationToken);
                     while (!cancellationToken.IsCancellationRequested)
                     {
                         try
@@ -80,6 +82,7 @@ namespace JT808.Gateway.CleintBenchmark.Services
                         await Task.Delay(clientBenchmarkOptions.Interval);
                     }
                 }, i);
+                Thread.Sleep(500);
             }
             return Task.CompletedTask;
         }

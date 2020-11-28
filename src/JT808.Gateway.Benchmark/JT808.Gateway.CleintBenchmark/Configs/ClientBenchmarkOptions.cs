@@ -19,6 +19,16 @@ namespace JT808.Gateway.CleintBenchmark.Configs
         /// 100000-200000-300000
         /// </summary>
         public int DeviceTemplate { get; set; } = 0;
+        /// <summary>
+        /// 本地绑定IP地址
+        /// 适用多网卡绑定
+        /// </summary>
+        public string LocalIPAddress { get; set; }
+        /// <summary>
+        /// 本地绑定IP端口
+        /// 适用多网卡绑定
+        /// </summary>
+        public int LocalPort { get; set; }
         public ClientBenchmarkOptions Value =>this;
     }
 }

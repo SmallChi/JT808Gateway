@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.Client.Services
 {
-    internal class JT808RetryClientHostedService : BackgroundService
+    internal class JT808RetryClientHostedService : IHostedService
     {
         private readonly IJT808TcpClientFactory jT808TcpClientFactory;
 
@@ -33,37 +33,46 @@ namespace JT808.Gateway.Client.Services
             RetryBlockingCollection = retryBlockingCollection;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            foreach (var item in RetryBlockingCollection.RetryBlockingCollection.GetConsumingEnumerable(stoppingToken))
-            {
-                try
+            Task.Run(async()=> {
+                foreach (var item in RetryBlockingCollection.RetryBlockingCollection.GetConsumingEnumerable(cancellationToken))
                 {
-                    jT808TcpClientFactory.Remove(item);
-                    if (item.AutoReconnection)
+                    try
                     {
-                        var result = await jT808TcpClientFactory.Create(item, stoppingToken);
-                        if (result != null)
+                        jT808TcpClientFactory.Remove(item);
+                        if (item.AutoReconnection)
                         {
-                            if (logger.IsEnabled(LogLevel.Information))
+                            var result = await jT808TcpClientFactory.Create(item, cancellationToken);
+                            if (result != null)
                             {
-                                logger.LogInformation($"Retry Success-{JsonSerializer.Serialize(item)}");
+                                if (logger.IsEnabled(LogLevel.Information))
+                                {
+                                    logger.LogInformation($"Retry Success-{JsonSerializer.Serialize(item)}");
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (logger.IsEnabled(LogLevel.Warning))
+                            else
                             {
-                                logger.LogWarning($"Retry Fail-{JsonSerializer.Serialize(item)}");
+                                if (logger.IsEnabled(LogLevel.Warning))
+                                {
+                                    logger.LogWarning($"Retry Fail-{JsonSerializer.Serialize(item)}");
+                                }
                             }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, $"Retry Error-{JsonSerializer.Serialize(item)}");
+                        await Task.Delay(TimeSpan.FromSeconds(5));
+                    }
                 }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, $"Retry Error-{JsonSerializer.Serialize(item)}");
-                }
-            }
+            }, cancellationToken);
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
         }
     }
 }

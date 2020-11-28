@@ -9,12 +9,14 @@ namespace JT808.Gateway.Client
 {
     public class JT808DeviceConfig
     {
-        public JT808DeviceConfig(string terminalPhoneNo, string tcpHost,int tcpPort, JT808Version version= JT808Version.JTT2013)
+        public JT808DeviceConfig(string terminalPhoneNo, string tcpHost,int tcpPort, string localIPAddress=null,int localPort=0, JT808Version version= JT808Version.JTT2013)
         {
             TerminalPhoneNo = terminalPhoneNo;
             TcpHost = tcpHost;
             TcpPort = tcpPort;
             Version = version;
+            LocalIPAddress = localIPAddress;
+            LocalPort = localPort;
         }
         public JT808Version Version { get; private set; }
         public string TerminalPhoneNo { get; private set; }
@@ -29,5 +31,7 @@ namespace JT808.Gateway.Client
         /// </summary>
         public bool AutoReconnection { get; set; } = true;
         public IJT808MsgSNDistributed MsgSNDistributed { get; }
+        public string LocalIPAddress { get; set; }
+        public int LocalPort { get; set; }
     }
 }

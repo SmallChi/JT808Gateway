@@ -40,7 +40,7 @@ namespace JT808.Gateway.Client
             else
             {
                 JT808TcpClient jT808TcpClient = new JT808TcpClient(deviceConfig, serviceProvider);
-                var successed= await jT808TcpClient.ConnectAsync(new IPEndPoint(IPAddress.Parse(deviceConfig.TcpHost), deviceConfig.TcpPort));
+                var successed= await jT808TcpClient.ConnectAsync();
                 if (successed)
                 {
                     jT808TcpClient.StartAsync(cancellationToken);

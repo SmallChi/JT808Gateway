@@ -31,7 +31,7 @@ namespace JT808.Gateway.SimpleClient
                         .AddClient();
                 services.AddHostedService<UpService>();
                 services.AddHostedService<Up2019Service>();
-                services.AddHostedService<CallGrpcClientJob>();
+                services.AddHostedService<CallHttpClientJob>();
             });
             await serverHostBuilder.RunConsoleAsync();
         }

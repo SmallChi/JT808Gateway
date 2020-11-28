@@ -1,36 +1,27 @@
 ﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions.Configurations;
 using JT808.Protocol;
+using JT808.Protocol.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JT808.Gateway.SimpleQueueService.Impl
 {
-    public class JT808QueueReplyMessageHandlerImpl : JT808QueueReplyMessageHandler
+    public class JT808QueueReplyMessageHandlerImpl : IJT808ReplyMessageHandler
     {
-        public JT808QueueReplyMessageHandlerImpl(IJT808Config jT808Config, IJT808MsgReplyProducer jT808MsgReplyProducer) : base(jT808Config, jT808MsgReplyProducer)
+        private ILogger logger;
+
+        public JT808QueueReplyMessageHandlerImpl(ILoggerFactory loggerFactory)
         {
-            //添加自定义消息
-            HandlerDict.Add(0x9999, Msg0x9999);
+            logger = loggerFactory.CreateLogger<JT808QueueReplyMessageHandlerImpl>();
         }
 
-        /// <summary>
-        /// 重写消息
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public override byte[] Msg0x0001(JT808HeaderPackage request)
+        public byte[] Processor(string TerminalNo, byte[] Data)
         {
-            return base.Msg0x0001(request);
-        }
-
-        /// <summary>
-        /// 自定义消息
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public byte[] Msg0x9999(JT808HeaderPackage request)
-        {
+            logger.LogDebug($"JT808QueueReplyMessageHandlerImpl=>{TerminalNo},{Data.ToHexString()}");
             return default;
         }
     }
