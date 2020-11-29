@@ -46,6 +46,8 @@ namespace JT808.Gateway.QueueHosting
                             .AddClient()
                             .AddClientReport()
                             .Builder()
+                            //方式1:客户端webapi调用
+                            .AddWebApiClientTool(hostContext.Configuration)
                             //添加客户端服务
                             .AddClientKafka()
                             .AddMsgConsumer(hostContext.Configuration)
@@ -63,7 +65,8 @@ namespace JT808.Gateway.QueueHosting
                             .AddTcp()
                             .AddUdp()
                             .AddHttp();
-                    services.AddJT808WebApiClientTool(hostContext.Configuration);
+                    //方式2:客户端webapi调用
+                    //services.AddJT808WebApiClientTool(hostContext.Configuration);
                     //httpclient客户端调用
                     services.AddHostedService<CallHttpClientJob>();
                     //客户端测试

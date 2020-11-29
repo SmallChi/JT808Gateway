@@ -46,10 +46,10 @@ namespace JT808.Gateway.NormalHosting.Impl
         /// </summary>
         /// <param name="request"></param>
         /// <param name="session"></param>
-        public override byte[] Processor(JT808HeaderPackage request, IJT808Session session)
+        public override byte[] Processor(JT808HeaderPackage request)
         {
             //处理上行消息
-            var down = base.Processor(request, session);
+            var down = base.Processor(request);
             try
             {
                 //AOP 可以自定义添加一些东西:上下行日志、
@@ -73,13 +73,10 @@ namespace JT808.Gateway.NormalHosting.Impl
         /// 重写自带的消息
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
-        public override byte[] Msg0x0200(JT808HeaderPackage request, IJT808Session session)
+        public override byte[] Msg0x0200(JT808HeaderPackage request)
         {
             logger.LogDebug("重写自带Msg0x0200的消息");
-            var data = base.Msg0x0200(request, session);
-            logger.LogDebug("往应答服务发送相同数据进行测试");
-            MsgReplyProducer.ProduceAsync(request.Header.TerminalPhoneNo, data).ConfigureAwait(false);
+            var data = base.Msg0x0200(request);
             return data;
         }
 
@@ -88,7 +85,7 @@ namespace JT808.Gateway.NormalHosting.Impl
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x9999(JT808HeaderPackage request, IJT808Session session)
+        public byte[] Msg0x9999(JT808HeaderPackage request)
         {
             logger.LogDebug("自定义消息");
             return default;

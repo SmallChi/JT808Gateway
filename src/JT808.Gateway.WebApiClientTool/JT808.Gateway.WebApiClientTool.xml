@@ -89,5 +89,22 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClientExtensions.AddWebApiClientTool(JT808.Protocol.IJT808Builder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="jT808Builder"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClientExtensions.AddWebApiClientTool(JT808.Protocol.IJT808Builder,System.Uri,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="jT808Builder"></param>
+            <param name="webapiUri"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

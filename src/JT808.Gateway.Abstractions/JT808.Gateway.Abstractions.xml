@@ -30,9 +30,9 @@
             Udp 60s检查一次
             </summary>
         </member>
-        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.FilterMsgIdHandlerForQueue">
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.IgnoreMsgIdReply">
             <summary>
-            网关不做消息业务处理，往队列发送
+            网关忽略消息应答
             </summary>
         </member>
         <member name="P:JT808.Gateway.Abstractions.Dtos.JT808TcpSessionInfoDto.LastActiveTime">
@@ -169,15 +169,14 @@
             通用消息处理程序
             </summary>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Processor(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Processor(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             消息处理
             </summary>
             <param name="request">请求数据</param>
-            <param name="session">当前会话</param>
             <returns>应答消息数据</returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0001(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0001(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端通用应答
             平台无需回复
@@ -186,172 +185,152 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.CommonReply(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.CommonReply(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             平台通用应答
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0002(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0002(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端心跳
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0004(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0004(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             查询服务器时间
             2019版本
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8003(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8003(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             服务器补传分包请求
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0005(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0005(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端补传分包请求
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0100(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0100(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端注册
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0003(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0003(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端注销
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0102(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0102(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端鉴权
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0104(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0104(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             查询终端参数应答
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0107(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0107(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             查询终端属性应答
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0108(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0108(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             终端升级结果应答
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0200(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0200(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             位置信息汇报
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0201(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0201(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             位置信息查询应答
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8204(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8204(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             链路检测
             2019版本
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0500(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0500(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             车辆控制应答
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0704(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0704(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             定位数据批量上传
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0705(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0705(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             CAN总线数据上传
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0800(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0800(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             多媒体事件信息上传
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0801(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0801(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             多媒体数据上传
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8801(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x8801(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             摄像头立即拍摄命令
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0900(JT808.Protocol.JT808HeaderPackage,JT808.Gateway.Abstractions.IJT808Session)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Msg0x0900(JT808.Protocol.JT808HeaderPackage)">
             <summary>
             数据上行透传
             </summary>
             <param name="request"></param>
-            <param name="session"></param>
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.Abstractions.JT808MsgIdHttpHandlerBase.#ctor">

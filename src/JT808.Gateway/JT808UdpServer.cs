@@ -98,7 +98,8 @@ namespace JT808.Gateway
                 {
                     Logger.LogInformation($"[Connected]:{receiveMessageFromResult.RemoteEndPoint}");
                 }
-                MessageHandler.Processor(package, session);
+                var downData = MessageHandler.Processor(package);
+                session.SendAsync(downData);
             }
             catch (NotImplementedException ex)
             {

@@ -196,7 +196,8 @@ namespace JT808.Gateway
                                 var package = Serializer.HeaderDeserialize(contentSpan, minBufferSize: 10240);
                                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}]:{package.OriginalData.ToArray().ToHexString()}");
                                 SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
-                                MessageHandler.Processor(package, session);
+                                var downData = MessageHandler.Processor(package);
+                                session.SendAsync(downData);
                             }
                         }
                         catch (NotImplementedException ex)

@@ -11,6 +11,7 @@ namespace JT808.Gateway.Abstractions
     {
         public static async void SendAsync(this IJT808Session session,byte[] data)
         {
+            if (data == null) return;
             if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
             {
                 await session.Client.SendAsync(data, SocketFlags.None);
@@ -23,6 +24,7 @@ namespace JT808.Gateway.Abstractions
 
         public static void Send(this IJT808Session session, byte[] data)
         {
+            if (data == null) return;
             if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
             {
                session.Client.Send(data, SocketFlags.None);

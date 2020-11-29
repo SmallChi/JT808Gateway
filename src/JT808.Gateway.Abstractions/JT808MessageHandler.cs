@@ -18,7 +18,7 @@ namespace JT808.Gateway.Abstractions
     {
         protected Dictionary<ushort, MsgIdMethodDelegate> HandlerDict { get; }
 
-        protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package, IJT808Session session);
+        protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package);
         protected JT808Serializer JT808Serializer { get; }
 
         protected IJT808MsgProducer MsgProducer;
@@ -66,44 +66,31 @@ namespace JT808.Gateway.Abstractions
         /// 消息处理
         /// </summary>
         /// <param name="request">请求数据</param>
-        /// <param name="session">当前会话</param>
         /// <returns>应答消息数据</returns>
-        public virtual byte[] Processor(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Processor(JT808HeaderPackage request)
         {
+            if (MsgProducer != null)
+            {
+                MsgProducer.ProduceAsync(request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
+            }
             if (HandlerDict.TryGetValue(request.Header.MsgId, out var func))
             {
-                if (JT808ConfigurationOptionsMonitor.CurrentValue.FilterMsgIdHandlerForQueue != null)
+                var data = func(request);
+                if (MsgReplyLoggingProducer != null)
                 {
-                    // 网关不做消息业务处理，往队列发送
-                    if (JT808ConfigurationOptionsMonitor.CurrentValue.FilterMsgIdHandlerForQueue.Contains(request.Header.MsgId))
+                    MsgReplyLoggingProducer.ProduceAsync(request.Header.TerminalPhoneNo, data);
+                }
+                if (JT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply != null && JT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply.Count > 0)
+                {
+                    if (JT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply.Contains(request.Header.MsgId))
                     {
-                        if (MsgProducer != null)
-                        {
-                            MsgProducer.ProduceAsync(request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
-                        }
                         return default;
                     }
-                    else
-                    {
-                        var data=func(request, session);
-                        MsgReplyLoggingProducer.ProduceAsync(request.Header.TerminalPhoneNo, data);
-                        return data;
-                    }
                 }
-                else
-                {
-                    var data = func(request, session);
-                    MsgReplyLoggingProducer.ProduceAsync(request.Header.TerminalPhoneNo, data);
-                    return data;
-                }
+                return data;
             }
             else
             {
-                //处理不了的消息Id统一发队列
-                if (MsgProducer != null)
-                {
-                    MsgProducer.ProduceAsync(request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
-                }
                 return default;
             }
         }
@@ -115,7 +102,7 @@ namespace JT808.Gateway.Abstractions
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0001(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0001(JT808HeaderPackage request)
         {
             return default;
         }
@@ -123,8 +110,7 @@ namespace JT808.Gateway.Abstractions
         /// 平台通用应答
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
-        public virtual byte[] CommonReply(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] CommonReply(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -134,7 +120,6 @@ namespace JT808.Gateway.Abstractions
                     JT808PlatformResult = JT808PlatformResult.成功,
                     MsgNum = request.Header.MsgNum
                 }));
-                session.Send(data);
                 return data;
             }
             else
@@ -145,7 +130,6 @@ namespace JT808.Gateway.Abstractions
                     JT808PlatformResult = JT808PlatformResult.成功,
                     MsgNum = request.Header.MsgNum
                 }));
-                session.Send(data);
                 return data;
             }
         }
@@ -154,33 +138,30 @@ namespace JT808.Gateway.Abstractions
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0002(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0002(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 查询服务器时间
         /// 2019版本
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0004(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0004(JT808HeaderPackage request)
         {
             byte[] data = JT808Serializer.Serialize(JT808MsgId.查询服务器时间应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8004()
             {
                 Time = DateTime.Now
             }));
-            session.Send(data);
             return data;
         }
         /// <summary>
         /// 服务器补传分包请求
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x8003(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x8003(JT808HeaderPackage request)
         {
             throw new NotImplementedException("0x8003-服务器补传分包请求");
         }
@@ -188,9 +169,8 @@ namespace JT808.Gateway.Abstractions
         /// 终端补传分包请求
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0005(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0005(JT808HeaderPackage request)
         {
             throw new NotImplementedException("0x0005-终端补传分包请求");
         }
@@ -198,9 +178,8 @@ namespace JT808.Gateway.Abstractions
         /// 终端注册
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0100(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0100(JT808HeaderPackage request)
         {
             if (request.Version == JT808Version.JTT2019)
             {
@@ -210,7 +189,6 @@ namespace JT808.Gateway.Abstractions
                     JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
                     AckMsgNum = request.Header.MsgNum
                 }));
-                session.Send(data);
                 return data;
             }
             else
@@ -221,7 +199,6 @@ namespace JT808.Gateway.Abstractions
                     JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
                     AckMsgNum = request.Header.MsgNum
                 }));
-                session.Send(data);
                 return data;
             }
         }
@@ -229,80 +206,72 @@ namespace JT808.Gateway.Abstractions
         /// 终端注销
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0003(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0003(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 终端鉴权
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0102(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0102(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 查询终端参数应答
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0104(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0104(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 查询终端属性应答
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0107(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0107(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 终端升级结果应答
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0108(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0108(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 位置信息汇报
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0200(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0200(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 位置信息查询应答
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0201(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0201(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 链路检测
         /// 2019版本
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x8204(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x8204(JT808HeaderPackage request)
         {
             return default;
         }
@@ -310,49 +279,44 @@ namespace JT808.Gateway.Abstractions
         /// 车辆控制应答
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0500(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0500(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 定位数据批量上传
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0704(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0704(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// CAN总线数据上传
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0705(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0705(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 多媒体事件信息上传
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0800(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0800(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
         /// <summary>
         /// 多媒体数据上传
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0801(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0801(JT808HeaderPackage request)
         {
             throw new NotImplementedException("0x8800多媒体数据上传应答");
         }
@@ -360,9 +324,8 @@ namespace JT808.Gateway.Abstractions
         /// 摄像头立即拍摄命令
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x8801(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x8801(JT808HeaderPackage request)
         {
             throw new NotImplementedException("0x0805摄像头立即拍摄命令应答");
         }
@@ -370,11 +333,10 @@ namespace JT808.Gateway.Abstractions
         /// 数据上行透传
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
         /// <returns></returns>
-        public virtual byte[] Msg0x0900(JT808HeaderPackage request, IJT808Session session)
+        public virtual byte[] Msg0x0900(JT808HeaderPackage request)
         {
-            return CommonReply(request, session);
+            return CommonReply(request);
         }
     }
 }

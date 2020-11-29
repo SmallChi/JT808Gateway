@@ -33,8 +33,8 @@ namespace JT808.Gateway.Abstractions.Configurations
         /// </summary>
         public int UdpReceiveTimeoutCheckTimeSeconds { get; set; } = 60;
         /// <summary>
-        /// 网关不做消息业务处理，往队列发送
+        /// 网关忽略消息应答
         /// </summary>
-        public List<uint> FilterMsgIdHandlerForQueue { get; set; } = new List<uint>();
+        public HashSet<uint> IgnoreMsgIdReply { get; set; } = new HashSet<uint>();
     }
 }
