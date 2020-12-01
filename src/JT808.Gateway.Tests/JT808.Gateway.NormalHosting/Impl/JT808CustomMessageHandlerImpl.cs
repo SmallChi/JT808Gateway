@@ -16,22 +16,13 @@ namespace JT808.Gateway.NormalHosting.Impl
         private readonly ILogger logger;
         private readonly JT808TransmitService jT808TransmitService;
         private readonly IJT808MsgLogging jT808MsgLogging;
-        private readonly IJT808MsgReplyProducer MsgReplyProducer;
 
         public JT808CustomMessageHandlerImpl(
             ILoggerFactory loggerFactory,
-            IJT808MsgReplyProducer msgReplyProducer,
             IJT808MsgLogging jT808MsgLogging,
-            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
-            IJT808MsgProducer msgProducer,
-            IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
             JT808TransmitService jT808TransmitService,
-            IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor,
-                msgProducer, 
-                msgReplyLoggingProducer, 
-                jT808Config)
+            IJT808Config jT808Config) : base(jT808Config)
         {
-            MsgReplyProducer = msgReplyProducer;
             this.jT808TransmitService = jT808TransmitService;
             this.jT808MsgLogging = jT808MsgLogging;
             logger = loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
@@ -46,7 +37,7 @@ namespace JT808.Gateway.NormalHosting.Impl
         /// </summary>
         /// <param name="request"></param>
         /// <param name="session"></param>
-        public override byte[] Processor(JT808HeaderPackage request)
+        public override byte[] Processor(in JT808HeaderPackage request)
         {
             //处理上行消息
             var down = base.Processor(request);

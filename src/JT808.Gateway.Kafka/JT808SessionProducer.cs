@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace JT808.Gateway.Kafka
 {
@@ -15,21 +16,33 @@ namespace JT808.Gateway.Kafka
         public string TopicName { get; }
 
         private readonly IProducer<string, string> producer;
+
+        private readonly ILogger logger;
+
         public JT808SessionProducer(
+          ILoggerFactory loggerFactory,
           IOptions<JT808SessionProducerConfig> producerConfigAccessor)
         {
             producer = new ProducerBuilder<string, string>(producerConfigAccessor.Value).Build();
             TopicName = producerConfigAccessor.Value.TopicName;
+            logger = loggerFactory.CreateLogger<JT808SessionProducer>();
         }
 
-        public async ValueTask ProduceAsync(string notice,string terminalNo)
+        public async void ProduceAsync(string notice,string terminalNo)
         {
             if (disposed) return;
-            await producer.ProduceAsync(TopicName, new Message<string, string>
+            try
             {
-                Key = notice,
-                Value = terminalNo
-            });
+                await producer.ProduceAsync(TopicName, new Message<string, string>
+                {
+                    Key = notice,
+                    Value = terminalNo
+                });
+            }
+            catch (AggregateException ex)
+            {
+                logger.LogError(ex, "kafka error");
+            }
         }
 
         private void Dispose(bool disposing)

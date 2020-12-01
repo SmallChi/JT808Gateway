@@ -45,45 +45,47 @@ namespace JT808.Gateway.CleintBenchmark.Services
             logger.LogInformation($"GetMinThreads:{minWorkerThreads}-{minCompletionPortThreads}");
             logger.LogInformation($"GetMaxThreads:{maxWorkerThreads}-{maxCompletionPortThreads}");
             taskFactory = new TaskFactory(cancellationToken);
-            for (int i=0;i< clientBenchmarkOptions.DeviceCount; i++)
-            {
-                taskFactory.StartNew(async (state) => {
-                    string deviceNo = ((int)state + 1 + clientBenchmarkOptions.DeviceTemplate).ToString();
-                    var client = await jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo,
-                        clientBenchmarkOptions.IP,
-                        clientBenchmarkOptions.Port, 
-                        clientBenchmarkOptions.LocalIPAddress, 
-                        clientBenchmarkOptions.LocalPort + (int)state + 1), cancellationToken);
-                    while (!cancellationToken.IsCancellationRequested)
-                    {
-                        try
+            Task.Run(() => {
+                for (int i = 0; i < clientBenchmarkOptions.DeviceCount; i++)
+                {
+                    taskFactory.StartNew(async (state) => {
+                        string deviceNo = ((int)state + 1 + clientBenchmarkOptions.DeviceTemplate).ToString();
+                        var client = await jT808TcpClientFactory.Create(new JT808DeviceConfig(deviceNo,
+                            clientBenchmarkOptions.IP,
+                            clientBenchmarkOptions.Port,
+                            clientBenchmarkOptions.LocalIPAddress,
+                            clientBenchmarkOptions.LocalPort + (int)state + 1), cancellationToken);
+                        while (!cancellationToken.IsCancellationRequested)
                         {
-                            int lat = new Random(1000).Next(100000, 180000);
-                            int Lng = new Random(1000).Next(100000, 180000);
-                            if (client != null)
+                            try
                             {
-                                await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                                int lat = new Random(1000).Next(100000, 180000);
+                                int Lng = new Random(1000).Next(100000, 180000);
+                                if (client != null)
                                 {
-                                    Lat = lat,
-                                    Lng = Lng,
-                                    GPSTime = DateTime.Now,
-                                    Speed = 50,
-                                    Direction = 30,
-                                    AlarmFlag = 5,
-                                    Altitude = 50,
-                                    StatusFlag = 10
-                                }));
+                                    await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                                    {
+                                        Lat = lat,
+                                        Lng = Lng,
+                                        GPSTime = DateTime.Now,
+                                        Speed = 50,
+                                        Direction = 30,
+                                        AlarmFlag = 5,
+                                        Altitude = 50,
+                                        StatusFlag = 10
+                                    }));
+                                }
                             }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex.Message);
+                            }
+                            await Task.Delay(clientBenchmarkOptions.Interval);
                         }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex.Message);
-                        }
-                        await Task.Delay(clientBenchmarkOptions.Interval);
-                    }
-                }, i);
-                Thread.Sleep(500);
-            }
+                    }, i);
+                    Thread.Sleep(300);
+                }
+            });
             return Task.CompletedTask;
         }
 

@@ -67,6 +67,7 @@ namespace JT808.Gateway.SimpleQueueNotification
         {
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseFileServer();
             app.UseRouting();
             app.UseJT808JwtVerify();
             app.UseCors("CorsPolicy");

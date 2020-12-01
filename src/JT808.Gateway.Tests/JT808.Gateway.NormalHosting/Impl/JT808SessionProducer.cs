@@ -18,7 +18,7 @@ namespace JT808.Gateway.NormalHosting.Impl
             JT808SessionService = jT808SessionService;
         }
 
-        public async ValueTask ProduceAsync(string notice,string terminalNo)
+        public async void ProduceAsync(string notice,string terminalNo)
         {
             await JT808SessionService.WriteAsync(notice, terminalNo);
         }

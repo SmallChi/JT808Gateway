@@ -169,7 +169,7 @@
             通用消息处理程序
             </summary>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Processor(JT808.Protocol.JT808HeaderPackage)">
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Processor(JT808.Protocol.JT808HeaderPackage@)">
             <summary>
             消息处理
             </summary>

@@ -29,36 +29,43 @@ namespace JT808.Gateway
 
         private readonly JT808Serializer Serializer;
 
-        private readonly JT808Configuration Configuration;
-
         private readonly IPEndPoint LocalIPEndPoint;
 
         private readonly JT808MessageHandler MessageHandler;
 
+        private readonly IJT808MsgProducer MsgProducer;
+
+        private readonly IJT808MsgReplyLoggingProducer MsgReplyLoggingProducer;
+
+        private readonly IOptionsMonitor<JT808Configuration> ConfigurationMonitor;
         public JT808UdpServer(
-                IOptions<JT808Configuration> jT808ConfigurationAccessor,
+                IOptionsMonitor<JT808Configuration> configurationMonitor,
+                IJT808MsgProducer msgProducer,
+                IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
                 IJT808Config jT808Config,
                 ILoggerFactory loggerFactory,
                 JT808SessionManager jT808SessionManager,
                 JT808MessageHandler messageHandler)
         {
             SessionManager = jT808SessionManager;
+            MsgProducer = msgProducer;
+            ConfigurationMonitor = configurationMonitor;
+            MsgReplyLoggingProducer = msgReplyLoggingProducer;
             Logger = loggerFactory.CreateLogger<JT808UdpServer>();
             Serializer = jT808Config.GetSerializer();
-            Configuration = jT808ConfigurationAccessor.Value;
             MessageHandler = messageHandler;
-            LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, Configuration.UdpPort);
+            LocalIPEndPoint = new System.Net.IPEndPoint(IPAddress.Any, ConfigurationMonitor.CurrentValue.UdpPort);
             server = new Socket(LocalIPEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
             server.Bind(LocalIPEndPoint);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"JT808 Udp Server start at {IPAddress.Any}:{Configuration.UdpPort}.");
+            Logger.LogInformation($"JT808 Udp Server start at {IPAddress.Any}:{ConfigurationMonitor.CurrentValue.UdpPort}.");
             Task.Run(async() => {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var buffer = ArrayPool<byte>.Shared.Rent(Configuration.MiniNumBufferSize);
+                    var buffer = ArrayPool<byte>.Shared.Rent(ConfigurationMonitor.CurrentValue.MiniNumBufferSize);
                     try
                     {
                         var segment = new ArraySegment<byte>(buffer);
@@ -98,8 +105,7 @@ namespace JT808.Gateway
                 {
                     Logger.LogInformation($"[Connected]:{receiveMessageFromResult.RemoteEndPoint}");
                 }
-                var downData = MessageHandler.Processor(package);
-                session.SendAsync(downData);
+                Processor(session, package);
             }
             catch (NotImplementedException ex)
             {
@@ -115,6 +121,35 @@ namespace JT808.Gateway
                 Logger.LogError(ex, $"[ReaderBuffer]:{ buffer.ToArray().ToHexString()}");
             }
 #pragma warning restore CA1031 // Do not catch general exception types
+        }
+
+        private void Processor(in IJT808Session session, in JT808HeaderPackage package)
+        {
+            try
+            {
+                MsgProducer?.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                var downData = MessageHandler.Processor(package);
+                if (ConfigurationMonitor.CurrentValue.IgnoreMsgIdReply != null && ConfigurationMonitor.CurrentValue.IgnoreMsgIdReply.Count > 0)
+                {
+                    if (!ConfigurationMonitor.CurrentValue.IgnoreMsgIdReply.Contains(package.Header.MsgId))
+                    {
+                        session.SendAsync(downData);
+                    }
+                }
+                else
+                {
+                    session.SendAsync(downData);
+                }
+                if (MsgReplyLoggingProducer != null)
+                {
+                    if (downData != null)
+                        MsgReplyLoggingProducer.ProduceAsync(package.Header.TerminalPhoneNo, downData);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, $"[Processor]:{package.OriginalData.ToArray().ToHexString()},{session.Client.RemoteEndPoint},{session.TerminalPhoneNo}");
+            }
         }
         public Task StopAsync(CancellationToken cancellationToken)
         {

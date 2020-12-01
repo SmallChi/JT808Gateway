@@ -23,7 +23,7 @@ namespace JT808.Gateway.SimpleServer.Impl
             JT808TransmitService jT808TransmitService,
             IJT808MsgLogging jT808MsgLogging,
             IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor, IJT808MsgProducer msgProducer, IJT808MsgReplyLoggingProducer msgReplyLoggingProducer, IJT808Config jT808Config) 
-            : base(jT808ConfigurationOptionsMonitor, msgProducer, msgReplyLoggingProducer, jT808Config)
+            : base(jT808Config)
         {
             this.jT808TransmitService = jT808TransmitService;
             this.jT808MsgLogging = jT808MsgLogging;
@@ -37,7 +37,7 @@ namespace JT808.Gateway.SimpleServer.Impl
         /// </summary>
         /// <param name="request"></param>
         /// <param name="session"></param>
-        public override byte[] Processor(JT808HeaderPackage request, IJT808Session session)
+        public override byte[] Processor(in JT808HeaderPackage request)
         {
             //AOP 可以自定义添加一些东西:上下行日志、数据转发
             logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
@@ -54,7 +54,7 @@ namespace JT808.Gateway.SimpleServer.Impl
             //上行日志（可同步也可以使用队列进行异步）
             jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
             //处理上行消息
-            var down= base.Processor(request, session);
+            var down= base.Processor(request);
             //下行日志（可同步也可以使用队列进行异步）
             jT808MsgLogging.Processor((request.Header.TerminalPhoneNo, down), JT808MsgLoggingType.down);
             return down;
@@ -64,12 +64,11 @@ namespace JT808.Gateway.SimpleServer.Impl
         /// 重写自带的消息
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="session"></param>
-        public override byte[] Msg0x0200(JT808HeaderPackage request, IJT808Session session)
+        public override byte[] Msg0x0200(JT808HeaderPackage request)
         {
             //logger.LogDebug("重写自带Msg0x0200的消息");
             logger.LogDebug($"重写自带Msg0x0200的消息{request.Header.TerminalPhoneNo}-{request.OriginalData.ToArray().ToHexString()}");   
-            return base.Msg0x0200(request, session);
+            return base.Msg0x0200(request);
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace JT808.Gateway.SimpleServer.Impl
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public byte[] Msg0x9999(JT808HeaderPackage request, IJT808Session session)
+        public byte[] Msg0x9999(JT808HeaderPackage request)
         {
             logger.LogDebug("自定义消息");
             return default;

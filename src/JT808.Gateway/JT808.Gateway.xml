@@ -150,12 +150,14 @@
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.JT808TcpServer.#ctor(JT808.Gateway.Abstractions.JT808MessageHandler,Microsoft.Extensions.Options.IOptions{JT808.Gateway.Abstractions.Configurations.JT808Configuration},JT808.Protocol.IJT808Config,Microsoft.Extensions.Logging.ILoggerFactory,JT808.Gateway.Session.JT808SessionManager)">
+        <member name="M:JT808.Gateway.JT808TcpServer.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{JT808.Gateway.Abstractions.Configurations.JT808Configuration},JT808.Gateway.Abstractions.IJT808MsgProducer,JT808.Gateway.Abstractions.IJT808MsgReplyLoggingProducer,JT808.Gateway.Abstractions.JT808MessageHandler,JT808.Protocol.IJT808Config,Microsoft.Extensions.Logging.ILoggerFactory,JT808.Gateway.Session.JT808SessionManager)">
             <summary>
             使用队列方式
             </summary>
+            <param name="configurationMonitor"></param>
+            <param name="msgProducer"></param>
+            <param name="msgReplyLoggingProducer"></param>
             <param name="messageHandler"></param>
-            <param name="jT808ConfigurationAccessor"></param>
             <param name="jT808Config"></param>
             <param name="loggerFactory"></param>
             <param name="jT808SessionManager"></param>

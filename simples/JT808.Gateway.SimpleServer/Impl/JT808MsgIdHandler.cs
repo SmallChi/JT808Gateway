@@ -16,7 +16,8 @@ namespace JT808.Gateway.SimpleServer.Impl
 
         public JT808MsgIdHandler(
             ILoggerFactory loggerFactory,
-            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor, IJT808MsgProducer msgProducer, IJT808MsgReplyLoggingProducer msgReplyLoggingProducer, IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor, msgProducer, msgReplyLoggingProducer, jT808Config)
+            IJT808Config jT808Config) 
+            : base(jT808Config)
         {
             Logger = loggerFactory.CreateLogger<JT808MsgIdHandler>();
         }

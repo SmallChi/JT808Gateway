@@ -19,7 +19,7 @@ namespace JT808.Gateway.Extensions
             context.Response.KeepAlive = false;
             context.Response.ContentLength64 = b.Length;
             var output = context.Response.OutputStream;
-            await output.WriteAsync(b, 0, b.Length);
+            await output.WriteAsync(b, CancellationToken.None);
             context.Response.OutputStream.Close();
             context.Response.Close();
         }
@@ -32,7 +32,7 @@ namespace JT808.Gateway.Extensions
             context.Response.ContentType = jsonType;
             context.Response.ContentLength64 = b.Length;
             var output = context.Response.OutputStream;
-            await output.WriteAsync(b, 0, b.Length);
+            await output.WriteAsync(b, CancellationToken.None);
             context.Response.OutputStream.Close();
             context.Response.Close();
         }
@@ -63,7 +63,7 @@ namespace JT808.Gateway.Extensions
             context.Response.ContentType = jsonType;
             context.Response.ContentLength64 = b.Length;
             var output = context.Response.OutputStream;
-            await output.WriteAsync(b, 0, b.Length);
+            await output.WriteAsync(b,CancellationToken.None);
             context.Response.OutputStream.Close();
             context.Response.Close();
         }

@@ -16,17 +16,10 @@ namespace JT808.Gateway.QueueHosting.Impl
         private readonly ILogger logger;
         public JT808CustomMessageHandlerImpl(
             ILoggerFactory loggerFactory,
-            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
-            IJT808MsgProducer msgProducer,
-            IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
-            IJT808Config jT808Config) : base(jT808ConfigurationOptionsMonitor,
-                msgProducer, 
-                msgReplyLoggingProducer, 
+            IJT808Config jT808Config) : base(
                 jT808Config)
         {
             logger = loggerFactory.CreateLogger<JT808CustomMessageHandlerImpl>();
-            //过滤掉0x0200消息，通过服务服务进行下发应答，可以通过配置文件的方式进行增加修改(支持热更新)
-            //jT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply.Add(0x0200);
             //添加自定义消息
             HandlerDict.Add(0x9999, Msg0x9999);
         }
@@ -37,7 +30,7 @@ namespace JT808.Gateway.QueueHosting.Impl
         /// </summary>
         /// <param name="request"></param>
         /// <param name="session"></param>
-        public override byte[] Processor(JT808HeaderPackage request)
+        public override byte[] Processor(in JT808HeaderPackage request)
         {
             try
             {

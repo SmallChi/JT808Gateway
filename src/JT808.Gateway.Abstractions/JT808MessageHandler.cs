@@ -21,24 +21,12 @@ namespace JT808.Gateway.Abstractions
         protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package);
         protected JT808Serializer JT808Serializer { get; }
 
-        protected IJT808MsgProducer MsgProducer;
-
-        protected IJT808MsgReplyLoggingProducer MsgReplyLoggingProducer;
-
-        protected IOptionsMonitor<JT808Configuration> JT808ConfigurationOptionsMonitor;
-
         protected IJT808Config JT808Config;
 
-        public JT808MessageHandler(
-            IOptionsMonitor<JT808Configuration> jT808ConfigurationOptionsMonitor,
-            IJT808MsgProducer msgProducer,
-            IJT808MsgReplyLoggingProducer msgReplyLoggingProducer,
-            IJT808Config jT808Config)
+        public JT808MessageHandler(IJT808Config jT808Config)
         {
+            this.JT808Config = jT808Config;
             this.JT808Serializer = jT808Config.GetSerializer();
-            this.MsgProducer = msgProducer;
-            this.MsgReplyLoggingProducer = msgReplyLoggingProducer;
-            this.JT808ConfigurationOptionsMonitor = jT808ConfigurationOptionsMonitor;
             HandlerDict = new Dictionary<ushort, MsgIdMethodDelegate> {
                 {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
                 {JT808MsgId.终端鉴权.ToUInt16Value(), Msg0x0102},
@@ -67,27 +55,11 @@ namespace JT808.Gateway.Abstractions
         /// </summary>
         /// <param name="request">请求数据</param>
         /// <returns>应答消息数据</returns>
-        public virtual byte[] Processor(JT808HeaderPackage request)
+        public virtual byte[] Processor(in JT808HeaderPackage request)
         {
-            if (MsgProducer != null)
-            {
-                MsgProducer.ProduceAsync(request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
-            }
             if (HandlerDict.TryGetValue(request.Header.MsgId, out var func))
             {
-                var data = func(request);
-                if (MsgReplyLoggingProducer != null)
-                {
-                    MsgReplyLoggingProducer.ProduceAsync(request.Header.TerminalPhoneNo, data);
-                }
-                if (JT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply != null && JT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply.Count > 0)
-                {
-                    if (JT808ConfigurationOptionsMonitor.CurrentValue.IgnoreMsgIdReply.Contains(request.Header.MsgId))
-                    {
-                        return default;
-                    }
-                }
-                return data;
+                return func(request);
             }
             else
             {

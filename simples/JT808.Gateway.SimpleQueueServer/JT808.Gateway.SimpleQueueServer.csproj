@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway" Version="1.1.0-preview1" />
-    <PackageReference Include="JT808.Gateway.Kafka" Version="1.1.0-preview1" />
+    <PackageReference Include="JT808.Gateway" Version="1.1.0-preview4" />
+    <PackageReference Include="JT808.Gateway.Kafka" Version="1.1.0-preview4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />

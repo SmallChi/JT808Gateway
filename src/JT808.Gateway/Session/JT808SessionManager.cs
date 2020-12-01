@@ -74,7 +74,10 @@ namespace JT808.Gateway.Session
                     session.ActiveTime = curretDatetime;
                     TerminalPhoneNoSessions.TryUpdate(terminalPhoneNo, session, cacheSession);
                     //会话通知
-                    JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
+                    if(JT808SessionProducer != null)
+                    {
+                        JT808SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
+                    }
                 }
                 else
                 {
@@ -88,7 +91,10 @@ namespace JT808.Gateway.Session
                 if (TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session))
                 {
                     //会话通知
-                    JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
+                    if (JT808SessionProducer != null)
+                    {
+                        JT808SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
+                    }
                 }
             }
         }
@@ -115,7 +121,10 @@ namespace JT808.Gateway.Session
             //部标的超长待机设备,不会像正常的设备一样一直连着，可能10几分钟连上了，然后发完就关闭连接，
             //这时候想下发数据需要知道设备什么时候上线，在这边做通知最好不过了。
             //有设备关联上来可以进行通知 例如：使用Redis发布订阅
-            JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
+            if (JT808SessionProducer != null)
+            {
+                JT808SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
+            }
             return currentSession;
         }
 
@@ -187,7 +196,10 @@ namespace JT808.Gateway.Session
                     removeSession.Close();
                     if (logger.IsEnabled(LogLevel.Information))
                         logger.LogInformation($"[Session Remove]:{terminalPhoneNo}-{tmpTerminalPhoneNo}");
-                    JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
+                    if (JT808SessionProducer != null)
+                    {
+                        JT808SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
+                    }
                 }
             }
         }
@@ -204,7 +216,10 @@ namespace JT808.Gateway.Session
                         TerminalPhoneNoSessions.TryRemove(item, out _);
                     }
                     var tmpTerminalPhoneNo = string.Join(",", terminalPhoneNos);
-                    JT808SessionProducer?.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
+                    if (JT808SessionProducer != null)
+                    {
+                       JT808SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
+                    }
                     if (logger.IsEnabled(LogLevel.Information))
                         logger.LogInformation($"[Session Remove]:{tmpTerminalPhoneNo}");
                 }

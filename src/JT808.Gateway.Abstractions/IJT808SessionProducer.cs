@@ -8,6 +8,6 @@ namespace JT808.Gateway.Abstractions
     /// </summary>
     public interface IJT808SessionProducer : IJT808PubSub, IDisposable
     {
-        ValueTask ProduceAsync(string notice,string terminalNo);
+        void ProduceAsync(string notice,string terminalNo);
     }
 }

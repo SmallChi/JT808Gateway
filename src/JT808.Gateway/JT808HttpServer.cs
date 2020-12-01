@@ -85,6 +85,11 @@ namespace JT808.Gateway
                             await context.Http401();
                         }
                     }
+                    catch (AggregateException ex)
+                    {
+                        await context.Http500();
+                        Logger.LogError(ex, ex.StackTrace);
+                    }
                     catch (Exception ex)
                     {
                         await context.Http500();
@@ -108,7 +113,7 @@ namespace JT808.Gateway
                 var index = context.Request.Url.AbsoluteUri.IndexOf('?');
                 if (index > 0)
                 {
-                    var uriParamStr = context.Request.Url.AbsoluteUri.Substring(index + 1).ToString();
+                    var uriParamStr = context.Request.Url.AbsoluteUri[(index + 1)..].ToString();
                     await context.HttpSend(router.Value(uriParamStr));
                 }
                 else
@@ -139,11 +144,11 @@ namespace JT808.Gateway
             }
             catch (System.ObjectDisposedException ex)
             {
-
+                Logger.LogError(ex, "");
             }
             catch (Exception ex)
             {
-
+                Logger.LogError(ex, "");
             }
             return Task.CompletedTask;
         }

@@ -15,9 +15,9 @@ namespace JT808.Gateway.Internal
 
         }
 
-        public ValueTask ProduceAsync(string terminalNo, byte[] data)
+        public void ProduceAsync(string terminalNo, byte[] data)
         {
-            return default;
+
         }
     }
 }

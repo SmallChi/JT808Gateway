@@ -30,8 +30,9 @@ namespace JT808.Gateway.SimpleClient
                 services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                 services.AddJT808Configure()
                         .AddClient()
+                        .Builder()
+                        .AddWebApiClientTool(new Uri("http://127.0.0.1:828/"), "123456")
                         ;
-                services.AddJT808WebApiClientTool(new Uri("http://127.0.0.1:828/"),"12346");
                 services.AddHostedService<UpService>();
                 services.AddHostedService<Up2019Service>();
                 services.AddHostedService<CallHttpClientJob>();
