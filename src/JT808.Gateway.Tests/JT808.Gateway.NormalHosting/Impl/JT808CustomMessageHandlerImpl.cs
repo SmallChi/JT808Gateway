@@ -45,7 +45,7 @@ namespace JT808.Gateway.NormalHosting.Impl
             {
                 //AOP 可以自定义添加一些东西:上下行日志、
                 logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
-                var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
+                var parameter = (request.Header.TerminalPhoneNo, request.OriginalData);
                 //上行日志（可同步也可以使用队列进行异步）
                 jT808MsgLogging.Processor(parameter, JT808MsgLoggingType.up);
                 //下行日志（可同步也可以使用队列进行异步）

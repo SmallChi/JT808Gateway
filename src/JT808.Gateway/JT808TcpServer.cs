@@ -204,7 +204,7 @@ namespace JT808.Gateway
                             if (contentSpan.Length > 14)
                             {
                                 var package = Serializer.HeaderDeserialize(contentSpan, minBufferSize: 10240);
-                                if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}-{session.TerminalPhoneNo}]:{package.OriginalData.ToArray().ToHexString()}");
+                                if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}-{session.TerminalPhoneNo}]:{package.OriginalData.ToHexString()}");
                                 SessionManager.TryLink(package.Header.TerminalPhoneNo, session);
                                 Processor(session, package);
                             }
@@ -242,7 +242,7 @@ namespace JT808.Gateway
         {
             try
             {
-                MsgProducer?.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData.ToArray());
+                MsgProducer?.ProduceAsync(package.Header.TerminalPhoneNo, package.OriginalData);
                 var downData = MessageHandler.Processor(in package);
                 if (ConfigurationMonitor.CurrentValue.IgnoreMsgIdReply != null && ConfigurationMonitor.CurrentValue.IgnoreMsgIdReply.Count > 0)
                 {
@@ -263,7 +263,7 @@ namespace JT808.Gateway
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, $"[Processor]:{package.OriginalData.ToArray().ToHexString()},{session.Client.RemoteEndPoint},{session.TerminalPhoneNo}");
+                Logger.LogError(ex, $"[Processor]:{package.OriginalData.ToHexString()},{session.Client.RemoteEndPoint},{session.TerminalPhoneNo}");
             }
         }
         public Task StopAsync(CancellationToken cancellationToken)

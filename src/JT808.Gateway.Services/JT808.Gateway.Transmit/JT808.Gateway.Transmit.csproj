@@ -2,7 +2,7 @@
 
     <Import Project="..\..\Version.props" />
     <PropertyGroup>
-      <TargetFrameworks>netstandard2.1;net5;</TargetFrameworks>
+      <TargetFrameworks>netstandard2.1;net5.0;</TargetFrameworks>
       <LangVersion>9.0</LangVersion>
       <Copyright>Copyright 2019.</Copyright>
       <Authors>SmallChi(Koike)</Authors>
