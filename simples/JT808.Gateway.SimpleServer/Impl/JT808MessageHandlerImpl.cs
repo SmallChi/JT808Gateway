@@ -41,7 +41,7 @@ namespace JT808.Gateway.SimpleServer.Impl
         {
             //AOP 可以自定义添加一些东西:上下行日志、数据转发
             logger.LogDebug("可以自定义添加一些东西:上下行日志、数据转发");
-            var parameter = (request.Header.TerminalPhoneNo, request.OriginalData.ToArray());
+            var parameter = (request.Header.TerminalPhoneNo, request.OriginalData);
             //转发数据（可同步也可以使用队列进行异步）
             try
             {
@@ -67,7 +67,7 @@ namespace JT808.Gateway.SimpleServer.Impl
         public override byte[] Msg0x0200(JT808HeaderPackage request)
         {
             //logger.LogDebug("重写自带Msg0x0200的消息");
-            logger.LogDebug($"重写自带Msg0x0200的消息{request.Header.TerminalPhoneNo}-{request.OriginalData.ToArray().ToHexString()}");   
+            logger.LogDebug($"重写自带Msg0x0200的消息{request.Header.TerminalPhoneNo}-{request.OriginalData.ToHexString()}");   
             return base.Msg0x0200(request);
         }
 

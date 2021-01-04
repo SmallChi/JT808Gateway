@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway.Abstractions" Version="1.1.0-preview4" />
-    <PackageReference Include="JT808.Gateway.Client" Version="1.1.0-preview4" />
-    <PackageReference Include="JT808.Gateway.WebApiClientTool" Version="1.1.0-preview4" />
+    <PackageReference Include="JT808.Gateway.Abstractions" Version="1.1.0-preview6" />
+    <PackageReference Include="JT808.Gateway.Client" Version="1.1.0-preview6" />
+    <PackageReference Include="JT808.Gateway.WebApiClientTool" Version="1.1.0-preview6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />

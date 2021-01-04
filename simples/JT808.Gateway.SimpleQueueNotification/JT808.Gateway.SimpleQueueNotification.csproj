@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway.Kafka" Version="1.1.0-preview4" />
+    <PackageReference Include="JT808.Gateway.Kafka" Version="1.1.0-preview6" />
     <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.0.2-preview1" />
   </ItemGroup>
 </Project>
