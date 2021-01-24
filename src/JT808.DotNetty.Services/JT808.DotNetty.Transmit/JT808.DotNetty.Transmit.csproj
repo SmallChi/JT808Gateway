@@ -2,8 +2,8 @@
 
     <Import Project="..\..\Version.props" />
     <PropertyGroup>
-      <TargetFramework>netstandard2.0</TargetFramework>
-      <LangVersion>7.3</LangVersion>
+      <TargetFrameworks>netstandard2.0;net5;</TargetFrameworks>
+      <LangVersion>9.0</LangVersion>
       <Copyright>Copyright 2018.</Copyright>
       <Authors>SmallChi(Koike)</Authors>
       <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
@@ -25,9 +25,6 @@
       <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
       <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
       <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
-      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.4" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.4" />
-      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.4" />
       <PackageReference Include="Polly" Version="7.2.1" />
     </ItemGroup>
     <ItemGroup>

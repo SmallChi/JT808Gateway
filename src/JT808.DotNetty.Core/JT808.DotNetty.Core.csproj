@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Version.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.3</LangVersion>
+    <TargetFrameworks>netstandard2.0;net5;</TargetFrameworks>
+    <LangVersion>9.0</LangVersion>
     <Copyright>Copyright 2018.</Copyright>
     <Authors>SmallChi(Koike)</Authors>
     <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
@@ -25,9 +25,9 @@
     <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
     <PackageReference Include="DotNetty.Codecs.Http" Version="0.6.0" />
     <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 

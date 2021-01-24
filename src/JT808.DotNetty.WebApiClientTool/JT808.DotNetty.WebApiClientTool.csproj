@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Version.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.3</LangVersion>
+    <TargetFrameworks>netstandard2.0;net5;</TargetFrameworks>
+    <LangVersion>9.0</LangVersion>
     <Copyright>Copyright 2018.</Copyright>
     <Authors>SmallChi(Koike)</Authors>
     <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />

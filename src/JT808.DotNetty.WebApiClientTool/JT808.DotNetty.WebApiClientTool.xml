@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JT808.DotNetty.WebApiClientTool</name>
+    </assembly>
+    <members>
+        <member name="M:JT808.DotNetty.WebApiClientTool.JT808HttpClient.GetTcpSessionAll">
+            <summary>
+            会话服务集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.WebApiClientTool.JT808HttpClient.RemoveByTerminalPhoneNo(System.String)">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.WebApiClientTool.JT808HttpClient.UnificationSend(JT808.DotNetty.Abstractions.Dtos.JT808UnificationSendRequestDto)">
+            <summary>
+            统一下发信息
+            </summary>
+            <param name="jT808UnificationSendRequestDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.WebApiClientTool.JT808HttpClient.GetTcpAtomicCounter">
+            <summary>
+            获取Tcp包计数器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.WebApiClientTool.JT808HttpClient.GetUdpSessionAll">
+            <summary>
+            会话服务集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.DotNetty.WebApiClientTool.JT808HttpClient.GetUdpAtomicCounter">
+            <summary>
+            获取Udp包计数器
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
