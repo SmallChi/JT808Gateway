@@ -1,5 +1,6 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Dtos;
+using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using JT808.Protocol.Extensions;
 using System;
@@ -15,10 +16,19 @@ namespace JT808.Gateway.Handlers
     /// </summary>
     public class JT808MsgIdDefaultWebApiHandler : JT808MsgIdHttpHandlerBase
     {
-        private  JT808SessionManager JT808SessionManager;
-        public JT808MsgIdDefaultWebApiHandler(JT808SessionManager jT808SessionManager)
+        private  JT808SessionManager SessionManager;
+        private JT808BlacklistManager BlacklistManager;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jT808SessionManager"></param>
+        /// <param name="jT808BlacklistManager"></param>
+        public JT808MsgIdDefaultWebApiHandler(
+            JT808SessionManager jT808SessionManager,
+            JT808BlacklistManager jT808BlacklistManager)
         {
-            this.JT808SessionManager = jT808SessionManager;
+            this.SessionManager = jT808SessionManager;
+            this.BlacklistManager = jT808BlacklistManager;
             InitTcpRoute();
             InitUdpRoute();
             InitCommontRoute();
@@ -34,7 +44,7 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<List<JT808TcpSessionInfoDto>> resultDto = new JT808ResultDto<List<JT808TcpSessionInfoDto>>();
             try
             {
-                resultDto.Data = JT808SessionManager.GetTcpAll().Select(s => new JT808TcpSessionInfoDto
+                resultDto.Data = SessionManager.GetTcpAll().Select(s => new JT808TcpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
                     StartTime = s.StartTime,
@@ -66,7 +76,7 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<JT808TcpSessionInfoDto> resultDto = new JT808ResultDto<JT808TcpSessionInfoDto>();
             try
             {
-                resultDto.Data = JT808SessionManager.GetTcpAll().Where(w => w.TerminalPhoneNo == json).Select(s => new JT808TcpSessionInfoDto
+                resultDto.Data = SessionManager.GetTcpAll().Where(w => w.TerminalPhoneNo == json).Select(s => new JT808TcpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
                     StartTime = s.StartTime,
@@ -98,7 +108,7 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                JT808SessionManager.RemoveByTerminalPhoneNo(json);
+                SessionManager.RemoveByTerminalPhoneNo(json);
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
@@ -127,7 +137,7 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<List<JT808UdpSessionInfoDto>> resultDto = new JT808ResultDto<List<JT808UdpSessionInfoDto>>();
             try
             {
-                resultDto.Data = JT808SessionManager.GetUdpAll().Select(s => new JT808UdpSessionInfoDto
+                resultDto.Data = SessionManager.GetUdpAll().Select(s => new JT808UdpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
                     StartTime = s.StartTime,
@@ -159,7 +169,7 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<JT808UdpSessionInfoDto> resultDto = new JT808ResultDto<JT808UdpSessionInfoDto>();
             try
             {
-                resultDto.Data = JT808SessionManager.GetUdpAll().Where(w => w.TerminalPhoneNo == json).Select(s => new JT808UdpSessionInfoDto
+                resultDto.Data = SessionManager.GetUdpAll().Where(w => w.TerminalPhoneNo == json).Select(s => new JT808UdpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
                     StartTime = s.StartTime,
@@ -191,7 +201,7 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                JT808SessionManager.RemoveByTerminalPhoneNo(json);
+                SessionManager.RemoveByTerminalPhoneNo(json);
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
@@ -225,7 +235,7 @@ namespace JT808.Gateway.Handlers
             try
             {
                 JT808UnificationSendRequestDto jT808UnificationSendRequestDto = JsonSerializer.Deserialize<JT808UnificationSendRequestDto>(json);
-                resultDto.Data = JT808SessionManager.TrySendByTerminalPhoneNoAsync(jT808UnificationSendRequestDto.TerminalPhoneNo, jT808UnificationSendRequestDto.HexData.ToHexBytes())
+                resultDto.Data = SessionManager.TrySendByTerminalPhoneNoAsync(jT808UnificationSendRequestDto.TerminalPhoneNo, jT808UnificationSendRequestDto.HexData.ToHexBytes())
                                                 .GetAwaiter()
                                                 .GetResult();
                 resultDto.Code = JT808ResultCode.Ok;
@@ -239,11 +249,96 @@ namespace JT808.Gateway.Handlers
             return CreateHttpResponse(resultDto);
         }
 
+        /// <summary>
+        /// 添加sim卡黑名单
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public byte[] BlacklistAdd(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return EmptyHttpResponse();
+            }
+            JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
+            try
+            {
+                BlacklistManager.Add(json);
+                resultDto.Data = true;
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = false;
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.StackTrace;
+            }
+            return CreateHttpResponse(resultDto);
+        }
+
+        /// <summary>
+        /// 移除sim卡黑名单
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public byte[] BlacklistRemove(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return EmptyHttpResponse();
+            }
+            JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
+            try
+            {
+                BlacklistManager.Remove(json);
+                resultDto.Data = true;
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = false;
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.StackTrace;
+            }
+            return CreateHttpResponse(resultDto);
+        }
+
+        /// <summary>
+        /// 移除sim卡黑名单
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public byte[] QueryBlacklist(string json)
+        {
+            JT808ResultDto<List<string>> resultDto = new JT808ResultDto<List<string>>();
+            try
+            {
+                resultDto.Data = BlacklistManager.GetAll();
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = null;
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.StackTrace;
+            }
+            return CreateHttpResponse(resultDto);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected virtual void InitCommontRoute()
         {
             CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.UnificationSend, UnificationSend);
+            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.BlacklistAdd, BlacklistAdd);
+            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.BlacklistRemove, BlacklistRemove);
+            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.BlacklistGet, QueryBlacklist);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected virtual void InitTcpRoute()
         {
             CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
@@ -251,6 +346,9 @@ namespace JT808.Gateway.Handlers
             CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo, RemoveSessionByTerminalPhoneNo);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected virtual void InitUdpRoute()
         {
             CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpGetAll, GetUdpSessionAll);

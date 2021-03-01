@@ -67,6 +67,26 @@
             <param name="terminalPhoneNo"></param>
             <returns></returns>
         </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.BlacklistAdd(System.String)">
+            <summary>
+            SIM卡黑名单服务-将对应SIM号加入黑名单
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.BlacklistRemove(System.String)">
+            <summary>
+            SIM卡黑名单服务-将对应SIM号移除黑名单
+            </summary>
+            <param name="terminalPhoneNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetBlacklistAll">
+            <summary>
+            SIM卡黑名单服务-获取所有sim的黑名单列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:JT808.Gateway.WebApiClientTool.JT808HttpClientExtensions">
             <summary>
             

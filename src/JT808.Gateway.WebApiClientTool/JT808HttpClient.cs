@@ -136,5 +136,51 @@ namespace JT808.Gateway.WebApiClientTool
             var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<bool>>(data);
             return value;
         }
+
+        /// <summary>
+        /// SIM卡黑名单服务-将对应SIM号加入黑名单
+        /// </summary>
+        /// <param name="terminalPhoneNo"></param>
+        /// <returns></returns>
+        public async ValueTask<JT808ResultDto<bool>> BlacklistAdd(string terminalPhoneNo)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistAdd);
+            request.Content = new StringContent(terminalPhoneNo);
+            var response = await HttpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStreamAsync();
+            var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<bool>>(data);
+            return value;
+        }
+
+        /// <summary>
+        /// SIM卡黑名单服务-将对应SIM号移除黑名单
+        /// </summary>
+        /// <param name="terminalPhoneNo"></param>
+        /// <returns></returns>
+        public async ValueTask<JT808ResultDto<bool>> BlacklistRemove(string terminalPhoneNo)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistRemove);
+            request.Content = new StringContent(terminalPhoneNo);
+            var response = await HttpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStreamAsync();
+            var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<bool>>(data);
+            return value;
+        }
+
+        /// <summary>
+        /// SIM卡黑名单服务-获取所有sim的黑名单列表
+        /// </summary>
+        /// <returns></returns>
+        public async ValueTask<JT808ResultDto<List<string>>> GetBlacklistAll()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistGet);
+            var response = await HttpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStreamAsync();
+            var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<List<string>>>(data);
+            return value;
+        }
     }
 }

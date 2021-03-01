@@ -17,6 +17,9 @@ using System.Linq;
 [assembly: InternalsVisibleTo("JT808.Gateway.Test")]
 namespace JT808.Gateway
 {
+    /// <summary>
+    /// JT808网关注册扩展
+    /// </summary>
     public static partial class JT808GatewayExtensions
     {
         /// <summary>
@@ -161,6 +164,7 @@ namespace JT808.Gateway
         private static IJT808GatewayBuilder AddJT808Core(this IJT808GatewayBuilder config)
         {
             config.JT808Builder.Services.AddSingleton<JT808MessageHandler>();
+            config.JT808Builder.Services.AddSingleton<JT808BlacklistManager>();
             config.JT808Builder.Services.AddSingleton<JT808SessionManager>();
             config.JT808Builder.Services.AddSingleton<IJT808MsgProducer, JT808MsgProducer_Empty>();
             config.JT808Builder.Services.AddSingleton<IJT808MsgReplyLoggingProducer, JT808MsgReplyLoggingProducer_Empty>();

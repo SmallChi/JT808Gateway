@@ -45,6 +45,18 @@
             /// 会话服务-通过设备终端号查询对应会话
             /// </summary>
             public static string QueryUdpSessionByTerminalPhoneNo = $"{RouteTablePrefix}/{UdpPrefix}/{SessionPrefix}/QueryUdpSessionByTerminalPhoneNo";
+            /// <summary>
+            /// 黑名单添加
+            /// </summary>
+            public static string BlacklistAdd = $"{RouteTablePrefix}/Blacklist/Add";
+            /// <summary>
+            /// 黑名单删除
+            /// </summary>
+            public static string BlacklistRemove = $"{RouteTablePrefix}/Blacklist/Remove";
+            /// <summary>
+            /// 黑名单查询
+            /// </summary>
+            public static string BlacklistGet = $"{RouteTablePrefix}/Blacklist/Get";
         }
     }
 }

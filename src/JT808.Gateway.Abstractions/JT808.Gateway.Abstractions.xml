@@ -4,9 +4,39 @@
         <name>JT808.Gateway.Abstractions</name>
     </assembly>
     <members>
+        <member name="T:JT808.Gateway.Abstractions.Configurations.JT808Configuration">
+            <summary>
+            JT808网关配置
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.TcpPort">
+            <summary>
+            tcp端口
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.UdpPort">
+            <summary>
+            udp端口
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.WebApiPort">
+            <summary>
+            http webapi端口
+            </summary>
+        </member>
         <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.WebApiToken">
             <summary>
             WebApi 默认token 123456 
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.SoBacklog">
+            <summary>
+            tcp连接能够成功连接上的数量
+            </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.MiniNumBufferSize">
+            <summary>
+            默认4k
             </summary>
         </member>
         <member name="P:JT808.Gateway.Abstractions.Configurations.JT808Configuration.TcpReaderIdleTimeSeconds">
@@ -85,6 +115,25 @@
             传输协议类型
             </summary>
         </member>
+        <member name="T:JT808.Gateway.Abstractions.JT808SessionExtensions">
+            <summary>
+            JT808会话扩展
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.JT808SessionExtensions.SendAsync(JT808.Gateway.Abstractions.IJT808Session,System.Byte[])">
+            <summary>
+            下发消息
+            </summary>
+            <param name="session"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.JT808SessionExtensions.Send(JT808.Gateway.Abstractions.IJT808Session,System.Byte[])">
+            <summary>
+            下发消息
+            </summary>
+            <param name="session"></param>
+            <param name="data"></param>
+        </member>
         <member name="M:JT808.Gateway.Abstractions.IJT808MsgProducer.ProduceAsync(System.String,System.Byte[])">
             <summary>
             
@@ -129,6 +178,13 @@
             会话通知（在线/离线）
             </summary>
         </member>
+        <member name="M:JT808.Gateway.Abstractions.IJT808SessionProducer.ProduceAsync(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="notice"></param>
+            <param name="terminalNo"></param>
+        </member>
         <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpGetAll">
             <summary>
             基于Tcp的会话服务集合
@@ -162,6 +218,21 @@
         <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.QueryUdpSessionByTerminalPhoneNo">
             <summary>
             会话服务-通过设备终端号查询对应会话
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.BlacklistAdd">
+            <summary>
+            黑名单添加
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.BlacklistRemove">
+            <summary>
+            黑名单删除
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.BlacklistGet">
+            <summary>
+            黑名单查询
             </summary>
         </member>
         <member name="T:JT808.Gateway.Abstractions.JT808MessageHandler">

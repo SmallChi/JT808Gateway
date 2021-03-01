@@ -65,9 +65,9 @@ namespace JT808.Gateway.NormalHosting
                     //方式2:客户端webapi调用
                     //services.AddJT808WebApiClientTool(hostContext.Configuration);
                     //httpclient客户端调用
-                    services.AddHostedService<CallHttpClientJob>();
+                    //services.AddHostedService<CallHttpClientJob>();
                     //客户端测试  依赖AddClient()服务
-                    services.AddHostedService<UpJob>();
+                    //services.AddHostedService<UpJob>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();
