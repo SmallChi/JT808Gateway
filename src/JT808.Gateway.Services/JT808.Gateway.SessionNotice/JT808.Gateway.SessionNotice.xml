@@ -6,14 +6,14 @@
     <members>
         <member name="M:JT808.Gateway.SessionNotice.JT808SessionNoticeExtensions.AddSessionNotice(JT808.Gateway.Abstractions.IJT808ClientBuilder)">
             <summary>
-            会话通知服务（不同的消费者实例）
+            会话通知服务
             </summary>
             <param name="jT808ClientBuilder"></param>
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.SessionNotice.JT808SessionNoticeExtensions.AddSessionNotice``1(JT808.Gateway.Abstractions.IJT808ClientBuilder)">
             <summary>
-            消息会话通知服务（不同的消费者实例）
+            消息会话通知服务
             </summary>
             <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
             <param name="jT808ClientBuilder"></param>
@@ -21,14 +21,14 @@
         </member>
         <member name="M:JT808.Gateway.SessionNotice.JT808SessionNoticeExtensions.AddSessionNotice(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
             <summary>
-            会话通知服务（不同的消费者实例）
+            会话通知服务
             </summary>
             <param name="jT808GatewayBuilder"></param>
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.SessionNotice.JT808SessionNoticeExtensions.AddSessionNotice``1(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
             <summary>
-            消息会话通知服务（不同的消费者实例）
+            消息会话通知服务
             </summary>
             <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
             <param name="jT808NormalGatewayBuilder"></param>

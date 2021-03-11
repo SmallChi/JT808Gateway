@@ -10,7 +10,7 @@ namespace JT808.Gateway.SessionNotice
     public static class JT808SessionNoticeExtensions
     {
         /// <summary>
-        /// 会话通知服务（不同的消费者实例）
+        /// 会话通知服务
         /// </summary>
         /// <param name="jT808ClientBuilder"></param>
         /// <returns></returns>
@@ -22,7 +22,7 @@ namespace JT808.Gateway.SessionNotice
         }
 
         /// <summary>
-        /// 消息会话通知服务（不同的消费者实例）
+        /// 消息会话通知服务
         /// </summary>
         /// <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
         /// <param name="jT808ClientBuilder"></param>
@@ -36,7 +36,7 @@ namespace JT808.Gateway.SessionNotice
         }
 
         /// <summary>
-        /// 会话通知服务（不同的消费者实例）
+        /// 会话通知服务
         /// </summary>
         /// <param name="jT808GatewayBuilder"></param>
         /// <returns></returns>
@@ -48,7 +48,7 @@ namespace JT808.Gateway.SessionNotice
         }
 
         /// <summary>
-        /// 消息会话通知服务（不同的消费者实例）
+        /// 消息会话通知服务
         /// </summary>
         /// <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
         /// <param name="jT808NormalGatewayBuilder"></param>

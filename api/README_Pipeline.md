@@ -18,6 +18,10 @@
 
 [基于Udp管理会话服务](#udp_session)
 
+## 3.SIM黑名单管理服务
+
+[SIM黑名单管理服务](#blacklist)
+
 ## 接口请求对照表
 
 ### 公共接口请求
@@ -41,6 +45,14 @@
 | 127.0.0.1:828/jt808api/Udp/Session/GetAll| GET| 基于Udp管理会话服务-获取会话集合|
 | 127.0.0.1:828/jt808api/Udp/Session/QueryUdpSessionByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号查询对应会话|
 | 127.0.0.1:828/jt808api/Udp/Session/RemoveUdpByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号移除对应会话|
+
+### SIM黑名单管理接口请求
+
+|请求Url|请求方式|说明|
+|:------|:------|:------|
+| 127.0.0.1:828/jt808api/Blacklist/Add| POST| SIM卡黑名单服务-将对应SIM号加入黑名单|
+| 127.0.0.1:828/jt808api/Blacklist/Remove| POST| SIM卡黑名单服务-将对应SIM号移除黑名单|
+| 127.0.0.1:828/jt808api/Blacklist/Get| Get| SIM卡黑名单服务-获取所有sim的黑名单列表|
 
 ### 统一对象返回 JT808ResultDto\<T>
 
@@ -297,5 +309,88 @@
     "Message":"",
     "Code":200,
     "Data":true
+}
+```
+
+### <span id="blacklist">SIM黑名单管理服务</span>
+
+#### 1.添加sim卡黑名单
+
+请求地址：Blacklist/Add
+
+请求方式：POST
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| terminalPhoneNo| string| 设备终端号|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| bool | 是否成功
+
+返回结果：
+
+``` session3
+{
+    "Message":"",
+    "Code":200,
+    "Data":true
+}
+```
+
+#### 2.移除sim卡黑名单
+
+请求地址：Blacklist/Remove
+
+请求方式：POST
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| terminalPhoneNo| string| 设备终端号|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| bool | 是否成功
+
+返回结果：
+
+``` session3
+{
+    "Message":"",
+    "Code":200,
+    "Data":true
+}
+```
+
+#### 3.移除sim卡黑名单
+
+请求地址：Blacklist/Get
+
+请求方式：GET
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| terminalPhoneNo| List\<string>| 设备终端号集合|
+
+返回结果：
+
+``` session3
+{
+    "Message":"",
+    "Code":200,
+    "Data":[
+        "12345678901",
+        "12345678902"
+    ]
 }
 ```

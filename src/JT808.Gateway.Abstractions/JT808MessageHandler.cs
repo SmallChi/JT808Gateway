@@ -4,10 +4,6 @@ using JT808.Protocol.Extensions;
 using JT808.Protocol.MessageBody;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using JT808.Gateway.Abstractions.Configurations;
 
 namespace JT808.Gateway.Abstractions
 {
@@ -16,13 +12,30 @@ namespace JT808.Gateway.Abstractions
     /// </summary>
     public class JT808MessageHandler
     {
+        /// <summary>
+        /// 处理消息工厂
+        /// </summary>
         protected Dictionary<ushort, MsgIdMethodDelegate> HandlerDict { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
 
         protected delegate byte[] MsgIdMethodDelegate(JT808HeaderPackage package);
+        /// <summary>
+        /// JT808序列化器
+        /// </summary>
         protected JT808Serializer JT808Serializer { get; }
+        /// <summary>
+        /// JT808配置
+        /// </summary>
 
         protected IJT808Config JT808Config;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jT808Config"></param>
         public JT808MessageHandler(IJT808Config jT808Config)
         {
             this.JT808Config = jT808Config;

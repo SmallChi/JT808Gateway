@@ -8,13 +8,16 @@ using System.Text;
 
 namespace JT808.Gateway.Abstractions
 {
-    public  interface IJT808ReplyMessageHandler
+    /// <summary>
+    /// 下行消息处理接口
+    /// </summary>
+    public  interface IJT808DownMessageHandler
     {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="TerminalNo">请求数据</param>
-        /// <param name="Data">当前会话</param>
+        /// <param name="TerminalNo">sim</param>
+        /// <param name="Data">808 hex</param>
         /// <returns>应答消息数据</returns>
         public byte[] Processor(string TerminalNo, byte[] Data);
     }

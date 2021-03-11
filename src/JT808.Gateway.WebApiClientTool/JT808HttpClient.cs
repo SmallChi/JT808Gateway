@@ -175,7 +175,7 @@ namespace JT808.Gateway.WebApiClientTool
         /// <returns></returns>
         public async ValueTask<JT808ResultDto<List<string>>> GetBlacklistAll()
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistGet);
+            var request = new HttpRequestMessage(HttpMethod.Get, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistGet);
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();

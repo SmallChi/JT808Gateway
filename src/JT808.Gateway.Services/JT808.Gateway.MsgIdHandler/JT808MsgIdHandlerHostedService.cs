@@ -9,9 +9,9 @@ namespace JT808.Gateway.MsgIdHandler
     {
         private readonly IJT808MsgConsumer jT808MsgConsumer;
 
-        private readonly IJT808MsgIdHandler jT808MsgIdHandler;
+        private readonly IJT808UpMessageHandler jT808MsgIdHandler;
         public JT808MsgIdHandlerHostedService(
-            IJT808MsgIdHandler jT808MsgIdHandler,
+            IJT808UpMessageHandler jT808MsgIdHandler,
             IJT808MsgConsumer jT808MsgConsumer)
         {
             this.jT808MsgIdHandler = jT808MsgIdHandler;
@@ -21,7 +21,7 @@ namespace JT808.Gateway.MsgIdHandler
         public Task StartAsync(CancellationToken cancellationToken)
         {
             jT808MsgConsumer.Subscribe();
-            jT808MsgConsumer.OnMessage(jT808MsgIdHandler.Processor);
+            jT808MsgConsumer.OnMessage((Msg)=>jT808MsgIdHandler.Processor(Msg.TerminalNo, Msg.Data));
             return Task.CompletedTask;
         }
 

@@ -10,16 +10,16 @@ using System.Text;
 
 namespace JT808.Gateway.QueueHosting.Impl
 {
-    public class JT808ReplyMessageHandlerImpl : IJT808ReplyMessageHandler
+    public class JT808DownMessageHandlerImpl : IJT808DownMessageHandler
     {
         private ILogger logger;
         private JT808Serializer JT808Serializer;
 
-        public JT808ReplyMessageHandlerImpl(
+        public JT808DownMessageHandlerImpl(
             IJT808Config jT808Config,
             ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<JT808ReplyMessageHandlerImpl>();
+            logger = loggerFactory.CreateLogger<JT808DownMessageHandlerImpl>();
             JT808Serializer = jT808Config.GetSerializer();
         }
 

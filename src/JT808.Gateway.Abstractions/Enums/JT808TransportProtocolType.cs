@@ -9,7 +9,13 @@ namespace JT808.Gateway.Abstractions.Enums
     /// </summary>
     public enum JT808TransportProtocolType
     {
-        tcp=1,
+        /// <summary>
+        /// tcp
+        /// </summary>
+        tcp = 1,
+        /// <summary>
+        /// udp
+        /// </summary>
         udp = 2
     }
 }

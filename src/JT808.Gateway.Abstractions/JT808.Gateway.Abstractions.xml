@@ -115,6 +115,16 @@
             传输协议类型
             </summary>
         </member>
+        <member name="F:JT808.Gateway.Abstractions.Enums.JT808TransportProtocolType.tcp">
+            <summary>
+            tcp
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.Enums.JT808TransportProtocolType.udp">
+            <summary>
+            udp
+            </summary>
+        </member>
         <member name="T:JT808.Gateway.Abstractions.JT808SessionExtensions">
             <summary>
             JT808会话扩展
@@ -133,6 +143,19 @@
             </summary>
             <param name="session"></param>
             <param name="data"></param>
+        </member>
+        <member name="T:JT808.Gateway.Abstractions.IJT808DownMessageHandler">
+            <summary>
+            下行消息处理接口
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.IJT808DownMessageHandler.Processor(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="TerminalNo">sim</param>
+            <param name="Data">808 hex</param>
+            <returns>应答消息数据</returns>
         </member>
         <member name="M:JT808.Gateway.Abstractions.IJT808MsgProducer.ProduceAsync(System.String,System.Byte[])">
             <summary>
@@ -155,14 +178,6 @@
             <param name="terminalNo">设备终端号</param>
             <param name="data">808 hex data</param>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.IJT808ReplyMessageHandler.Processor(System.String,System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="TerminalNo">请求数据</param>
-            <param name="Data">当前会话</param>
-            <returns>应答消息数据</returns>
-        </member>
         <member name="P:JT808.Gateway.Abstractions.IJT808Session.TerminalPhoneNo">
             <summary>
             终端手机号
@@ -184,6 +199,18 @@
             </summary>
             <param name="notice"></param>
             <param name="terminalNo"></param>
+        </member>
+        <member name="T:JT808.Gateway.Abstractions.IJT808UpMessageHandler">
+            <summary>
+            上行消息处理接口
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.IJT808UpMessageHandler.Processor(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="TerminalNo">sim</param>
+            <param name="Data">808 hex</param>
         </member>
         <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpGetAll">
             <summary>
@@ -239,6 +266,34 @@
             <summary>
             通用消息处理程序
             </summary>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.JT808MessageHandler.HandlerDict">
+            <summary>
+            处理消息工厂
+            </summary>
+        </member>
+        <member name="T:JT808.Gateway.Abstractions.JT808MessageHandler.MsgIdMethodDelegate">
+            <summary>
+            
+            </summary>
+            <param name="package"></param>
+            <returns></returns>
+        </member>
+        <member name="P:JT808.Gateway.Abstractions.JT808MessageHandler.JT808Serializer">
+            <summary>
+            JT808序列化器
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808MessageHandler.JT808Config">
+            <summary>
+            JT808配置
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.#ctor(JT808.Protocol.IJT808Config)">
+            <summary>
+            
+            </summary>
+            <param name="jT808Config"></param>
         </member>
         <member name="M:JT808.Gateway.Abstractions.JT808MessageHandler.Processor(JT808.Protocol.JT808HeaderPackage@)">
             <summary>

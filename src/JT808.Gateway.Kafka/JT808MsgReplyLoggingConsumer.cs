@@ -53,9 +53,8 @@ namespace JT808.Gateway.Kafka
                     {
                         logger.LogError(ex, TopicName);
                     }
-                    catch (OperationCanceledException ex)
+                    catch (OperationCanceledException)
                     {
-                        logger.LogError(ex, TopicName);
                     }
                     catch (Exception ex)
                     {

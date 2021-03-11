@@ -8,7 +8,7 @@ dotnet pack .\src\JT808.DotNetty.Client\JT808.DotNetty.Client.csproj -c Release 
 dotnet pack .\src\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj -c Release --output nupkgs
 
 echo 'push service pacakge...'
-dotnet pack .\src\JT808.DotNetty.Services\JT808.DotNetty.MsgIdHandler\JT808.DotNetty.MsgIdHandler.csproj -c Release--output nupkgs
+dotnet pack .\src\JT808.DotNetty.Services\JT808.DotNetty.MsgIdHandler\JT808.DotNetty.MsgIdHandler.csproj -c Release --output nupkgs
 dotnet pack .\src\JT808.DotNetty.Services\JT808.DotNetty.MsgLogging\JT808.DotNetty.MsgLogging.csproj -c Release --output nupkgs
 dotnet pack .\src\JT808.DotNetty.Services\JT808.DotNetty.ReplyMessage\JT808.DotNetty.ReplyMessage.csproj -c Release --output nupkgs
 dotnet pack .\src\JT808.DotNetty.Services\JT808.DotNetty.SessionNotice\JT808.DotNetty.SessionNotice.csproj -c Release --output nupkgs

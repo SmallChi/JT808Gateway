@@ -8,10 +8,10 @@ namespace JT808.Gateway.MsgIdHandler
 {
     public static class JT808MsgIdHandlerExtensions
     {
-        public static IJT808ClientBuilder AddMsgIdHandler<TJT808MsgIdHandler>(this IJT808ClientBuilder jT808ClientBuilder)
-            where TJT808MsgIdHandler: IJT808MsgIdHandler
+        public static IJT808ClientBuilder AddMsgIdHandler<TJT808UpMessageHandler>(this IJT808ClientBuilder jT808ClientBuilder)
+            where TJT808UpMessageHandler : IJT808UpMessageHandler
         {
-            jT808ClientBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808MsgIdHandler),typeof(TJT808MsgIdHandler));
+            jT808ClientBuilder.JT808Builder.Services.AddSingleton(typeof(IJT808UpMessageHandler),typeof(TJT808UpMessageHandler));
             jT808ClientBuilder.JT808Builder.Services.AddHostedService<JT808MsgIdHandlerHostedService>();
             return jT808ClientBuilder;
         }

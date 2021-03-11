@@ -6,15 +6,25 @@ using Microsoft.Extensions.Logging;
 
 namespace JT808.Gateway.ReplyMessage
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class JT808ReplyMessageHostedService : IHostedService
     {
         private IJT808MsgConsumer jT808MsgConsumer;
-        private IJT808ReplyMessageHandler jT808ReplyMessageHandler;
+        private IJT808DownMessageHandler jT808ReplyMessageHandler;
         private IJT808MsgReplyProducer jT808MsgReplyProducer;
         private ILogger logger;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        /// <param name="jT808ReplyMessageHandler"></param>
+        /// <param name="jT808MsgReplyProducer"></param>
+        /// <param name="jT808MsgConsumer"></param>
         public JT808ReplyMessageHostedService(
             ILoggerFactory loggerFactory,
-            IJT808ReplyMessageHandler jT808ReplyMessageHandler,
+            IJT808DownMessageHandler jT808ReplyMessageHandler,
             IJT808MsgReplyProducer jT808MsgReplyProducer,
             IJT808MsgConsumer jT808MsgConsumer)
         {
