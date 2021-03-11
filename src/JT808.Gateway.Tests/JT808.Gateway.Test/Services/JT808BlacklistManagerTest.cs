@@ -22,15 +22,5 @@ namespace JT808.Gateway.Test.Services
             jT808BlacklistManager.Remove("1");
             Assert.False(jT808BlacklistManager.Contains("1"));
         }
-
-        [Fact]
-        public void Test2()
-        {
-            JT808BlacklistManager jT808BlacklistManager = new JT808BlacklistManager();
-            jT808BlacklistManager.Add("1");
-            jT808BlacklistManager.Add("2");
-            Assert.True(jT808BlacklistManager.Contains("1"));
-            Assert.True(jT808BlacklistManager.Contains("2"));
-        }
     }
 }

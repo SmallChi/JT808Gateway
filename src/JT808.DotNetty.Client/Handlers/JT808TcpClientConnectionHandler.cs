@@ -14,7 +14,7 @@ namespace JT808.DotNetty.Client.Handlers
     /// </summary>
     public class JT808TcpClientConnectionHandler : ChannelHandlerAdapter
     {
-        private readonly ILogger<JT808TcpClientConnectionHandler> logger;
+        private readonly ILogger logger;
         private readonly JT808TcpClient jT808TcpClient;
 
         public JT808TcpClientConnectionHandler(

@@ -5,6 +5,8 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 using JT808.DotNetty.Client.Metadata;
 using JT808.DotNetty.Client.Services;
+using System;
+using JT808.Protocol.Exceptions;
 
 namespace JT808.DotNetty.Client.Codecs
 {
@@ -33,13 +35,13 @@ namespace JT808.DotNetty.Client.Codecs
                     output.WriteBytes(sendData);
                     jT808SendAtomicCounterService.MsgSuccessIncrement();
                 }
-                catch (JT808.Protocol.Exceptions.JT808Exception ex)
+                catch (JT808Exception ex)
                 {
                     logger.LogError(ex, context.Channel.Id.AsShortText());
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    logger.LogError(ex, context.Channel.Id.AsShortText());
+                    logger.LogError(ex,$" context.Channel.Id.AsShortText()");
                 }
             }
             else if (message.HexData != null)
