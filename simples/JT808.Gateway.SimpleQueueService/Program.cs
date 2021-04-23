@@ -33,7 +33,8 @@ namespace JT808.Gateway.SimpleQueueService
                             .AddMsgConsumer(hostContext.Configuration)
                             .AddMsgReplyProducer(hostContext.Configuration)
                             .AddSessionConsumer(hostContext.Configuration)
-                            .AddReplyMessage<JT808QueueReplyMessageHandlerImpl>()
+                            //todo:JT808QueueReplyMessageHandlerImpl
+                            //.AddReplyMessage<JT808QueueReplyMessageHandlerImpl>()
                             .AddSessionNotice<JT808SessionNoticeServiceImpl>();
                 });
 

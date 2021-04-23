@@ -84,7 +84,6 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 | Install-Package JT808.Gateway.ReplyMessage                    | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/v/JT808.Gateway.ReplyMessage.svg)         | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/vpre/JT808.Gateway.ReplyMessage.svg)         | ![JT808.Gateway.ReplyMessage](https://img.shields.io/nuget/dt/JT808.Gateway.ReplyMessage.svg)         |
 | Install-Package JT808.Gateway.MsgLogging                      | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/v/JT808.Gateway.MsgLogging.svg)             | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgLogging.svg)             | ![JT808.Gateway.MsgLogging](https://img.shields.io/nuget/dt/JT808.Gateway.MsgLogging.svg)             |
 | Install-Package JT808.Gateway.MsgIdHandler                    | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/v/JT808.Gateway.MsgIdHandler.svg)         | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/vpre/JT808.Gateway.MsgIdHandler.svg)         | ![JT808.Gateway.MsgIdHandler](https://img.shields.io/nuget/dt/JT808.Gateway.MsgIdHandler.svg)         |
-| Install-Package JT808.Gateway.Traffic (v1.1.0新版已移出)      | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/v/JT808.Gateway.Traffic.svg)                   | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/vpre/JT808.Gateway.Traffic.svg)                   | ![JT808.Gateway.Traffic](https://img.shields.io/nuget/dt/JT808.Gateway.Traffic.svg)                   |
 
 ## 基于DotNetty
 
@@ -151,6 +150,8 @@ Pipeline分为两种方式使用，一种是使用队列的方式，一种是网
 如图所示：
 ![demo2](https://github.com/SmallChi/JT808Gateway/blob/master/doc/img/demo2.png)
 
-# 常见问题：
+## 常见问题
+
 - 多协议兼容实现思路[点我查看](https://github.com/SmallChi/JT808Gateway/issues/11#issuecomment-727687417)
+
 > 单端口兼容多协议虽然可以实现，但是还是不建议这么做，建议最好是用端口分开，避免不必要的麻烦

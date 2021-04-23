@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.SimpleQueueNotification.Impl
 {
-    public class JT808MsgIdHandlerImpl : IJT808MsgIdHandler
+    //todo: public class JT808MsgIdHandlerImpl : IJT808MsgIdHandler
+    public class JT808MsgIdHandlerImpl 
     {
         private readonly ILogger<JT808MsgIdHandlerImpl> logger;
 

@@ -20,7 +20,7 @@
     <PackageReleaseNotes>基于DotNetty实现的JT808DotNetty的抽象库</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JT808" Version="2.3.6" />
+    <PackageReference Include="JT808" Version="2.3.7" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />

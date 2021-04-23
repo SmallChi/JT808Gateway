@@ -33,7 +33,7 @@ namespace JT808.DotNetty.SimpleQueueService.Impl
         public override byte[] Msg0x0200(JT808HeaderPackage request)
         {
             logger.LogWarning("===========================================");
-            logger.LogWarning($"{request.Header.TerminalPhoneNo}---{request.OriginalData.ToArray().ToHexString()}");
+            logger.LogWarning($"{request.Header.TerminalPhoneNo}---{request.OriginalData.ToHexString()}");
             logger.LogWarning("===========================================");
             return base.Msg0x0200(request);
         }
