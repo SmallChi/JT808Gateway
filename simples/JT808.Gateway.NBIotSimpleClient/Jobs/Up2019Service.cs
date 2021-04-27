@@ -42,24 +42,34 @@ namespace JT808.Gateway.NBIotSimpleClient.Jobs
                 AreaID = 0,
                 CityOrCountyId = 0,
                 MakerId = "12345",
-                TerminalModel = "123456",  //设备型号
+                TerminalModel = "123456".PadRight(20,'\0'),  //设备型号
                 TerminalId = "1234567",    //设备编号
             });
             var p1_1 = Serializer.Serialize(p1).ToHexString();
             //1.终端注册
             await client1.SendAsync(p1);
-
-            //2.终端鉴权
-            await client1.SendAsync(JT808MsgId.终端鉴权.Create(sim, new JT808_0x0100()
+            _ = Task.Run(async () =>
             {
-                PlateNo = "粤A12346",
-                PlateColor = 0,
-                AreaID = 0,
-                CityOrCountyId = 0,
-                MakerId = "12345",
-                TerminalModel = "123456",//设备型号
-                TerminalId = "1234567",  //设备编号
-            }));
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    await Task.Delay(3000);
+                    if (DeviceInfoService.DeviceInfos.TryGetValue(sim, out var deviceInfo))
+                    {
+                        if (deviceInfo.Successed)
+                        {
+                            break;
+                        }
+                        if (!string.IsNullOrEmpty(deviceInfo.Code))
+                        {
+                            //2.终端鉴权
+                            await client1.SendAsync(JT808MsgId.终端鉴权.Create(sim, new JT808_0x0102()
+                            {
+                                 Code= deviceInfo.Code,
+                            }));
+                        }
+                    }
+                }
+            }, cancellationToken);
             _ = Task.Run(async() =>
             {
                 while (!cancellationToken.IsCancellationRequested)
