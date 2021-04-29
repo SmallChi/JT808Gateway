@@ -10,9 +10,7 @@ using System.Text;
 
 namespace JT808.Gateway.SimpleQueueService.Impl
 {
-    //todo:
-    //public class JT808QueueReplyMessageHandlerImpl : IJT808ReplyMessageHandler
-    public class JT808QueueReplyMessageHandlerImpl
+    public class JT808QueueReplyMessageHandlerImpl: IJT808DownMessageHandler
     {
         private ILogger logger;
 

@@ -6,20 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JT808.Gateway" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.Kafka" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.MsgLogging" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.ReplyMessage" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.SessionNotice" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.Traffic" Version="1.0.2-preview1" />
-    <PackageReference Include="JT808.Gateway.Transmit" Version="1.1.1-preview2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
   </ItemGroup>
-
+  <Import Project="..\pipeline.props" />
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

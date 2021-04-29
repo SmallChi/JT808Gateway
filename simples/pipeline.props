@@ -1,0 +1,14 @@
+﻿<Project>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\JT808.Gateway.Abstractions\JT808.Gateway.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway\JT808.Gateway.csproj"/>
+    <ProjectReference Include="..\..\src\JT808.Gateway.Kafka\JT808.Gateway.Kafka.csproj"/>
+    <ProjectReference Include="..\..\src\JT808.Gateway.Client\JT808.Gateway.Client.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway.WebApiClientTool\JT808.Gateway.WebApiClientTool.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway.Services\JT808.Gateway.MsgIdHandler\JT808.Gateway.MsgIdHandler.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway.Services\JT808.Gateway.MsgLogging\JT808.Gateway.MsgLogging.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway.Services\JT808.Gateway.ReplyMessage\JT808.Gateway.ReplyMessage.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway.Services\JT808.Gateway.SessionNotice\JT808.Gateway.SessionNotice.csproj" />
+    <ProjectReference Include="..\..\src\JT808.Gateway.Services\JT808.Gateway.Transmit\JT808.Gateway.Transmit.csproj" />
+  </ItemGroup>
+</Project>

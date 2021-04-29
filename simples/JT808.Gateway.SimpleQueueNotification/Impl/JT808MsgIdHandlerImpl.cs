@@ -1,4 +1,5 @@
-﻿using JT808.Gateway.MsgIdHandler;
+﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.MsgIdHandler;
 using JT808.Gateway.SimpleQueueNotification.Hubs;
 using JT808.Protocol.Extensions;
 using Microsoft.AspNetCore.SignalR;
@@ -11,8 +12,7 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.SimpleQueueNotification.Impl
 {
-    //todo: public class JT808MsgIdHandlerImpl : IJT808MsgIdHandler
-    public class JT808MsgIdHandlerImpl 
+    public class JT808MsgIdHandlerImpl: IJT808UpMessageHandler
     {
         private readonly ILogger<JT808MsgIdHandlerImpl> logger;
 
@@ -26,15 +26,16 @@ namespace JT808.Gateway.SimpleQueueNotification.Impl
             this._hubContext = hubContext;
             logger = loggerFactory.CreateLogger<JT808MsgIdHandlerImpl>();
         }
-        public void Processor((string TerminalNo, byte[] Data) parameter)
+
+        public void Processor(string TerminalNo, byte[] Data)
         {
             try
             {
                 if (logger.IsEnabled(LogLevel.Trace))
                 {
-                    logger.LogTrace($"{parameter.TerminalNo}-{parameter.Data.ToHexString()}");
+                    logger.LogTrace($"{TerminalNo}-{Data.ToHexString()}");
                 }
-               _hubContext.Clients.All.SendAsync("ReceiveMessage", parameter.TerminalNo, parameter.Data.ToHexString());
+                _hubContext.Clients.All.SendAsync("ReceiveMessage", TerminalNo, Data.ToHexString());
             }
             catch (Exception ex)
             {

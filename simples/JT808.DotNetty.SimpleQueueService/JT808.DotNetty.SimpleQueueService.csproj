@@ -11,14 +11,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JT808.DotNetty.Kafka" Version="2.3.3-preview3" />
-    <PackageReference Include="JT808.DotNetty.MsgIdHandler" Version="2.3.3-preview3" />
-    <PackageReference Include="JT808.DotNetty.ReplyMessage" Version="2.3.3-preview3" />
-    <PackageReference Include="JT808.DotNetty.Tcp" Version="2.3.3-preview3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.4" />
     <PackageReference Include="WebApiClient.Extensions.DependencyInjection" Version="2.0.3" />
   </ItemGroup>
+  <Import Project="..\netty.props" />
 </Project>

@@ -14,12 +14,12 @@ using JT808.Gateway.NBIotSimpleClient.Services;
 
 namespace JT808.Gateway.NBIotSimpleClient.Jobs
 {
-    public class Up2019Service : IHostedService
+    public class Up2013Service : IHostedService
     {
         IJT808TcpClientFactory jT808TcpClientFactory;
         JT808Serializer  Serializer;
         DeviceInfoService DeviceInfoService;
-        public Up2019Service(
+        public Up2013Service(
              DeviceInfoService deviceInfoService,
             IJT808Config jT808Config,
             IJT808TcpClientFactory jT808TcpClientFactory)
@@ -40,9 +40,9 @@ namespace JT808.Gateway.NBIotSimpleClient.Jobs
                 PlateNo = "粤A12346",
                 PlateColor = 0,
                 AreaID = 0,
-                CityOrCountyId = 0,
-                MakerId = "12345",
-                TerminalModel = "123456".PadRight(20,'\0'),  //设备型号
+                CityOrCountyId = 0, 
+                MakerId = "12345",         //制造商编号
+                TerminalModel = "123456",  //设备型号
                 TerminalId = "1234567",    //设备编号
             });
             var p1_1 = Serializer.Serialize(p1).ToHexString();

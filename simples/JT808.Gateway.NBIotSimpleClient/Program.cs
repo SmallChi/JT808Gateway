@@ -31,8 +31,9 @@ namespace JT808.Gateway.NBIotSimpleClient
                 services.AddJT808Configure()
                         .AddClient()
                         .AddMessageProducer<JT808MessageProducerImpl>();
-                services.AddHostedService<Up2019Service>();
-                services.AddHostedService<ProccessPackageService>();
+                services.AddHostedService<Up2013Service>()
+                        .AddHostedService<ProccessPackageService>()
+                        .AddHostedService<AEPMsgConsumerService>();
             });
             await serverHostBuilder.RunConsoleAsync();
         }

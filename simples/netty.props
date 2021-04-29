@@ -1,0 +1,18 @@
+﻿<Project>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Abstractions\JT808.DotNetty.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Client\JT808.DotNetty.Client.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Core\JT808.DotNetty.Core.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Kafka\JT808.DotNetty.Kafka.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Tcp\JT808.DotNetty.Tcp.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Udp\JT808.DotNetty.Udp.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.WebApi\JT808.DotNetty.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.WebApiClientTool\JT808.DotNetty.WebApiClientTool.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Services\JT808.DotNetty.MsgIdHandler\JT808.DotNetty.MsgIdHandler.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Services\JT808.DotNetty.MsgLogging\JT808.DotNetty.MsgLogging.csproj" />
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Services\JT808.DotNetty.ReplyMessage\JT808.DotNetty.ReplyMessage.csproj" />                        
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Services\JT808.DotNetty.SessionNotice\JT808.DotNetty.SessionNotice.csproj" />    
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Services\JT808.DotNetty.Traffic\JT808.DotNetty.Traffic.csproj" />    
+    <ProjectReference Include="..\..\src\JT808.DotNetty.Services\JT808.DotNetty.Transmit\JT808.DotNetty.Transmit.csproj" />                     
+  </ItemGroup>
+</Project>

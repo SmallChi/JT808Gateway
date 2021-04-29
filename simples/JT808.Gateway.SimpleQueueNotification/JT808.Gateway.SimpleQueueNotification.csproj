@@ -26,8 +26,5 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="JT808.Gateway.Kafka" Version="1.1.1-preview2" />
-    <PackageReference Include="JT808.Gateway.MsgIdHandler" Version="1.1.1-preview2" />
-  </ItemGroup>
+  <Import Project="..\pipeline.props" />
 </Project>

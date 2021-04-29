@@ -1,0 +1,3 @@
+dotnet build
+
+pause
