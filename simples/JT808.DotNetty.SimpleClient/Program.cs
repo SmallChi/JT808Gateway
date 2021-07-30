@@ -32,7 +32,8 @@ namespace JT808.DotNetty.SimpleClient
                 });
                 services.AddJT808Configure()
                         .AddJT808Client();
-                services.AddHostedService<UpService>();
+                services.AddHostedService<Up2011Service>();
+                services.AddHostedService<Up2013Service>();
                 services.AddHostedService<Up2019Service>();
             });
             await serverHostBuilder.RunConsoleAsync();

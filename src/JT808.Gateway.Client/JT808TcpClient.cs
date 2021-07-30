@@ -69,7 +69,7 @@ namespace JT808.Gateway.Client
                                 {
                                     Logger.LogInformation($"{DeviceConfig.Heartbeat}s send heartbeat:{DeviceConfig.TerminalPhoneNo}-{DeviceConfig.Version.ToString()}");
                                 }
-                                if(DeviceConfig.Version== Protocol.Enums.JT808Version.JTT2013)
+                                if(DeviceConfig.Version== Protocol.Enums.JT808Version.JTT2013 || DeviceConfig.Version == Protocol.Enums.JT808Version.JTT2011)
                                 {
                                     var package = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create(DeviceConfig.TerminalPhoneNo);
                                     await SendAsync(new JT808ClientRequest(package));
@@ -245,7 +245,7 @@ namespace JT808.Gateway.Client
                 {
                     try
                     {
-                        var sendData = JT808Serializer.Serialize(message.Package, minBufferSize: message.MinBufferSize);
+                        var sendData = JT808Serializer.Serialize(message.Package, DeviceConfig.Version, minBufferSize: message.MinBufferSize);
                         await clientSocket.SendAsync(sendData, SocketFlags.None);
                         SendAtomicCounterService.MsgSuccessIncrement();
                         WriteableTimeout = DateTime.UtcNow.AddSeconds(DeviceConfig.Heartbeat);

@@ -33,7 +33,8 @@ namespace JT808.Gateway.SimpleClient
                         .Builder()
                         .AddWebApiClientTool(new Uri("http://127.0.0.1:828/"), "123456")
                         ;
-                services.AddHostedService<UpService>();
+                services.AddHostedService<Up2011Service>();
+                services.AddHostedService<Up2013Service>();
                 services.AddHostedService<Up2019Service>();
                 services.AddHostedService<CallHttpClientJob>();
             });

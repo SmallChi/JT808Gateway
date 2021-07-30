@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace JT808.DotNetty.SimpleClient.Services
 {
-    public class UpService : IHostedService
+    public class Up2013Service : IHostedService
     {
         private readonly IJT808TcpClientFactory jT808TcpClientFactory;
 
-        public UpService(IJT808TcpClientFactory jT808TcpClientFactory)
+        public Up2013Service(IJT808TcpClientFactory jT808TcpClientFactory)
         {
             this.jT808TcpClientFactory = jT808TcpClientFactory;
         }
@@ -23,9 +23,9 @@ namespace JT808.DotNetty.SimpleClient.Services
         public Task StartAsync(CancellationToken cancellationToken)
         {
             string sim =  "11111111111";
-            JT808TcpClient client1 = jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808));
+            JT808TcpClient client1 = jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808, JT808Version.JTT2013));
             string sim2 = "33333333333";
-            JT808TcpClient client2 = jT808TcpClientFactory.Create(new JT808DeviceConfig(sim2, "127.0.0.1", 808));
+            JT808TcpClient client2 = jT808TcpClientFactory.Create(new JT808DeviceConfig(sim2, "127.0.0.1", 808, JT808Version.JTT2013));
             Thread.Sleep(5000);
             //1.终端注册
             client1.Send(JT808MsgId.终端注册.Create(sim, new JT808_0x0100()
@@ -34,8 +34,8 @@ namespace JT808.DotNetty.SimpleClient.Services
                 PlateColor = 2,
                 AreaID = 0,
                 CityOrCountyId = 0,
-                MakerId = "Koike001",
-                TerminalId = "Koike001",
+                MakerId = "Koike",
+                TerminalId = "Koike01",
                 TerminalModel = "Koike001"
             }));
             client2.Send(JT808MsgId.终端注册.Create(sim2, new JT808_0x0100()
@@ -44,9 +44,9 @@ namespace JT808.DotNetty.SimpleClient.Services
                 PlateColor = 2,
                 AreaID = 0,
                 CityOrCountyId = 0,
-                MakerId = "Koike001",
-                TerminalId = "Koike001",
-                TerminalModel = "Koike001"
+                MakerId = "Koike",
+                TerminalId = "Koike02",
+                TerminalModel = "Koike002"
             }));
             //2.终端鉴权
             client1.Send(JT808MsgId.终端鉴权.Create(sim, new JT808_0x0102()

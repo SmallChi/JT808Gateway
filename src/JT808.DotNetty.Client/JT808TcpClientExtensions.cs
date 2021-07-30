@@ -11,10 +11,10 @@ namespace JT808.DotNetty.Client
 {
     public static class JT808TcpClientExtensions
     {
-        public static void Send(this JT808TcpClient client, JT808Package package, int minBufferSize = 4096)
+        public static void Send(this JT808TcpClient client, JT808Package package, JT808Version version = JT808Version.JTT2013, int minBufferSize = 4096)
         {
             package.Header.TerminalPhoneNo = client.DeviceConfig.TerminalPhoneNo;
-            JT808ClientRequest request = new JT808ClientRequest(package, minBufferSize);
+            JT808ClientRequest request = new JT808ClientRequest(package, version, minBufferSize);
             client.Send(request);
         }
     }

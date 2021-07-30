@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace JT808.Gateway.SimpleClient.Services
 {
-    public class UpService : IHostedService
+    public class Up2013Service : IHostedService
     {
         private readonly IJT808TcpClientFactory jT808TcpClientFactory;
 
-        public UpService(IJT808TcpClientFactory jT808TcpClientFactory)
+        public Up2013Service(IJT808TcpClientFactory jT808TcpClientFactory)
         {
             this.jT808TcpClientFactory = jT808TcpClientFactory;
         }
@@ -23,7 +23,7 @@ namespace JT808.Gateway.SimpleClient.Services
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             string sim = "11111111111";
-            JT808TcpClient client1 = await jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808), cancellationToken);
+            JT808TcpClient client1 = await jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808,version: JT808Version.JTT2013), cancellationToken);
             await Task.Delay(2000);
             //1.终端注册
             await client1.SendAsync(JT808MsgId.终端注册.Create(sim, new JT808_0x0100()
@@ -32,8 +32,8 @@ namespace JT808.Gateway.SimpleClient.Services
                 PlateColor = 2,
                 AreaID = 0,
                 CityOrCountyId = 0,
-                MakerId = "Koike001",
-                TerminalId = "Koike001",
+                MakerId = "Koike",
+                TerminalId = "Koike01",
                 TerminalModel = "Koike001"
             }));
             //2.终端鉴权

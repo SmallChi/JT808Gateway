@@ -31,7 +31,7 @@ namespace JT808.DotNetty.Client.Codecs
             {
                 try
                 {
-                    var sendData = JT808Serializer.Serialize(message.Package, minBufferSize:message.MinBufferSize);
+                    var sendData = JT808Serializer.Serialize(message.Package,version: message.Version, minBufferSize:message.MinBufferSize);
                     output.WriteBytes(sendData);
                     jT808SendAtomicCounterService.MsgSuccessIncrement();
                 }

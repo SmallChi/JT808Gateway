@@ -1,4 +1,5 @@
 ﻿using JT808.Protocol;
+using JT808.Protocol.Enums;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -16,7 +17,8 @@ namespace JT808.Gateway.Client.Metadata
         /// </summary>
         public int MinBufferSize { get;}
 
-        public JT808ClientRequest(JT808Package package,int minBufferSize=1024)
+
+        public JT808ClientRequest(JT808Package package, int minBufferSize=1024)
         {
             Package = package;
             MinBufferSize = minBufferSize;
