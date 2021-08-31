@@ -28,7 +28,7 @@
     <Compile Remove="JT808QueueReplyMessageHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JT808" Version="2.4.2" />
+    <PackageReference Include="JT808" Version="2.4.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
