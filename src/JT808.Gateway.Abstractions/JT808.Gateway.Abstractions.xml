@@ -85,6 +85,11 @@
             远程ip地址
             </summary>
         </member>
+        <member name="P:JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto.TerminalPhoneNo">
+            <summary>
+            终端手机号
+            </summary>
+        </member>
         <member name="P:JT808.Gateway.Abstractions.Dtos.JT808UdpSessionInfoDto.LastActiveTime">
             <summary>
             最后上线时间

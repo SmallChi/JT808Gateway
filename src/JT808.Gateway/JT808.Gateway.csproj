@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Version.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net5.0;</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <TargetFrameworks>netstandard2.1;net6.0;</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
     <Copyright>Copyright 2019.</Copyright>
     <Authors>SmallChi(Koike)</Authors>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -25,11 +25,11 @@
     <Compile Remove="Internal\JT808NormalGatewayBuilderDefault.cs" />
     <Compile Remove="Internal\JT808QueueGatewayBuilderDefault.cs" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="System.IO.Pipelines" Version="5.0.1" />
-  </ItemGroup>
 
+   <ItemGroup>
+	 <PackageReference Include="System.IO.Pipelines" Version="6.0.0" />
+   </ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\JT808.Gateway.Abstractions\JT808.Gateway.Abstractions.csproj" />
   </ItemGroup>

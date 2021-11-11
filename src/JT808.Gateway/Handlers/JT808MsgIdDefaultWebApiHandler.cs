@@ -73,10 +73,12 @@ namespace JT808.Gateway.Handlers
             {
                 return EmptyHttpResponse();
             }
+
             JT808ResultDto<JT808TcpSessionInfoDto> resultDto = new JT808ResultDto<JT808TcpSessionInfoDto>();
             try
             {
-                resultDto.Data = SessionManager.GetTcpAll().Where(w => w.TerminalPhoneNo == json).Select(s => new JT808TcpSessionInfoDto
+                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
+                resultDto.Data = SessionManager.GetTcpAll(w => w.TerminalPhoneNo == parameter.TerminalPhoneNo).Select(s => new JT808TcpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
                     StartTime = s.StartTime,
@@ -108,7 +110,8 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                SessionManager.RemoveByTerminalPhoneNo(json);
+                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
+                SessionManager.RemoveByTerminalPhoneNo(parameter.TerminalPhoneNo);
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
@@ -169,7 +172,8 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<JT808UdpSessionInfoDto> resultDto = new JT808ResultDto<JT808UdpSessionInfoDto>();
             try
             {
-                resultDto.Data = SessionManager.GetUdpAll().Where(w => w.TerminalPhoneNo == json).Select(s => new JT808UdpSessionInfoDto
+                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
+                resultDto.Data = SessionManager.GetUdpAll(w => w.TerminalPhoneNo == parameter.TerminalPhoneNo).Select(s => new JT808UdpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
                     StartTime = s.StartTime,
@@ -201,7 +205,8 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                SessionManager.RemoveByTerminalPhoneNo(json);
+                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
+                SessionManager.RemoveByTerminalPhoneNo(parameter.TerminalPhoneNo);
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
@@ -263,7 +268,8 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                BlacklistManager.Add(json);
+                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
+                BlacklistManager.Add(parameter.TerminalPhoneNo);
                 resultDto.Data = true;
                 resultDto.Code = JT808ResultCode.Ok;
             }
@@ -290,7 +296,8 @@ namespace JT808.Gateway.Handlers
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                BlacklistManager.Remove(json);
+                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
+                BlacklistManager.Remove(parameter.TerminalPhoneNo);
                 resultDto.Data = true;
                 resultDto.Code = JT808ResultCode.Ok;
             }
@@ -304,7 +311,7 @@ namespace JT808.Gateway.Handlers
         }
 
         /// <summary>
-        /// 移除sim卡黑名单
+        /// 查询sim卡黑名单
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>

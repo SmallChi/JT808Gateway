@@ -80,12 +80,10 @@ namespace JT808.Gateway
                     {
                         Logger.LogError(ex, "Receive MessageFrom Async");
                     }
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (Exception ex)
                     {
                         Logger.LogError(ex, $"Received Bytes");
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
                     finally
                     {
                         ArrayPool<byte>.Shared.Return(buffer);

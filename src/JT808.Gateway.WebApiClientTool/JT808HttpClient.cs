@@ -32,12 +32,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// 统一下发信息
         /// </summary>
-        /// <param name="jT808UnificationSendRequestDto"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<bool>> UnificationSend(JT808UnificationSendRequestDto jT808UnificationSendRequestDto)
+        public async ValueTask<JT808ResultDto<bool>> UnificationSend(JT808UnificationSendRequestDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.UnificationSend);
-            request.Content = new StringContent(JsonSerializer.Serialize(jT808UnificationSendRequestDto));
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
@@ -62,12 +62,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// 会话服务-通过设备终端号查询对应会话信息
         /// </summary>
-        /// <param name="terminalPhoneNo"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<JT808TcpSessionInfoDto>> QueryTcpSessionByTerminalPhoneNo(string terminalPhoneNo)
+        public async ValueTask<JT808ResultDto<JT808TcpSessionInfoDto>> QueryTcpSessionByTerminalPhoneNo(JT808TerminalPhoneNoDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.QueryTcpSessionByTerminalPhoneNo);
-            request.Content = new StringContent(terminalPhoneNo);
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
@@ -78,12 +78,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
-        /// <param name="terminalPhoneNo"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<bool>> RemoveTcpByTerminalPhoneNo(string terminalPhoneNo)
+        public async ValueTask<JT808ResultDto<bool>> RemoveTcpByTerminalPhoneNo(JT808TerminalPhoneNoDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo);
-            request.Content = new StringContent(terminalPhoneNo);
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
@@ -108,12 +108,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// 会话服务-通过设备终端号查询对应会话信息
         /// </summary>
-        /// <param name="terminalPhoneNo"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<JT808UdpSessionInfoDto>> QueryUdpSessionByTerminalPhoneNo(string terminalPhoneNo)
+        public async ValueTask<JT808ResultDto<JT808UdpSessionInfoDto>> QueryUdpSessionByTerminalPhoneNo(JT808TerminalPhoneNoDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.QueryUdpSessionByTerminalPhoneNo);
-            request.Content = new StringContent(terminalPhoneNo);
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
@@ -124,12 +124,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
-        /// <param name="terminalPhoneNo"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<bool>> RemoveUdpByTerminalPhoneNo(string terminalPhoneNo)
+        public async ValueTask<JT808ResultDto<bool>> RemoveUdpByTerminalPhoneNo(JT808TerminalPhoneNoDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.RemoveUdpByTerminalPhoneNo);
-            request.Content = new StringContent(terminalPhoneNo);
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
@@ -140,12 +140,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// SIM卡黑名单服务-将对应SIM号加入黑名单
         /// </summary>
-        /// <param name="terminalPhoneNo"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<bool>> BlacklistAdd(string terminalPhoneNo)
+        public async ValueTask<JT808ResultDto<bool>> BlacklistAdd(JT808TerminalPhoneNoDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistAdd);
-            request.Content = new StringContent(terminalPhoneNo);
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();
@@ -156,12 +156,12 @@ namespace JT808.Gateway.WebApiClientTool
         /// <summary>
         /// SIM卡黑名单服务-将对应SIM号移除黑名单
         /// </summary>
-        /// <param name="terminalPhoneNo"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public async ValueTask<JT808ResultDto<bool>> BlacklistRemove(string terminalPhoneNo)
+        public async ValueTask<JT808ResultDto<bool>> BlacklistRemove(JT808TerminalPhoneNoDto parameter)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, JT808GatewayConstants.JT808WebApiRouteTable.BlacklistRemove);
-            request.Content = new StringContent(terminalPhoneNo);
+            request.Content = new StringContent(JsonSerializer.Serialize(parameter));
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStreamAsync();

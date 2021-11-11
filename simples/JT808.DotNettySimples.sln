@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "simples", "simples", "{2459FB59-8A33-49A4-ADBC-A0B12C5886A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleClient", "JT808.DotNetty.SimpleClient\JT808.DotNetty.SimpleClient.csproj", "{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleServer", "JT808.DotNetty.SimpleServer\JT808.DotNetty.SimpleServer.csproj", "{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleQueueServer", "JT808.DotNetty.SimpleQueueServer\JT808.DotNetty.SimpleQueueServer.csproj", "{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.DotNetty.SimpleQueueService", "JT808.DotNetty.SimpleQueueService\JT808.DotNetty.SimpleQueueService.csproj", "{90E1F1C9-A953-4341-9792-9E2AF4471B68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E6F61CE8-BFB4-4946-A0D3-AECCE77824E5} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{CCE6AEFB-1AB0-4BD9-8EA2-8B4CDD097E88} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{1DEAC7EA-D662-420B-A1A7-A6E840568F7B} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+		{90E1F1C9-A953-4341-9792-9E2AF4471B68} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC0FFCEA-E1EF-4C97-A1C5-F89418B6834B}
+	EndGlobalSection
+EndGlobal

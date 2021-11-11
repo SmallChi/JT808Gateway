@@ -81,7 +81,7 @@
         </member>
         <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.QueryBlacklist(System.String)">
             <summary>
-            移除sim卡黑名单
+            查询sim卡黑名单
             </summary>
             <param name="json"></param>
             <returns></returns>

@@ -84,6 +84,13 @@
 | TerminalPhoneNo| string| 设备终端号|
 | HexData| string| JT808 Hex String JT808数据包字符串|
 
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+    "HexData":"7E****7E"
+}
+```
+
 返回数据：
 
 |属性|数据类型|参数说明|
@@ -155,7 +162,13 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
+| TerminalPhoneNo| string| 设备终端号|
+
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+}
+```
 
 返回数据：
 
@@ -188,7 +201,13 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
+| TerminalPhoneNo| string| 设备终端号|
+
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+}
+```
 
 返回数据：
 
@@ -261,7 +280,13 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
+| TerminalPhoneNo| string| 设备终端号|
+
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+}
+```
 
 返回数据：
 
@@ -294,7 +319,13 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
+| TerminalPhoneNo| string| 设备终端号|
+
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+}
+```
 
 返回数据：
 
@@ -324,7 +355,13 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
+| TerminalPhoneNo| string| 设备终端号|
+
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+}
+```
 
 返回数据：
 
@@ -352,7 +389,13 @@
 
 |属性|数据类型|参数说明|
 |:------:|:------:|:------|
-| terminalPhoneNo| string| 设备终端号|
+| TerminalPhoneNo| string| 设备终端号|
+
+``` 1
+{
+    "TerminalPhoneNo":"123456789012",
+}
+```
 
 返回数据：
 
@@ -370,7 +413,7 @@
 }
 ```
 
-#### 3.移除sim卡黑名单
+#### 3.获取sim卡黑名单
 
 请求地址：Blacklist/Get
 

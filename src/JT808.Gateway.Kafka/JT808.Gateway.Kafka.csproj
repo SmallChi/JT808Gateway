@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Version.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net5.0;</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
+    <TargetFrameworks>netstandard2.1;net6.0;</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
     <Copyright>Copyright 2019.</Copyright>
     <Authors>SmallChi(Koike)</Authors>
     <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
@@ -21,7 +21,7 @@
     <Version>$(JT808GatewayPackageVersion)</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="1.8.1" />
+    <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
   </ItemGroup>
 
   <ItemGroup>

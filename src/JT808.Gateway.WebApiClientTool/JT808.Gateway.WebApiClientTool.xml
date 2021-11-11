@@ -24,7 +24,7 @@
             <summary>
             统一下发信息
             </summary>
-            <param name="jT808UnificationSendRequestDto"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetTcpSessionAll">
@@ -33,18 +33,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryTcpSessionByTerminalPhoneNo(System.String)">
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryTcpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号查询对应会话信息
             </summary>
-            <param name="terminalPhoneNo"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveTcpByTerminalPhoneNo(System.String)">
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveTcpByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号移除对应会话
             </summary>
-            <param name="terminalPhoneNo"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetUdpSessionAll">
@@ -53,32 +53,32 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryUdpSessionByTerminalPhoneNo(System.String)">
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryUdpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号查询对应会话信息
             </summary>
-            <param name="terminalPhoneNo"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveUdpByTerminalPhoneNo(System.String)">
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.RemoveUdpByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号移除对应会话
             </summary>
-            <param name="terminalPhoneNo"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.BlacklistAdd(System.String)">
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.BlacklistAdd(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             SIM卡黑名单服务-将对应SIM号加入黑名单
             </summary>
-            <param name="terminalPhoneNo"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.BlacklistRemove(System.String)">
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.BlacklistRemove(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             SIM卡黑名单服务-将对应SIM号移除黑名单
             </summary>
-            <param name="terminalPhoneNo"></param>
+            <param name="parameter"></param>
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetBlacklistAll">

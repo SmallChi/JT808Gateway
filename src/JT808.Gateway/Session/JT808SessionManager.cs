@@ -261,14 +261,24 @@ namespace JT808.Gateway.Session
             }
         }
 
-        public List<JT808TcpSession> GetTcpAll()
+        public List<JT808TcpSession> GetTcpAll(Func<IJT808Session, bool> predicate=null)
         {
-            return TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.tcp).Select(s => (JT808TcpSession)s.Value).ToList();
+            var query = TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.tcp);
+            if (predicate != null)
+            {
+                query = query.Where(s => predicate(s.Value));
+            }
+            return query.Select(s => (JT808TcpSession)s.Value).ToList();
         }
 
-        public List<JT808UdpSession> GetUdpAll()
+        public List<JT808UdpSession> GetUdpAll(Func<IJT808Session, bool> predicate = null)
         {
-            return TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.udp).Select(s => (JT808UdpSession)s.Value).ToList();
+            var query = TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.udp);
+            if (predicate != null)
+            {
+                query = query.Where(s => predicate(s.Value));
+            }
+            return query.Select(s => (JT808UdpSession)s.Value).ToList();
         }
     }
 }

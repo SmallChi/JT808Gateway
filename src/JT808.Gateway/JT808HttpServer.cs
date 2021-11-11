@@ -64,7 +64,7 @@ namespace JT808.Gateway
                 Logger.LogWarning(ex, $"{ex.Message}:使用cmd命令[netsh http add urlacl url=http://*:{Configuration.WebApiPort}/ user=Everyone]");
             }
             Logger.LogInformation($"JT808 Http Server start at {IPAddress.Any}:{Configuration.WebApiPort}.");
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 while (listener.IsListening)
                 {
