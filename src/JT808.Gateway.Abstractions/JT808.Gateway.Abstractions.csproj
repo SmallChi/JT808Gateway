@@ -29,7 +29,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="JT808" Version="2.4.5-preview1" />
+    <PackageReference Include="JT808" Version="2.4.5" />
 	<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />

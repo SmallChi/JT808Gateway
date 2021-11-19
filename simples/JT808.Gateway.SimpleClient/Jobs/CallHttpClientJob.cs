@@ -38,8 +38,10 @@ namespace JT808.Gateway.SimpleClient.Jobs
                         TerminalPhoneNo= "123456789012",
                         HexData= "7E02000026123456789012007D02000000010000000200BA7F0E07E4F11C0028003C00001810151010100104000000640202007D01137E"
                     });
+                    var result4 = await jT808HttpClient.QueryTcpSessionByTerminalPhoneNo(new Abstractions.Dtos.JT808TerminalPhoneNoDto { TerminalPhoneNo= "33333333333" });
                     Logger.LogInformation($"[GetTcpAtomicCounter]:{JsonSerializer.Serialize(result2)}");
                     Logger.LogInformation($"[GetTcpSessionAll]:{JsonSerializer.Serialize(result3)}");
+                    Logger.LogInformation($"[QueryTcpSessionByTerminalPhoneNo]:{JsonSerializer.Serialize(result4)}");
                     Thread.Sleep(3000);
                 }
             }, cancellationToken);
