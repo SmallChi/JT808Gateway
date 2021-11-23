@@ -76,15 +76,18 @@ namespace JT808.Gateway
                             context.Http404();
                             continue;
                         }
+
                         // 增加CORS
                         // https://stackoverflow.com/questions/25437405/cors-access-for-httplistener
+                        context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
                         if (context.Request.HttpMethod == HttpMethod.Options.Method)
                         {
-                            context.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
+                            context.Response.AddHeader("Access-Control-Allow-Headers", "*");
                             context.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
                             context.Response.AddHeader("Access-Control-Max-Age", "1728000");
+                            context.Http204();
                         }
-                        context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                   
                         if (authorization.Authorization(context, out var principal))
                         {
                             await ProcessRequestAsync(context, principal);
