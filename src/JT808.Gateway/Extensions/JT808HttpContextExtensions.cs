@@ -11,6 +11,14 @@ namespace JT808.Gateway.Extensions
     {
         private const string jsonType = "application/json";
 
+        public static void Http204(this HttpListenerContext context)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+            context.Response.KeepAlive = false;
+            context.Response.OutputStream.Close();
+            context.Response.Close();
+        }
+
         public static async ValueTask Http401(this HttpListenerContext context)
         {
             byte[] b = Encoding.UTF8.GetBytes("auth error");
