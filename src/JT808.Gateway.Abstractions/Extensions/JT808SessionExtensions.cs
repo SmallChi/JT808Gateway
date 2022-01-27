@@ -19,17 +19,29 @@ namespace JT808.Gateway.Abstractions
         /// <param name="data"></param>
         public static async void SendAsync(this IJT808Session session,byte[] data)
         {
-            if (data == null) return;
-            if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
+            try
             {
-                if (session.Client.Connected)
-                   await session.Client.SendAsync(data, SocketFlags.None);
+                if (data == null) return;
+                if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
+                {
+                    if (session.Client.Connected)
+                        await session.Client.SendAsync(data, SocketFlags.None);
+                }
+                else
+                {
+                    await session.Client.SendToAsync(data, SocketFlags.None, session.RemoteEndPoint);
+                }
             }
-            else
+            catch (AggregateException ex)
             {
-                await session.Client.SendToAsync(data, SocketFlags.None, session.RemoteEndPoint);
+
+            }
+            catch (Exception)
+            {
+
             }
         }
+
         /// <summary>
         /// 下发消息
         /// </summary>
@@ -37,15 +49,26 @@ namespace JT808.Gateway.Abstractions
         /// <param name="data"></param>
         public static void Send(this IJT808Session session, byte[] data)
         {
-            if (data == null) return;
-            if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
+            try
             {
-                if (session.Client.Connected)
-                    session.Client.Send(data, SocketFlags.None);
+                if (data == null) return;
+                if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
+                {
+                    if (session.Client.Connected)
+                        session.Client.Send(data, SocketFlags.None);
+                }
+                else
+                {
+                    session.Client.SendTo(data, SocketFlags.None, session.RemoteEndPoint);
+                }
             }
-            else
+            catch (AggregateException ex)
             {
-                session.Client.SendTo(data, SocketFlags.None, session.RemoteEndPoint);
+
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

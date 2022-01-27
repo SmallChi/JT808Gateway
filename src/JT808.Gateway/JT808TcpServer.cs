@@ -95,7 +95,7 @@ namespace JT808.Gateway
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"JT808 TCP Server start at {IPAddress.Any}:{ConfigurationMonitor.CurrentValue.TcpPort}.");
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
