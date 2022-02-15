@@ -33,6 +33,8 @@ namespace JT808.Gateway
 
         private readonly JT808MsgIdDefaultWebApiHandler MsgIdDefaultWebApiHandler;
 
+        const int CallTimeoutMS = 10000;
+
         public JT808HttpServer(
             JT808MsgIdDefaultWebApiHandler jT808MsgIdDefaultWebApiHandler,
             IOptions<JT808Configuration> jT808ConfigurationAccessor,
@@ -76,7 +78,6 @@ namespace JT808.Gateway
                             context.Http404();
                             continue;
                         }
-
                         // 增加CORS
                         // https://stackoverflow.com/questions/25437405/cors-access-for-httplistener
                         context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
@@ -86,8 +87,7 @@ namespace JT808.Gateway
                             context.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
                             context.Response.AddHeader("Access-Control-Max-Age", "1728000");
                             context.Http204();
-                        }
-                   
+                        }  
                         if (authorization.Authorization(context, out var principal))
                         {
                             await ProcessRequestAsync(context, principal);
@@ -120,17 +120,35 @@ namespace JT808.Gateway
                 context.Http404();
                 return;
             }
-            if(context.Request.HttpMethod == HttpMethod.Get.Method)
+            bool timeout=false;
+            byte[] response;
+            if (context.Request.HttpMethod == HttpMethod.Get.Method)
             {
                 var index = context.Request.Url.AbsoluteUri.IndexOf('?');
                 if (index > 0)
                 {
                     var uriParamStr = context.Request.Url.AbsoluteUri[(index + 1)..].ToString();
-                    await context.HttpSend(router.Value(uriParamStr));
+                    response = Call(uriParamStr, router.Value, out timeout);
+                    if (!timeout)
+                    {
+                        await context.HttpSend(response);
+                    }
+                    else
+                    {
+                        await context.Http504();
+                    }
                 }
                 else
                 {
-                    await context.HttpSend(router.Value(""));
+                    response = Call("", router.Value, out timeout);
+                    if (!timeout)
+                    {
+                        await context.HttpSend(response);
+                    }
+                    else
+                    {
+                        await context.Http504();
+                    }
                 }
             }
             else if(context.Request.HttpMethod == HttpMethod.Post.Method)
@@ -140,12 +158,37 @@ namespace JT808.Gateway
                 {
                     json = reader.ReadToEnd();
                 }
-                await context.HttpSend(router.Value(json));
+                response = Call(json, router.Value, out timeout);
+                if (!timeout)
+                {
+                    await context.HttpSend(response);
+                }
+                else
+                {
+                    await context.Http504();
+                }
             }
             else
             {
                 context.Http405();
             }
+        }
+
+        private  byte[] Call(string data, Func<string, byte[]> method,out bool timeout)
+        {
+            try
+            {
+                using CancellationTokenSource cancelSource1 = new CancellationTokenSource(CallTimeoutMS);
+                Task<byte[]> result = Task.Run(() => method(data), cancelSource1.Token);
+                result.Wait(cancelSource1.Token);
+                timeout = false;
+                return result.Result;
+            }
+            catch (OperationCanceledException)
+            {
+                timeout = true;
+            }
+            return default(byte[]);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

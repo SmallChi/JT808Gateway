@@ -96,5 +96,38 @@ namespace JT808.Gateway.Test
                 }
             });
         }
+
+        [Fact]
+        public void Test4()
+        {
+            Func<int, byte[]> method = (a) =>
+            {
+                 if (a == 2)
+                 {
+                     Thread.Sleep(6000);
+                 }
+                 return new byte[20];
+            };
+    
+            var result1 = Call(1, method, out bool timeout1);
+            var result2 = Call(2, method, out bool timeout2);
+        }
+
+        private byte[] Call(int data, Func<int, byte[]> method, out bool timeout)
+        {
+            try
+            {
+                using CancellationTokenSource cancelSource1 = new CancellationTokenSource(5000);
+                Task<byte[]> result = Task.Run(() => method(data), cancelSource1.Token);
+                result.Wait(cancelSource1.Token);
+                timeout = false;
+                return result.Result;
+            }
+            catch (OperationCanceledException )
+            {
+                timeout = true;
+            }
+            return default(byte[]);
+        }
     }
 }

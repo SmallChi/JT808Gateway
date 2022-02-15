@@ -76,6 +76,19 @@ namespace JT808.Gateway.Extensions
             context.Response.Close();
         }
 
+        public static async ValueTask Http504(this HttpListenerContext context)
+        {
+            byte[] b = Encoding.UTF8.GetBytes("call service timeout.");
+            context.Response.StatusCode = (int)HttpStatusCode.GatewayTimeout;
+            context.Response.KeepAlive = false;
+            context.Response.ContentType = jsonType;
+            context.Response.ContentLength64 = b.Length;
+            var output = context.Response.OutputStream;
+            await output.WriteAsync(b, CancellationToken.None);
+            context.Response.OutputStream.Close();
+            context.Response.Close();
+        }
+
         public static async ValueTask HttpSend(this HttpListenerContext context, ReadOnlyMemory<byte> buffer)
         {
             context.Response.StatusCode = (int)HttpStatusCode.OK;
