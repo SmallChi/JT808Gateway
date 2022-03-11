@@ -33,8 +33,6 @@ namespace JT808.Gateway
 
         private readonly JT808MsgIdDefaultWebApiHandler MsgIdDefaultWebApiHandler;
 
-        const int CallTimeoutMS = 10000;
-
         public JT808HttpServer(
             JT808MsgIdDefaultWebApiHandler jT808MsgIdDefaultWebApiHandler,
             IOptions<JT808Configuration> jT808ConfigurationAccessor,
@@ -66,11 +64,11 @@ namespace JT808.Gateway
                 Logger.LogWarning(ex, $"{ex.Message}:使用cmd命令[netsh http add urlacl url=http://*:{Configuration.WebApiPort}/ user=Everyone]");
             }
             Logger.LogInformation($"JT808 Http Server start at {IPAddress.Any}:{Configuration.WebApiPort}.");
-            Task.Factory.StartNew(async () =>
+            Task.Factory.StartNew(() =>
             {
                 while (listener.IsListening)
                 {
-                    var context = await listener.GetContextAsync();
+                    var context = listener.GetContext();
                     try
                     {
                         if (context.Request.RawUrl.StartsWith("/favicon.ico"))
@@ -90,21 +88,31 @@ namespace JT808.Gateway
                         }  
                         if (authorization.Authorization(context, out var principal))
                         {
-                            await ProcessRequestAsync(context, principal);
+                            DateTime start = DateTime.Now;
+                            if (Logger.IsEnabled(LogLevel.Debug))
+                            {
+                                Logger.LogDebug($"ProcessRequestAsync Start:{context.Request.RemoteEndPoint}-{context.Request.RawUrl}");
+                            }
+                            ProcessRequest(context, principal);
+                            if (Logger.IsEnabled(LogLevel.Debug))
+                            {
+                                double time = (DateTime.Now - start).TotalMilliseconds;
+                                Logger.LogDebug($"ProcessRequestAsync End:{context.Request.RemoteEndPoint}-{context.Request.RawUrl} {time}ms");
+                            }
                         }
                         else
                         {
-                            await context.Http401();
+                            context.Http401();
                         }
                     }
                     catch (AggregateException ex)
                     {
-                        await context.Http500();
+                        context.Http500();
                         Logger.LogError(ex, ex.StackTrace);
                     }
                     catch (Exception ex)
                     {
-                        await context.Http500();
+                        context.Http500();
                         Logger.LogError(ex, ex.StackTrace);
                     }
                 }
@@ -112,7 +120,7 @@ namespace JT808.Gateway
             return Task.CompletedTask;
         }
 
-        private async ValueTask ProcessRequestAsync(HttpListenerContext context, IPrincipal principal)
+        private void ProcessRequest(HttpListenerContext context, IPrincipal principal)
         {
             var router = MsgIdDefaultWebApiHandler.HandlerDict.FirstOrDefault(f => context.Request.RawUrl.StartsWith(f.Key));
             if (router.Key == null)
@@ -120,7 +128,6 @@ namespace JT808.Gateway
                 context.Http404();
                 return;
             }
-            bool timeout=false;
             byte[] response;
             if (context.Request.HttpMethod == HttpMethod.Get.Method)
             {
@@ -128,27 +135,13 @@ namespace JT808.Gateway
                 if (index > 0)
                 {
                     var uriParamStr = context.Request.Url.AbsoluteUri[(index + 1)..].ToString();
-                    response = Call(uriParamStr, router.Value, out timeout);
-                    if (!timeout)
-                    {
-                        await context.HttpSend(response);
-                    }
-                    else
-                    {
-                        await context.Http504();
-                    }
+                    response = router.Value(uriParamStr);
+                    context.HttpSend(response);
                 }
                 else
                 {
-                    response = Call("", router.Value, out timeout);
-                    if (!timeout)
-                    {
-                        await context.HttpSend(response);
-                    }
-                    else
-                    {
-                        await context.Http504();
-                    }
+                    response = router.Value("");
+                    context.HttpSend(response);
                 }
             }
             else if(context.Request.HttpMethod == HttpMethod.Post.Method)
@@ -158,37 +151,13 @@ namespace JT808.Gateway
                 {
                     json = reader.ReadToEnd();
                 }
-                response = Call(json, router.Value, out timeout);
-                if (!timeout)
-                {
-                    await context.HttpSend(response);
-                }
-                else
-                {
-                    await context.Http504();
-                }
+                response = router.Value(json);
+                context.HttpSend(response);
             }
             else
             {
                 context.Http405();
             }
-        }
-
-        private  byte[] Call(string data, Func<string, byte[]> method,out bool timeout)
-        {
-            try
-            {
-                using CancellationTokenSource cancelSource1 = new CancellationTokenSource(CallTimeoutMS);
-                Task<byte[]> result = Task.Run(() => method(data), cancelSource1.Token);
-                result.Wait(cancelSource1.Token);
-                timeout = false;
-                return result.Result;
-            }
-            catch (OperationCanceledException)
-            {
-                timeout = true;
-            }
-            return default(byte[]);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

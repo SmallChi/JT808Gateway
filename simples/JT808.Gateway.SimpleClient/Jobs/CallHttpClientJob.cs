@@ -40,7 +40,7 @@ namespace JT808.Gateway.SimpleClient.Jobs
                     });
                     var result4 = await jT808HttpClient.QueryTcpSessionByTerminalPhoneNo(new Abstractions.Dtos.JT808TerminalPhoneNoDto { TerminalPhoneNo= "33333333333" });
                     Logger.LogInformation($"[GetTcpAtomicCounter]:{JsonSerializer.Serialize(result2)}");
-                    Logger.LogInformation($"[GetTcpSessionAll]:{JsonSerializer.Serialize(result3)}");
+                    Logger.LogInformation($"[UnificationSend]:{JsonSerializer.Serialize(result3)}");
                     Logger.LogInformation($"[QueryTcpSessionByTerminalPhoneNo]:{JsonSerializer.Serialize(result4)}");
                     Thread.Sleep(3000);
                 }

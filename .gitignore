@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 /nupkgs
 /src/JT808.DotNetty.Admin/tools/protoc-gen-grpc-web-1.0.3-windows-x86_64.exe
+/src/JT808.Gateway.Benchmark/JT808.Gateway.CleintBenchmark/.config/dotnet-tools.json

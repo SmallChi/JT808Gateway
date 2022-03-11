@@ -1,1 +1,3 @@
 dotnet publish ./JT808.Gateway.SimpleServer/JT808.Gateway.SimpleServer.csproj -c Release -o .output -r linux-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false
+
+dotnet publish ./JT808.Gateway.SimpleServer/JT808.Gateway.SimpleServer.csproj -c Release -o .output -r win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false
