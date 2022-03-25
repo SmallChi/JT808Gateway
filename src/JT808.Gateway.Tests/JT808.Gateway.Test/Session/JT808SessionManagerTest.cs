@@ -151,14 +151,14 @@ namespace JT808.Gateway.Test.Session
         [Fact]
         public void SendTest()
         {
-            Assert.Throws<SocketException>(() => 
+            Assert.ThrowsAsync<SocketException>(async() => 
             {
                 string tno = "123456";
                 JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
                 var session = new JT808TcpSession(new Socket(SocketType.Stream, ProtocolType.Tcp));
                 var result1 = jT808SessionManager.TryAdd(session);
                 jT808SessionManager.TryLink(tno, session);
-                jT808SessionManager.TrySendByTerminalPhoneNoAsync(tno, new byte[] { 0x7e, 0, 0, 0x7e });
+                await jT808SessionManager.TrySendByTerminalPhoneNoAsync(tno, new byte[] { 0x7e, 0, 0, 0x7e });
             });
         }
 
