@@ -63,7 +63,7 @@ namespace JT808.Gateway.CleintBenchmark.Services
                                 int Lng = new Random(1000).Next(100000, 180000);
                                 if (client != null)
                                 {
-                                    await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                                    await client.SendAsync(JT808MsgId._0x0200.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
                                     {
                                         Lat = lat,
                                         Lng = Lng,

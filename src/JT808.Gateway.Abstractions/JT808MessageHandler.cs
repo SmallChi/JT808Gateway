@@ -41,25 +41,25 @@ namespace JT808.Gateway.Abstractions
             this.JT808Config = jT808Config;
             this.JT808Serializer = jT808Config.GetSerializer();
             HandlerDict = new Dictionary<ushort, MsgIdMethodDelegate> {
-                {JT808MsgId.终端通用应答.ToUInt16Value(), Msg0x0001},
-                {JT808MsgId.终端鉴权.ToUInt16Value(), Msg0x0102},
-                {JT808MsgId.终端心跳.ToUInt16Value(), Msg0x0002},
-                {JT808MsgId.终端注销.ToUInt16Value(), Msg0x0003},
-                {JT808MsgId.终端注册.ToUInt16Value(), Msg0x0100},
-                {JT808MsgId.位置信息汇报.ToUInt16Value(),Msg0x0200 },
-                {JT808MsgId.定位数据批量上传.ToUInt16Value(),Msg0x0704 },
-                {JT808MsgId.数据上行透传.ToUInt16Value(),Msg0x0900 },
-                {JT808MsgId.查询服务器时间请求.ToUInt16Value(),Msg0x0004 },
-                {JT808MsgId.查询终端参数应答.ToUInt16Value(),Msg0x0104 },
-                {JT808MsgId.查询终端属性应答.ToUInt16Value(),Msg0x0107 },
-                {JT808MsgId.终端升级结果通知.ToUInt16Value(),Msg0x0108 },
-                {JT808MsgId.位置信息查询应答.ToUInt16Value(),Msg0x0201 },
-                {JT808MsgId.链路检测.ToUInt16Value(),Msg0x8204 },
-                {JT808MsgId.车辆控制应答.ToUInt16Value(),Msg0x0500 },
-                {JT808MsgId.摄像头立即拍摄命令.ToUInt16Value(),Msg0x8801 },
-                {JT808MsgId.多媒体数据上传.ToUInt16Value(),Msg0x0801 },
-                {JT808MsgId.多媒体事件信息上传.ToUInt16Value(),Msg0x0800 },
-                {JT808MsgId.CAN总线数据上传.ToUInt16Value(),Msg0x0705 },
+                {JT808MsgId._0x0001.ToUInt16Value(), Msg0x0001},
+                {JT808MsgId._0x0102.ToUInt16Value(), Msg0x0102},
+                {JT808MsgId._0x0002.ToUInt16Value(), Msg0x0002},
+                {JT808MsgId._0x0003.ToUInt16Value(), Msg0x0003},
+                {JT808MsgId._0x0100.ToUInt16Value(), Msg0x0100},
+                {JT808MsgId._0x0200.ToUInt16Value(),Msg0x0200 },
+                {JT808MsgId._0x0704.ToUInt16Value(),Msg0x0704 },
+                {JT808MsgId._0x0900.ToUInt16Value(),Msg0x0900 },
+                {JT808MsgId._0x0004.ToUInt16Value(),Msg0x0004 },
+                {JT808MsgId._0x0104.ToUInt16Value(),Msg0x0104 },
+                {JT808MsgId._0x0107.ToUInt16Value(),Msg0x0107 },
+                {JT808MsgId._0x0108.ToUInt16Value(),Msg0x0108 },
+                {JT808MsgId._0x0201.ToUInt16Value(),Msg0x0201 },
+                {JT808MsgId._0x8204.ToUInt16Value(),Msg0x8204 },
+                {JT808MsgId._0x0500.ToUInt16Value(),Msg0x0500 },
+                {JT808MsgId._0x8801 .ToUInt16Value(),Msg0x8801 },
+                {JT808MsgId._0x0801.ToUInt16Value(),Msg0x0801 },
+                {JT808MsgId._0x0800.ToUInt16Value(),Msg0x0800 },
+                {JT808MsgId._0x0705.ToUInt16Value(),Msg0x0705 },
             };
         }
 
@@ -99,20 +99,20 @@ namespace JT808.Gateway.Abstractions
         {
             if (request.Version == JT808Version.JTT2019)
             {
-                byte[] data = JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                byte[] data = JT808Serializer.Serialize(JT808MsgId._0x8001.Create_平台通用应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8001()
                 {
                     AckMsgId = request.Header.MsgId,
-                    JT808PlatformResult = JT808PlatformResult.成功,
+                    JT808PlatformResult = JT808PlatformResult.succeed,
                     MsgNum = request.Header.MsgNum
                 }));
                 return data;
             }
             else
             {
-                byte[] data = JT808Serializer.Serialize(JT808MsgId.平台通用应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
+                byte[] data = JT808Serializer.Serialize(JT808MsgId._0x8001.Create(request.Header.TerminalPhoneNo, new JT808_0x8001()
                 {
                     AckMsgId = request.Header.MsgId,
-                    JT808PlatformResult = JT808PlatformResult.成功,
+                    JT808PlatformResult = JT808PlatformResult.succeed,
                     MsgNum = request.Header.MsgNum
                 }));
                 return data;
@@ -135,7 +135,7 @@ namespace JT808.Gateway.Abstractions
         /// <returns></returns>
         public virtual byte[] Msg0x0004(JT808HeaderPackage request)
         {
-            byte[] data = JT808Serializer.Serialize(JT808MsgId.查询服务器时间应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8004()
+            byte[] data = JT808Serializer.Serialize(JT808MsgId._0x8004.Create(request.Header.TerminalPhoneNo, new JT808_0x8004()
             {
                 Time = DateTime.Now
             }));
@@ -168,20 +168,20 @@ namespace JT808.Gateway.Abstractions
         {
             if (request.Version == JT808Version.JTT2019)
             {
-                byte[] data = JT808Serializer.Serialize(JT808MsgId.终端注册应答.Create_终端注册应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8100()
+                byte[] data = JT808Serializer.Serialize(JT808MsgId._0x8100.Create_终端注册应答_2019(request.Header.TerminalPhoneNo, new JT808_0x8100()
                 {
                     Code = "J" + request.Header.TerminalPhoneNo,
-                    JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
+                    JT808TerminalRegisterResult = JT808TerminalRegisterResult.success,
                     AckMsgNum = request.Header.MsgNum
                 }));
                 return data;
             }
             else
             {
-                byte[] data = JT808Serializer.Serialize(JT808MsgId.终端注册应答.Create(request.Header.TerminalPhoneNo, new JT808_0x8100()
+                byte[] data = JT808Serializer.Serialize(JT808MsgId._0x8100.Create(request.Header.TerminalPhoneNo, new JT808_0x8100()
                 {
                     Code = "J" + request.Header.TerminalPhoneNo,
-                    JT808TerminalRegisterResult = JT808TerminalRegisterResult.成功,
+                    JT808TerminalRegisterResult = JT808TerminalRegisterResult.success,
                     AckMsgNum = request.Header.MsgNum
                 }));
                 return data;

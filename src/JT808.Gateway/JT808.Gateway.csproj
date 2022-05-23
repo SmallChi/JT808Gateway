@@ -1,24 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Version.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <Import Project="..\PipelineInfo.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
-    <Copyright>Copyright 2019.</Copyright>
-    <Authors>SmallChi(Koike)</Authors>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <SignAssembly>false</SignAssembly>
-    <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
-    <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
-    <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>基于Pipeline实现的JT808Gateway的网络库</Description>
     <PackageReleaseNotes>基于Pipeline实现的JT808Gateway的网络库</PackageReleaseNotes>
     <DocumentationFile>JT808.Gateway.xml</DocumentationFile>
     <PackageId>JT808.Gateway</PackageId>
     <Product>JT808.Gateway</Product>
-    <Version>$(JT808GatewayPackageVersion)</Version>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +15,7 @@
   </ItemGroup>
 
    <ItemGroup>
-	 <PackageReference Include="System.IO.Pipelines" Version="6.0.2" />
+	 <PackageReference Include="System.IO.Pipelines" Version="6.0.3" />
    </ItemGroup>
 	
   <ItemGroup>

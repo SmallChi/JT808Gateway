@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.MsgIdHandler"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2336747A-28A3-443E-8E23-4B25E3F2D971}"
 	ProjectSection(SolutionItems) = preProject
-		Version.props = Version.props
+		PipelineInfo.props = PipelineInfo.props
 	EndProjectSection
 EndProject
 Global

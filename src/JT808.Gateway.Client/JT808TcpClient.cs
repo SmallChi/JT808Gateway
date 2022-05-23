@@ -71,12 +71,12 @@ namespace JT808.Gateway.Client
                                 }
                                 if(DeviceConfig.Version== Protocol.Enums.JT808Version.JTT2013 || DeviceConfig.Version == Protocol.Enums.JT808Version.JTT2011)
                                 {
-                                    var package = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create(DeviceConfig.TerminalPhoneNo);
+                                    var package = JT808.Protocol.Enums.JT808MsgId._0x0002.Create(DeviceConfig.TerminalPhoneNo);
                                     await SendAsync(new JT808ClientRequest(package));
                                 }
                                 else
                                 {
-                                    var package = JT808.Protocol.Enums.JT808MsgId.终端心跳.Create2019(DeviceConfig.TerminalPhoneNo);
+                                    var package = JT808.Protocol.Enums.JT808MsgId._0x0002.Create2019(DeviceConfig.TerminalPhoneNo);
                                     await SendAsync(new JT808ClientRequest(package));
                                 }
                             }

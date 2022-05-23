@@ -39,7 +39,7 @@ namespace JT808.Gateway.QueueHosting.Jobs
                         {
                             int lat = new Random(1000).Next(100000, 180000);
                             int Lng = new Random(1000).Next(100000, 180000);
-                            await client.SendAsync(JT808MsgId.位置信息汇报.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            await client.SendAsync(JT808MsgId._0x0200.Create(client.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
                             {
                                 Lat = lat,
                                 Lng = Lng,
@@ -52,7 +52,7 @@ namespace JT808.Gateway.QueueHosting.Jobs
                             }));
                             int lat1 = new Random(1000).Next(100000, 180000);
                             int Lng1 = new Random(1000).Next(100000, 180000);
-                            await client1.SendAsync(JT808MsgId.位置信息汇报.Create(client1.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
+                            await client1.SendAsync(JT808MsgId._0x0200.Create(client1.DeviceConfig.TerminalPhoneNo, new JT808_0x0200()
                             {
                                 Lat = lat1,
                                 Lng = Lng1,

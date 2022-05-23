@@ -1,24 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Version.props" />
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
-    <Copyright>Copyright 2019.</Copyright>
-    <Authors>SmallChi(Koike)</Authors>
-    <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
-    <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
-    <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <SignAssembly>false</SignAssembly>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  <Import Project="..\PipelineInfo.props" />
+  <PropertyGroup>	
     <PackageId>JT808.Gateway.Kafka</PackageId>
     <Product>JT808.Gateway.Kafka</Product>
     <Description>基于Kafka的JT808消息发布与订阅</Description>
     <PackageReleaseNotes>基于Kafka的JT808消息发布与订阅</PackageReleaseNotes>
     <DocumentationFile>JT808.Gateway.Kafka.xml</DocumentationFile>
-    <Version>$(JT808GatewayPackageVersion)</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="1.8.2" />

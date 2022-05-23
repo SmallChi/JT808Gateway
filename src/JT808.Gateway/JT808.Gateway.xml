@@ -198,6 +198,18 @@
             <param name="config"></param>
             <returns></returns>
         </member>
+        <member name="T:JT808.Gateway.JT808MiniWebApi">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.JT808MiniWebApi.UseJT808MiniWebApi(Microsoft.AspNetCore.Builder.WebApplication)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
         <member name="T:JT808.Gateway.JT808TcpServer">
             <summary>
             808 tcp服务器

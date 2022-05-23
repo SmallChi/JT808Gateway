@@ -19,6 +19,17 @@ namespace JT808.Gateway.CleintBenchmark
     {
         static async Task Main(string[] args)
         {
+            //var builder = WebApplication.CreateBuilder(args);
+            //var app = builder.Build();
+            //app.MapGet("/weatherforecast", async context =>
+            //{
+                
+
+                
+            //}).WithName("GetWeatherForecast");
+
+
+
             var serverHostBuilder = new HostBuilder()
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
@@ -29,6 +40,7 @@ namespace JT808.Gateway.CleintBenchmark
             {
                 webBuilder.Configure(app =>
                 {
+                    
                     app.UseRouting();
                     app.UseCors("Domain");
                     app.UseStaticFiles();

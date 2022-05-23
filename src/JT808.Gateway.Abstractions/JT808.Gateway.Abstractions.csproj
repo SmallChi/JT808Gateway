@@ -1,18 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Version.props" />
+  <Import Project="..\PipelineInfo.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
-    <Copyright>Copyright 2019.</Copyright>
-    <Authors>SmallChi(Koike)</Authors>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <SignAssembly>false</SignAssembly>
-    <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
-    <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
-    <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>基于Pipeline实现的JT808Gateway的抽象库</Description>
     <PackageReleaseNotes>基于Pipeline实现的JT808Gateway的抽象库</PackageReleaseNotes>
     <PackageId>JT808.Gateway.Abstractions</PackageId>
@@ -29,7 +17,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="JT808" Version="2.4.5" />
+    <PackageReference Include="JT808" Version="2.5.0-preview1" />
 	<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
