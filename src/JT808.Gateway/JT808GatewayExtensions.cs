@@ -1,7 +1,6 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Authorization;
 using JT808.Gateway.Abstractions.Configurations;
-using JT808.Gateway.Handlers;
 using JT808.Gateway.Internal;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
@@ -71,32 +70,6 @@ namespace JT808.Gateway
             return config;
         }
         /// <summary>
-        /// 添加http服务器
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        public static IJT808GatewayBuilder AddHttp(this IJT808GatewayBuilder config)
-        {
-            config.JT808Builder.Services.AddSingleton<IJT808Authorization, JT808AuthorizationDefault>();
-            config.JT808Builder.Services.AddSingleton<JT808MsgIdDefaultWebApiHandler>();
-            config.JT808Builder.Services.AddHostedService<JT808HttpServer>();
-            return config;
-        }
-        /// <summary>
-        /// 添加http服务器
-        /// </summary>
-        /// <typeparam name="TJT808MsgIdDefaultWebApiHandler"></typeparam>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        public static IJT808GatewayBuilder AddHttp<TJT808MsgIdDefaultWebApiHandler>(this IJT808GatewayBuilder config)
-            where TJT808MsgIdDefaultWebApiHandler: JT808MsgIdDefaultWebApiHandler
-        {
-            config.JT808Builder.Services.AddSingleton<IJT808Authorization, JT808AuthorizationDefault>();
-            config.JT808Builder.Services.AddSingleton(typeof(JT808MsgIdDefaultWebApiHandler),typeof(TJT808MsgIdDefaultWebApiHandler));
-            config.JT808Builder.Services.AddHostedService<JT808HttpServer>();
-            return config;
-        }
-        /// <summary>
         /// 添加消息业务处理程序
         /// </summary>
         /// <typeparam name="TJT808MessageHandler"></typeparam>
@@ -108,18 +81,6 @@ namespace JT808.Gateway
             config.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(JT808MessageHandler), typeof(TJT808MessageHandler), ServiceLifetime.Singleton));
             return config;
         }  
-        /// <summary>
-        /// 添加Http服务认证机制
-        /// </summary>
-        /// <typeparam name="TJT808Authorization"></typeparam>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        public static IJT808GatewayBuilder AddHttpAuthorization<TJT808Authorization>(this IJT808GatewayBuilder config)
-             where TJT808Authorization : IJT808Authorization
-        {
-            config.JT808Builder.Services.Replace(new ServiceDescriptor(typeof(IJT808Authorization), typeof(TJT808Authorization), ServiceLifetime.Singleton));
-            return config;
-        }
         /// <summary>
         /// 添加消息生产者
         /// </summary>

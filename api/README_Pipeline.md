@@ -35,7 +35,7 @@
 |请求Url|请求方式|说明|
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Tcp/Session/GetAll| GET| 基于Tcp管理会话服务-获取会话集合|
-| 127.0.0.1:828/jt808api/Tcp/Session/QueryTcpSessionByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号查询对应会话|
+| 127.0.0.1:828/jt808api/Tcp/Session/QuerySessionByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号查询对应会话|
 | 127.0.0.1:828/jt808api/Tcp/Session/RemoveByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号移除对应会话|
 
 ### 基于Udp接口请求
@@ -43,8 +43,8 @@
 |请求Url|请求方式|说明|
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Udp/Session/GetAll| GET| 基于Udp管理会话服务-获取会话集合|
-| 127.0.0.1:828/jt808api/Udp/Session/QueryUdpSessionByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号查询对应会话|
-| 127.0.0.1:828/jt808api/Udp/Session/RemoveUdpByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号移除对应会话|
+| 127.0.0.1:828/jt808api/Udp/Session/QuerySessionByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号查询对应会话|
+| 127.0.0.1:828/jt808api/Udp/Session/RemoveByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号移除对应会话|
 
 ### SIM黑名单管理接口请求
 
@@ -52,7 +52,7 @@
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Blacklist/Add| POST| SIM卡黑名单服务-将对应SIM号加入黑名单|
 | 127.0.0.1:828/jt808api/Blacklist/Remove| POST| SIM卡黑名单服务-将对应SIM号移除黑名单|
-| 127.0.0.1:828/jt808api/Blacklist/Get| Get| SIM卡黑名单服务-获取所有sim的黑名单列表|
+| 127.0.0.1:828/jt808api/Blacklist/GetAll| Get| SIM卡黑名单服务-获取所有sim的黑名单列表|
 
 ### 统一对象返回 JT808ResultDto\<T>
 
@@ -154,7 +154,7 @@
 
 #### 2.通过设备终端号查询对应会话
 
-请求地址：Tcp/Session/QueryTcpSessionByTerminalPhoneNo
+请求地址：Tcp/Session/QuerySessionByTerminalPhoneNo
 
 请求方式：POST
 
@@ -272,7 +272,7 @@
 
 #### 2.通过设备终端号查询对应会话
 
-请求地址：Udp/Session/QueryUdpSessionByTerminalPhoneNo
+请求地址：Udp/Session/QuerySessionByTerminalPhoneNo
 
 请求方式：POST
 
@@ -415,7 +415,7 @@
 
 #### 3.获取sim卡黑名单
 
-请求地址：Blacklist/Get
+请求地址：Blacklist/GetAll
 
 请求方式：GET
 

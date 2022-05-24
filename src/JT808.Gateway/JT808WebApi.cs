@@ -1,45 +1,92 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Dtos;
+using JT808.Gateway.Authorization;
 using JT808.Gateway.Services;
 using JT808.Gateway.Session;
-using JT808.Protocol.Extensions;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace JT808.Gateway.Handlers
+namespace JT808.Gateway
 {
     /// <summary>
-    /// 默认消息处理业务实现
+    /// jt808 webapi
     /// </summary>
-    public class JT808MsgIdDefaultWebApiHandler : JT808MsgIdHttpHandlerBase
+    [ApiController]
+    [Route("jt808api")]
+    public sealed class JT808WebApi:ControllerBase
     {
-        private  JT808SessionManager SessionManager;
-        private JT808BlacklistManager BlacklistManager;
+        /// <summary>
+        /// 
+        /// </summary>
+        JT808SessionManager SessionManager;
+        /// <summary>
+        /// 
+        /// </summary>
+        JT808BlacklistManager BlacklistManager;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jT808SessionManager"></param>
         /// <param name="jT808BlacklistManager"></param>
-        public JT808MsgIdDefaultWebApiHandler(
+        public JT808WebApi(
             JT808SessionManager jT808SessionManager,
             JT808BlacklistManager jT808BlacklistManager)
         {
             this.SessionManager = jT808SessionManager;
             this.BlacklistManager = jT808BlacklistManager;
-            InitTcpRoute();
-            InitUdpRoute();
-            InitCommontRoute();
         }
 
         /// <summary>
-        /// 会话服务集合
+        /// index
         /// </summary>
-        /// <param name="json"></param>
         /// <returns></returns>
-        public byte[] GetTcpSessionAll(string json)
+        [HttpGet]
+        [Route("index")]    
+        public ActionResult<JT808ResultDto<string>> Index()
+        {
+            JT808ResultDto<string> resultDto = new JT808ResultDto<string>();
+            resultDto.Data = "Hello,JT808 WebApi";
+            resultDto.Code = JT808ResultCode.Ok;
+            return resultDto;
+        }
+
+        /// <summary>
+        /// 统一下发设备消息服务
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("UnificationSend")]
+        [JT808Token]
+        public async Task<ActionResult<JT808ResultDto<bool>>> UnificationSend([FromBody] JT808UnificationSendRequestDto parameter)
+        {
+            JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
+            try
+            {
+                resultDto.Data = await SessionManager.TrySendByTerminalPhoneNoAsync(parameter.TerminalPhoneNo, Convert.FromHexString(parameter.HexData));
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = false;
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.StackTrace;
+            }
+            return resultDto;
+        }
+
+        /// <summary>
+        /// 会话服务-Tcp会话查询
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/Tcp/Session/GetAll")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<List<JT808TcpSessionInfoDto>>> SessionTcpGetAll()
         {
             JT808ResultDto<List<JT808TcpSessionInfoDto>> resultDto = new JT808ResultDto<List<JT808TcpSessionInfoDto>>();
             try
@@ -51,33 +98,31 @@ namespace JT808.Gateway.Handlers
                     TerminalPhoneNo = s.TerminalPhoneNo,
                     RemoteAddressIP = s.RemoteEndPoint.ToString(),
                 }).ToList();
+
                 resultDto.Code = JT808ResultCode.Ok;
             }
             catch (Exception ex)
             {
-                resultDto.Data = null;
+                resultDto.Data = new List<JT808TcpSessionInfoDto>();
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
-        /// 通过终端手机号查询对应会话
+        /// 会话服务-通过设备终端号查询对应会话
         /// </summary>
-        /// <param name="json"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public byte[] QueryTcpSessionByTerminalPhoneNo(string json)
+        [HttpPost]
+        [Route("/Tcp/Session/QuerySessionByTerminalPhoneNo")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<JT808TcpSessionInfoDto>> QueryTcpSessionByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
-
             JT808ResultDto<JT808TcpSessionInfoDto> resultDto = new JT808ResultDto<JT808TcpSessionInfoDto>();
             try
             {
-                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
                 resultDto.Data = SessionManager.GetTcpAll(w => w.TerminalPhoneNo == parameter.TerminalPhoneNo).Select(s => new JT808TcpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
@@ -93,33 +138,25 @@ namespace JT808.Gateway.Handlers
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
-        /// <param name="json"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public byte[] RemoveSessionByTerminalPhoneNo(string json)
+        [HttpPost]
+        [Route("/Tcp/Session/RemoveByTerminalPhoneNo")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<bool>> SessionTcpRemoveByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
                 SessionManager.RemoveByTerminalPhoneNo(parameter.TerminalPhoneNo);
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
-            }
-            catch (AggregateException ex)
-            {
-                resultDto.Data = false;
-                resultDto.Code = 500;
-                resultDto.Message = ex.StackTrace;
             }
             catch (Exception ex)
             {
@@ -127,15 +164,17 @@ namespace JT808.Gateway.Handlers
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
-        /// 会话服务集合
+        /// 会话服务-Udp会话查询
         /// </summary>
-        /// <param name="json"></param>
         /// <returns></returns>
-        public byte[] GetUdpSessionAll(string json)
+        [HttpGet]
+        [Route("/Udp/Session/GetAll")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<List<JT808UdpSessionInfoDto>>> SessionUdpGetAll()
         {
             JT808ResultDto<List<JT808UdpSessionInfoDto>> resultDto = new JT808ResultDto<List<JT808UdpSessionInfoDto>>();
             try
@@ -147,32 +186,30 @@ namespace JT808.Gateway.Handlers
                     TerminalPhoneNo = s.TerminalPhoneNo,
                     RemoteAddressIP = s.RemoteEndPoint.ToString(),
                 }).ToList();
+
                 resultDto.Code = JT808ResultCode.Ok;
             }
             catch (Exception ex)
             {
-                resultDto.Data = null;
+                resultDto.Data = new List<JT808UdpSessionInfoDto>();
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
-
         /// <summary>
-        /// 通过终端手机号查询对应会话
+        /// 会话服务-通过设备终端号查询对应会话
         /// </summary>
-        /// <param name="json"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public byte[] QueryUdpSessionByTerminalPhoneNo(string json)
+        [HttpPost]
+        [Route("/Udp/Session/QuerySessionByTerminalPhoneNo")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<JT808UdpSessionInfoDto>> QueryUdpSessionByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
             JT808ResultDto<JT808UdpSessionInfoDto> resultDto = new JT808ResultDto<JT808UdpSessionInfoDto>();
             try
             {
-                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
                 resultDto.Data = SessionManager.GetUdpAll(w => w.TerminalPhoneNo == parameter.TerminalPhoneNo).Select(s => new JT808UdpSessionInfoDto
                 {
                     LastActiveTime = s.ActiveTime,
@@ -188,90 +225,50 @@ namespace JT808.Gateway.Handlers
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
         /// 会话服务-通过设备终端号移除对应会话
         /// </summary>
-        /// <param name="json"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public byte[] RemoveUdpByTerminalPhoneNo(string json)
+        [HttpPost]
+        [Route("/Udp/Session/RemoveByTerminalPhoneNo")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<bool>> SessionUdpRemoveByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
                 SessionManager.RemoveByTerminalPhoneNo(parameter.TerminalPhoneNo);
                 resultDto.Code = JT808ResultCode.Ok;
                 resultDto.Data = true;
             }
-            catch (AggregateException ex)
-            {
-                resultDto.Data = false;
-                resultDto.Code = 500;
-                resultDto.Message = ex.StackTrace;
-            }
             catch (Exception ex)
             {
                 resultDto.Data = false;
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
-        /// 统一下发信息
+        /// 黑名单添加
         /// </summary>
-        /// <param name="json"></param>
         /// <returns></returns>
-        public byte[] UnificationSend(string json)
+        [HttpPost]
+        [Route("/Blacklist/Add")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<bool>> BlacklistAdd([FromBody] JT808TerminalPhoneNoDto parameter)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                JT808UnificationSendRequestDto jT808UnificationSendRequestDto = JsonSerializer.Deserialize<JT808UnificationSendRequestDto>(json);
-                resultDto.Data = SessionManager.TrySendByTerminalPhoneNoAsync(jT808UnificationSendRequestDto.TerminalPhoneNo, jT808UnificationSendRequestDto.HexData.ToHexBytes())
-                                                .GetAwaiter()
-                                                .GetResult();
-                resultDto.Code = JT808ResultCode.Ok;
-            }
-            catch (Exception ex)
-            {
-                resultDto.Data = false;
-                resultDto.Code = JT808ResultCode.Error;
-                resultDto.Message = ex.StackTrace;
-            }
-            return CreateHttpResponse(resultDto);
-        }
-
-        /// <summary>
-        /// 添加sim卡黑名单
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public byte[] BlacklistAdd(string json)
-        {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
-            JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
-            try
-            {
-                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
                 BlacklistManager.Add(parameter.TerminalPhoneNo);
-                resultDto.Data = true;
                 resultDto.Code = JT808ResultCode.Ok;
+                resultDto.Data = true;
             }
             catch (Exception ex)
             {
@@ -279,27 +276,24 @@ namespace JT808.Gateway.Handlers
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
-        /// 移除sim卡黑名单
+        /// 黑名单删除
         /// </summary>
-        /// <param name="json"></param>
         /// <returns></returns>
-        public byte[] BlacklistRemove(string json)
+        [HttpPost]
+        [Route("/Blacklist/Remove")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<bool>> BlacklistRemove([FromBody] JT808TerminalPhoneNoDto parameter)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return EmptyHttpResponse();
-            }
             JT808ResultDto<bool> resultDto = new JT808ResultDto<bool>();
             try
             {
-                JT808TerminalPhoneNoDto parameter = JsonSerializer.Deserialize<JT808TerminalPhoneNoDto>(json);
                 BlacklistManager.Remove(parameter.TerminalPhoneNo);
-                resultDto.Data = true;
                 resultDto.Code = JT808ResultCode.Ok;
+                resultDto.Data = true;
             }
             catch (Exception ex)
             {
@@ -307,60 +301,32 @@ namespace JT808.Gateway.Handlers
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
         /// <summary>
-        /// 查询sim卡黑名单
+        /// 黑名单查询
         /// </summary>
-        /// <param name="json"></param>
         /// <returns></returns>
-        public byte[] QueryBlacklist(string json)
+        [HttpGet]
+        [Route("/Blacklist/GetAll")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<List<string>>> BlacklistGetAll()
         {
             JT808ResultDto<List<string>> resultDto = new JT808ResultDto<List<string>>();
             try
             {
-                resultDto.Data = BlacklistManager.GetAll();
                 resultDto.Code = JT808ResultCode.Ok;
+                resultDto.Data = BlacklistManager.GetAll();
             }
             catch (Exception ex)
             {
-                resultDto.Data = null;
+                resultDto.Data = new List<string>();
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }
-            return CreateHttpResponse(resultDto);
+            return resultDto;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void InitCommontRoute()
-        {
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.UnificationSend, UnificationSend);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.BlacklistAdd, BlacklistAdd);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.BlacklistRemove, BlacklistRemove);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.BlacklistGet, QueryBlacklist);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void InitTcpRoute()
-        {
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpGetAll, GetTcpSessionAll);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.QueryTcpSessionByTerminalPhoneNo, QueryTcpSessionByTerminalPhoneNo);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo, RemoveSessionByTerminalPhoneNo);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void InitUdpRoute()
-        {
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpGetAll, GetUdpSessionAll);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.QueryUdpSessionByTerminalPhoneNo, QueryUdpSessionByTerminalPhoneNo);
-            CreateRoute(JT808GatewayConstants.JT808WebApiRouteTable.RemoveUdpByTerminalPhoneNo, RemoveUdpByTerminalPhoneNo);
-        }
     }
 }

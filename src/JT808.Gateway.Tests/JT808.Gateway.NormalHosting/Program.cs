@@ -18,6 +18,12 @@ using JT808.Gateway.WebApiClientTool;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration.Json;
+using JT808.Gateway.Abstractions.Configurations;
+using System.Net;
+using JT808.Gateway.Extensions;
+using JT808.Gateway.NormalHosting.Customs;
 
 namespace JT808.Gateway.NormalHosting
 {
@@ -25,10 +31,9 @@ namespace JT808.Gateway.NormalHosting
     {
         static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder();
             builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
             {
-                
                 config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{ hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
@@ -42,8 +47,6 @@ namespace JT808.Gateway.NormalHosting
             })
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddSingleton<ILoggerFactory, LoggerFactory>();
-                services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                 //使用内存队列实现会话通知
                 services.AddSingleton<JT808SessionService>();
                 services.AddSingleton<IJT808SessionProducer, JT808SessionProducer>();
@@ -56,7 +59,7 @@ namespace JT808.Gateway.NormalHosting
                         .AddClient()
                         .Builder()
                         //方式1:客户端webapi调用
-                        .AddWebApiClientTool(hostContext.Configuration)
+                        .AddWebApiClientTool<JT808HttpClientExt>(hostContext.Configuration)
                         .AddGateway(hostContext.Configuration)
                         .AddMessageHandler<JT808CustomMessageHandlerImpl>()
                         .AddMsgReplyConsumer<JT808MsgReplyConsumer>()
@@ -64,18 +67,36 @@ namespace JT808.Gateway.NormalHosting
                         .AddSessionNotice()
                         .AddTransmit(hostContext.Configuration)
                         .AddTcp()
-                        .AddUdp()
-                        .AddHttp();
+                        .AddUdp();
                 //方式2:客户端webapi调用
                 //services.AddJT808WebApiClientTool(hostContext.Configuration);
                 //httpclient客户端调用
-                //services.AddHostedService<CallHttpClientJob>();
+                services.AddHostedService<CallHttpClientJob>();
                 //客户端测试  依赖AddClient()服务
                 //services.AddHostedService<UpJob>();
+                
+                //需要跨域的
+                services.AddCors(options =>
+                   options.AddPolicy("jt808", builder =>
+                   builder.AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials()
+                          .SetIsOriginAllowed(o => true)));
             });
-
+            builder.WebHost.UseKestrel((app, serverOptions) =>
+            {
+                //1.配置webapi端口监听
+                var jT808Configuration = app.Configuration.GetSection(nameof(JT808Configuration)).Get<JT808Configuration>();
+                serverOptions.ListenAnyIP(jT808Configuration.WebApiPort);
+            })
+            .ConfigureServices((hostContext, services) =>
+            {
+                services.AddControllers();
+            });
             var app = builder.Build();
-            app.UseJT808MiniWebApi();
+
+            app.UseCors();
+            app.MapControllers().RequireCors("jt808");
 
             app.Run();
         }

@@ -464,10 +464,5 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.Abstractions.JT808MsgIdHttpHandlerBase.#ctor">
-            <summary>
-            初始化消息处理业务
-            </summary>
-        </member>
     </members>
 </doc>

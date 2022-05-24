@@ -4,102 +4,16 @@
         <name>JT808.Gateway</name>
     </assembly>
     <members>
-        <member name="T:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler">
-            <summary>
-            默认消息处理业务实现
-            </summary>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.#ctor(JT808.Gateway.Session.JT808SessionManager,JT808.Gateway.Services.JT808BlacklistManager)">
-            <summary>
-            
-            </summary>
-            <param name="jT808SessionManager"></param>
-            <param name="jT808BlacklistManager"></param>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.GetTcpSessionAll(System.String)">
-            <summary>
-            会话服务集合
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.QueryTcpSessionByTerminalPhoneNo(System.String)">
-            <summary>
-            通过终端手机号查询对应会话
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.RemoveSessionByTerminalPhoneNo(System.String)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.GetUdpSessionAll(System.String)">
-            <summary>
-            会话服务集合
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.QueryUdpSessionByTerminalPhoneNo(System.String)">
-            <summary>
-            通过终端手机号查询对应会话
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.RemoveUdpByTerminalPhoneNo(System.String)">
-            <summary>
-            会话服务-通过设备终端号移除对应会话
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.UnificationSend(System.String)">
-            <summary>
-            统一下发信息
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.BlacklistAdd(System.String)">
-            <summary>
-            添加sim卡黑名单
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.BlacklistRemove(System.String)">
-            <summary>
-            移除sim卡黑名单
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.QueryBlacklist(System.String)">
-            <summary>
-            查询sim卡黑名单
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.InitCommontRoute">
+        <member name="T:JT808.Gateway.Authorization.JT808TokenAttribute">
             <summary>
             
             </summary>
         </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.InitTcpRoute">
+        <member name="M:JT808.Gateway.Authorization.JT808TokenAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
             <summary>
             
             </summary>
-        </member>
-        <member name="M:JT808.Gateway.Handlers.JT808MsgIdDefaultWebApiHandler.InitUdpRoute">
-            <summary>
-            
-            </summary>
+            <param name="context"></param>
         </member>
         <member name="T:JT808.Gateway.JT808GatewayExtensions">
             <summary>
@@ -136,34 +50,11 @@
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddHttp(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
-            <summary>
-            添加http服务器
-            </summary>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddHttp``1(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
-            <summary>
-            添加http服务器
-            </summary>
-            <typeparam name="TJT808MsgIdDefaultWebApiHandler"></typeparam>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
         <member name="M:JT808.Gateway.JT808GatewayExtensions.AddMessageHandler``1(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
             <summary>
             添加消息业务处理程序
             </summary>
             <typeparam name="TJT808MessageHandler"></typeparam>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddHttpAuthorization``1(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
-            <summary>
-            添加Http服务认证机制
-            </summary>
-            <typeparam name="TJT808Authorization"></typeparam>
             <param name="config"></param>
             <returns></returns>
         </member>
@@ -198,18 +89,6 @@
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="T:JT808.Gateway.JT808MiniWebApi">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:JT808.Gateway.JT808MiniWebApi.UseJT808MiniWebApi(Microsoft.AspNetCore.Builder.WebApplication)">
-            <summary>
-            
-            </summary>
-            <param name="app"></param>
-            <returns></returns>
-        </member>
         <member name="T:JT808.Gateway.JT808TcpServer">
             <summary>
             808 tcp服务器
@@ -240,6 +119,98 @@
             
             </summary>
             <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JT808.Gateway.JT808WebApi">
+            <summary>
+            jt808 webapi
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.JT808WebApi.SessionManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.JT808WebApi.BlacklistManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.#ctor(JT808.Gateway.Session.JT808SessionManager,JT808.Gateway.Services.JT808BlacklistManager)">
+            <summary>
+            
+            </summary>
+            <param name="jT808SessionManager"></param>
+            <param name="jT808BlacklistManager"></param>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.Index">
+            <summary>
+            index
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.UnificationSend(JT808.Gateway.Abstractions.Dtos.JT808UnificationSendRequestDto)">
+            <summary>
+            统一下发设备消息服务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.SessionTcpGetAll">
+            <summary>
+            会话服务-Tcp会话查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.QueryTcpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
+            <summary>
+            会话服务-通过设备终端号查询对应会话
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.SessionTcpRemoveByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.SessionUdpGetAll">
+            <summary>
+            会话服务-Udp会话查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.QueryUdpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
+            <summary>
+            会话服务-通过设备终端号查询对应会话
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.SessionUdpRemoveByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
+            <summary>
+            会话服务-通过设备终端号移除对应会话
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.BlacklistAdd(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
+            <summary>
+            黑名单添加
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.BlacklistRemove(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
+            <summary>
+            黑名单删除
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.JT808WebApi.BlacklistGetAll">
+            <summary>
+            黑名单查询
+            </summary>
             <returns></returns>
         </member>
         <member name="T:JT808.Gateway.Services.JT808BlacklistManager">

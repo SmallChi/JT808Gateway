@@ -13,6 +13,7 @@ namespace JT808.Gateway.WebApiClientTool
     /// </summary>
     public static class JT808HttpClientExtensions
     {
+        const int timeout = 15;
         /// <summary>
         /// 
         /// </summary>
@@ -26,7 +27,7 @@ namespace JT808.Gateway.WebApiClientTool
             {
                 c.DefaultRequestHeaders.Add("token", token);
                 c.BaseAddress = webapiUri;
-                c.Timeout = TimeSpan.FromSeconds(3);
+                c.Timeout = TimeSpan.FromSeconds(timeout);
             })
             .AddTypedClient<JT808HttpClient>();
             return serviceDescriptors;
@@ -44,7 +45,7 @@ namespace JT808.Gateway.WebApiClientTool
             {
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
                 c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
-                c.Timeout = TimeSpan.FromSeconds(3);
+                c.Timeout = TimeSpan.FromSeconds(timeout);
             })
             .AddTypedClient<JT808HttpClient>();
             return serviceDescriptors;
@@ -62,7 +63,7 @@ namespace JT808.Gateway.WebApiClientTool
             {
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
                 c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
-                c.Timeout = TimeSpan.FromSeconds(3);
+                c.Timeout = TimeSpan.FromSeconds(timeout);
             })
             .AddTypedClient<JT808HttpClient>();
             return jT808Builder;
@@ -81,9 +82,87 @@ namespace JT808.Gateway.WebApiClientTool
             {
                 c.DefaultRequestHeaders.Add("token", token);
                 c.BaseAddress = webapiUri;
-                c.Timeout = TimeSpan.FromSeconds(3);
+                c.Timeout = TimeSpan.FromSeconds(timeout);
             })
              .AddTypedClient<JT808HttpClient>();
+            return jT808Builder;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceDescriptors"></param>
+        /// <param name="webapiUri"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddJT808WebApiClientTool<TJT808HttpClient>(this IServiceCollection serviceDescriptors, Uri webapiUri, string token)
+            where TJT808HttpClient : JT808HttpClient
+        {
+            serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
+            {
+                c.DefaultRequestHeaders.Add("token", token);
+                c.BaseAddress = webapiUri;
+                c.Timeout = TimeSpan.FromSeconds(timeout);
+            })
+            .AddTypedClient<TJT808HttpClient>();
+            return serviceDescriptors;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceDescriptors"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddJT808WebApiClientTool<TJT808HttpClient>(this IServiceCollection serviceDescriptors, IConfiguration configuration)
+               where TJT808HttpClient : JT808HttpClient
+        {
+            serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
+            {
+                c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
+                c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
+                c.Timeout = TimeSpan.FromSeconds(timeout);
+            })
+            .AddTypedClient<TJT808HttpClient>();
+            return serviceDescriptors;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jT808Builder"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IJT808Builder AddWebApiClientTool<TJT808HttpClient>(this IJT808Builder jT808Builder, IConfiguration configuration)
+            where TJT808HttpClient : JT808HttpClient
+        {
+            jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
+            {
+                c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
+                c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
+                c.Timeout = TimeSpan.FromSeconds(timeout);
+            })
+            .AddTypedClient<TJT808HttpClient>();
+            return jT808Builder;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jT808Builder"></param>
+        /// <param name="webapiUri"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static IJT808Builder AddWebApiClientTool<TJT808HttpClient>(this IJT808Builder jT808Builder, Uri webapiUri, string token)
+            where TJT808HttpClient: JT808HttpClient
+        {
+            jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
+            {
+                c.DefaultRequestHeaders.Add("token", token);
+                c.BaseAddress = webapiUri;
+                c.Timeout = TimeSpan.FromSeconds(timeout);
+            })
+             .AddTypedClient<TJT808HttpClient>();
             return jT808Builder;
         }
     }

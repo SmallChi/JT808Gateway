@@ -147,27 +147,30 @@ namespace JT808.Gateway.Transmit
                 {
                     await Task.Delay(time);
                     List<string> lastRemoteServers = new List<string>();
-                    foreach (var item in optionsMonitor.CurrentValue.DataTransfer)
+                    if (optionsMonitor.CurrentValue != null && optionsMonitor.CurrentValue.DataTransfer!=null)
                     {
-                        if (item.TerminalNos != null && item.TerminalNos.Any())
+                        foreach (var item in optionsMonitor.CurrentValue.DataTransfer)
                         {
-                            foreach (var terminal in item.TerminalNos)
+                            if (item.TerminalNos != null && item.TerminalNos.Any())
                             {
-                                string tmpKey = $"{terminal}_{item.Host}";
-                                if (!channeldic.ContainsKey(tmpKey))
+                                foreach (var terminal in item.TerminalNos)
                                 {
-                                    lastRemoteServers.Add(tmpKey);
+                                    string tmpKey = $"{terminal}_{item.Host}";
+                                    if (!channeldic.ContainsKey(tmpKey))
+                                    {
+                                        lastRemoteServers.Add(tmpKey);
+                                    }
                                 }
-                            } 
-                        }
-                        else
-                        {
-                            string key = $"all_{item.Host}";
-                            if (!channeldic.ContainsKey(key))
-                            {
-                                lastRemoteServers.Add(key);
                             }
-                        } 
+                            else
+                            {
+                                string key = $"all_{item.Host}";
+                                if (!channeldic.ContainsKey(key))
+                                {
+                                    lastRemoteServers.Add(key);
+                                }
+                            }
+                        }
                     }
                     foreach (var item in lastRemoteServers)
                     {
