@@ -103,7 +103,7 @@ namespace JT808.Gateway.WebApiClientTool
         public static IServiceCollection AddJT808WebApiClientTool<TJT808HttpClient>(this IServiceCollection serviceDescriptors, Uri webapiUri, string token)
             where TJT808HttpClient : JT808HttpClient
         {
-            serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
+            serviceDescriptors.AddHttpClient("JT808WebApiClientToolExt", c =>
             {
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", token);
@@ -123,7 +123,7 @@ namespace JT808.Gateway.WebApiClientTool
         public static IServiceCollection AddJT808WebApiClientTool<TJT808HttpClient>(this IServiceCollection serviceDescriptors, IConfiguration configuration)
                where TJT808HttpClient : JT808HttpClient
         {
-            serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
+            serviceDescriptors.AddHttpClient("JT808WebApiClientToolExt", c =>
             {
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
@@ -143,7 +143,7 @@ namespace JT808.Gateway.WebApiClientTool
         public static IJT808Builder AddWebApiClientTool<TJT808HttpClient>(this IJT808Builder jT808Builder, IConfiguration configuration)
             where TJT808HttpClient : JT808HttpClient
         {
-            jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
+            jT808Builder.Services.AddHttpClient("JT808WebApiClientToolExt", c =>
             {
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
@@ -164,7 +164,7 @@ namespace JT808.Gateway.WebApiClientTool
         public static IJT808Builder AddWebApiClientTool<TJT808HttpClient>(this IJT808Builder jT808Builder, Uri webapiUri, string token)
             where TJT808HttpClient: JT808HttpClient
         {
-            jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
+            jT808Builder.Services.AddHttpClient("JT808WebApiClientToolExt", c =>
             {
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", token);

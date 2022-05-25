@@ -7,6 +7,7 @@
     <PackageId>JT808.Gateway</PackageId>
     <Product>JT808.Gateway</Product>
     <OutputType>Library</OutputType>
+     <IsPackable>true</IsPackable> 
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,5 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

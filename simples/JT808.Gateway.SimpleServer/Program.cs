@@ -14,6 +14,9 @@ using JT808.Gateway.SimpleServer.Impl;
 using JT808.Gateway.SimpleServer.Services;
 using JT808.Gateway.Abstractions;
 using JT808.Gateway.Transmit;
+using Microsoft.AspNetCore.Hosting;
+using JT808.Gateway.Abstractions.Configurations;
+using Microsoft.AspNetCore.Builder;
 
 namespace JT808.Gateway.SimpleServer
 {
@@ -30,7 +33,6 @@ namespace JT808.Gateway.SimpleServer
                 .ConfigureLogging((context, logging) =>
                 {
                     logging.AddConsole();
-                    logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -49,9 +51,41 @@ namespace JT808.Gateway.SimpleServer
                             .AddTcp()
                             .AddUdp()
                             .Builder();
+                }).ConfigureWebHostDefaults(webBuilder => {
+                    webBuilder.UseKestrel((app, ksOptions) =>
+                    {
+                        //1.配置webapi端口监听
+                        var jT808Configuration = app.Configuration.GetSection(nameof(JT808Configuration)).Get<JT808Configuration>();
+                        ksOptions.ListenAnyIP(jT808Configuration.WebApiPort);
+                    })
+                    .UseStartup<Startup>();
                 });
 
             await serverHostBuilder.RunConsoleAsync();
+        }
+    }
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

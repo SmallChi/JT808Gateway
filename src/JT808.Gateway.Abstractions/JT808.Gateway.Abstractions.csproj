@@ -5,7 +5,6 @@
     <PackageReleaseNotes>基于Pipeline实现的JT808Gateway的抽象库</PackageReleaseNotes>
     <PackageId>JT808.Gateway.Abstractions</PackageId>
     <Product>JT808.Gateway.Abstractions</Product>
-    <Version>$(JT808GatewayPackageVersion)</Version>
     <DocumentationFile>JT808.Gateway.Abstractions.xml</DocumentationFile>
   </PropertyGroup>
   
@@ -25,5 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+	<None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

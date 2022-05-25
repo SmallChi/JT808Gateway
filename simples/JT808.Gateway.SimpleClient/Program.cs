@@ -11,6 +11,7 @@ using JT808.Gateway.Client;
 using JT808.Gateway.SimpleClient.Services;
 using JT808.Gateway.SimpleClient.Jobs;
 using JT808.Gateway.WebApiClientTool;
+using JT808.Gateway.SimpleClient.Customs;
 
 namespace JT808.Gateway.SimpleClient
 {
@@ -31,12 +32,14 @@ namespace JT808.Gateway.SimpleClient
                 services.AddJT808Configure()
                         .AddClient()
                         .Builder()
+                        //可以注册一个或者可以自定义扩展
                         .AddWebApiClientTool(new Uri("http://127.0.0.1:828/"), "123456")
-                        ;
+                        .AddWebApiClientTool<JT808HttpClientExt>(new Uri("http://127.0.0.1:828/"), "123456");
                 services.AddHostedService<Up2011Service>();
                 services.AddHostedService<Up2013Service>();
                 services.AddHostedService<Up2019Service>();
                 services.AddHostedService<CallHttpClientJob>();
+                services.AddHostedService<CallHttpClientJobExt>();
             });
             await serverHostBuilder.RunConsoleAsync();
         }

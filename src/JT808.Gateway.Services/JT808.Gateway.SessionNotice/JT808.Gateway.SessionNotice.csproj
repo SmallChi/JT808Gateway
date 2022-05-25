@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <None Include="..\..\..\LICENSE" Pack="true" PackagePath="" />
+	<None Include="..\..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JT808.Gateway.Abstractions\JT808.Gateway.Abstractions.csproj" />
