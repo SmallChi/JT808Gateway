@@ -1,6 +1,7 @@
 ﻿using JT808.Gateway.Abstractions.Dtos;
 using JT808.Gateway.WebApiClientTool;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -22,8 +23,7 @@ namespace JT808.Gateway.NormalHosting.Customs
             var request = new HttpRequestMessage(HttpMethod.Get, index1);
             var response = await HttpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
-            var data = await response.Content.ReadAsStreamAsync();
-            var value = await JsonSerializer.DeserializeAsync<JT808ResultDto<string>>(data);
+            var value = await response.Content.ReadFromJsonAsync<JT808ResultDto<string>>();
             return value;
         }
     }

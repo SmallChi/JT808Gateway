@@ -41,8 +41,8 @@ namespace JT808.Gateway.NormalHosting.Jobs
                         HexData= "7E02000026123456789012007D02000000010000000200BA7F0E07E4F11C0028003C00001810151010100104000000640202007D01137E"
                     });
                     Logger.LogInformation($"[GetIndex Ext]:{JsonSerializer.Serialize(result1)}");
-                    Logger.LogInformation($"[GetTcpAtomicCounter]:{JsonSerializer.Serialize(result2)}");
-                    Logger.LogInformation($"[GetTcpSessionAll]:{JsonSerializer.Serialize(result3)}");
+                    Logger.LogInformation($"[GetTcpSessionAll]:{JsonSerializer.Serialize(result2)}");
+                    Logger.LogInformation($"[UnificationSend]:{JsonSerializer.Serialize(result3)}");
                     Thread.Sleep(3000);
                 }
             }, cancellationToken);

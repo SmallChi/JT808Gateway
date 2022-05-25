@@ -34,8 +34,7 @@ namespace JT808.Gateway.SimpleQueueServer
                             .AddServerKafkaMsgReplyConsumer(hostContext.Configuration)
                             .AddServerKafkaSessionProducer(hostContext.Configuration)
                             .AddTcp()
-                            .AddUdp()
-                            .AddHttp();
+                            .AddUdp();
                 });
 
             await serverHostBuilder.RunConsoleAsync();

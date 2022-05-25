@@ -84,7 +84,7 @@ namespace JT808.Gateway
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("/Tcp/Session/GetAll")]
+        [Route("Tcp/Session/GetAll")]
         [JT808Token]
         public ActionResult<JT808ResultDto<List<JT808TcpSessionInfoDto>>> SessionTcpGetAll()
         {
@@ -116,7 +116,7 @@ namespace JT808.Gateway
         /// <param name="parameter"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("/Tcp/Session/QuerySessionByTerminalPhoneNo")]
+        [Route("Tcp/Session/QuerySessionByTerminalPhoneNo")]
         [JT808Token]
         public ActionResult<JT808ResultDto<JT808TcpSessionInfoDto>> QueryTcpSessionByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
@@ -147,7 +147,7 @@ namespace JT808.Gateway
         /// <param name="parameter"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("/Tcp/Session/RemoveByTerminalPhoneNo")]
+        [Route("Tcp/Session/RemoveByTerminalPhoneNo")]
         [JT808Token]
         public ActionResult<JT808ResultDto<bool>> SessionTcpRemoveByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
@@ -172,7 +172,7 @@ namespace JT808.Gateway
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("/Udp/Session/GetAll")]
+        [Route("Udp/Session/GetAll")]
         [JT808Token]
         public ActionResult<JT808ResultDto<List<JT808UdpSessionInfoDto>>> SessionUdpGetAll()
         {
@@ -197,13 +197,14 @@ namespace JT808.Gateway
             }
             return resultDto;
         }
+
         /// <summary>
         /// 会话服务-通过设备终端号查询对应会话
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("/Udp/Session/QuerySessionByTerminalPhoneNo")]
+        [Route("Udp/Session/QuerySessionByTerminalPhoneNo")]
         [JT808Token]
         public ActionResult<JT808ResultDto<JT808UdpSessionInfoDto>> QueryUdpSessionByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
@@ -234,7 +235,7 @@ namespace JT808.Gateway
         /// <param name="parameter"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("/Udp/Session/RemoveByTerminalPhoneNo")]
+        [Route("Udp/Session/RemoveByTerminalPhoneNo")]
         [JT808Token]
         public ActionResult<JT808ResultDto<bool>> SessionUdpRemoveByTerminalPhoneNo([FromBody] JT808TerminalPhoneNoDto parameter)
         {
@@ -259,7 +260,7 @@ namespace JT808.Gateway
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("/Blacklist/Add")]
+        [Route("Blacklist/Add")]
         [JT808Token]
         public ActionResult<JT808ResultDto<bool>> BlacklistAdd([FromBody] JT808TerminalPhoneNoDto parameter)
         {
@@ -284,7 +285,7 @@ namespace JT808.Gateway
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("/Blacklist/Remove")]
+        [Route("Blacklist/Remove")]
         [JT808Token]
         public ActionResult<JT808ResultDto<bool>> BlacklistRemove([FromBody] JT808TerminalPhoneNoDto parameter)
         {
@@ -309,7 +310,7 @@ namespace JT808.Gateway
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("/Blacklist/GetAll")]
+        [Route("Blacklist/GetAll")]
         [JT808Token]
         public ActionResult<JT808ResultDto<List<string>>> BlacklistGetAll()
         {

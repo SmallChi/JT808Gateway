@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace JT808.Gateway.WebApiClientTool
@@ -26,6 +27,7 @@ namespace JT808.Gateway.WebApiClientTool
             serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
             {
                 c.DefaultRequestHeaders.Add("token", token);
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.BaseAddress = webapiUri;
                 c.Timeout = TimeSpan.FromSeconds(timeout);
             })
@@ -43,6 +45,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
                 c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
                 c.Timeout = TimeSpan.FromSeconds(timeout);
@@ -61,6 +64,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
                 c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
                 c.Timeout = TimeSpan.FromSeconds(timeout);
@@ -80,6 +84,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", token);
                 c.BaseAddress = webapiUri;
                 c.Timeout = TimeSpan.FromSeconds(timeout);
@@ -100,6 +105,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", token);
                 c.BaseAddress = webapiUri;
                 c.Timeout = TimeSpan.FromSeconds(timeout);
@@ -119,6 +125,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             serviceDescriptors.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
                 c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
                 c.Timeout = TimeSpan.FromSeconds(timeout);
@@ -138,6 +145,7 @@ namespace JT808.Gateway.WebApiClientTool
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", configuration.GetSection("JT808WebApiClientToolConfig:Token").Get<string>());
                 c.BaseAddress = new Uri(configuration.GetSection("JT808WebApiClientToolConfig:Uri").Get<string>());
                 c.Timeout = TimeSpan.FromSeconds(timeout);
@@ -158,11 +166,11 @@ namespace JT808.Gateway.WebApiClientTool
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
             {
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("token", token);
                 c.BaseAddress = webapiUri;
                 c.Timeout = TimeSpan.FromSeconds(timeout);
-            })
-             .AddTypedClient<TJT808HttpClient>();
+            }).AddTypedClient<TJT808HttpClient>();
             return jT808Builder;
         }
     }

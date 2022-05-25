@@ -40,7 +40,7 @@ namespace JT808.Gateway.SimpleServer
                     services.AddSingleton<JT808SessionService>();
                     services.AddSingleton<IJT808SessionProducer, JT808SessionProducer>();
                     services.AddSingleton<IJT808SessionConsumer, JT808SessionConsumer>();
-                    services.AddJT808Configure()                         
+                    services.AddJT808Configure()
                             .AddGateway(hostContext.Configuration)
                             .AddMessageHandler<JT808MessageHandlerImpl>()
                             .AddMsgLogging<JT808MsgLogging>()
@@ -48,7 +48,6 @@ namespace JT808.Gateway.SimpleServer
                             .AddTransmit(hostContext.Configuration)
                             .AddTcp()
                             .AddUdp()
-                            .AddHttp()
                             .Builder();
                 });
 

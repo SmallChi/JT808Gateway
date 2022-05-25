@@ -62,7 +62,7 @@ namespace JT808.Gateway.Kafka
                         logger.LogError(ex, TopicName);
                     }
                 }
-            }, Cts.Token);
+            });
         }
 
         public void Subscribe()

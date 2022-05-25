@@ -17,6 +17,9 @@ using JT808.Gateway.Kafka;
 using JT808.Gateway.WebApiClientTool;
 using JT808.Gateway.QueueHosting.Impl;
 using JT808.Gateway.MsgIdHandler;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using JT808.Gateway.Abstractions.Configurations;
 
 namespace JT808.Gateway.QueueHosting
 {
@@ -24,7 +27,8 @@ namespace JT808.Gateway.QueueHosting
     {
         static async Task Main(string[] args)
         {
-            var serverHostBuilder = new HostBuilder()
+
+            var serverHostBuilder = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -73,8 +77,42 @@ namespace JT808.Gateway.QueueHosting
                     services.AddHostedService<CallHttpClientJob>();
                     //客户端测试
                     services.AddHostedService<UpJob>();
+                })
+                .ConfigureWebHostDefaults(webBuilder => {
+                    webBuilder.UseKestrel((app, ksOptions) =>
+                    {
+                        //1.配置webapi端口监听
+                        var jT808Configuration = app.Configuration.GetSection(nameof(JT808Configuration)).Get<JT808Configuration>();
+                        ksOptions.ListenAnyIP(jT808Configuration.WebApiPort);
+                    })
+                    .UseStartup<Startup>();
                 });
             await serverHostBuilder.RunConsoleAsync();
+        }
+    }
+
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

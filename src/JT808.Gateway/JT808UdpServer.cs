@@ -80,9 +80,13 @@ namespace JT808.Gateway
                     {
                         Logger.LogError(ex, "Receive MessageFrom Async");
                     }
+                    catch (SocketException ex)
+                    {
+                        //Logger.LogWarning(ex, $"Socket Error");
+                    }
                     catch (Exception ex)
                     {
-                        Logger.LogError(ex, $"Received Bytes");
+                        Logger.LogError(ex, $"Service Error");
                     }
                     finally
                     {

@@ -26,7 +26,7 @@ namespace JT808.Gateway.SimpleClient.Services
             JT808TcpClient client1 = await jT808TcpClientFactory.Create(new JT808DeviceConfig(sim, "127.0.0.1", 808, version:JT808Version.JTT2019), cancellationToken);
             await Task.Delay(2000);
             //1.终端注册
-            await client1.SendAsync(JT808MsgId.终端注册.Create2019(sim, new JT808_0x0100()
+            await client1.SendAsync(JT808MsgId._0x0100.Create2019(sim, new JT808_0x0100()
             {
                 PlateNo = "粤A12346",
                 PlateColor = 2,
@@ -37,7 +37,7 @@ namespace JT808.Gateway.SimpleClient.Services
                 TerminalModel = "Koike002"
             }));
             //2.终端鉴权
-            await client1.SendAsync(JT808MsgId.终端鉴权.Create2019(sim, new JT808_0x0102()
+            await client1.SendAsync(JT808MsgId._0x0102.Create2019(sim, new JT808_0x0102()
             {
                 Code = "6666",
                 IMEI="123456",
@@ -49,7 +49,7 @@ namespace JT808.Gateway.SimpleClient.Services
                 {
                     var i = 0;
                     //3.每5秒发一次
-                    await client1.SendAsync(JT808MsgId.位置信息汇报.Create2019(sim, new JT808_0x0200()
+                    await client1.SendAsync(JT808MsgId._0x0200.Create2019(sim, new JT808_0x0200()
                     {
                         Lat = 110000 + i,
                         Lng = 100000 + i,
@@ -61,9 +61,9 @@ namespace JT808.Gateway.SimpleClient.Services
                         StatusFlag = 10
                     }));
                     i++;
-                    await Task.Delay(5000);
+                    await Task.Delay(5000, cancellationToken);
                 }
-            }, cancellationToken);
+            });
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

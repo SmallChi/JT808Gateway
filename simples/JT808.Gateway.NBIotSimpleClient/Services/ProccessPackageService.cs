@@ -46,7 +46,7 @@ namespace JT808.Gateway.NBIotSimpleClient.Services
                 {
                     foreach(var package in ReceviePackageService.BlockingCollection.GetConsumingEnumerable(cancellationToken))
                     {
-                        if(package.Header.MsgId == JT808MsgId.终端注册应答.ToUInt16Value())
+                        if(package.Header.MsgId == JT808MsgId._0x8100.ToUInt16Value())
                         {
                             if (package.Bodies is JT808_0x8100 body)
                             {
@@ -57,13 +57,13 @@ namespace JT808.Gateway.NBIotSimpleClient.Services
                                 Logger.LogInformation($"{package.Header.TerminalPhoneNo}-{body.Code}-success");
                             }
                         }
-                        else if (package.Header.MsgId == JT808MsgId.平台通用应答.ToValue())
+                        else if (package.Header.MsgId == JT808MsgId._0x8001.ToValue())
                         {
                             if(package.Bodies is  JT808_0x8001 body)
                             {
-                                if(body.AckMsgId== JT808MsgId.终端鉴权.ToUInt16Value()) 
+                                if(body.AckMsgId== JT808MsgId._0x0102.ToUInt16Value()) 
                                 { 
-                                    if(body.JT808PlatformResult== JT808PlatformResult.成功)
+                                    if(body.JT808PlatformResult== JT808PlatformResult.succeed)
                                     {
                                         if (DeviceInfoService.DeviceInfos.TryGetValue(package.Header.TerminalPhoneNo, out var deviceInfo))
                                         {
@@ -81,7 +81,7 @@ namespace JT808.Gateway.NBIotSimpleClient.Services
                 {
 
                 }
-            }, cancellationToken);
+            });
             return Task.CompletedTask;
         }
 

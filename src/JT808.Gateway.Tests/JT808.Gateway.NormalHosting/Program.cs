@@ -31,6 +31,8 @@ namespace JT808.Gateway.NormalHosting
     {
         static void Main(string[] args)
         {
+            //ref:https://andrewlock.net/exploring-dotnet-6-part-2-comparing-webapplicationbuilder-to-the-generic-host/
+            //the new hotness in .NET 6.
             var builder = WebApplication.CreateBuilder();
             builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
             {
@@ -95,7 +97,9 @@ namespace JT808.Gateway.NormalHosting
             });
             var app = builder.Build();
 
+            app.UseRouting();
             app.UseCors();
+
             app.MapControllers().RequireCors("jt808");
 
             app.Run();
