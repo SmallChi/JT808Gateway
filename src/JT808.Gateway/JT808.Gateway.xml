@@ -161,6 +161,7 @@
             </summary>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:JT808.Gateway.JT808WebApi.SessionTcpByPage(System.Int32,System.Int32)" -->
         <member name="M:JT808.Gateway.JT808WebApi.QueryTcpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号查询对应会话
@@ -181,6 +182,7 @@
             </summary>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:JT808.Gateway.JT808WebApi.SessionUdpByPage(System.Int32,System.Int32)" -->
         <member name="M:JT808.Gateway.JT808WebApi.QueryUdpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号查询对应会话

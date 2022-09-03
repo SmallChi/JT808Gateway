@@ -24,7 +24,7 @@ namespace JT808.Gateway.ReplyMessage
         /// <param name="jT808MsgConsumer"></param>
         public JT808ReplyMessageHostedService(
             ILoggerFactory loggerFactory,
-            IJT808DownMessageHandler jT808ReplyMessageHandler,
+            IJT808DownMessageHandler jT808ReplyMessageHandler,                                                                                                                                                          
             IJT808MsgReplyProducer jT808MsgReplyProducer,
             IJT808MsgConsumer jT808MsgConsumer)
         {

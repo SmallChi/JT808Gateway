@@ -222,6 +222,11 @@
             基于Tcp的会话服务集合
             </summary>
         </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpByPage">
+            <summary>
+            基于Tcp的会话服务集合
+            </summary>
+        </member>
         <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionRemoveByTerminalPhoneNo">
             <summary>
             会话服务-通过设备终端号移除对应会话
@@ -238,6 +243,11 @@
             </summary>
         </member>
         <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpGetAll">
+            <summary>
+            基于Udp的虚拟会话服务集合
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpByPage">
             <summary>
             基于Udp的虚拟会话服务集合
             </summary>

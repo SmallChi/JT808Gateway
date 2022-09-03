@@ -35,6 +35,7 @@
 |请求Url|请求方式|说明|
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Tcp/Session/GetAll| GET| 基于Tcp管理会话服务-获取会话集合|
+| 127.0.0.1:828/jt808api/Tcp/Session/SessionTcpByPage?pageIndex=0&pageSize10| GET| 基于Tcp管理会话服务-获取会话分页集合|
 | 127.0.0.1:828/jt808api/Tcp/Session/QuerySessionByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号查询对应会话|
 | 127.0.0.1:828/jt808api/Tcp/Session/RemoveByTerminalPhoneNo| POST| 基于Tcp管理会话服务-通过设备终端号移除对应会话|
 
@@ -43,6 +44,7 @@
 |请求Url|请求方式|说明|
 |:------|:------|:------|
 | 127.0.0.1:828/jt808api/Udp/Session/GetAll| GET| 基于Udp管理会话服务-获取会话集合|
+| 127.0.0.1:828/jt808api/Udp/Session/SessionUdpByPage?pageIndex=0&pageSize10| GET| 基于Tcp管理会话服务-获取会话分页集合|
 | 127.0.0.1:828/jt808api/Udp/Session/QuerySessionByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号查询对应会话|
 | 127.0.0.1:828/jt808api/Udp/Session/RemoveByTerminalPhoneNo| POST| 基于Udp管理会话服务-通过设备终端号移除对应会话|
 
@@ -225,6 +227,56 @@
 }
 ```
 
+#### 4.获取会话分页集合
+
+请求地址：Tcp/Session/SessionTcpByPage
+
+请求方式：GET
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| pageIndex| int| 当前页（默认0）|
+| pageSize| int| 页容量（默认10）|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| List\<JT808TcpSessionInfoDto> | 实际会话信息集合 |
+| PageIndex| int | 当前页（默认0） |
+| PageSize| int | 页容量（默认10） |
+| Total| int | 总数 |
+
+返回结果：
+
+``` session1
+{
+    "message":null,
+    "code":200,
+    "data":{
+        "pageIndex":0,
+        "pageSize":10,
+        "total":2,
+        "data":[
+            {
+                "lastActiveTime":"2022-09-03T19:34:07.8733605+08:00",
+                "startTime":"2022-09-03T19:34:07.8733615+08:00",
+                "terminalPhoneNo":"123456789012",
+                "remoteAddressIP":"127.0.0.1:9826"
+            },
+            {
+                "lastActiveTime":"2022-09-03T19:34:05.135997+08:00",
+                "startTime":"2022-09-03T19:34:05.136035+08:00",
+                "terminalPhoneNo":"123456789013",
+                "remoteAddressIP":"127.0.0.1:9825"
+            }
+        ]
+    }
+}
+```
+
 ### <span id="udp_session">基于Udp管理会话服务</span>
 
 #### 统一会话信息对象返回 JT808UdpSessionInfoDto
@@ -340,6 +392,56 @@
     "Message":"",
     "Code":200,
     "Data":true
+}
+```
+
+#### 4.获取会话分页集合
+
+请求地址：Udp/Session/SessionUdpByPage
+
+请求方式：GET
+
+请求参数：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| pageIndex| int| 当前页（默认0）|
+| pageSize| int| 页容量（默认10）|
+
+返回数据：
+
+|属性|数据类型|参数说明|
+|:------:|:------:|:------|
+| Data| List\<JT808UdpSessionInfoDto> | 实际会话信息集合 |
+| PageIndex| int | 当前页（默认0） |
+| PageSize| int | 页容量（默认10） |
+| Total| int | 总数 |
+
+返回结果：
+
+``` session1
+{
+    "message":null,
+    "code":200,
+    "data":{
+        "pageIndex":0,
+        "pageSize":10,
+        "total":2,
+        "data":[
+            {
+                "lastActiveTime":"2022-09-03T19:34:07.8733605+08:00",
+                "startTime":"2022-09-03T19:34:07.8733615+08:00",
+                "terminalPhoneNo":"123456789012",
+                "remoteAddressIP":"127.0.0.1:9826"
+            },
+            {
+                "lastActiveTime":"2022-09-03T19:34:05.135997+08:00",
+                "startTime":"2022-09-03T19:34:05.136035+08:00",
+                "terminalPhoneNo":"123456789013",
+                "remoteAddressIP":"127.0.0.1:9825"
+            }
+        ]
+    }
 }
 ```
 

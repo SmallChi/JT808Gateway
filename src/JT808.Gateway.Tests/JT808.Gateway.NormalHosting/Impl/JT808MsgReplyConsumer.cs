@@ -34,7 +34,7 @@ namespace JT808.Gateway.NormalHosting.Impl
 
         public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
         {
-            Task.Run(async () =>
+            new Thread(async () =>
             {
                 while (!Cts.IsCancellationRequested)
                 {
@@ -48,7 +48,7 @@ namespace JT808.Gateway.NormalHosting.Impl
                         logger.LogError(ex, "");
                     }
                 }
-            }, Cts.Token);
+            }).Start();
         }
 
         public void Subscribe()

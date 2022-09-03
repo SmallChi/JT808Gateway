@@ -5,6 +5,7 @@ using JT808.Gateway.Services;
 using JT808.Gateway.Session;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,6 +112,51 @@ namespace JT808.Gateway
         }
 
         /// <summary>
+        /// 会话服务-Tcp分页会话查询
+        /// jt808api/Tcp/Session/SessionTcpByPage?pageIndex=0&pageSize10
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Tcp/Session/SessionTcpByPage")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>>> SessionTcpByPage([FromQuery]int pageIndex=0, [FromQuery] int pageSize=10)
+        {
+            JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>> resultDto = new JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>>();
+            try
+            {
+                if (pageIndex < 0)
+                {
+                    pageIndex = 0;
+                }
+                if (pageSize >= 1000)
+                {
+                    pageSize = 1000;
+                }
+                JT808PageResult<List<JT808TcpSessionInfoDto>> pageResult = new JT808PageResult<List<JT808TcpSessionInfoDto>>();
+                IEnumerable<JT808TcpSession> sessionInfoDtos = SessionManager.GetTcpByPage();
+                pageResult.Data = sessionInfoDtos.Select(s => new JT808TcpSessionInfoDto
+                {
+                    LastActiveTime = s.ActiveTime,
+                    StartTime = s.StartTime,
+                    TerminalPhoneNo = s.TerminalPhoneNo,
+                    RemoteAddressIP = s.RemoteEndPoint.ToString(),
+                }).OrderByDescending(o => o.LastActiveTime).Skip(pageIndex* pageSize).Take(pageSize).ToList();
+                pageResult.Total = sessionInfoDtos.Count();
+                pageResult.PageIndex = pageIndex;
+                pageResult.PageSize = pageSize;
+                resultDto.Data = pageResult;
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = new JT808PageResult<List<JT808TcpSessionInfoDto>>();
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.StackTrace;
+            }
+            return resultDto;
+        }
+
+        /// <summary>
         /// 会话服务-通过设备终端号查询对应会话
         /// </summary>
         /// <param name="parameter"></param>
@@ -192,6 +238,51 @@ namespace JT808.Gateway
             catch (Exception ex)
             {
                 resultDto.Data = new List<JT808UdpSessionInfoDto>();
+                resultDto.Code = JT808ResultCode.Error;
+                resultDto.Message = ex.StackTrace;
+            }
+            return resultDto;
+        }
+
+        /// <summary>
+        /// 会话服务-Udp分页会话查询
+        /// jt808api/Udp/Session/SessionUdpByPage?pageIndex=0&pageSize10
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Udp/Session/SessionUdpByPage")]
+        [JT808Token]
+        public ActionResult<JT808ResultDto<JT808PageResult<List<JT808UdpSessionInfoDto>>>> SessionUdpByPage([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 10)
+        {
+            JT808ResultDto<JT808PageResult<List<JT808UdpSessionInfoDto>>> resultDto = new JT808ResultDto<JT808PageResult<List<JT808UdpSessionInfoDto>>>();
+            try
+            {
+                if (pageIndex < 0)
+                {
+                    pageIndex = 0;
+                }
+                if (pageSize >= 1000)
+                {
+                    pageSize = 1000;
+                }
+                JT808PageResult<List<JT808UdpSessionInfoDto>> pageResult = new JT808PageResult<List<JT808UdpSessionInfoDto>>();
+                IEnumerable<JT808UdpSession> sessionInfoDtos = SessionManager.GetUdpByPage();
+                pageResult.Data = sessionInfoDtos.Select(s => new JT808UdpSessionInfoDto
+                {
+                    LastActiveTime = s.ActiveTime,
+                    StartTime = s.StartTime,
+                    TerminalPhoneNo = s.TerminalPhoneNo,
+                    RemoteAddressIP = s.RemoteEndPoint.ToString(),
+                }).OrderByDescending(o => o.LastActiveTime).Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                pageResult.Total = sessionInfoDtos.Count();
+                pageResult.PageIndex = pageIndex;
+                pageResult.PageSize = pageSize;
+                resultDto.Data = pageResult;
+                resultDto.Code = JT808ResultCode.Ok;
+            }
+            catch (Exception ex)
+            {
+                resultDto.Data = new JT808PageResult<List<JT808UdpSessionInfoDto>>();
                 resultDto.Code = JT808ResultCode.Error;
                 resultDto.Message = ex.StackTrace;
             }

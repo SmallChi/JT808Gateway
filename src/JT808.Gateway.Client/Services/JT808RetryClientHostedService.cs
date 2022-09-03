@@ -35,7 +35,8 @@ namespace JT808.Gateway.Client.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Task.Run(async()=> {
+            new Thread(async () =>
+            {
                 foreach (var item in RetryBlockingCollection.RetryBlockingCollection.GetConsumingEnumerable(cancellationToken))
                 {
                     try
@@ -66,7 +67,7 @@ namespace JT808.Gateway.Client.Services
                         await Task.Delay(TimeSpan.FromSeconds(5));
                     }
                 }
-            }, cancellationToken);
+            }).Start();
             return Task.CompletedTask;
         }
 

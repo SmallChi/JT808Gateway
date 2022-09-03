@@ -33,8 +33,7 @@ namespace JT808.Gateway.Kafka
 
         public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
         {
-            Task.Run(() =>
-            {
+            new Thread(() => {
                 while (!Cts.IsCancellationRequested)
                 {
                     if (disposed) return;
@@ -49,19 +48,22 @@ namespace JT808.Gateway.Kafka
                         }
                         callback((data.Message.Key, data.Message.Value));
                     }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
                     catch (ConsumeException ex)
                     {
                         logger.LogError(ex, TopicName);
-                    }
-                    catch (OperationCanceledException)
-                    {
+                        break;
                     }
                     catch (Exception ex)
                     {
                         logger.LogError(ex, TopicName);
+                        break;
                     }
                 }
-            });
+            }).Start();
         }
 
         public void Subscribe()

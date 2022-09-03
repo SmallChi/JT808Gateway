@@ -271,6 +271,17 @@ namespace JT808.Gateway.Session
             return query.Select(s => (JT808TcpSession)s.Value).ToList();
         }
 
+        public IEnumerable<JT808TcpSession> GetTcpByPage(Func<IJT808Session, bool> predicate = null)
+        {
+            var query = TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.tcp);
+            if (predicate != null)
+            {
+                query = query.Where(s => predicate(s.Value));
+            }
+            return query.Select(s => (JT808TcpSession)s.Value);
+        }
+
+
         public List<JT808UdpSession> GetUdpAll(Func<IJT808Session, bool> predicate = null)
         {
             var query = TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.udp);
@@ -279,6 +290,16 @@ namespace JT808.Gateway.Session
                 query = query.Where(s => predicate(s.Value));
             }
             return query.Select(s => (JT808UdpSession)s.Value).ToList();
+        }
+
+        public IEnumerable<JT808UdpSession> GetUdpByPage(Func<IJT808Session, bool> predicate = null)
+        {
+            var query = TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.udp);
+            if (predicate != null)
+            {
+                query = query.Where(s => predicate(s.Value));
+            }
+            return query.Select(s => (JT808UdpSession)s.Value);
         }
     }
 }

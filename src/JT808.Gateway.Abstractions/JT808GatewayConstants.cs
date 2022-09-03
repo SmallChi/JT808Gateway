@@ -20,7 +20,11 @@
             /// <summary>
             /// 基于Tcp的会话服务集合
             /// </summary>
-            public static string SessionTcpGetAll = $"{RouteTablePrefix}/{TcpPrefix}/{SessionPrefix}/GetAll";
+            public static string SessionTcpGetAll = $"{RouteTablePrefix}/{TcpPrefix}/{SessionPrefix}/GetAll";            
+            /// <summary>
+            /// 基于Tcp的会话服务集合
+            /// </summary>
+            public static string SessionTcpByPage = $"{RouteTablePrefix}/{TcpPrefix}/{SessionPrefix}/SessionTcpByPage";
             /// <summary>
             /// 会话服务-通过设备终端号移除对应会话
             /// </summary>
@@ -36,7 +40,11 @@
             /// <summary>
             /// 基于Udp的虚拟会话服务集合
             /// </summary>
-            public static string SessionUdpGetAll = $"{RouteTablePrefix}/{UdpPrefix}/{SessionPrefix}/GetAll";
+            public static string SessionUdpGetAll = $"{RouteTablePrefix}/{UdpPrefix}/{SessionPrefix}/GetAll";            
+            /// <summary>
+            /// 基于Udp的虚拟会话服务集合
+            /// </summary>
+            public static string SessionUdpByPage = $"{RouteTablePrefix}/{UdpPrefix}/{SessionPrefix}/SessionUdpByPage";
             /// <summary>
             /// 会话服务-通过设备终端号移除对应会话
             /// </summary>

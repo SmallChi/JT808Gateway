@@ -33,6 +33,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.SessionTcpByPage(System.Int32,System.Int32)">
+            <summary>
+            会话服务集合
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.QueryTcpSessionByTerminalPhoneNo(JT808.Gateway.Abstractions.Dtos.JT808TerminalPhoneNoDto)">
             <summary>
             会话服务-通过设备终端号查询对应会话信息
@@ -48,6 +54,12 @@
             <returns></returns>
         </member>
         <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.GetUdpSessionAll">
+            <summary>
+            会话服务集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.WebApiClientTool.JT808HttpClient.SessionUdpByPage(System.Int32,System.Int32)">
             <summary>
             会话服务集合
             </summary>

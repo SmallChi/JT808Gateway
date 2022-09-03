@@ -45,7 +45,7 @@ namespace JT808.Gateway.CleintBenchmark.Services
             logger.LogInformation($"GetMinThreads:{minWorkerThreads}-{minCompletionPortThreads}");
             logger.LogInformation($"GetMaxThreads:{maxWorkerThreads}-{maxCompletionPortThreads}");
             taskFactory = new TaskFactory(cancellationToken);
-            Task.Run(() => {
+            new Thread(() => {
                 for (int i = 0; i < clientBenchmarkOptions.DeviceCount; i++)
                 {
                     taskFactory.StartNew(async (state) => {
@@ -80,12 +80,12 @@ namespace JT808.Gateway.CleintBenchmark.Services
                             {
                                 logger.LogError(ex.Message);
                             }
-                            await Task.Delay(clientBenchmarkOptions.Interval);
+                            Thread.Sleep(clientBenchmarkOptions.Interval);
                         }
                     }, i);
                     Thread.Sleep(300);
                 }
-            });
+            }).Start();
             return Task.CompletedTask;
         }
 

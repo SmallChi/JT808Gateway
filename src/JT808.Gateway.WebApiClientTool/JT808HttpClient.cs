@@ -57,6 +57,19 @@ namespace JT808.Gateway.WebApiClientTool
         }
 
         /// <summary>
+        /// 会话服务集合
+        /// </summary>
+        /// <returns></returns>
+        public async ValueTask<JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>>> SessionTcpByPage(int pageIndex=0,int pageSize=10)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{JT808GatewayConstants.JT808WebApiRouteTable.SessionTcpByPage}?pageIndex={pageIndex}&pageSize={pageSize}");
+            var response = await HttpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var value = await response.Content.ReadFromJsonAsync<JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>>>();
+            return value;
+        }
+
+        /// <summary>
         /// 会话服务-通过设备终端号查询对应会话信息
         /// </summary>
         /// <param name="parameter"></param>
@@ -91,6 +104,19 @@ namespace JT808.Gateway.WebApiClientTool
             var response = await HttpClient.GetAsync(JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpGetAll);
             response.EnsureSuccessStatusCode();
             var value = await response.Content.ReadFromJsonAsync<JT808ResultDto<List<JT808UdpSessionInfoDto>>>();
+            return value;
+        }
+
+        /// <summary>
+        /// 会话服务集合
+        /// </summary>
+        /// <returns></returns>
+        public async ValueTask<JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>>> SessionUdpByPage(int pageIndex = 0, int pageSize = 10)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{JT808GatewayConstants.JT808WebApiRouteTable.SessionUdpByPage}?pageIndex={pageIndex}&pageSize={pageSize}");
+            var response = await HttpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var value = await response.Content.ReadFromJsonAsync<JT808ResultDto<JT808PageResult<List<JT808TcpSessionInfoDto>>>>();
             return value;
         }
 
