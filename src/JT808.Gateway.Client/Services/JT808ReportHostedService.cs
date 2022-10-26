@@ -41,6 +41,7 @@ namespace JT808.Gateway.Client.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                await Task.Delay(TimeSpan.FromSeconds(jT808ReportOptions.CurrentValue.Interval), stoppingToken);
                 var clients = jT808TcpClientFactory.GetAll();
                 JT808Report report = new JT808Report()
                 {
@@ -60,7 +61,6 @@ namespace JT808.Gateway.Client.Services
                 {
                     sw.WriteLine(json);
                 }
-                await Task.Delay(TimeSpan.FromSeconds(jT808ReportOptions.CurrentValue.Interval), stoppingToken);
             }
         }
     }

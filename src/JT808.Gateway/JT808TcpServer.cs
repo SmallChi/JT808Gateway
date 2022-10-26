@@ -95,28 +95,37 @@ namespace JT808.Gateway
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"JT808 TCP Server start at {IPAddress.Any}:{ConfigurationMonitor.CurrentValue.TcpPort}.");
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var socket = await server.AcceptAsync();
-                    JT808TcpSession jT808TcpSession = new JT808TcpSession(socket);
-                    SessionManager.TryAdd(jT808TcpSession);
-                    await Task.Factory.StartNew(async (state) =>
+                    try
                     {
-                        var session = (JT808TcpSession)state;
-                        if (Logger.IsEnabled(LogLevel.Information))
+                        var socket = await server.AcceptAsync();
+                        JT808TcpSession jT808TcpSession = new JT808TcpSession(socket);
+                        SessionManager.TryAdd(jT808TcpSession);
+                        await Task.Factory.StartNew(async (state) =>
                         {
-                            Logger.LogInformation($"[Connected]:{session.Client.RemoteEndPoint}");
-                        }
-                        var pipe = new Pipe();
-                        Task writing = FillPipeAsync(session, pipe.Writer);
-                        Task reading = ReadPipeAsync(session, pipe.Reader);
-                        await Task.WhenAll(reading, writing);
-                        SessionManager.RemoveBySessionId(session.SessionID);
-                    }, jT808TcpSession);
+                            var session = (JT808TcpSession)state;
+                            if (Logger.IsEnabled(LogLevel.Information))
+                            {
+                                Logger.LogInformation($"[Connected]:{session.Client.RemoteEndPoint}");
+                            }
+                            var pipe = new Pipe();
+                            Task writing = FillPipeAsync(session, pipe.Writer);
+                            Task reading = ReadPipeAsync(session, pipe.Reader);
+                            await Task.WhenAll(reading, writing);
+                            SessionManager.RemoveBySessionId(session.SessionID);
+                        }, jT808TcpSession, cancellationToken, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
-            }, cancellationToken);
+            });
             return Task.CompletedTask;
         }
         private async Task FillPipeAsync(JT808TcpSession session, PipeWriter writer)

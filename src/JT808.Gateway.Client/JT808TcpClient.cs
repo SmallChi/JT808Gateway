@@ -58,36 +58,44 @@ namespace JT808.Gateway.Client
                     clientSocket.Bind(new IPEndPoint(localIPAddress, DeviceConfig.LocalPort));
                 }
                 await clientSocket.ConnectAsync(remoteEndPoint);
-                await Task.Factory.StartNew(async()=> {
-                    while (!heartbeatCTS.IsCancellationRequested)
+                try
+                {
+                    await Task.Factory.StartNew(async () =>
                     {
-                        if (WriteableTimeout <= DateTime.UtcNow)
+                        while (!heartbeatCTS.IsCancellationRequested)
                         {
-                            try
+                            if (WriteableTimeout <= DateTime.UtcNow)
                             {
-                                if (Logger.IsEnabled(LogLevel.Information))
+                                try
                                 {
-                                    Logger.LogInformation($"{DeviceConfig.Heartbeat}s send heartbeat:{DeviceConfig.TerminalPhoneNo}-{DeviceConfig.Version.ToString()}");
+                                    if (Logger.IsEnabled(LogLevel.Information))
+                                    {
+                                        Logger.LogInformation($"{DeviceConfig.Heartbeat}s send heartbeat:{DeviceConfig.TerminalPhoneNo}-{DeviceConfig.Version.ToString()}");
+                                    }
+                                    if (DeviceConfig.Version == Protocol.Enums.JT808Version.JTT2013 || DeviceConfig.Version == Protocol.Enums.JT808Version.JTT2011)
+                                    {
+                                        var package = JT808.Protocol.Enums.JT808MsgId._0x0002.Create(DeviceConfig.TerminalPhoneNo);
+                                        await SendAsync(new JT808ClientRequest(package));
+                                    }
+                                    else
+                                    {
+                                        var package = JT808.Protocol.Enums.JT808MsgId._0x0002.Create2019(DeviceConfig.TerminalPhoneNo);
+                                        await SendAsync(new JT808ClientRequest(package));
+                                    }
                                 }
-                                if(DeviceConfig.Version== Protocol.Enums.JT808Version.JTT2013 || DeviceConfig.Version == Protocol.Enums.JT808Version.JTT2011)
+                                catch (Exception ex)
                                 {
-                                    var package = JT808.Protocol.Enums.JT808MsgId._0x0002.Create(DeviceConfig.TerminalPhoneNo);
-                                    await SendAsync(new JT808ClientRequest(package));
-                                }
-                                else
-                                {
-                                    var package = JT808.Protocol.Enums.JT808MsgId._0x0002.Create2019(DeviceConfig.TerminalPhoneNo);
-                                    await SendAsync(new JT808ClientRequest(package));
+                                    Logger.LogError(ex, "");
                                 }
                             }
-                            catch (Exception ex)
-                            {
-                                Logger.LogError(ex, "");
-                            }
+                            await Task.Delay(TimeSpan.FromSeconds(DeviceConfig.Heartbeat), heartbeatCTS.Token);
                         }
-                        await Task.Delay(TimeSpan.FromSeconds(DeviceConfig.Heartbeat));
-                    }
-                }, heartbeatCTS.Token);
+                    }, heartbeatCTS.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                }
+                catch (Exception)
+                {
+
+                }
                 return true;
             }
             catch (Exception e)
@@ -99,19 +107,26 @@ namespace JT808.Gateway.Client
         }
         public async void StartAsync(CancellationToken cancellationToken)
         {
-            await Task.Factory.StartNew(async (state) =>
+            try
             {
-                var session = (Socket)state;
-                if (Logger.IsEnabled(LogLevel.Information))
+                await Task.Factory.StartNew(async (state) =>
                 {
-                    Logger.LogInformation($"[Connected]:{session.LocalEndPoint} to {session.RemoteEndPoint}");
-                }
-                var pipe = new Pipe();
-                Task writing = FillPipeAsync(session, pipe.Writer, cancellationToken);
-                Task reading = ReadPipeAsync(session, pipe.Reader);
-                await Task.WhenAll(reading, writing);
-                RetryBlockingCollection.RetryBlockingCollection.Add(DeviceConfig);
-            }, clientSocket);
+                    var session = (Socket)state;
+                    if (Logger.IsEnabled(LogLevel.Information))
+                    {
+                        Logger.LogInformation($"[Connected]:{session.LocalEndPoint} to {session.RemoteEndPoint}");
+                    }
+                    var pipe = new Pipe();
+                    Task writing = FillPipeAsync(session, pipe.Writer, cancellationToken);
+                    Task reading = ReadPipeAsync(session, pipe.Reader);
+                    await Task.WhenAll(reading, writing);
+                    RetryBlockingCollection.RetryBlockingCollection.Add(DeviceConfig);
+                }, clientSocket, cancellationToken, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+            }
+            catch (Exception)
+            {
+
+            }
         }
         private async Task FillPipeAsync(Socket session, PipeWriter writer, CancellationToken cancellationToken)
         {

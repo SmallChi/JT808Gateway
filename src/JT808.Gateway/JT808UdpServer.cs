@@ -62,7 +62,7 @@ namespace JT808.Gateway
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"JT808 Udp Server start at {IPAddress.Any}:{ConfigurationMonitor.CurrentValue.UdpPort}.");
-            Task.Factory.StartNew(async() => {
+            Task.Run(async () => { 
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     var buffer = ArrayPool<byte>.Shared.Rent(ConfigurationMonitor.CurrentValue.MiniNumBufferSize);
@@ -93,7 +93,7 @@ namespace JT808.Gateway
                         ArrayPool<byte>.Shared.Return(buffer);
                     }
                 }
-            }, cancellationToken);
+            });
             return Task.CompletedTask;
         }
         private void ReaderBuffer(ReadOnlySpan<byte> buffer, Socket socket,SocketReceiveMessageFromResult receiveMessageFromResult)
