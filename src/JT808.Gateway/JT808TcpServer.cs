@@ -101,7 +101,7 @@ namespace JT808.Gateway
                 {
                     try
                     {
-                        var socket = await server.AcceptAsync();
+                        var socket = await server.AcceptAsync(cancellationToken);
                         JT808TcpSession jT808TcpSession = new JT808TcpSession(socket);
                         SessionManager.TryAdd(jT808TcpSession);
                         await Task.Factory.StartNew(async (state) =>
@@ -116,7 +116,7 @@ namespace JT808.Gateway
                             Task reading = ReadPipeAsync(session, pipe.Reader);
                             await Task.WhenAll(reading, writing);
                             SessionManager.RemoveBySessionId(session.SessionID);
-                        }, jT808TcpSession, cancellationToken, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
+                        }, jT808TcpSession);
                     }
                     catch (OperationCanceledException)
                     {
