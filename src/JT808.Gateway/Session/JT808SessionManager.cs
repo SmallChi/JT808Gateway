@@ -1,13 +1,13 @@
-using JT808.Gateway.Abstractions;
-using JT808.Gateway.Abstractions.Enums;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace JT808.Gateway.Session
 {
@@ -90,6 +90,8 @@ namespace JT808.Gateway.Session
         internal void TryLink(string terminalPhoneNo, IJT808Session session)
         {
             session.TerminalPhoneNo = terminalPhoneNo;
+            DateTime curretDatetime = DateTime.Now;
+            if (TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo, out IJT808Session cacheSession))
             {
                 if (session.SessionID != cacheSession.SessionID)
                 {
@@ -97,7 +99,7 @@ namespace JT808.Gateway.Session
                     session.ActiveTime = curretDatetime;
                     TerminalPhoneNoSessions.TryUpdate(terminalPhoneNo, session, cacheSession);
                     //会话通知
-                    if(SessionProducer != null)
+                    if (SessionProducer != null)
                     {
                         SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOnline, terminalPhoneNo);
                     }
@@ -133,7 +135,7 @@ namespace JT808.Gateway.Session
             {
                 currentSession.ActiveTime = DateTime.Now;
                 currentSession.TerminalPhoneNo = terminalPhoneNo;
-                currentSession.RemoteEndPoint = remoteEndPoint;         
+                currentSession.RemoteEndPoint = remoteEndPoint;
                 TerminalPhoneNoSessions.TryUpdate(terminalPhoneNo, currentSession, currentSession);
             }
             else
@@ -189,7 +191,7 @@ namespace JT808.Gateway.Session
         {
             if (Sessions.TryGetValue(sessionId, out var session))
             {
-                if(session.TransportProtocolType== JT808TransportProtocolType.tcp)
+                if (session.TransportProtocolType == JT808TransportProtocolType.tcp)
                 {
                     await session.Client.SendAsync(data, SocketFlags.None);
                 }
@@ -250,7 +252,7 @@ namespace JT808.Gateway.Session
                     var tmpTerminalPhoneNo = string.Join(",", terminalPhoneNos);
                     if (SessionProducer != null)
                     {
-                       SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
+                        SessionProducer.ProduceAsync(JT808GatewayConstants.SessionOffline, tmpTerminalPhoneNo);
                     }
                     if (logger.IsEnabled(LogLevel.Information))
                         logger.LogInformation($"[Session Remove]:{tmpTerminalPhoneNo}");
@@ -259,7 +261,7 @@ namespace JT808.Gateway.Session
             }
         }
 
-        public List<JT808TcpSession> GetTcpAll(Func<IJT808Session, bool> predicate=null)
+        public List<JT808TcpSession> GetTcpAll(Func<IJT808Session, bool> predicate = null)
         {
             var query = TerminalPhoneNoSessions.Where(w => w.Value.TransportProtocolType == JT808TransportProtocolType.tcp);
             if (predicate != null)
