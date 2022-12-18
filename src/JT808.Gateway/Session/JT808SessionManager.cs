@@ -1,4 +1,4 @@
-﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Enums;
 using Microsoft.Extensions.Logging;
 using System;
@@ -89,8 +89,7 @@ namespace JT808.Gateway.Session
         /// <param name="session"></param>
         internal void TryLink(string terminalPhoneNo, IJT808Session session)
         {
-            DateTime curretDatetime= DateTime.Now;
-            if (TerminalPhoneNoSessions.TryGetValue(terminalPhoneNo,out IJT808Session cacheSession))
+            session.TerminalPhoneNo = terminalPhoneNo;
             {
                 if (session.SessionID != cacheSession.SessionID)
                 {
@@ -111,7 +110,6 @@ namespace JT808.Gateway.Session
             }
             else
             {
-                session.TerminalPhoneNo = terminalPhoneNo;
                 if (TerminalPhoneNoSessions.TryAdd(terminalPhoneNo, session))
                 {
                     //会话通知
