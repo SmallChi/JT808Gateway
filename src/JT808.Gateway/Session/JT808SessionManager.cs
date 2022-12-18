@@ -98,6 +98,7 @@ namespace JT808.Gateway.Session
                     //从转发到直连的数据需要更新缓存
                     session.ActiveTime = curretDatetime;
                     TerminalPhoneNoSessions.TryUpdate(terminalPhoneNo, session, cacheSession);
+                    cacheSession.Close();
                     //会话通知
                     if (SessionProducer != null)
                     {
