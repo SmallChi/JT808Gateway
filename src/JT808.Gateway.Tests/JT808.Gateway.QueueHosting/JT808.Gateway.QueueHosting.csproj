@@ -11,19 +11,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\JT808.Gateway.Client\JT808.Gateway.Client.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway.Kafka\JT808.Gateway.Kafka.csproj" />
-    <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.MsgIdHandler\JT808.Gateway.MsgIdHandler.csproj" />
-    <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.MsgLogging\JT808.Gateway.MsgLogging.csproj" />
-    <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.ReplyMessage\JT808.Gateway.ReplyMessage.csproj" />
-    <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.SessionNotice\JT808.Gateway.SessionNotice.csproj" />
-    <ProjectReference Include="..\..\JT808.Gateway.Services\JT808.Gateway.Transmit\JT808.Gateway.Transmit.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway.WebApiClientTool\JT808.Gateway.WebApiClientTool.csproj" />
     <ProjectReference Include="..\..\JT808.Gateway\JT808.Gateway.csproj" />
   </ItemGroup>

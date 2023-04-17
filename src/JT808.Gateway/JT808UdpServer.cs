@@ -100,7 +100,7 @@ namespace JT808.Gateway
         {
             try
             {
-                var package = Serializer.HeaderDeserialize(buffer, minBufferSize: 10240);
+                var package = Serializer.HeaderDeserialize(buffer, minBufferSize: 4096);
                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {receiveMessageFromResult.RemoteEndPoint}]:{package.OriginalData.ToHexString()}");
                 var session = SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
                 if (Logger.IsEnabled(LogLevel.Information))

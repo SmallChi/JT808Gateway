@@ -1,22 +1,19 @@
-﻿using System;
-using System.Threading.Tasks;
-using JT808.Gateway.Abstractions;
-using JT808.Gateway.Abstractions.Configurations;
-using JT808.Gateway.Abstractions.Enums;
-using JT808.Gateway.MsgLogging;
-using JT808.Gateway.ReplyMessage;
-using JT808.Gateway.SessionNotice;
-using JT808.Gateway.SimpleServer.Impl;
-using JT808.Gateway.SimpleServer.Services;
-using JT808.Gateway.Transmit;
+﻿using JT808.Gateway.Abstractions.Enums;
 using JT808.Protocol;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
+using JT808.Gateway.SimpleServer.Impl;
+using JT808.Gateway.SimpleServer.Services;
+using JT808.Gateway.Abstractions;
+using Microsoft.AspNetCore.Hosting;
+using JT808.Gateway.Abstractions.Configurations;
+using Microsoft.AspNetCore.Builder;
+using JT808.Gateway.Extensions;
 
 namespace JT808.Gateway.SimpleServer
 {

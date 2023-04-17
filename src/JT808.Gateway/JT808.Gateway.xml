@@ -15,12 +15,84 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="T:JT808.Gateway.Extensions.JT808ReplyMessageExtensions">
+            <summary>
+            消息应答服务扩展
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808ReplyMessageExtensions.AddReplyMessage``1(JT808.Gateway.Abstractions.IJT808ClientBuilder)">
+            <summary>
+            消息下行服务
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808SessionNoticeExtensions.AddSessionNotice(JT808.Gateway.Abstractions.IJT808ClientBuilder)">
+            <summary>
+            会话通知服务
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808SessionNoticeExtensions.AddSessionNotice``1(JT808.Gateway.Abstractions.IJT808ClientBuilder)">
+            <summary>
+            消息会话通知服务
+            </summary>
+            <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
+            <param name="jT808ClientBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808SessionNoticeExtensions.AddSessionNotice(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
+            <summary>
+            会话通知服务
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808SessionNoticeExtensions.AddSessionNotice``1(JT808.Gateway.Abstractions.IJT808GatewayBuilder)">
+            <summary>
+            消息会话通知服务
+            </summary>
+            <typeparam name="TSessionNoticeService">自定义会话通知服务</typeparam>
+            <param name="jT808NormalGatewayBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808TransmitExtensions.AddTransmit(JT808.Gateway.Abstractions.IJT808ClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            转发服务（不同的消费者实例）
+            </summary>
+            <param name="jT808ClientBuilder"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Extensions.JT808TransmitExtensions.AddTransmit(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            转发服务（不同的消费者实例）
+            </summary>
+            <param name="jT808GatewayBuilder"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JT808.Gateway.HostedServices.JT808ReplyMessageHostedService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.HostedServices.JT808ReplyMessageHostedService.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,JT808.Gateway.Abstractions.IJT808DownMessageHandler,JT808.Gateway.Abstractions.IJT808MsgReplyProducer,JT808.Gateway.Abstractions.IJT808MsgConsumer)">
+            <summary>
+            
+            </summary>
+            <param name="loggerFactory"></param>
+            <param name="jT808ReplyMessageHandler"></param>
+            <param name="jT808MsgReplyProducer"></param>
+            <param name="jT808MsgConsumer"></param>
+        </member>
         <member name="T:JT808.Gateway.JT808GatewayExtensions">
             <summary>
             JT808网关注册扩展
             </summary>
         </member>
-        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddGateway(JT808.Protocol.IJT808Builder,System.Action{JT808.Gateway.Abstractions.Configurations.JT808Configuration})">
+        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddGateway(JT808.Protocol.DependencyInjection.IJT808DIBuilder,System.Action{JT808.Gateway.Abstractions.Configurations.JT808Configuration})">
             <summary>
             添加808网关
             </summary>
@@ -28,7 +100,7 @@
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddGateway(JT808.Protocol.IJT808Builder,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:JT808.Gateway.JT808GatewayExtensions.AddGateway(JT808.Protocol.DependencyInjection.IJT808DIBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             添加808网关
             </summary>
@@ -249,6 +321,40 @@
             查询所有黑名单
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Services.JT808TransmitService.SendAsync(System.ValueTuple{System.String,System.Byte[]})">
+            <summary>
+            
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="M:JT808.Gateway.Services.JT808TransmitService.Stop">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Services.JT808TransmitService.InitialDispatcherClient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Services.JT808TransmitService.InitRemoteServsers">
+            <summary>
+            初始化远程服务器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JT808.Gateway.Services.JT808TransmitService.DelRemoteServsers(System.Collections.Generic.List{System.String})">
+            <summary>
+            动态删除远程服务器
+            </summary>
+            <param name="lastRemoteServers"></param>
+        </member>
+        <member name="M:JT808.Gateway.Services.JT808TransmitService.AddRemoteServsers(System.Collections.Generic.List{System.String})">
+            <summary>
+            动态添加远程服务器
+            </summary>
+            <param name="lastRemoteServers"></param>
         </member>
         <member name="T:JT808.Gateway.Session.JT808SessionManager">
             <summary>

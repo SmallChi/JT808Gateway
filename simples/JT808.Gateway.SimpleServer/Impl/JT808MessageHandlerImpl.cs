@@ -1,7 +1,7 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Gateway.Abstractions.Configurations;
-using JT808.Gateway.MsgLogging;
-using JT808.Gateway.Transmit;
+using JT808.Gateway.Abstractions.Enums;
+using JT808.Gateway.Services;
 using JT808.Protocol;
 using JT808.Protocol.Extensions;
 using Microsoft.Extensions.Logging;
@@ -67,7 +67,10 @@ namespace JT808.Gateway.SimpleServer.Impl
         public override byte[] Msg0x0200(JT808HeaderPackage request)
         {
             //logger.LogDebug("重写自带Msg0x0200的消息");
-            logger.LogDebug($"重写自带Msg0x0200的消息{request.Header.TerminalPhoneNo}-{request.OriginalData.ToHexString()}");   
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug($"重写自带Msg0x0200的消息{request.Header.TerminalPhoneNo}-{request.OriginalData.ToHexString()}");
+            }
             return base.Msg0x0200(request);
         }
 
@@ -78,7 +81,10 @@ namespace JT808.Gateway.SimpleServer.Impl
         /// <returns></returns>
         public byte[] Msg0x9999(JT808HeaderPackage request)
         {
-            logger.LogDebug("自定义消息");
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("自定义消息");
+            }
             return default;
         }
     }

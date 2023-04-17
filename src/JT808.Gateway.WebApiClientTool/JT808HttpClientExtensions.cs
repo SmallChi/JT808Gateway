@@ -1,5 +1,6 @@
 ﻿using JT808.Gateway.Abstractions;
 using JT808.Protocol;
+using JT808.Protocol.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -60,7 +61,7 @@ namespace JT808.Gateway.WebApiClientTool
         /// <param name="jT808Builder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808Builder AddWebApiClientTool(this IJT808Builder jT808Builder, IConfiguration configuration)
+        public static IJT808DIBuilder AddWebApiClientTool(this IJT808DIBuilder jT808Builder, IConfiguration configuration)
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
             {
@@ -80,7 +81,7 @@ namespace JT808.Gateway.WebApiClientTool
         /// <param name="webapiUri"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static IJT808Builder AddWebApiClientTool(this IJT808Builder jT808Builder, Uri webapiUri, string token)
+        public static IJT808DIBuilder AddWebApiClientTool(this IJT808DIBuilder jT808Builder, Uri webapiUri, string token)
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientTool", c =>
             {
@@ -140,7 +141,7 @@ namespace JT808.Gateway.WebApiClientTool
         /// <param name="jT808Builder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808Builder AddWebApiClientTool<TJT808HttpClient>(this IJT808Builder jT808Builder, IConfiguration configuration)
+        public static IJT808DIBuilder AddWebApiClientTool<TJT808HttpClient>(this IJT808DIBuilder jT808Builder, IConfiguration configuration)
             where TJT808HttpClient : JT808HttpClient
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientToolExt", c =>
@@ -161,7 +162,7 @@ namespace JT808.Gateway.WebApiClientTool
         /// <param name="webapiUri"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static IJT808Builder AddWebApiClientTool<TJT808HttpClient>(this IJT808Builder jT808Builder, Uri webapiUri, string token)
+        public static IJT808DIBuilder AddWebApiClientTool<TJT808HttpClient>(this IJT808DIBuilder jT808Builder, Uri webapiUri, string token)
             where TJT808HttpClient: JT808HttpClient
         {
             jT808Builder.Services.AddHttpClient("JT808WebApiClientToolExt", c =>

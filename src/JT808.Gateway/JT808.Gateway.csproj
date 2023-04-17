@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\PipelineInfo.props" />
   <PropertyGroup>
     <Description>基于Pipeline实现的JT808Gateway的网络库</Description>
@@ -6,8 +6,7 @@
     <DocumentationFile>JT808.Gateway.xml</DocumentationFile>
     <PackageId>JT808.Gateway</PackageId>
     <Product>JT808.Gateway</Product>
-    <OutputType>Library</OutputType>
-     <IsPackable>true</IsPackable> 
+    <IsPackable>true</IsPackable> 
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +15,7 @@
   </ItemGroup>
 
    <ItemGroup>
+	 <FrameworkReference Include="Microsoft.AspNetCore.App" />
 	 <PackageReference Include="System.IO.Pipelines" Version="7.0.0" />
    </ItemGroup>
 	

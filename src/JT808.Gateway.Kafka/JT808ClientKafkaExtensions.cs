@@ -5,12 +5,13 @@ using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using JT808.Protocol.DependencyInjection;
 
 namespace JT808.Gateway.Kafka
 {
     public static class JT808ClientKafkaExtensions
     {
-        public static IJT808ClientBuilder AddClientKafka(this IJT808Builder builder)
+        public static IJT808ClientBuilder AddClientKafka(this IJT808DIBuilder builder)
         {
             return new JT808ClientBuilderDefault(builder);
         }

@@ -29,8 +29,6 @@ namespace JT808.Gateway.ServerBenchmark
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton<ILoggerFactory, LoggerFactory>();
-                    services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                     services.AddJT808Configure()                          
                             .AddGateway(hostContext.Configuration)
                             .AddTcp()

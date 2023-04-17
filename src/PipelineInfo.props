@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
     <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
     <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
-	<Version>1.1.8-preview3</Version>
+	<Version>1.1.8-preview5</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <AnalysisLevel>latest</AnalysisLevel>

@@ -5,6 +5,9 @@ using System.Text;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using System.Net.Sockets;
+using System.Threading;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace JT808.Gateway.Test.Session
 {
@@ -30,6 +33,21 @@ namespace JT808.Gateway.Test.Session
             Assert.True(result1);
             Assert.Equal(1, jT808SessionManager.TotalSessionCount);
             Assert.True(jT808SessionManager.TerminalPhoneNoSessions.ContainsKey(tno));
+        }
+
+        [Fact]
+        public void PerfSession1M()
+        {
+            //Random.Shared.Next(0,1000000)
+            int number = 1000000;
+            JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
+            Parallel.For(0, number, (i) =>
+            {
+                string tno = i.ToString();
+                var session = new JT808TcpSession(new Socket(SocketType.Stream, ProtocolType.Tcp));
+                var result1 = jT808SessionManager.TryAdd(session);
+                jT808SessionManager.TryLink(tno, session);
+            });
         }
 
         /// <summary>

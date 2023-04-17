@@ -7,21 +7,14 @@ using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using NLog.Extensions.Logging;
 using JT808.Gateway.NormalHosting.Impl;
-using JT808.Gateway.MsgLogging;
-using JT808.Gateway.Transmit;
 using JT808.Gateway.NormalHosting.Services;
 using JT808.Gateway.Abstractions;
-using JT808.Gateway.SessionNotice;
 using JT808.Gateway.Client;
 using JT808.Gateway.NormalHosting.Jobs;
 using JT808.Gateway.WebApiClientTool;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration.Json;
 using JT808.Gateway.Abstractions.Configurations;
-using System.Net;
 using JT808.Gateway.Extensions;
 using JT808.Gateway.NormalHosting.Customs;
 
@@ -34,20 +27,13 @@ namespace JT808.Gateway.NormalHosting
             //ref:https://andrewlock.net/exploring-dotnet-6-part-2-comparing-webapplicationbuilder-to-the-generic-host/
             //the new hotness in .NET 6.
             var builder = WebApplication.CreateBuilder();
-            builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .AddJsonFile($"appsettings.{ hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-            })
-            .ConfigureLogging((context, logging) =>
-            {
-                Console.WriteLine($"Environment.OSVersion.Platform:{Environment.OSVersion.Platform.ToString()}");
-                NLog.LogManager.LoadConfiguration($"Configs/nlog.{Environment.OSVersion.Platform.ToString()}.config");
-                logging.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
-                logging.SetMinimumLevel(LogLevel.Trace);
-            })
-            .ConfigureServices((hostContext, services) =>
+            builder.Configuration.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+            Console.WriteLine($"Environment.OSVersion.Platform:{Environment.OSVersion.Platform.ToString()}");
+            NLog.LogManager.LoadConfiguration($"Configs/nlog.{Environment.OSVersion.Platform.ToString()}.config");
+            builder.Logging.SetMinimumLevel(LogLevel.Trace);
+            builder.Host.ConfigureServices((hostContext, services) =>
             {
                 //使用内存队列实现会话通知
                 services.AddSingleton<JT808SessionService>();

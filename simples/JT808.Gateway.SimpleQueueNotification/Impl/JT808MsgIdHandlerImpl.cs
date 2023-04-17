@@ -1,5 +1,4 @@
 ﻿using JT808.Gateway.Abstractions;
-using JT808.Gateway.MsgIdHandler;
 using JT808.Gateway.SimpleQueueNotification.Hubs;
 using JT808.Protocol.Extensions;
 using Microsoft.AspNetCore.SignalR;

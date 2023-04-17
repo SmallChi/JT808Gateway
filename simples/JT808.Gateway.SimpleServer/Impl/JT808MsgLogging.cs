@@ -1,4 +1,5 @@
-﻿using JT808.Gateway.MsgLogging;
+﻿using JT808.Gateway.Abstractions;
+using JT808.Gateway.Abstractions.Enums;
 using JT808.Protocol.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,7 +17,10 @@ namespace JT808.Gateway.SimpleServer.Impl
         }
         public void Processor((string TerminalNo, byte[] Data) parameter, JT808MsgLoggingType jT808MsgLoggingType)
         {
-            Logger.LogDebug($"{jT808MsgLoggingType.ToString()}-{parameter.TerminalNo}-{parameter.Data.ToHexString()}");
+            if(Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug($"{jT808MsgLoggingType}-{parameter.TerminalNo}-{parameter.Data.ToHexString()}");
+            }
         }
     }
 }

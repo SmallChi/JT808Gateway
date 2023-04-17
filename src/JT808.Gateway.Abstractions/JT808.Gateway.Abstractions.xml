@@ -115,6 +115,16 @@
             统一下发请求参数
             </summary>
         </member>
+        <member name="F:JT808.Gateway.Abstractions.Enums.JT808MsgLoggingType.up">
+            <summary>
+            数据上行
+            </summary>
+        </member>
+        <member name="F:JT808.Gateway.Abstractions.Enums.JT808MsgLoggingType.down">
+            <summary>
+            数据下行
+            </summary>
+        </member>
         <member name="T:JT808.Gateway.Abstractions.Enums.JT808TransportProtocolType">
             <summary>
             传输协议类型
@@ -161,6 +171,11 @@
             <param name="TerminalNo">sim</param>
             <param name="Data">808 hex</param>
             <returns>应答消息数据</returns>
+        </member>
+        <member name="T:JT808.Gateway.Abstractions.IJT808MsgLogging">
+            <summary>
+            808数据上下行日志接口
+            </summary>
         </member>
         <member name="M:JT808.Gateway.Abstractions.IJT808MsgProducer.ProduceAsync(System.String,System.Byte[])">
             <summary>

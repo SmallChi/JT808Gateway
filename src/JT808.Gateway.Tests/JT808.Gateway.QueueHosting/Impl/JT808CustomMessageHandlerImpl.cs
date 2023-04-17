@@ -1,7 +1,4 @@
 ﻿using JT808.Gateway.Abstractions;
-using JT808.Gateway.Abstractions.Configurations;
-using JT808.Gateway.MsgLogging;
-using JT808.Gateway.Transmit;
 using JT808.Protocol;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

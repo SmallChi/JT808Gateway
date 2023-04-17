@@ -3,23 +3,18 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using JT808.Protocol;
 using Microsoft.Extensions.Configuration;
 using NLog.Extensions.Logging;
-using JT808.Gateway.MsgLogging;
-using JT808.Gateway.ReplyMessage;
-using JT808.Gateway.Transmit;
-using JT808.Gateway.Abstractions;
-using JT808.Gateway.SessionNotice;
 using JT808.Gateway.Client;
 using JT808.Gateway.QueueHosting.Jobs;
 using JT808.Gateway.Kafka;
 using JT808.Gateway.WebApiClientTool;
 using JT808.Gateway.QueueHosting.Impl;
-using JT808.Gateway.MsgIdHandler;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using JT808.Gateway.Abstractions.Configurations;
+using JT808.Protocol;
+using JT808.Gateway.Extensions;
 
 namespace JT808.Gateway.QueueHosting
 {
@@ -44,8 +39,7 @@ namespace JT808.Gateway.QueueHosting
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton<ILoggerFactory, LoggerFactory>();
-                    services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+
                     services.AddJT808Configure()
                             //添加客户端工具
                             .AddClient()

@@ -8,7 +8,7 @@
     <DocumentationFile>JT808.Gateway.Kafka.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="1.9.3" />
+    <PackageReference Include="Confluent.Kafka" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -234,7 +234,7 @@ namespace JT808.Gateway
 # if DEBUG
                                 Interlocked.Increment(ref MessageReceiveCounter);
                                 if (Logger.IsEnabled(LogLevel.Trace))
-                                    Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}-{session.TerminalPhoneNo}]:{package.OriginalData.ToHexString()},Counter:{MessageReceiveCounter}");
+                                    Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}-{package.Header.TerminalPhoneNo}]:{package.OriginalData.ToHexString()},Counter:{MessageReceiveCounter}");
 #else
                                 if (Logger.IsEnabled(LogLevel.Trace))
                                     Logger.LogTrace($"[Accept Hex {session.Client.RemoteEndPoint}-{session.TerminalPhoneNo}]:{package.OriginalData.ToHexString()}");

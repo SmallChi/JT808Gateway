@@ -14,8 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using JT808.Protocol;
 using JT808.Gateway.Kafka;
-using JT808.Gateway.MsgIdHandler;
 using JT808.Gateway.SimpleQueueNotification.Impl;
+using JT808.Gateway.Extensions;
 
 namespace JT808.Gateway.SimpleQueueNotification
 {
