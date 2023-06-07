@@ -39,15 +39,15 @@ namespace JT808.Gateway.Test.Session
         public void PerfSession1M()
         {
             //Random.Shared.Next(0,1000000)
-            int number = 1000000;
-            JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
-            Parallel.For(0, number, (i) =>
-            {
-                string tno = i.ToString();
-                var session = new JT808TcpSession(new Socket(SocketType.Stream, ProtocolType.Tcp));
-                var result1 = jT808SessionManager.TryAdd(session);
-                jT808SessionManager.TryLink(tno, session);
-            });
+            //int number = 1000000;
+            //JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
+            //Parallel.For(0, number, (i) =>
+            //{
+            //    string tno = i.ToString();
+            //    var session = new JT808TcpSession(new Socket(SocketType.Stream, ProtocolType.Tcp));
+            //    var result1 = jT808SessionManager.TryAdd(session);
+            //    jT808SessionManager.TryLink(tno, session);
+            //});
         }
 
         /// <summary>

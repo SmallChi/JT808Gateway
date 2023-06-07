@@ -7,13 +7,12 @@ using Microsoft.Extensions.Configuration;
 using JT808.Gateway.Client.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using JT808.Gateway.Client.Internal;
-using JT808.Protocol.DependencyInjection;
 
 namespace JT808.Gateway.Client
 {
     public static  class JT808ClientExtensions
     {
-        public static IJT808ClientBuilder AddClient(this IJT808DIBuilder jT808Builder)
+        public static IJT808ClientBuilder AddClient(this IJT808Builder jT808Builder)
         {
             JT808ClientBuilderDefault jT808ClientBuilderDefault = new JT808ClientBuilderDefault(jT808Builder);
             jT808ClientBuilderDefault.JT808Builder.Services.AddSingleton<JT808RetryBlockingCollection>();

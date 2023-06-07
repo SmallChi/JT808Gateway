@@ -16,8 +16,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="JT808" Version="2.6.1" />
-    <PackageReference Include="JT808.Protocol.DependencyInjection" Version="2.6.1" />
+    <PackageReference Include="JT808" Version="2.6.2-preview5" />
 	<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />

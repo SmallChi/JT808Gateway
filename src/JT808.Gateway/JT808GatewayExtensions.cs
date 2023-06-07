@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 using System.Linq;
-using JT808.Protocol.DependencyInjection;
 
 [assembly: InternalsVisibleTo("JT808.Gateway.TestHosting")]
 [assembly: InternalsVisibleTo("JT808.Gateway.Test")]
@@ -28,7 +27,7 @@ namespace JT808.Gateway
         /// <param name="jT808Builder"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddGateway(this IJT808DIBuilder jT808Builder, Action<JT808Configuration> config)
+        public static IJT808GatewayBuilder AddGateway(this IJT808Builder jT808Builder, Action<JT808Configuration> config)
         {
             JT808GatewayBuilderDefault jT808GatewayBuilderDefault = new JT808GatewayBuilderDefault(jT808Builder);
             jT808GatewayBuilderDefault.JT808Builder.Services.Configure(config);
@@ -41,7 +40,7 @@ namespace JT808.Gateway
         /// <param name="jT808Builder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IJT808GatewayBuilder AddGateway(this IJT808DIBuilder jT808Builder, IConfiguration configuration)
+        public static IJT808GatewayBuilder AddGateway(this IJT808Builder jT808Builder, IConfiguration configuration)
         {
             JT808GatewayBuilderDefault jT808GatewayBuilderDefault = new JT808GatewayBuilderDefault(jT808Builder);
             jT808GatewayBuilderDefault.JT808Builder.Services.Configure<JT808Configuration>(configuration.GetSection("JT808Configuration"));

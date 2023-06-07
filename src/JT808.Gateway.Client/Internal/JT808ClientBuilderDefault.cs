@@ -1,5 +1,4 @@
 ﻿using JT808.Protocol;
-using JT808.Protocol.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -10,14 +9,14 @@ namespace JT808.Gateway.Client
 {
     internal class JT808ClientBuilderDefault : IJT808ClientBuilder
     {
-        public IJT808DIBuilder JT808Builder { get; }
+        public IJT808Builder JT808Builder { get; }
 
-        public JT808ClientBuilderDefault(IJT808DIBuilder builder)
+        public JT808ClientBuilderDefault(IJT808Builder builder)
         {
             JT808Builder = builder;
         }
 
-        public IJT808DIBuilder Builder()
+        public IJT808Builder Builder()
         {
             return JT808Builder;
         }
