@@ -315,7 +315,7 @@ namespace JT808.Gateway
         {
             Logger.LogInformation("JT808 Tcp Server Stop");
             if (server?.Connected ?? false)
-                server.Shutdown(SocketShutdown.Receive);
+                server.Shutdown(SocketShutdown.Both);
             server?.Close();
             server?.Dispose();
             foreach (var item in SessionManager.Sessions)
