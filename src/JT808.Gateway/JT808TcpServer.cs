@@ -120,6 +120,11 @@ namespace JT808.Gateway
                     }
                     catch (OperationCanceledException)
                     {
+                        break;
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        break;
                     }
                     catch (Exception)
                     {
@@ -310,8 +315,13 @@ namespace JT808.Gateway
         {
             Logger.LogInformation("JT808 Tcp Server Stop");
             if (server?.Connected ?? false)
-                server.Shutdown(SocketShutdown.Both);
+                server.Shutdown(SocketShutdown.Receive);
             server?.Close();
+            server?.Dispose();
+            foreach (var item in SessionManager.Sessions)
+            {
+                item.Value.Client.Close();
+            }
             return Task.CompletedTask;
         }
     }
