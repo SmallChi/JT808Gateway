@@ -1,14 +1,14 @@
 ﻿<Project>
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>11.0</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
     <Copyright>Copyright 2019.</Copyright>
     <Authors>SmallChi(Koike)</Authors>
     <RepositoryUrl>https://github.com/SmallChi/JT808Gateway</RepositoryUrl>
     <PackageProjectUrl>https://github.com/SmallChi/JT808Gateway</PackageProjectUrl>
     <licenseUrl>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</licenseUrl>
     <license>https://github.com/SmallChi/JT808Gateway/blob/master/LICENSE</license>
-	<Version>1.1.8-preview6</Version>
+	<Version>1.1.8-preview7</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <AnalysisLevel>latest</AnalysisLevel>

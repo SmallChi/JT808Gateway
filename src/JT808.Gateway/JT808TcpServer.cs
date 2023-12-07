@@ -118,16 +118,9 @@ namespace JT808.Gateway
                             SessionManager.RemoveBySessionId(session.SessionID);
                         }, jT808TcpSession);
                     }
-                    catch (OperationCanceledException)
-                    {
-                        break;
-                    }
-                    catch (ObjectDisposedException)
-                    {
-                        break;
-                    }
                     catch (Exception)
                     {
+                        break;
                     }
                 }
             });
@@ -163,13 +156,11 @@ namespace JT808.Gateway
                     Logger.LogError($"[{ex.SocketErrorCode},{ex.Message}]:{session.Client.RemoteEndPoint},{session.TerminalPhoneNo}");
                     break;
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, $"[Receive Error]:{session.Client.RemoteEndPoint},{session.TerminalPhoneNo}");
                     break;
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
             writer.Complete();
         }
@@ -177,7 +168,7 @@ namespace JT808.Gateway
         {
             while (true)
             {
-                ReadResult result = await reader.ReadAsync();
+                ReadResult result = await reader.ReadAsync(session.ReceiveTimeout.Token);
                 if (result.IsCompleted)
                 {
                     break;
@@ -314,14 +305,13 @@ namespace JT808.Gateway
         public Task StopAsync(CancellationToken cancellationToken)
         {
             Logger.LogInformation("JT808 Tcp Server Stop");
-            if (server?.Connected ?? false)
-                server.Shutdown(SocketShutdown.Both);
-            server?.Close();
-            server?.Dispose();
             foreach (var item in SessionManager.Sessions)
             {
                 item.Value.Client.Close();
             }
+            if (server?.Connected ?? false)
+                server.Shutdown(SocketShutdown.Both);
+            server?.Close();
             return Task.CompletedTask;
         }
     }

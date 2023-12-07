@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.SimpleQueueNotification", "JT808.Gateway.SimpleQueueNotification\JT808.Gateway.SimpleQueueNotification.csproj", "{163D2EE2-9A62-4E8A-B203-BF147909E89A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT808.Gateway.NBIotSimpleClient", "JT808.Gateway.NBIotSimpleClient\JT808.Gateway.NBIotSimpleClient.csproj", "{95F159E4-07A3-4736-9D05-2D88EE43FD5E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,10 +41,6 @@ Global
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95F159E4-07A3-4736-9D05-2D88EE43FD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95F159E4-07A3-4736-9D05-2D88EE43FD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95F159E4-07A3-4736-9D05-2D88EE43FD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95F159E4-07A3-4736-9D05-2D88EE43FD5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,7 +51,6 @@ Global
 		{8594AC7F-18B4-439D-B58B-1CEFF0833A1A} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 		{E2D1CFEF-417A-4C44-BC2E-E5A160602485} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 		{163D2EE2-9A62-4E8A-B203-BF147909E89A} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
-		{95F159E4-07A3-4736-9D05-2D88EE43FD5E} = {2459FB59-8A33-49A4-ADBC-A0B12C5886A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC0FFCEA-E1EF-4C97-A1C5-F89418B6834B}

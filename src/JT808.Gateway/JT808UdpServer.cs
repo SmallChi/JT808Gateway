@@ -100,7 +100,7 @@ namespace JT808.Gateway
         {
             try
             {
-                var package = Serializer.HeaderDeserialize(buffer, minBufferSize: 4096);
+                var package = Serializer.HeaderDeserialize(buffer, minBufferSize: ConfigurationMonitor.CurrentValue.MiniNumBufferSize);
                 if (Logger.IsEnabled(LogLevel.Trace)) Logger.LogTrace($"[Accept Hex {receiveMessageFromResult.RemoteEndPoint}]:{package.OriginalData.ToHexString()}");
                 var session = SessionManager.TryLink(package.Header.TerminalPhoneNo, socket, receiveMessageFromResult.RemoteEndPoint);
                 if (Logger.IsEnabled(LogLevel.Information))
@@ -117,12 +117,10 @@ namespace JT808.Gateway
             {
                 Logger.LogError($"[HeaderDeserialize ErrorCode]:{ ex.ErrorCode},[ReaderBuffer]:{buffer.ToArray().ToHexString()}");
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 Logger.LogError(ex, $"[ReaderBuffer]:{ buffer.ToArray().ToHexString()}");
             }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void Processor(in IJT808Session session, in JT808HeaderPackage package)
