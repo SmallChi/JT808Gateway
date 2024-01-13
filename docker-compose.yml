@@ -1,0 +1,15 @@
+services:
+  gateway:
+    image: gateway-simple
+    build:
+      context: .
+      dockerfile: Dockerfile
+    privileged: true
+    container_name: gateway-simple
+    ports:
+      - 5000:80
+      - 808:808
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"

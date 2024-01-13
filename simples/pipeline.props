@@ -1,8 +1,4 @@
 ﻿<Project>
-<PropertyGroup Condition="'$(CompileConfig)' == 'Release'" >
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-</PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\JT808.Gateway.Abstractions\JT808.Gateway.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\JT808.Gateway\JT808.Gateway.csproj"/>

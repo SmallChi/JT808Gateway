@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/simples/JT808.Gateway.SimpleServer/JT808.Gateway.SimpleServer.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/simples/JT808.Gateway.SimpleServer/JT808.Gateway.SimpleServer.csproj",
+        "/p:Configuration=Release",
+        "/p:PublishDir=${workspaceFolder}/.output/linux-x64",
+        "/p:RuntimeIdentifier=linux-x64",
+        "/p:PublishSingleFile=true",
+        "/p:PublishTrimmed=true",
+        "/p:IncludeNativeLibrariesForSelfExtract=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build docker",
+      "command": "dotnet",
+      "hide": true,
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/simples/JT808.Gateway.SimpleServer/JT808.Gateway.SimpleServer.csproj",
+        "/p:Configuration=Release",
+        "/p:PublishDir=${workspaceFolder}/.output/docker",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build docker image",
+      "detail": "打包示例网关镜像",
+      "type": "shell",
+      "command": "docker compose build --no-cache",
+      "dependsOn": ["build docker"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "${workspaceFolder}/simples/JT808.Gateway.SimpleServer/JT808.Gateway.SimpleServer.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
