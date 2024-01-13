@@ -17,9 +17,10 @@ namespace JT808.Gateway.SimpleServer.Impl
         }
         public void Processor((string TerminalNo, byte[] Data) parameter, JT808MsgLoggingType jT808MsgLoggingType)
         {
-            if(Logger.IsEnabled(LogLevel.Debug))
+            var (number, data) = parameter;
+            if (Logger.IsEnabled(LogLevel.Debug))
             {
-                Logger.LogDebug($"{jT808MsgLoggingType}-{parameter.TerminalNo}-{parameter.Data.ToHexString()}");
+                Logger.LogDebug("{type}-{number}-{data}",jT808MsgLoggingType,number,data?.ToHexString()??"no data.");
             }
         }
     }
