@@ -167,9 +167,9 @@ namespace JT808.Gateway.Test.Session
         }
 
         [Fact]
-        public void SendTest()
+        public async Task SendTest()
         {
-            Assert.ThrowsAsync<SocketException>(async() => 
+            await Assert.ThrowsAsync<SocketException>(async() => 
             {
                 string tno = "123456";
                 JT808SessionManager jT808SessionManager = new JT808SessionManager(new LoggerFactory());
