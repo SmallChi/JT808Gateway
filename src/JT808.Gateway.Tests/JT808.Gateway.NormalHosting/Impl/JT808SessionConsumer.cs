@@ -45,6 +45,11 @@ namespace JT808.Gateway.NormalHosting.Impl
             })).Start();
         }
 
+        public void OnMessageWithDateTimeOffset(Action<(string Notice, string TerminalNo, DateTimeOffset dateTimeOffset)> callback)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Unsubscribe()
         {
             Cts.Cancel();
