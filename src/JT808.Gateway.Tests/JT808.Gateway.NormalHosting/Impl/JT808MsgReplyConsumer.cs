@@ -1,11 +1,8 @@
-﻿using JT808.Gateway.Abstractions;
+﻿using System;
+using System.Threading;
+using JT808.Gateway.Abstractions;
 using JT808.Gateway.NormalHosting.Services;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace JT808.Gateway.NormalHosting.Impl
 {
@@ -29,7 +26,7 @@ namespace JT808.Gateway.NormalHosting.Impl
 
         public void Dispose()
         {
-            
+
         }
 
         public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
@@ -51,14 +48,19 @@ namespace JT808.Gateway.NormalHosting.Impl
             }).Start();
         }
 
+        public void OnMessageWithDateTimeOffset(Action<(string TerminalNo, byte[] Data, DateTimeOffset dateTimeOffset)> callback)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Subscribe()
         {
-            
+
         }
 
         public void Unsubscribe()
         {
-            
+
         }
     }
 }

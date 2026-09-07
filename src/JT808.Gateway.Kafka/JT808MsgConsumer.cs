@@ -1,13 +1,10 @@
-﻿using Confluent.Kafka;
-using JT808.Gateway.Configs.Kafka;
+﻿using System;
+using System.Threading;
+using Confluent.Kafka;
 using JT808.Gateway.Abstractions;
+using JT808.Gateway.Configs.Kafka;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace JT808.Gateway.Kafka
 {
@@ -31,41 +28,55 @@ namespace JT808.Gateway.Kafka
             logger = loggerFactory.CreateLogger<JT808MsgConsumer>();
         }
 
-        public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
+        /// <summary>
+        /// 消费消息：
+        /// TerminalNo + Data
+        /// </summary>
+        public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback) => StartConsume(data => (data.Message.Key, data.Message.Value), callback);
+
+        /// <summary>
+        /// 消费消息：
+        /// TerminalNo + Data + Timestamp
+        /// </summary>
+        public void OnMessageWithDateTimeOffset(Action<(string TerminalNo, byte[] Data, DateTimeOffset dateTimeOffset)> callback) => StartConsume(data => (data.Message.Key, data.Message.Value, new DateTimeOffset(data.Message.Timestamp.UtcDateTime)), callback);
+
+        /// <summary>
+        /// 消费消息
+        /// </summary>
+        private void StartConsume<T>(Func<ConsumeResult<string, byte[]>, T> selector, Action<T> callback) => new Thread(() =>
         {
-            new Thread(() => 
+            while (!Cts.IsCancellationRequested)
             {
-                while (!Cts.IsCancellationRequested)
+                if (disposed) return;
+                try
                 {
-                    if (disposed) return;
-                    try
+                    //如果不指定分区，根据kafka的机制会从多个分区中拉取数据
+                    //如果指定分区，根据kafka的机制会从相应的分区中拉取数据
+                    var data = consumer.Consume(Cts.Token);
+                    if (logger.IsEnabled(LogLevel.Debug))
                     {
-                        //如果不指定分区，根据kafka的机制会从多个分区中拉取数据
-                        //如果指定分区，根据kafka的机制会从相应的分区中拉取数据
-                        var data = consumer.Consume(Cts.Token);
-                        if (logger.IsEnabled(LogLevel.Debug))
-                        {
-                            logger.LogDebug($"Topic: {data.Topic} Key: {data.Message.Key} Partition: {data.Partition} Offset: {data.Offset} TopicPartitionOffset:{data.TopicPartitionOffset}");
-                        }
-                        callback((data.Message.Key, data.Message.Value));
+                        logger.LogDebug($"Topic: {data.Topic} Key: {data.Message.Key} Partition: {data.Partition} Offset: {data.Offset} TopicPartitionOffset:{data.TopicPartitionOffset}");
                     }
-                    catch (OperationCanceledException)
-                    {
-                        break;
-                    }
-                    catch (ConsumeException ex)
-                    {
-                        logger.LogError(ex, TopicName);
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, TopicName);
-                        break;
-                    }
+                    callback(selector(data));
                 }
-            }).Start();
-        }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+                catch (ConsumeException ex)
+                {
+                    logger.LogError(ex, TopicName);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, TopicName);
+                    break;
+                }
+            }
+        })
+        .Start();
+
         public void Subscribe()
         {
             consumer.Subscribe(TopicName);

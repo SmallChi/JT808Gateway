@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace JT808.Gateway.Abstractions
@@ -11,6 +9,7 @@ namespace JT808.Gateway.Abstractions
     public interface IJT808SessionConsumer : IJT808PubSub, IDisposable
     {
         void OnMessage(Action<(string Notice, string TerminalNo)> callback);
+        void OnMessageWithDateTimeOffset(Action<(string Notice, string TerminalNo, DateTimeOffset dateTimeOffset)> callback);
         CancellationTokenSource Cts { get; }
         void Subscribe();
         void Unsubscribe();

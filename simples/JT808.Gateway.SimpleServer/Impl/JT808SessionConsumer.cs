@@ -1,11 +1,9 @@
-﻿using JT808.Gateway.Abstractions;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using JT808.Gateway.Abstractions;
 using JT808.Gateway.SimpleServer.Services;
+using Microsoft.Extensions.Logging;
 
 namespace JT808.Gateway.SimpleServer.Impl
 {
@@ -43,6 +41,11 @@ namespace JT808.Gateway.SimpleServer.Impl
                     }
                 }
             }, Cts.Token);
+        }
+
+        public void OnMessageWithDateTimeOffset(Action<(string Notice, string TerminalNo, DateTimeOffset dateTimeOffset)> callback)
+        {
+            throw new NotImplementedException();
         }
 
         public void Unsubscribe()

@@ -44,6 +44,23 @@
             <param name="configuration">GetSection("JT808SessionConsumerConfig")</param>
             <returns></returns>
         </member>
+        <member name="M:JT808.Gateway.Kafka.JT808MsgConsumer.OnMessage(System.Action{System.ValueTuple{System.String,System.Byte[]}})">
+            <summary>
+            消费消息：
+            TerminalNo + Data
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808MsgConsumer.OnMessageWithDateTimeOffset(System.Action{System.ValueTuple{System.String,System.Byte[],System.DateTimeOffset}})">
+            <summary>
+            消费消息：
+            TerminalNo + Data + Timestamp
+            </summary>
+        </member>
+        <member name="M:JT808.Gateway.Kafka.JT808MsgConsumer.StartConsume``1(System.Func{Confluent.Kafka.ConsumeResult{System.String,System.Byte[]},``0},System.Action{``0})">
+            <summary>
+            消费消息
+            </summary>
+        </member>
         <member name="M:JT808.Gateway.Kafka.JT808ServerKafkaExtensions.AddServerKafkaMsgProducer(JT808.Gateway.Abstractions.IJT808GatewayBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             

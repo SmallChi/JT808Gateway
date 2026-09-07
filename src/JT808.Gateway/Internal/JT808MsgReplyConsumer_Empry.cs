@@ -1,8 +1,6 @@
-﻿using JT808.Gateway.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading;
+using JT808.Gateway.Abstractions;
 
 namespace JT808.Gateway.Internal
 {
@@ -18,6 +16,11 @@ namespace JT808.Gateway.Internal
         }
 
         public void OnMessage(Action<(string TerminalNo, byte[] Data)> callback)
+        {
+
+        }
+
+        public void OnMessageWithDateTimeOffset(Action<(string TerminalNo, byte[] Data, DateTimeOffset dateTimeOffset)> callback)
         {
 
         }
